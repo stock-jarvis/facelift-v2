@@ -1,5 +1,10 @@
+import Intro from '../home/sections/intro'
 const Home = () => {
-	return <div>Facelift</div>
+	return (
+		<div>
+			<Intro />
+		</div>
+	)
 }
 
 export default Home
