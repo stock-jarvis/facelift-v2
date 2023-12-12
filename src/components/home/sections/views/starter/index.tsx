@@ -3,9 +3,11 @@ import StartDisc from '../../descriptions/starterDisc'
 import InfoCard from '../../custom/infoCard'
 const HowItWorks = () => {
 	return (
-		<InfoCard image={Simulator}>
-			<StartDisc />
-		</InfoCard>
+		<div className="pt-40 pb-40">
+			<InfoCard image={Simulator}>
+				<StartDisc />
+			</InfoCard>
+		</div>
 	)
 }
 
