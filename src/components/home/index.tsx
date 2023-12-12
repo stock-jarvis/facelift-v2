@@ -1,15 +1,21 @@
-import Intro from '../home/sections/intro'
-import HowItWorks from './sections/howItWorks'
+import Main from './sections/views/main'
+import Simulation from './sections/views/simulation'
 import BackTest from './sections/views/backtest'
 import Starter from './sections/views/starter'
+import Guides from './sections/views/guides'
 
 const Home = () => {
 	return (
 		<div className="flex w-full p-0 m-0 flex-col gap-20">
-			<Intro />
+			<Main />
 			<div className="w-[100%] flex flex-row justify-center">
 				<div className="w-[80%]">
-					<HowItWorks />
+					<Guides />
+				</div>
+			</div>
+			<div className="w-[100%] flex flex-row justify-center">
+				<div className="w-[80%]">
+					<Simulation />
 				</div>
 			</div>
 			<div className="w-[100%] flex flex-row justify-center">

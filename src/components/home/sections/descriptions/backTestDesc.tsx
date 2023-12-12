@@ -13,20 +13,20 @@ const BackTest = () => {
 					</Typography.Text>
 				</Flex>
 				<Flex vertical>
-					<Flex gap="middle">
+					<Flex gap="middle" align="center">
 						<GoDotFill />
 						<Typography.Text>NO-Code solution</Typography.Text>
 					</Flex>
-					<Flex gap="middle">
+					<Flex gap="middle" align="center">
 						<GoDotFill />
 						<Typography.Text>Automatic option backtesting</Typography.Text>
 					</Flex>
 
-					<Flex gap="middle">
+					<Flex gap="middle" align="center">
 						<GoDotFill />
 						<Typography.Text>No more manual backtesting</Typography.Text>
 					</Flex>
-					<Flex gap="middle">
+					<Flex gap="middle" align="center">
 						<GoDotFill />
 						<Typography.Text>
 							Backtest With Shares, Futures &{' '}
@@ -36,7 +36,7 @@ const BackTest = () => {
 						</Typography.Text>
 					</Flex>
 
-					<Flex gap="middle">
+					<Flex gap="middle" align="center">
 						<GoDotFill />
 						<Typography.Text>
 							Backtest across NSE, MCX and{' '}

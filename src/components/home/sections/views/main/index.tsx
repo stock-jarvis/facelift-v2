@@ -1,8 +1,8 @@
 import { useEffect } from 'react'
 import { useMediaQuery } from 'react-responsive'
 import { Button, Layout, Flex, Image, Typography } from 'antd'
+import LightBulb from 'src/assets/images/light-bulb.jpg'
 
-import LightBulb from '../../../assets/images/light-bulb.jpg'
 const { Text } = Typography
 export default function FirstContainer() {
 	const mobileSize = useMediaQuery({

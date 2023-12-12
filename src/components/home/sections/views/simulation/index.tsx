@@ -1,10 +1,10 @@
 import Simulator from 'src/assets/images/simulator.png'
-import StartDisc from '../../descriptions/starterDisc'
+import SimulatorDisc from '../../descriptions/simulatorDisc'
 import InfoCard from '../../custom/infoCard'
 const HowItWorks = () => {
 	return (
 		<InfoCard image={Simulator}>
-			<StartDisc />
+			<SimulatorDisc />
 		</InfoCard>
 	)
 }
