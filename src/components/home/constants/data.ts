@@ -1,3 +1,17 @@
+import { IoMdHome } from 'react-icons/io'
+import { MdOutlinePriceCheck } from 'react-icons/md'
+import { IoIosContacts } from 'react-icons/io'
+import { GiTeamDowngrade } from 'react-icons/gi'
+import { GoCodeOfConduct } from 'react-icons/go'
+import { RiRefund2Fill } from 'react-icons/ri'
+import { SiGnuprivacyguard } from 'react-icons/si'
+import { FaInstagram } from 'react-icons/fa'
+import { FaFacebookSquare } from 'react-icons/fa'
+import { FaTwitterSquare } from 'react-icons/fa'
+import { FaLinkedin } from 'react-icons/fa'
+import HighChart from 'src/assets/images/highcharts.png'
+import TradingView from 'src/assets/images/tradingview.png'
+import GoogleCloud from 'src/assets/images/gcp.png'
 export const guides = [
 	{
 		id: 'step-1',
@@ -15,17 +29,6 @@ export const guides = [
 		value: 'Add into the position the trade you want to take and backtest.',
 	},
 ]
-import { IoMdHome } from 'react-icons/io'
-import { MdOutlinePriceCheck } from 'react-icons/md'
-import { IoIosContacts } from 'react-icons/io'
-import { GiTeamDowngrade } from 'react-icons/gi'
-import { GoCodeOfConduct } from 'react-icons/go'
-import { RiRefund2Fill } from 'react-icons/ri'
-import { SiGnuprivacyguard } from 'react-icons/si'
-import { FaInstagram } from 'react-icons/fa'
-import { FaFacebookSquare } from 'react-icons/fa'
-import { FaTwitterSquare } from 'react-icons/fa'
-import { FaLinkedin } from 'react-icons/fa'
 
 export const companyData = [
 	{
@@ -112,5 +115,23 @@ export const testinonialsData = [
 			"Secondwise data on NSE, MCX, Currency is gold.Backtesting's my secret to success.Invaluable insights. More than 5 stars!",
 		name: 'Madhulika',
 		designation: 'CTO',
+	},
+]
+
+export const PartnersData = [
+	{
+		id: 'trading-1',
+		data: 'TradingView is a charting platform for traders and investors, loved and visited by millions of users worldwide. It offers state-of-the-art charting tools and a space where people driven by markets can chat, chart, and prepare for trades. Among other things, it provides the essence of market research — data — and presents it in various forms: you can track important upcoming events in the Economic calendar or browse stocks in the screener to find the best opportunities for your portfolio. Whatever your trading strategy needs, just visit TradingView.',
+		image: TradingView,
+	},
+	{
+		id: 'googleCloud-1',
+		data: 'Google Cloud is a leading cloud computing platform embraced by millions globally. With cutting-edge tools and a collaborative environment, it empowers businesses to innovate and streamline operations. From advanced analytics to scalable storage solutions, Google Cloud offers the core of digital transformation — data — delivered in diverse formats. Track pivotal market trends through AI-driven insights or optimize workflows with versatile APIs. Whatever your business demands, Google Cloud stands ready to drive growth and efficiency for your organization on a global scale.',
+		image: GoogleCloud,
+	},
+	{
+		id: 'highChart-1',
+		data: `Highcharts stands as a premier data visualization platform, trusted by countless users worldwide. It furnishes dynamic and interactive charts that enhance understanding and decision-making. With versatile options and seamless integrations, Highcharts empowers developers to craft compelling data-driven narratives. Transform raw data into insightful visuals that resonate with your audience, whether it's for business reporting or data journalism. From line graphs to heatmaps, Highcharts encapsulates the essence of data representation, offering an array of tools to empower your storytelling and engage youraudience effectively.`,
+		image: HighChart,
 	},
 ]
