@@ -6,14 +6,16 @@ import Guides from './sections/views/guides'
 import Footer from './sections/views/footer'
 import Testimonials from './sections/views/testimonials'
 import Partner from './sections/views/partner'
-
+import Pricing from './sections/views/pricing'
 import Nav from './sections/custom/nav'
+import Contact from './sections/views/contact'
 const Home = () => {
 	return (
 		<div className="flex w-full p-0 m-0 flex-col gap-20">
 			<Nav />
 			<Main />
-
+			<Pricing />
+			<Contact />
 			<div className="w-[100%] flex flex-row justify-center">
 				<div className="w-[80%]">
 					<Simulation />

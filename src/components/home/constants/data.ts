@@ -135,3 +135,31 @@ export const PartnersData = [
 		image: HighChart,
 	},
 ]
+
+export const pricingData = [
+	{
+		time: 1,
+		day: 28,
+		access: ['Multi exchange simulator', 'Algo basket'],
+		basketCredit: 20,
+		worth: 300,
+		price: 999,
+	},
+
+	{
+		time: 2,
+		day: 56,
+		access: ['Multi exchange simulator', 'Algo basket'],
+		basketCredit: 40,
+		worth: 600,
+		price: 1999,
+	},
+	{
+		time: 3,
+		day: 84,
+		access: ['Multi exchange simulator', 'Algo basket'],
+		basketCredit: 60,
+		worth: 900,
+		price: 2999,
+	},
+]

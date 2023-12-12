@@ -9,7 +9,6 @@ interface Props {
 const InvertedCard = ({ children, image }: Props) => {
 	return (
 		<Flex flex={1} align="center" className="p-10" gap="middle">
-			{/* <SimulatorDisc /> */}
 			<Flex flex={'1'} justify="center">
 				<Image src={image ? image : ''} alt="Image" preview={false} />
 			</Flex>
