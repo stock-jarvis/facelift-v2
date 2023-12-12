@@ -1,4 +1,4 @@
-import TestimonialItem from '../../comon/testimonialItem'
+import TestimonialItem from '../../common/testimonial-item'
 import { Flex, Typography } from 'antd'
 
 const Index = () => {

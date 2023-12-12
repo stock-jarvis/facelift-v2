@@ -1,4 +1,4 @@
-import PricingCard from '../../comon/pricingCard'
+import PricingCard from '../../common/pricing-card'
 import { Flex, Typography } from 'antd'
 const index = () => {
 	return (

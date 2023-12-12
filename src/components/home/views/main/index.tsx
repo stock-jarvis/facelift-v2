@@ -1,22 +1,11 @@
-import { useEffect } from 'react'
-import { useMediaQuery } from 'react-responsive'
 import { Button, Layout, Flex, Image, Typography } from 'antd'
 import LightBulb from 'src/assets/images/light-bulb.jpg'
 
 const { Text } = Typography
 export default function FirstContainer() {
-	const mobileSize = useMediaQuery({
-		query: '(min-width: 550px)',
-	})
-	const tabSize = useMediaQuery({
-		query: '(max-width: 820px)',
-	})
-	useEffect(() => {
-		console.log(tabSize)
-	}, [tabSize])
 	return (
 		<Layout className="bg-[white] h-[100vh]">
-			<Flex flex={1} align="center" vertical={tabSize && mobileSize}>
+			<Flex flex={1} align="center">
 				<Flex flex={1} justify="center" align="center">
 					<Flex vertical={true} gap="middle">
 						<Flex vertical={true}>
@@ -56,13 +45,7 @@ export default function FirstContainer() {
 					</Flex>
 				</Flex>
 
-				<Flex
-					flex="1"
-					vertical={false}
-					justify="center"
-					align="center"
-					hidden={!mobileSize}
-				>
+				<Flex flex="1" vertical={false} justify="center" align="center">
 					<Image src={LightBulb} alt="Image" width={250} preview={false} />
 				</Flex>
 			</Flex>

@@ -1,8 +1,8 @@
 import { Suspense, lazy } from 'react'
 import { RouteObject } from 'react-router-dom'
-import HomePage from 'src/components/home/views/homePage'
-import Pricing from 'src/components/home/views/pricing'
-import Contact from 'src/components/home/views/contact'
+const HomePage = lazy(() => import('src/components/home/views/home-page'))
+const Pricing = lazy(() => import('src/components/home/views/pricing'))
+const Contact = lazy(() => import('src/components/home/views/contact'))
 const Home = lazy(() => import('src/components/home'))
 const Simulator = lazy(() => import('src/components/simulator'))
 
@@ -16,9 +16,30 @@ const routes: RouteObject[] = [
 			</Suspense>
 		),
 		children: [
-			{ path: '/', element: <HomePage /> },
-			{ path: '/pricing', element: <Pricing /> },
-			{ path: '/contact', element: <Contact /> },
+			{
+				path: '/',
+				element: (
+					<Suspense fallback={<div>Loader</div>}>
+						<HomePage />
+					</Suspense>
+				),
+			},
+			{
+				path: '/pricing',
+				element: (
+					<Suspense fallback={<div>Loader</div>}>
+						<Pricing />
+					</Suspense>
+				),
+			},
+			{
+				path: '/contact',
+				element: (
+					<Suspense fallback={<div>Loader</div>}>
+						<Contact />
+					</Suspense>
+				),
+			},
 		],
 	},
 	{
