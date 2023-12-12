@@ -1,46 +1,71 @@
-import { Button } from 'antd'
+import { useEffect } from 'react'
+import { useMediaQuery } from 'react-responsive'
+import { Button, Layout, Flex, Image, Typography } from 'antd'
+
 import LightBulb from '../../../assets/images/light-bulb.jpg'
+const { Text } = Typography
 export default function FirstContainer() {
+	const mobileSize = useMediaQuery({
+		query: '(min-width: 550px)',
+	})
+	const tabSize = useMediaQuery({
+		query: '(max-width: 820px)',
+	})
+	useEffect(() => {
+		console.log(tabSize)
+	}, [tabSize])
 	return (
-		<div className="flex flex-row w-full p-20">
-			<div className="flex flex-col w-1/2 p-20">
-				<p className="text-sm lg:text-lg text-slate-500 font-medium mb-[.5rem] opacity-[.67] ">
-					- FREE 1 DAY TRIAL
-				</p>
-				<div className="text-[2.5rem] lg:text-[3rem] font-medium">
-					<span className="mr-4 text-rose-900">Backtest</span>
-					<span>with</span>
-					<p>Power of</p>
-					<p>Tickwise Data</p>
-				</div>
-				<div className="text-lg lg:text-4xl text-sky-400 font-medium mt-[2rem] lg:mt-[3rem]">
-					<span className="mr-4 text-[#22498e]">NSE</span>
-					<span className="mr-4 text-[#199847]">MCX</span>
-					<span className="mr-4 text-[#cf242c]">CURRENCY</span>
-				</div>
-				<div className="mt-[3rem] flex flex-row justify-between">
-					<Button size="large" className="bg-sky-400 text-white">
-						Try for free
-					</Button>
-					<Button size="large">See how it works</Button>
-				</div>
-			</div>
-			<div className="flex  w-1/2 justify-center">
-				<img src={LightBulb} alt="Image" className="w-1/2" />
-			</div>
-			{/* <Image
-						src={simulator.src}
-						alt="TradingView"
-						width={900}
-						height={900}
-						objectFit="contain"
-						className="lg:ml-[5rem]"
-					/> */}
-			{/* <img
-            src={simulator.src}
-            alt="TradingView"
-            className="max-w-full h-full lg:ml-[5rem]"
-          /> */}
-		</div>
+		<Layout className="bg-[white] h-[100vh]">
+			<Flex flex={1} align="center" vertical={tabSize && mobileSize}>
+				<Flex flex={1} justify="center" align="center">
+					<Flex vertical={true} gap="middle">
+						<Flex vertical={true}>
+							<Text className="text-[1rem] text-slate-500 font-medium">
+								- FREE 1 DAY TRIAL
+							</Text>
+							<Text className="text-[2.5rem] text-[#cf242c]" strong>
+								Backtest With
+							</Text>
+							<Text className="text-[2.5rem]" strong>
+								Power of
+							</Text>
+							<Text className="text-[2.5rem]" strong>
+								Tickwise Data
+							</Text>
+						</Flex>
+
+						<Flex gap="middle" vertical={false}>
+							<Text className="text-[2.5rem] text-[#22498e]" strong>
+								NSE
+							</Text>
+							<Text className="text-[2.5rem] text-[#199847]" strong>
+								MCX
+							</Text>
+							<Text className="text-[2.5rem] text-[#cf242c]" strong>
+								CURRENCY
+							</Text>
+						</Flex>
+						<Flex gap={'middle'}>
+							<Button size="large" className="bg-sky-400 text-white">
+								<Text strong>Try for free</Text>
+							</Button>
+							<Button size="large">
+								<Text strong>See how it works</Text>
+							</Button>
+						</Flex>
+					</Flex>
+				</Flex>
+
+				<Flex
+					flex="1"
+					vertical={false}
+					justify="center"
+					align="center"
+					hidden={!mobileSize}
+				>
+					<Image src={LightBulb} alt="Image" width={250} preview={false} />
+				</Flex>
+			</Flex>
+		</Layout>
 	)
 }
