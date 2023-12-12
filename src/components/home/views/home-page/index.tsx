@@ -11,7 +11,7 @@ const index = () => {
 		<>
 			<Main />
 			<div className="w-[100%] flex flex-row justify-center">
-				<div className="w-[80%]">
+				<div className="max-sm:w-[100%] sm:w-[80%]">
 					<Simulation />
 					<BackTest />
 					<Guides />

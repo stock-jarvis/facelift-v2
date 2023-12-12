@@ -74,7 +74,7 @@ const PricingCard = ({
 
 const PricingList = () => {
 	return (
-		<Flex flex="1" gap="middle">
+		<Flex flex="1" gap="middle" className="max-sm:flex-col">
 			{pricingData.map((prices) => (
 				<PricingCard key={prices.time} {...prices} />
 			))}

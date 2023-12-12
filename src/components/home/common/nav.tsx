@@ -9,7 +9,7 @@ const Nav = () => {
 			align="center"
 		>
 			<Flex flex={1} justify="space-between" align="center">
-				<Flex flex={1} justify="flex-end">
+				<Flex flex={1} className="justify-end max-sm:justify-center">
 					<Typography.Text
 						className="text-[2rem] p-[10px] font-bold"
 						onClick={() => {
@@ -23,7 +23,7 @@ const Nav = () => {
 					gap="middle"
 					flex={1}
 					justify="flex-end"
-					className="cursor-pointer"
+					className="cursor-pointer max-sm:hidden"
 				>
 					<Typography.Text
 						className="text-[1rem] p-[10px] font-bold  hover:underline"
@@ -43,7 +43,7 @@ const Nav = () => {
 					</Typography.Text>
 				</Flex>
 			</Flex>
-			<Flex flex={1} align="center" gap="middle">
+			<Flex flex={1} align="center" gap="middle" className="max-sm:hidden">
 				<Flex gap="large" flex={2} justify="flex-end">
 					<Button size="large" className="font-bold">
 						Login

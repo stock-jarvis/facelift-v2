@@ -22,7 +22,12 @@ const Stars = () => {
 
 const TestimonialItem = ({ testimonial, name, designation }: ItemProps) => {
 	return (
-		<Flex vertical gap="large" justify="center" className="p-10">
+		<Flex
+			vertical
+			gap="large"
+			justify="center"
+			className="max-sm:shadow-2xl max-sm:p-10 max-sm:rounded-lg max-sm:gap-10"
+		>
 			<Flex>
 				<Typography.Text className="text-center text-[1.2rem]" strong>
 					"{testimonial}"
@@ -43,7 +48,7 @@ const TestimonialItem = ({ testimonial, name, designation }: ItemProps) => {
 
 const TestimonialList = () => {
 	return (
-		<Flex align="center" flex={1}>
+		<Flex align="center" flex={1} className="flex-row max-sm:flex-col">
 			{testinonialsData.map((data) => (
 				<TestimonialItem key={data.id} {...data} />
 			))}

@@ -8,7 +8,7 @@ const Card = ({ children }: Props) => {
 		<Flex
 			flex={1}
 			align="center"
-			className="shadow-[0_0px_25px_10px_rgba(0,0,0,0.1)] rounded-xl p-10"
+			className="shadow-[0_0px_25px_10px_rgba(0,0,0,0.1)] rounded-xl p-10 flex-row max-sm:flex-col max-sm:gap-10"
 		>
 			{children}
 		</Flex>

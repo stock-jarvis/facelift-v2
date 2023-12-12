@@ -3,20 +3,23 @@ import { companyData, companyTerms, socialMedia } from '../../constants/data'
 import List from '../../common/list'
 const Index = () => {
 	return (
-		<Flex flex={1} vertical className="p-10 bg-black" gap="middle">
-			<Flex flex={1} className="p-20" justify="space-between">
+		<Flex flex={1} vertical className="sm:p-10 bg-black" gap="middle">
+			<Flex
+				flex={1}
+				className="sm:p-20 sm:justify-between max-sm:flex-col max-sm:gap-10 max-sm:justify-center"
+			>
 				<Flex flex={1} justify="center" align="center">
-					<Typography.Text className="text-[2.5rem] text-white">
+					<Typography.Text className="text-3xl text-white">
 						StockJarvis
 					</Typography.Text>
 				</Flex>
-				<Flex flex={1} justify="center">
+				<Flex flex={1} className="justify-center ">
 					<List data={companyData} />
 				</Flex>
-				<Flex flex={1} justify="center">
+				<Flex flex={1} className="justify-center">
 					<List data={socialMedia} />
 				</Flex>
-				<Flex flex={1} justify="center">
+				<Flex flex={1} className="justify-center">
 					<List data={companyTerms} />
 				</Flex>
 			</Flex>

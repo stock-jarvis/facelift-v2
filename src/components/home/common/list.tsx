@@ -11,7 +11,7 @@ interface ListItemProps {
 
 const ListItem = ({ icon, name }: ListItemProps) => {
 	return (
-		<Flex gap="middle" align="center">
+		<Flex gap="middle" className="sm:items-center max-sm:justify-start">
 			<div className="text-white">{icon}</div>
 			<Text
 				strong

@@ -7,14 +7,19 @@ interface ItemProps {
 }
 const PartnersItem = ({ image, data }: ItemProps) => {
 	return (
-		<Flex vertical flex={1} gap="large">
-			<Flex>
+		<Flex
+			vertical
+			flex={1}
+			gap="large"
+			className="max-sm:shadow-2xl max-sm:p-10 max-sm:rounded-lg"
+		>
+			<Flex className="max-sm:justify-center">
 				<div className="w-[80%] h-[100px]">
 					<Image src={image} alt="Image" preview={false} />
 				</div>
 			</Flex>
-			<Flex className="p-[10px]" align="center" justify="center">
-				<Typography.Text className="text-lg font-medium">
+			<Flex className="p-[10px]">
+				<Typography.Text className="text-lg font-medium text-center">
 					{data}
 				</Typography.Text>
 			</Flex>
@@ -24,7 +29,12 @@ const PartnersItem = ({ image, data }: ItemProps) => {
 
 const PartnesList = () => {
 	return (
-		<Flex flex="1" justify="space-between" gap="middle">
+		<Flex
+			flex="1"
+			justify="space-between"
+			className="flex-row max-sm:flex-col max-sm:gap-10"
+			gap="middle"
+		>
 			{PartnersData.map((partner) => (
 				<PartnersItem {...partner} key={partner.id} />
 			))}
