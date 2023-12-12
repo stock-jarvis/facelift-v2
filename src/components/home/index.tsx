@@ -4,7 +4,7 @@ import BackTest from './sections/views/backtest'
 import Starter from './sections/views/starter'
 import Guides from './sections/views/guides'
 import Footer from './sections/views/footer'
-
+import Testimonials from './sections/views/testimonials'
 const Home = () => {
 	return (
 		<div className="flex w-full p-0 m-0 flex-col gap-20">
@@ -30,6 +30,11 @@ const Home = () => {
 			<div className="w-[100%] flex flex-row justify-center">
 				<div className="w-[80%]">
 					<Starter />
+				</div>
+			</div>
+			<div className="w-[100%] flex flex-row justify-center">
+				<div className="w-[80%]">
+					<Testimonials />
 				</div>
 			</div>
 			<div className="w-[100%] flex flex-row justify-center">

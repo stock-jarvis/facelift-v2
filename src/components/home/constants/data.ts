@@ -90,3 +90,27 @@ export const socialMedia = [
 		icon: FaLinkedin(),
 	},
 ]
+
+export const testinonialsData = [
+	{
+		id: 'test-1',
+		testimonial:
+			"Stockjarvis is a trader's dream. Detailed history for NSE, MCX,Currency is real. Backtesting's powerful, boosts my confidence. Deserves stars for smart trading.",
+		name: 'Aarti',
+		designation: 'Lead manager',
+	},
+	{
+		id: 'test-2',
+		testimonial:
+			"Stockjarvis is mind-blowing! Secondwise data for NSE, MCX, Currency is gold. Backtesting's super accurate.Like a crystal ball for trading. 5 stars for sure!",
+		name: 'Rupesh',
+		designation: 'Product Manager',
+	},
+	{
+		id: 'test-3',
+		testimonial:
+			"Secondwise data on NSE, MCX, Currency is gold.Backtesting's my secret to success.Invaluable insights. More than 5 stars!",
+		name: 'Madhulika',
+		designation: 'CTO',
+	},
+]
