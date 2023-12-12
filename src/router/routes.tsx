@@ -1,8 +1,8 @@
 import { Suspense, lazy } from 'react'
 import { RouteObject } from 'react-router-dom'
-import HomePage from 'src/components/home/sections/views/homePage'
-import Pricing from 'src/components/home/sections/views/pricing'
-import Contact from 'src/components/home/sections/views/contact'
+import HomePage from 'src/components/home/views/homePage'
+import Pricing from 'src/components/home/views/pricing'
+import Contact from 'src/components/home/views/contact'
 const Home = lazy(() => import('src/components/home'))
 const Simulator = lazy(() => import('src/components/simulator'))
 

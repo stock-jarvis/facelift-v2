@@ -1,9 +1,9 @@
 import { Flex, Image, Typography } from 'antd'
 import BackTest from 'src/assets/images/backtest.png'
-import Card from '../../custom/card'
-import GuidesDesc from '../../descriptions/guidesDesc'
+import Card from '../../comon/card'
+import GuidesDesc from '../../container/guidesDesc'
 const { Text, Title } = Typography
-import { guides } from '../../../constants/data'
+import { guides } from '../../constants/data'
 
 const Index = () => {
 	return (

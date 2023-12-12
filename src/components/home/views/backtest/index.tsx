@@ -1,6 +1,6 @@
 import Backtest from 'src/assets/images/backtest.png'
-import Desc from '../../descriptions/backTestDesc'
-import InvertedCard from '../../custom/invertedCard'
+import Desc from '../../container/backTestDesc'
+import InvertedCard from '../../comon/invertedCard'
 
 export default function ThirdContainer() {
 	return (

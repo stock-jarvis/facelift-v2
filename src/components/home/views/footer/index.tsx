@@ -1,6 +1,6 @@
 import { Flex, Typography } from 'antd'
-import { companyData, companyTerms, socialMedia } from '../../../constants/data'
-import List from '../../custom/list'
+import { companyData, companyTerms, socialMedia } from '../../constants/data'
+import List from '../../comon/list'
 const Index = () => {
 	return (
 		<Flex flex={1} vertical className="p-10 bg-black" gap="middle">

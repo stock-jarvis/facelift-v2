@@ -1,5 +1,5 @@
 import { Flex, Image, Typography } from 'antd'
-import { PartnersData } from '../../constants/data'
+import { PartnersData } from '../constants/data'
 
 interface ItemProps {
 	image: string

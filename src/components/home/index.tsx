@@ -1,5 +1,5 @@
-import Footer from './sections/views/footer'
-import Nav from './sections/custom/nav'
+import Footer from './views/footer'
+import Nav from './comon/nav'
 import { Outlet } from 'react-router-dom'
 const Home = () => {
 	return (

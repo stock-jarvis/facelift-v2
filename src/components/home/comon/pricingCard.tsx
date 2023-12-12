@@ -1,6 +1,6 @@
 import { Flex, Button } from 'antd'
 import { GoDotFill } from 'react-icons/go'
-import { pricingData } from '../../constants/data'
+import { pricingData } from '../constants/data'
 
 interface PriceProps {
 	time: number

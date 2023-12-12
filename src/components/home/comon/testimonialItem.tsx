@@ -1,4 +1,4 @@
-import { testinonialsData } from '../../constants/data'
+import { testinonialsData } from '../constants/data'
 
 import { Flex, Typography } from 'antd'
 import { StarFilled } from '@ant-design/icons'

@@ -1,5 +1,5 @@
 import { Flex, Typography } from 'antd'
-import PartnersItem from '../../custom/partnersItem'
+import PartnersItem from '../../comon/partnersItem'
 const Index = () => {
 	return (
 		<div className="pt-40 pb-40">
