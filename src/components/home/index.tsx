@@ -3,6 +3,7 @@ import Simulation from './sections/views/simulation'
 import BackTest from './sections/views/backtest'
 import Starter from './sections/views/starter'
 import Guides from './sections/views/guides'
+import Footer from './sections/views/footer'
 
 const Home = () => {
 	return (
@@ -30,6 +31,9 @@ const Home = () => {
 				<div className="w-[80%]">
 					<Starter />
 				</div>
+			</div>
+			<div className="w-[100%] flex flex-row justify-center">
+				<Footer />
 			</div>
 		</div>
 	)
