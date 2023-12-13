@@ -34,22 +34,22 @@ export const companyData = [
 	{
 		id: 'home-1',
 		name: 'Home',
-		icon: IoMdHome(),
+		icon: <IoMdHome />,
 	},
 	{
 		id: 'pricing-1',
 		name: 'Pricing',
-		icon: MdOutlinePriceCheck(),
+		icon: <MdOutlinePriceCheck />,
 	},
 	{
 		id: 'contact-1',
 		name: 'Contact',
-		icon: IoIosContacts(),
+		icon: <IoIosContacts />,
 	},
 	{
 		id: 'team-1',
 		name: 'Team',
-		icon: GiTeamDowngrade(),
+		icon: <GiTeamDowngrade />,
 	},
 ]
 

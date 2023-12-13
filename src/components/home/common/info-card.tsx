@@ -11,7 +11,6 @@ const HowItWorks = ({ children, image }: Props) => {
 	return (
 		<Card>
 			{children}
-			{/* <SimulatorDisc /> */}
 			<Flex flex={'1'} justify="center">
 				<Image src={image ? image : ''} alt="Image" preview={false} />
 			</Flex>

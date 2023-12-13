@@ -26,7 +26,7 @@ const TestimonialItem = ({ testimonial, name, designation }: ItemProps) => {
 			vertical
 			gap="large"
 			justify="center"
-			className="max-sm:shadow-2xl max-sm:p-10 max-sm:rounded-lg max-sm:gap-10"
+			className="max-sm:shadow-[0_0px_25px_10px_rgba(0,0,0,0.1)] max-sm:p-10 max-sm:rounded-lg max-sm:gap-20"
 		>
 			<Flex>
 				<Typography.Text className="text-center text-[1.2rem]" strong>

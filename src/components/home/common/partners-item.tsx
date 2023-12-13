@@ -11,7 +11,7 @@ const PartnersItem = ({ image, data }: ItemProps) => {
 			vertical
 			flex={1}
 			gap="large"
-			className="max-sm:shadow-2xl max-sm:p-10 max-sm:rounded-lg"
+			className="max-sm:shadow-[0_0px_25px_10px_rgba(0,0,0,0.1)] max-sm:p-10 max-sm:rounded-lg"
 		>
 			<Flex className="max-sm:justify-center">
 				<div className="w-[80%] h-[100px]">
