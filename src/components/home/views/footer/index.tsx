@@ -3,7 +3,6 @@ import { companyData, companyTerms, socialMedia } from '../../constants/data'
 import List from '../../common/list'
 
 const Index = () => {
-	//const navigate = useNavigate();
 	return (
 		<Flex flex={1} vertical className="sm:p-10 bg-black" gap="middle">
 			<Flex

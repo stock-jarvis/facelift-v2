@@ -283,7 +283,7 @@ Not to falsely claim affiliation`,
 	],
 }
 
-export const RefundPolicy = {
+export const refundPolicy = {
 	description: `This Cancellation/Refund Policy (referred to as the "Policy") outlines the terms and conditions governing cancellations and refunds for services provided by KWPS Technologies Private Limited (referred to as "KWPS Technologies," "We," "Us," "Our") through the StockJarvis website (referred to as the "Website") and related services (referred to as "Services"). By accessing or utilizing the Services on the Website, You agree to adhere to this Policy.`,
 	terms: [
 		{
