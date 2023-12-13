@@ -1,9 +1,10 @@
 import { useEffect, useMemo, useState } from 'react'
-import { Select, Modal, ModalProps, Tag } from 'antd'
+import { Select, Modal, ModalProps, Tag, notification } from 'antd'
 import { DefaultOptionType, SelectProps } from 'antd/es/select'
 
-import { useSimulatorParamsStore } from '../store/simulator-params-store'
+import { useSimulatorParamsStore } from '../../store/simulator-params-store'
 import { convertValuesToDefaultOptions } from 'src/common/utils/conversion-utils'
+import { MAX_INSTRUMENTS_ALLOWED } from '../../constants'
 
 type InstrumentSelectionModalProps = Pick<ModalProps, 'open' | 'onCancel'>
 
@@ -11,6 +12,8 @@ const InstrumentSelectionModal: React.FC<InstrumentSelectionModalProps> = ({
 	open,
 	onCancel,
 }) => {
+	const [api, contextHolder] = notification.useNotification()
+
 	const { selectedInstruments, setSelectedInstruments } =
 		useSimulatorParamsStore()
 
@@ -28,11 +31,21 @@ const InstrumentSelectionModal: React.FC<InstrumentSelectionModalProps> = ({
 
 	/** Only changes the local state */
 	const handleChange: SelectProps['onChange'] = (values: string[]) => {
-		setSelectedInstrumentOptions(values)
+		if (values.length <= MAX_INSTRUMENTS_ALLOWED) {
+			setSelectedInstrumentOptions(values)
+		} else {
+			api.info({
+				message: 'Cannot select more instruments',
+				description: `Only ${MAX_INSTRUMENTS_ALLOWED} instruments are supported. Please remove an instrument to add more.`,
+			})
+		}
 	}
 
 	/** Sets the selected instruments in the global store */
-	const handleClickOk = () => setSelectedInstruments(selectedInstrumentOptions)
+	const handleClickOk: ModalProps['onOk'] = (event) => {
+		setSelectedInstruments(selectedInstrumentOptions)
+		onCancel?.(event)
+	}
 
 	/** Set the previously selected options in the dropdown */
 	useEffect(() => {
@@ -52,6 +65,7 @@ const InstrumentSelectionModal: React.FC<InstrumentSelectionModalProps> = ({
 				},
 			}}
 		>
+			{contextHolder}
 			<Select
 				mode="multiple"
 				value={selectedInstrumentOptions}

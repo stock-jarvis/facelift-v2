@@ -1,19 +1,28 @@
-import { Button, Flex, Radio, RadioGroupProps, Tooltip } from 'antd'
-import { SearchOutlined } from '@ant-design/icons'
+import {
+	Flex,
+	Radio,
+	TimePicker,
+	DatePicker,
+	RadioGroupProps,
+	DatePickerProps,
+	TimePickerProps,
+} from 'antd'
+
+import InstrumentSelection from './instrument-selection'
 
 import { availableExchanges } from '../constants'
 import { useSimulatorParamsStore } from '../store/simulator-params-store'
-import { useToggle } from 'src/common/utils/state-utils'
-import InstrumentSelectionModal from './instrument-selection-modal'
 
 const ParamSelector = () => {
-	const { exchange, setExchange } = useSimulatorParamsStore()
-
-	const [isInstrumentSelectionModalOpen, toggleIsInstrumentSelectionModalOpen] =
-		useToggle()
+	const { date, time, exchange, setDate, setTime, setExchange } =
+		useSimulatorParamsStore()
 
 	const handleChangeExchange: RadioGroupProps['onChange'] = (event) =>
 		setExchange(event.target.value)
+
+	const handleDateChange: DatePickerProps['onChange'] = (date) => setDate(date!)
+
+	const handleTimeChange: TimePickerProps['onChange'] = (time) => setTime(time!)
 
 	return (
 		<>
@@ -30,20 +39,20 @@ const ParamSelector = () => {
 					))}
 				</Radio.Group>
 
-				<Tooltip title="Search and Select Instruments">
-					<Button
-						shape="circle"
-						icon={<SearchOutlined />}
-						onClick={toggleIsInstrumentSelectionModalOpen}
-					/>
-				</Tooltip>
-			</Flex>
-			{isInstrumentSelectionModalOpen && (
-				<InstrumentSelectionModal
-					open={isInstrumentSelectionModalOpen}
-					onCancel={toggleIsInstrumentSelectionModalOpen}
+				<InstrumentSelection />
+
+				<DatePicker
+					value={date}
+					allowClear={false}
+					onChange={handleDateChange}
 				/>
-			)}
+
+				<TimePicker
+					value={time}
+					allowClear={false}
+					onChange={handleTimeChange}
+				/>
+			</Flex>
 		</>
 	)
 }
