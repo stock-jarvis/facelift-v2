@@ -10,6 +10,7 @@ const RefundPolicy = lazy(
 )
 const Home = lazy(() => import('src/components/home'))
 const Simulator = lazy(() => import('src/components/simulator'))
+const Basket = lazy(() => import('src/components/basket'))
 
 // TODO: Add loading spinners
 const routes: RouteObject[] = [
@@ -76,6 +77,14 @@ const routes: RouteObject[] = [
 		element: (
 			<Suspense fallback={<div>Loader</div>}>
 				<Simulator />
+			</Suspense>
+		),
+	},
+	{
+		path: '/basket',
+		element: (
+			<Suspense fallback={<div>Loader</div>}>
+				<Basket />
 			</Suspense>
 		),
 	},
