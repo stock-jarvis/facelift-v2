@@ -1,7 +1,5 @@
 import { Flex, Image } from 'antd'
 import React from 'react'
-//import Simulator from '../../../assets/images/simulator.png'
-//import SimulatorDisc from './descriptions/simulatorDisc'
 interface Props {
 	children: React.ReactNode
 	image: string

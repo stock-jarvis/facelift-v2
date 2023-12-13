@@ -8,9 +8,6 @@ const Terms = lazy(() => import('src/components/home/views/terms-conditions'))
 const RefundPolicy = lazy(
 	() => import('src/components/home/views/refund-policy')
 )
-// const PrivacyPolicy = lazy(
-// 	() => import('src/components/home/views/privacy-policy')
-// )
 const Home = lazy(() => import('src/components/home'))
 const Simulator = lazy(() => import('src/components/simulator'))
 
