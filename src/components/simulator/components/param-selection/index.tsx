@@ -10,10 +10,12 @@ import {
 
 import InstrumentSelection from './instrument-selection'
 
-import { availableExchanges } from '../constants'
-import { useSimulatorParamsStore } from '../store/simulator-params-store'
+import { availableExchanges } from '../../constants'
+import { useSimulatorParamsStore } from '../../store/simulator-params-store'
+import Jump from './jump'
+import Randomize from './randomize'
 
-const ParamSelector = () => {
+const ParamSelection = () => {
 	const { date, time, exchange, setDate, setTime, setExchange } =
 		useSimulatorParamsStore()
 
@@ -26,7 +28,7 @@ const ParamSelector = () => {
 
 	return (
 		<>
-			<Flex gap={36}>
+			<Flex justify="space-between">
 				<Radio.Group
 					value={exchange}
 					buttonStyle="solid"
@@ -52,9 +54,13 @@ const ParamSelector = () => {
 					allowClear={false}
 					onChange={handleTimeChange}
 				/>
+
+				<Jump />
+
+				<Randomize />
 			</Flex>
 		</>
 	)
 }
 
-export default ParamSelector
+export default ParamSelection

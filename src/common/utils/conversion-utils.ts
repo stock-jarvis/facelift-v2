@@ -1,4 +1,14 @@
+import { ItemType } from 'antd/es/menu/hooks/useItems'
 import { DefaultOptionType } from 'antd/es/select'
+
+const convertToItemType = (value: string | number) =>
+	({
+		key: value,
+		label: value,
+	}) as ItemType
+
+export const convertValuesToItemType = (values: (string | number)[]) =>
+	values.map(convertToItemType)
 
 const convertToDefaultOption = (value: DefaultOptionType['value']) =>
 	({

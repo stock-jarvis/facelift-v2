@@ -2,9 +2,9 @@ import { useEffect, useMemo, useState } from 'react'
 import { Select, Modal, ModalProps, Tag, notification } from 'antd'
 import { DefaultOptionType, SelectProps } from 'antd/es/select'
 
-import { useSimulatorParamsStore } from '../../store/simulator-params-store'
+import { useSimulatorParamsStore } from '../../../store/simulator-params-store'
 import { convertValuesToDefaultOptions } from 'src/common/utils/conversion-utils'
-import { MAX_INSTRUMENTS_ALLOWED } from '../../constants'
+import { MAX_INSTRUMENTS_ALLOWED } from '../../../constants'
 
 type InstrumentSelectionModalProps = Pick<ModalProps, 'open' | 'onCancel'>
 

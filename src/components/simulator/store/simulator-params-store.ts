@@ -16,15 +16,16 @@ type SimulatorParamsActions = {
 	setTime: (time: SimulatorParams['time']) => void
 	setDate: (date: SimulatorParams['date']) => void
 	setExchange: (exchange: SimulatorParams['exchange']) => void
+	setActiveInstrument: (
+		activeInstrument: SimulatorParams['activeInstrument']
+	) => void
 	setSelectedInstruments: (
 		selectedInstruments: SimulatorParams['selectedInstruments']
 	) => void
 }
 
 const defaultState: SimulatorParams = {
-	// TODO: Change this
 	time: dayjs().startOf('day'),
-	// TODO: Change this
 	date: dayjs(),
 	exchange: 'NSE',
 	activeInstrument: BANK_NIFTY_TICKER,
@@ -38,5 +39,6 @@ export const useSimulatorParamsStore = create<
 	setTime: (time) => set({ time }),
 	setDate: (date) => set({ date }),
 	setExchange: (exchange) => set({ exchange }),
+	setActiveInstrument: (activeInstrument) => set({ activeInstrument }),
 	setSelectedInstruments: (selectedInstruments) => set({ selectedInstruments }),
 }))
