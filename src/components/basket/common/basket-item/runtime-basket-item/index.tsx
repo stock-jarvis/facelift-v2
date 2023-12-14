@@ -1,6 +1,6 @@
 import { Flex, Checkbox } from 'antd'
 import NameSection from './name-section'
-import ActionSection from './action-section'
+import ActionSection from '../action-section'
 const BasketItem = () => {
 	return (
 		<Flex flex="1">

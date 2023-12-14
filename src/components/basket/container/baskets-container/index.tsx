@@ -1,5 +1,5 @@
 import { Flex } from 'antd'
-import ListItem from '../../common/basket-item'
+import ListItem from '../../common/basket-item/runtime-basket-item'
 import BasketNav from '../basket-nav'
 const index = () => {
 	return (
