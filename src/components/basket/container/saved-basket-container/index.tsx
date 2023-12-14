@@ -12,14 +12,31 @@ const index = () => {
 			<Flex className="bg-[white] justify-center p-[10px]">
 				<p className="font-medium p-[10px]">Saved Baskets</p>
 			</Flex>
-			<div className="border-y-[2px]">
+			<div className="border-[2px] ">
 				<BasketExchange />
 			</div>
+
 			<Flex
-				className="w-full h-full  overflow-y-scroll no-scrollbar shadow-xl  gap-[10px]"
+				className="w-full  overflow-y-scroll no-scrollbar shadow-xl  scroll-smooth  gap-[5px] p-[10px] h-[100vh]"
 				vertical
 			>
-				<div className="flex flex-col gap-[10px] p-[10px]">
+				<div className="flex flex-col gap-[5px] ">
+					<ListItem />
+
+					<ListItem />
+					<ListItem />
+					<ListItem />
+					<ListItem />
+					<ListItem />
+					<ListItem />
+					<ListItem />
+					<ListItem />
+					<ListItem />
+					<ListItem />
+					<ListItem />
+					<ListItem />
+					<ListItem />
+					<ListItem />
 					<ListItem />
 					<ListItem />
 					<ListItem />
