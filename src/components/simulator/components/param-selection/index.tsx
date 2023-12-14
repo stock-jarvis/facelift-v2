@@ -44,7 +44,7 @@ const ParamSelection = () => {
 
 				<InstrumentSelection />
 
-				<Randomize />
+				<Jump />
 
 				<TimeMachine />
 
@@ -60,7 +60,7 @@ const ParamSelection = () => {
 					onChange={handleTimeChange}
 				/>
 
-				<Jump />
+				<Randomize />
 			</Flex>
 		</>
 	)

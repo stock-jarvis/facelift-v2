@@ -3,6 +3,8 @@ import { PlusOutlined } from '@ant-design/icons'
 import Link from 'antd/es/typography/Link'
 import { useMemo, useState } from 'react'
 import { convertValuesToDefaultOptions } from 'src/common/utils/conversion-utils'
+import { DerivativesMetric } from '../../types'
+import { availableDerivativesMetrics } from '../../constants'
 
 const { Text } = Typography
 
@@ -20,24 +22,23 @@ const TitleLinkValue: React.FC<TitleLinkValueProps> = ({ title, value }) => (
 	</Space>
 )
 
-// TODO: Change to appropriate name
-const foTypes = ['OI'] as const
-
-type FoType = (typeof foTypes)[number]
-
-const FuturesOptionsParamSelection = () => {
+const DerivatiesParamSelection = () => {
 	const { token } = theme.useToken()
 
 	// TODO: Change variable name
-	const [selectedOption, setSelectedOption] = useState<FoType>('OI')
+	const [selectedDerivativeMetric, setSelectedDerivativeMetric] =
+		useState<DerivativesMetric>('OI')
 
 	// TODO: Change variable name
-	// @ts-expect-error timeUnits is TimeUnit[] type and the function expects array of string or number
-	// TimeUnit[] is ultimately a string array.
-	const options = useMemo(() => convertValuesToDefaultOptions(foTypes), [])
+	const derivativeMetricOptions = useMemo(
+		// @ts-expect-error availableDerivativesMetrics is DerivativesMetric[] type and the function expects array of string or number
+		// DerivativesMetric[] is ultimately a string array.
+		() => convertValuesToDefaultOptions(availableDerivativesMetrics),
+		[]
+	)
 
 	const handleChangeOption: SelectProps['onChange'] = (value) =>
-		setSelectedOption(value)
+		setSelectedDerivativeMetric(value)
 
 	return (
 		<Flex className="w-full" justify="space-between">
@@ -46,10 +47,11 @@ const FuturesOptionsParamSelection = () => {
 
 			<Select
 				style={{
+					width: 78,
 					borderBottom: `${token.lineWidthBold}px solid ${token.colorPrimary}`,
 				}}
-				value={selectedOption}
-				options={options}
+				value={selectedDerivativeMetric}
+				options={derivativeMetricOptions}
 				bordered={false}
 				onChange={handleChangeOption}
 			/>
@@ -60,4 +62,4 @@ const FuturesOptionsParamSelection = () => {
 	)
 }
 
-export default FuturesOptionsParamSelection
+export default DerivatiesParamSelection
