@@ -5,7 +5,7 @@ const { RangePicker } = DatePicker
 const Index = () => {
 	const { token } = theme.useToken()
 	return (
-		<Flex flex="1">
+		<Flex flex="1" className="p-[10px]">
 			<Flex flex="1">
 				<Tooltip title="Select Date Range">
 					<RangePicker

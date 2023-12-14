@@ -37,7 +37,7 @@ const NameSection = ({ name }: NameProps) => {
 					borderBottom: '1px solid',
 				}}
 			>
-				<Typography.Text>Apple</Typography.Text>
+				<Typography.Text style={{ color: 'black' }}>Apple</Typography.Text>
 			</Flex>
 		</Flex>
 	)
