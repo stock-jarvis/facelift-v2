@@ -5,7 +5,7 @@ import { PlayCircleOutlined, PlusOutlined } from '@ant-design/icons'
 const { RangePicker } = DatePicker
 const Index = () => {
 	const { token } = theme.useToken()
-	//	const [setIsModalOpen]=useToggle();
+	//const [setIsModalOpen] = useToggle()
 	return (
 		<Flex flex="1" className="p-[10px]">
 			<Flex flex="1">
@@ -26,8 +26,7 @@ const Index = () => {
 						align="center"
 						style={{ fontSize: 20 }}
 						gap="middle"
-
-						//onClick={()=>setIsModalOpen(true)}
+						//onClick={() => setIsModalOpen}
 					>
 						<PlusOutlined />
 						<p>Add New Basket</p>

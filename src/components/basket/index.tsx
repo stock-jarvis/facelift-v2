@@ -3,12 +3,12 @@ import Theme from './theme'
 import AddBasketModal from './modals/add-new-basket'
 import SaveBasket from './container/saved-basket-container'
 import BasketContainer from './container/baskets-container'
-import { useToggle } from './hooks/useToggleModal'
+//import { useToggle } from './hooks/useToggleModal'
 const Basket = () => {
-	const [isModalOpen] = useToggle()
+	//const [isModalOpen] = useToggle()
 	return (
 		<Theme>
-			{isModalOpen && <AddBasketModal />}
+			{<AddBasketModal />}
 			<Flex className="h-[100vh] overflow-y-hidden overflow-x-hidden">
 				<Flex flex={'1'}>
 					<SaveBasket />
