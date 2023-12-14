@@ -2,6 +2,8 @@ import { Flex, Radio, RadioGroupProps } from 'antd'
 
 import { useSimulatorParamsStore } from '../../store/simulator-params-store'
 import InstrumentDayDetail from './instrument-day-detail'
+import FuturesOptionsParamSelection from './futures-options-param-selection'
+import OptionStrikeTable from './option-strike-table'
 
 const LeftContent = () => {
 	const { selectedInstruments, activeInstrument, setActiveInstrument } =
@@ -29,6 +31,8 @@ const LeftContent = () => {
 				))}
 			</Radio.Group>
 			<InstrumentDayDetail />
+			<FuturesOptionsParamSelection />
+			<OptionStrikeTable />
 		</Flex>
 	)
 }

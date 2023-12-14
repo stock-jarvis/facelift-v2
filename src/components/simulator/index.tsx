@@ -1,6 +1,6 @@
 import { Flex, theme } from 'antd'
 
-import TimeMachine from './components/time-machine'
+import TimeMachine from './components/param-selection/time-machine'
 import LeftContent from './components/left-content'
 import ParamSelection from './components/param-selection'
 
@@ -17,12 +17,12 @@ const Simulator = () => {
 			gap={token.margin}
 		>
 			<ParamSelection />
-			<TimeMachine />
+			{/* <TimeMachine /> */}
 			<Flex className="h-full">
-				<Flex className="w-1/4 h-full">
+				<Flex className="w-1/3 h-full">
 					<LeftContent />
 				</Flex>
-				<Flex className="w-3/4 h-full pl-6">Charts</Flex>
+				<Flex className="w-2/3 h-full pl-6">Charts</Flex>
 			</Flex>
 		</Flex>
 	)

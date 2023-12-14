@@ -1,16 +1,15 @@
 import { useMemo, useState } from 'react'
 import { range, toInt } from 'radash'
-import { Button, Dropdown, Flex, MenuProps, Space, Tooltip, theme } from 'antd'
+import { Button, Flex, Select, SelectProps, Space, Tooltip, theme } from 'antd'
 
 import {
-	DownOutlined,
 	ForwardOutlined,
 	BackwardOutlined,
 	CaretRightOutlined,
 } from '@ant-design/icons'
 import { PiSun, PiSunHorizon } from 'react-icons/pi'
 
-import { convertValuesToItemType } from 'src/common/utils/conversion-utils'
+import { convertValuesToDefaultOptions } from 'src/common/utils/conversion-utils'
 
 const timeUnits = ['Min', 'Hour', 'Day'] as const
 
@@ -22,23 +21,23 @@ const TimeMachine = () => {
 	const [selectedValue, setSelectedValue] = useState(1)
 	const [selectedTimeUnit, setSelectedTimeUnit] = useState<TimeUnit>('Min')
 
-	const valueMenuItems = useMemo(
-		() => convertValuesToItemType([...range(1, 10)]),
+	const valueOptions = useMemo(
+		() => convertValuesToDefaultOptions([...range(1, 10)]),
 		[]
 	)
 
-	const timeUnitMenuItems = useMemo(
+	const timeUnitOptions = useMemo(
 		// @ts-expect-error timeUnits is TimeUnit[] type and the function expects array of string or number
 		// TimeUnit[] is ultimately a string array.
-		() => convertValuesToItemType(timeUnits),
+		() => convertValuesToDefaultOptions(timeUnits),
 		[]
 	)
 
-	const handleValueMenuItemClick: MenuProps['onClick'] = ({ key }) =>
-		setSelectedValue(toInt(key)!)
+	const handleValueChange: SelectProps['onChange'] = (value) =>
+		setSelectedValue(toInt(value)!)
 
-	const handleTimeUnitMenuItemClick: MenuProps['onClick'] = ({ key }) =>
-		setSelectedTimeUnit(key as TimeUnit)
+	const handleTimeUnitChange: SelectProps['onChange'] = (value) =>
+		setSelectedTimeUnit(value as TimeUnit)
 
 	return (
 		<Flex
@@ -61,33 +60,26 @@ const TimeMachine = () => {
 				/>
 
 				<Space
-					size="large"
+					size="middle"
 					style={{
 						border: `0.5px solid ${token.colorBorder}`,
 						borderRadius: token.borderRadius,
 						padding: `${token.paddingXXS}px ${token.paddingContentHorizontalSM}px`,
 					}}
 				>
-					<Dropdown
-						menu={{ items: valueMenuItems, onClick: handleValueMenuItemClick }}
-					>
-						<Space>
-							{selectedValue}{' '}
-							<DownOutlined style={{ fontSize: token.fontSizeSM }} />
-						</Space>
-					</Dropdown>
+					<Select
+						value={selectedValue}
+						options={valueOptions}
+						bordered={false}
+						onChange={handleValueChange}
+					/>
 
-					<Dropdown
-						menu={{
-							items: timeUnitMenuItems,
-							onClick: handleTimeUnitMenuItemClick,
-						}}
-					>
-						<Space>
-							{selectedTimeUnit}{' '}
-							<DownOutlined style={{ fontSize: token.fontSizeSM }} />
-						</Space>
-					</Dropdown>
+					<Select
+						value={selectedTimeUnit}
+						options={timeUnitOptions}
+						bordered={false}
+						onChange={handleTimeUnitChange}
+					/>
 
 					<Tooltip title="Move time">
 						<Button

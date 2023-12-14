@@ -14,6 +14,7 @@ import { availableExchanges } from '../../constants'
 import { useSimulatorParamsStore } from '../../store/simulator-params-store'
 import Jump from './jump'
 import Randomize from './randomize'
+import TimeMachine from './time-machine'
 
 const ParamSelection = () => {
 	const { date, time, exchange, setDate, setTime, setExchange } =
@@ -28,7 +29,7 @@ const ParamSelection = () => {
 
 	return (
 		<>
-			<Flex justify="space-between">
+			<Flex justify="space-between" align="center">
 				<Radio.Group
 					value={exchange}
 					buttonStyle="solid"
@@ -43,6 +44,10 @@ const ParamSelection = () => {
 
 				<InstrumentSelection />
 
+				<Randomize />
+
+				<TimeMachine />
+
 				<DatePicker
 					value={date}
 					allowClear={false}
@@ -56,8 +61,6 @@ const ParamSelection = () => {
 				/>
 
 				<Jump />
-
-				<Randomize />
 			</Flex>
 		</>
 	)
