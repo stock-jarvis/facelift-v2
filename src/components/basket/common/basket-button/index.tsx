@@ -8,10 +8,6 @@ const BasketButton = ({ children, disabled }: ButtonProps) => {
 	const { token } = theme.useToken()
 	console.log(token)
 	console.log(disabled)
-	return (
-		<Button size="large" type="primary">
-			{children}
-		</Button>
-	)
+	return <Button type="primary">{children}</Button>
 }
 export default BasketButton
