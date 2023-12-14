@@ -1,9 +1,11 @@
 import { Flex, DatePicker, theme, Tooltip } from 'antd'
 import Button from '../../common/basket-button'
 import { PlayCircleOutlined, PlusOutlined } from '@ant-design/icons'
+//import { useToggle } from '../../hooks/useToggleModal'
 const { RangePicker } = DatePicker
 const Index = () => {
 	const { token } = theme.useToken()
+	//	const [setIsModalOpen]=useToggle();
 	return (
 		<Flex flex="1" className="p-[10px]">
 			<Flex flex="1">
@@ -24,6 +26,8 @@ const Index = () => {
 						align="center"
 						style={{ fontSize: 20 }}
 						gap="middle"
+
+						//onClick={()=>setIsModalOpen(true)}
 					>
 						<PlusOutlined />
 						<p>Add New Basket</p>
