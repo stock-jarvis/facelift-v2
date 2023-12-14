@@ -7,6 +7,10 @@ const Theme = ({ children }: ThemProp) => {
 		<ConfigProvider
 			theme={{
 				components: {
+					DatePicker: {
+						colorText: '#2C9AFF',
+						colorTextPlaceholder: '#2c9aff',
+					},
 					Button: {
 						contentFontSizeLG: 30,
 						//defaultBg: '#2C9AFF',

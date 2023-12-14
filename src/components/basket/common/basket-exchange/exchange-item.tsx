@@ -1,4 +1,4 @@
-import { useBasketStore } from '../store/basket-store'
+import { useBasketStore } from '../../store/basket-store'
 
 interface TradeTypeItemProps {
 	id: number

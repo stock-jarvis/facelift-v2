@@ -1,7 +1,7 @@
 import { Flex } from 'antd'
 import TradeType from './exchange-item'
-import { exchangeType } from '../constants/data'
-import { useBasketStore } from '../store/basket-store'
+import { exchangeType } from '../../constants/data'
+import { useBasketStore } from '../../store/basket-store'
 const TradeSelector = () => {
 	const { setExchange } = useBasketStore()
 
