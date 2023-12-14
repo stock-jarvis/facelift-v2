@@ -1,13 +1,19 @@
 import { Flex } from 'antd'
 import Theme from './theme'
 
-import BasketNav from './container/baskets-container'
+import SaveBasket from './container/saved-basket-container'
+import BasketContainer from './container/baskets-container'
 
 const Basket = () => {
 	return (
 		<Theme>
-			<Flex vertical className="h-[100vh] overflow-y-hidden ">
-				<BasketNav />
+			<Flex className="h-[100vh] overflow-y-hidden overflow-x-hidden">
+				<Flex flex={'1'}>
+					<SaveBasket />
+				</Flex>
+				<Flex flex={3}>
+					<BasketContainer />
+				</Flex>
 			</Flex>
 		</Theme>
 	)

@@ -2,6 +2,7 @@ import {
 	DeleteOutlined,
 	CopyOutlined,
 	FormOutlined,
+	ArrowRightOutlined,
 	SnippetsOutlined,
 } from '@ant-design/icons'
 
@@ -23,7 +24,7 @@ export const iconsSections = [
 		toolTipLabel: 'Make duplicate',
 	},
 	{
-		key: 'duplicate',
+		key: 'save',
 		icon: <SnippetsOutlined />,
 		toolTipLabel: 'Save basket',
 	},
@@ -31,5 +32,28 @@ export const iconsSections = [
 		key: 'delete',
 		icon: <DeleteOutlined />,
 		toolTipLabel: 'Delete basket',
+	},
+]
+
+export const savedIconsSections = [
+	{
+		key: 'edit',
+		icon: <FormOutlined />,
+		toolTipLabel: 'Edit Basket',
+	},
+	{
+		key: 'duplicate',
+		icon: <CopyOutlined />,
+		toolTipLabel: 'Make duplicate',
+	},
+	{
+		key: 'delete',
+		icon: <DeleteOutlined />,
+		toolTipLabel: 'Delete basket',
+	},
+	{
+		key: 'move',
+		icon: <ArrowRightOutlined />,
+		toolTipLabel: 'Move to runtime',
 	},
 ]

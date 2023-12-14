@@ -1,14 +1,15 @@
 import { Flex, Checkbox } from 'antd'
 import NameSection from './name-section'
 import ActionSection from '../action-section'
+import { iconsSections } from '../../../constants/data'
 const BasketItem = () => {
 	return (
 		<Flex flex="1">
-			<div className="flex items-center p-[10px] box-content border-solid border-[1px] border-r-[0px] border-black">
+			<div className="flex items-center p-[10px] box-content border-solid border-[1px] border-r-[0px]">
 				<Checkbox />
 			</div>
 			<NameSection name={'NSE'} />
-			<ActionSection />
+			<ActionSection actions={iconsSections} />
 		</Flex>
 	)
 }

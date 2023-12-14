@@ -1,7 +1,9 @@
 import { Flex, Tooltip, theme } from 'antd'
-import { iconsSections } from '../../constants/data'
 
-const ActionSection = () => {
+interface ActionProps {
+	actions: Array<{ key: string; icon: React.ReactNode; toolTipLabel: string }>
+}
+const ActionSection = ({ actions }: ActionProps) => {
 	const { token } = theme.useToken()
 	return (
 		<Flex
@@ -11,13 +13,13 @@ const ActionSection = () => {
 				color: token.colorTextHeading,
 			}}
 		>
-			{iconsSections.map((icon, i) => (
+			{actions.map((icon, i) => (
 				<Flex
 					key={icon.key}
 					style={{
 						padding: token.padding,
 						borderRight:
-							i !== iconsSections.length - 1
+							i !== actions.length - 1
 								? `1px solid ${token.colorPrimaryBorder}`
 								: '',
 					}}

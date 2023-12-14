@@ -32,10 +32,8 @@ const NameSection = ({ name }: NameProps) => {
 				style={{
 					padding: token.padding,
 					boxSizing: 'content-box',
-					borderColor: token.colorBorder,
-					borderTop: '1px solid',
-					borderBottom: '1px solid',
 				}}
+				className="border-y-[1px]"
 			>
 				<Typography.Text style={{ color: 'black' }}>Apple</Typography.Text>
 			</Flex>
