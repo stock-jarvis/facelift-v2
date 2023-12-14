@@ -1,18 +1,43 @@
-import { Flex, Typography } from 'antd'
-const NameSection = () => {
+import { Flex, Typography, theme } from 'antd'
+
+interface NameProps {
+	name: string
+}
+
+const NameSection = ({ name }: NameProps) => {
+	const { token } = theme.useToken()
 	return (
-		<Flex flex="1" className="bg-primary  box-content" align="center">
-			<Flex flex="1" className="p-[10px] text-lg font-medium text-textLight">
-				<Typography.Text className="text-inherit">NSE</Typography.Text>
-				<Typography.Text className="text-inherit">(Apple)</Typography.Text>
+		<Flex
+			style={{
+				boxSizing: 'content-box',
+			}}
+			flex="1"
+			align="center"
+		>
+			<Flex
+				style={{
+					backgroundColor: token.colorPrimary,
+					padding: token.padding,
+					border: `1px solid ${token.colorPrimary}`,
+					color: token.colorTextHeading,
+				}}
+				flex="1"
+			>
+				<Typography.Text className="text-inherit" color="primary">
+					{name.toUpperCase()}
+				</Typography.Text>
 			</Flex>
 			<Flex
 				flex="3"
-				className="bg-white p-[10px] border-t-[1px] border-b-[1px] border-solid border-textDark"
+				style={{
+					padding: token.padding,
+					boxSizing: 'content-box',
+					borderColor: token.colorBorder,
+					borderTop: '1px solid',
+					borderBottom: '1px solid',
+				}}
 			>
-				<Typography.Text className="text-md font-bold text-textDark   ">
-					Apple
-				</Typography.Text>
+				<Typography.Text>Apple</Typography.Text>
 			</Flex>
 		</Flex>
 	)

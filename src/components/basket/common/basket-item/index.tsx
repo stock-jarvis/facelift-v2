@@ -4,7 +4,7 @@ import ActionSection from './action-section'
 const BasketItem = () => {
 	return (
 		<Flex className="w-[50%]">
-			<NameSection />
+			<NameSection name={'NSE'} />
 			<ActionSection />
 		</Flex>
 	)
