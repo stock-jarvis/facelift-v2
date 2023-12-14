@@ -1,12 +1,10 @@
-import { Button, theme } from 'antd'
+import { Button } from 'antd'
 
 interface ButtonProps {
 	children: React.ReactNode
 	disabled: boolean
 }
 const BasketButton = ({ children, disabled }: ButtonProps) => {
-	const { token } = theme.useToken()
-	console.log(token)
 	console.log(disabled)
 	return <Button type="primary">{children}</Button>
 }
