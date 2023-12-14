@@ -1,15 +1,31 @@
 import Modal from 'antd/es/modal/Modal'
 import ExhchangeSelector from '../../common/basket-exchange/exchange-selector'
 import { Flex, Select, Input } from 'antd'
+import { useBasketStore } from '../../store/basket-store'
+interface ModalProps {
+	open: boolean
+}
 
-const Index = () => {
-	//console.log(Modal)
+const Index = ({ open }: ModalProps) => {
+	const { toggleSetBasketModalOpen } = useBasketStore()
+	// TODO: Add the functionality here
+	const onModalClose = () => {
+		toggleSetBasketModalOpen(false)
+	}
+
+	// TODO: Add the functionality here
+	const onOkSelect = () => {
+		toggleSetBasketModalOpen(false)
+	}
+
 	return (
 		<Modal
 			title="Add New Basket"
-			open={true}
+			open={open}
 			width={700}
 			okButtonProps={{ type: 'default' }}
+			onCancel={onModalClose}
+			onOk={onOkSelect}
 		>
 			<Flex vertical gap="large">
 				<Flex className="w-[40%] shadow-sm">
