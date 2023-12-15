@@ -8,6 +8,8 @@ import TradeSecion from './trade-section'
 import { OptionObject } from '../../types/types'
 import { basketOptions } from '../../constants/data'
 import ProfitLoss from './profit-loss-section'
+
+import EntryExit from './entry-exit-container'
 const EditBasketModal = () => {
 	const { token } = theme.useToken()
 
@@ -91,6 +93,7 @@ const EditBasketModal = () => {
 					setLossValue={setProfitValue}
 				/>
 			</Flex>
+			<EntryExit />
 		</Modal>
 	)
 }
