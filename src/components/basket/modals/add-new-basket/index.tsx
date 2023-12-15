@@ -33,6 +33,7 @@ const Index = ({ open }: ModalProps) => {
 				</Flex>
 				<Flex flex={1} vertical gap="middle">
 					<Input size="large" placeholder="Enter Basket Name" />
+
 					<Select
 						size="large"
 						className="w-full"

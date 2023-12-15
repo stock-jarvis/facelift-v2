@@ -15,35 +15,34 @@ const index = () => {
 			<div className="border-[2px] ">
 				<BasketExchange />
 			</div>
+			<div className="overflow-hidden h-full shadow-xl p-[10px] border-[2px] border-solid">
+				<Flex
+					className="w-full  overflow-y-scroll no-scrollbar   scroll-smooth shadow-md h-full"
+					vertical
+				>
+					<div className="flex flex-col gap-[5px] ">
+						{/*TODO: Need to fix the scroll Issue */}
+						<ListItem />
 
-			<Flex
-				className="w-full  overflow-y-scroll no-scrollbar shadow-xl  scroll-smooth  gap-[5px] p-[10px] h-[100vh]"
-				vertical
-			>
-				<div className="flex flex-col gap-[5px] ">
-					{/*TODO: Need to fix the scroll Issue */}
-					<ListItem />
-
-					<ListItem />
-					<ListItem />
-					<ListItem />
-					<ListItem />
-					<ListItem />
-					<ListItem />
-					<ListItem />
-					<ListItem />
-					<ListItem />
-					<ListItem />
-					<ListItem />
-					<ListItem />
-					<ListItem />
-					<ListItem />
-					<ListItem />
-					<ListItem />
-					<ListItem />
-					<ListItem />
-				</div>
-			</Flex>
+						<ListItem />
+						<ListItem />
+						<ListItem />
+						<ListItem />
+						<ListItem />
+						<ListItem />
+						<ListItem />
+						<ListItem />
+						<ListItem />
+						<ListItem />
+						<ListItem />
+						<ListItem />
+						<ListItem />
+						<ListItem />
+						<ListItem />
+						<ListItem />
+					</div>
+				</Flex>
+			</div>
 		</Flex>
 	)
 }

@@ -10,14 +10,16 @@ const ActionSection = ({ actions }: ActionProps) => {
 			align="center"
 			style={{
 				backgroundColor: token.colorPrimary,
-				color: token.colorTextHeading,
+				color: '#ffffff',
+				boxSizing: 'content-box',
 			}}
 		>
 			{actions.map((icon, i) => (
 				<Flex
 					key={icon.key}
 					style={{
-						padding: token.padding,
+						boxSizing: 'content-box',
+						padding: token.paddingXS,
 						borderRight:
 							i !== actions.length - 1
 								? `1px solid ${token.colorPrimaryBorder}`

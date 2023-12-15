@@ -1,49 +1,54 @@
-import { Flex, DatePicker, theme, Tooltip } from 'antd'
-import Button from '../../common/basket-button'
+import { Flex, DatePicker, theme, Tooltip, Button } from 'antd'
 import { PlayCircleOutlined, PlusOutlined } from '@ant-design/icons'
-//import { useToggle } from '../../hooks/useToggleModal'
+import { IoCalendarOutline } from 'react-icons/io5'
+import { TbSeparator } from 'react-icons/tb'
+
 import { useBasketStore } from '../../store/basket-store'
 const { RangePicker } = DatePicker
 const Index = () => {
 	const { toggleSetBasketModalOpen } = useBasketStore()
 	const { token } = theme.useToken()
-	//const [setIsModalOpen] = useToggle()
 	return (
 		<Flex flex="1" className="p-[10px]">
 			<Flex flex="1">
 				<Tooltip title="Select Date Range">
 					<RangePicker
+						separator={<TbSeparator style={{ color: token.colorPrimary }} />}
 						format={'DD-MM-YYYY'}
+						suffixIcon={
+							<IoCalendarOutline style={{ color: token.colorPrimary }} />
+						}
 						style={{
-							borderColor: token.colorBorderSecondary,
+							borderColor: token.colorPrimary,
 							color: token.colorText,
 						}}
 					/>
 				</Tooltip>
 			</Flex>
 			<Flex flex={'1'} gap="middle" justify="flex-end">
-				<Button disabled={false}>
-					<Flex
-						justify="center"
-						align="center"
-						style={{ fontSize: 20 }}
-						gap="middle"
-						onClick={() => toggleSetBasketModalOpen(true)}
-					>
-						<PlusOutlined />
-						<p>Add New Basket</p>
-					</Flex>
+				<Button
+					type="default"
+					size="large"
+					icon={<PlusOutlined />}
+					style={{
+						backgroundColor: token.colorPrimary,
+						color: token.colorTextLightSolid,
+					}}
+					onClick={() => toggleSetBasketModalOpen(true)}
+				>
+					Add New Basket
 				</Button>
-				<Button disabled>
-					<Flex
-						justify="center"
-						align="center"
-						style={{ fontSize: 20 }}
-						gap="middle"
-					>
-						<PlayCircleOutlined />
-						<p>Start Back Testing</p>
-					</Flex>
+				<Button
+					type="default"
+					size="large"
+					disabled={false}
+					style={{
+						backgroundColor: token.colorPrimary,
+						color: token.colorTextLightSolid,
+					}}
+					icon={<PlayCircleOutlined />}
+				>
+					Start Back Testing
 				</Button>
 			</Flex>
 		</Flex>

@@ -7,19 +7,13 @@ interface NameProps {
 const NameSection = ({ name }: NameProps) => {
 	const { token } = theme.useToken()
 	return (
-		<Flex
-			style={{
-				boxSizing: 'content-box',
-			}}
-			flex="1"
-			align="center"
-		>
+		<Flex flex="1" align="center">
 			<Flex
 				style={{
 					backgroundColor: token.colorPrimary,
-					padding: token.padding,
+					padding: token.paddingXS,
 					border: `1px solid ${token.colorPrimary}`,
-					color: token.colorTextHeading,
+					color: '#fff',
 				}}
 				flex="1"
 			>
@@ -30,8 +24,7 @@ const NameSection = ({ name }: NameProps) => {
 			<Flex
 				flex="3"
 				style={{
-					padding: token.padding,
-					boxSizing: 'content-box',
+					padding: token.paddingXS,
 				}}
 				className="border-y-[1px]"
 			>

@@ -1,13 +1,22 @@
-import { Flex, Checkbox } from 'antd'
+import { Flex, Checkbox, theme } from 'antd'
 import NameSection from './name-section'
 import ActionSection from '../action-section'
 import { iconsSections } from '../../../constants/data'
 const BasketItem = () => {
+	const { token } = theme.useToken()
 	return (
 		<Flex flex="1">
-			<div className="flex items-center p-[10px] box-content border-solid border-[1px] border-r-[0px]">
+			<Flex
+				align="center"
+				style={{
+					padding: token.paddingXS,
+					borderRight: '0',
+					boxSizing: 'content-box',
+				}}
+				className="border-[1px]"
+			>
 				<Checkbox />
-			</div>
+			</Flex>
 			<NameSection name={'NSE'} />
 			<ActionSection actions={iconsSections} />
 		</Flex>
