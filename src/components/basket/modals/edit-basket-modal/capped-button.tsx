@@ -7,6 +7,7 @@ interface CappedButtonProps {
 	value: number
 	setValue: (value: number) => void
 }
+
 const CappedButton = ({ label, value, setValue }: CappedButtonProps) => {
 	const { token } = theme.useToken()
 	const [isCapped, setIsCapped] = useState(true)

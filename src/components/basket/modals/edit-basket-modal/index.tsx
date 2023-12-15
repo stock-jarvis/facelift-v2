@@ -3,9 +3,11 @@ import Header from './header'
 import Footer from './footer'
 import Toggle from './toggle'
 import PositionSelector from './position-selector'
-import CappedButton from './capped-button'
+//import CappedButton from './capped-button'
+import TradeSecion from './trade-section'
 import { OptionObject } from '../../types/types'
 import { basketOptions } from '../../constants/data'
+import ProfitLoss from './profit-loss-section'
 const EditBasketModal = () => {
 	const { token } = theme.useToken()
 
@@ -57,22 +59,38 @@ const EditBasketModal = () => {
 					borderRadius: token.borderRadiusLG,
 				}}
 			>
-				<Toggle
-					toogle1="INTRADAY"
-					toogle2="POSITIONAL"
-					setToogleValue={setToogleValue}
-				/>
+				<div className="w-[50%]">
+					<Toggle
+						toogle1="INTRADAY"
+						toogle2="POSITIONAL"
+						setToogleValue={setToogleValue}
+					/>
+				</div>
 				<PositionSelector
 					onOptionChange={setOptionValue}
 					options={basketOptions}
 				/>
-				<Toggle
-					toogle1="Spot as ATM"
-					toogle2="Future as ATM"
-					setToogleValue={setToogleValue}
+				<div className="w-[50%]">
+					<Toggle
+						toogle1="Spot as ATM"
+						toogle2="Future as ATM"
+						setToogleValue={setToogleValue}
+					/>
+				</div>
+			</Flex>
+			<Flex>
+				<Flex justify="center" align="center" flex={1}>
+					<TradeSecion />
+				</Flex>
+				<ProfitLoss
+					profitLabel="Total Profit"
+					lossLabel="Total Loss"
+					profitValue={1}
+					lossValue={1}
+					setProfitValue={setProfitValue}
+					setLossValue={setProfitValue}
 				/>
 			</Flex>
-			<CappedButton label="Total Profit" value={1} setValue={setProfitValue} />
 		</Modal>
 	)
 }
