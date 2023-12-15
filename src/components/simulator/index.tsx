@@ -2,6 +2,7 @@ import { Flex, theme } from 'antd'
 
 import LeftContent from './components/left-content'
 import ParamSelection from './components/param-selection'
+import RightContent from './components/right-content'
 
 const Simulator = () => {
 	const { token } = theme.useToken()
@@ -20,7 +21,9 @@ const Simulator = () => {
 				<Flex className="w-1/3 h-full">
 					<LeftContent />
 				</Flex>
-				<Flex className="w-2/3 h-full pl-6">Charts</Flex>
+				<Flex className="w-2/3 h-full pl-6">
+					<RightContent />
+				</Flex>
 			</Flex>
 		</Flex>
 	)

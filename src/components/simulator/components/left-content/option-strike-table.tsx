@@ -63,20 +63,18 @@ const OptionStrikeTable = () => {
 	]
 
 	return (
-		<div className="flex h-full">
-			{/* // TODO: Implement Date selection component */}
-			<Table
-				// TODO: Enable virtual after fixing height
-				// virtual
-				dataSource={dataSource}
-				columns={columns}
-				pagination={false}
-				scroll={{
-					// TODO: Fix responsive height
-					y: '65vh',
-				}}
-			/>
-		</div>
+		// TODO: Implement Date selection component
+		<Table
+			// TODO: Fix virtual
+			// TODO: Handle loading
+			loading={false}
+			dataSource={dataSource}
+			columns={columns}
+			pagination={false}
+			scroll={{
+				y: 'calc(100vh - 310px)',
+			}}
+		/>
 	)
 }
 

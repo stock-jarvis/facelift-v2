@@ -1,6 +1,6 @@
 import { Flex } from 'antd'
 
-import TitleValue from 'src/common/key-value'
+import TitleValue from 'src/common/components/key-value'
 
 const InstrumentDayDetail = () => {
 	return (
@@ -9,6 +9,7 @@ const InstrumentDayDetail = () => {
 				title="Day Open"
 				// TODO: Wire up data
 				value="39000 (0)%"
+				// TODO: Change type based on value
 				valueProps={{ type: 'success' }}
 			/>
 
