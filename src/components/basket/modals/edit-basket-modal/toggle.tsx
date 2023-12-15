@@ -55,7 +55,7 @@ const Toggle = ({ toogle1, toogle2, setToogleValue }: ToggleProps) => {
 							fontWeight: token.fontWeightStrong,
 						}}
 					>
-						INTRADAY
+						{toogle1}
 					</Typography.Text>
 				</Space>
 			</Flex>
@@ -79,7 +79,7 @@ const Toggle = ({ toogle1, toogle2, setToogleValue }: ToggleProps) => {
 							fontWeight: token.fontWeightStrong,
 						}}
 					>
-						POSITIONAL
+						{toogle2}
 					</Typography.Text>
 				</Space>
 			</Flex>
