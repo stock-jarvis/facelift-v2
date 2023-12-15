@@ -1,8 +1,10 @@
 import { Flex } from 'antd'
 import ListItem from '../../common/basket-item/runtime-basket-item'
-
+import { useState } from 'react'
 import BasketNav from '../basket-nav'
-const index = () => {
+import EmptyBasket from '../../common/empty-basket'
+const Index = () => {
+	const [isEmpty] = useState(true)
 	return (
 		<Flex
 			flex="1"
@@ -19,48 +21,52 @@ const index = () => {
 					className="w-full  overflow-y-scroll no-scrollbar   scroll-smooth shadow-md h-full"
 					vertical
 				>
-					<div className="flex flex-col gap-[5px] ">
-						{/*TODO: Need to fix the scroll Issue */}
-						<ListItem />
+					{!isEmpty ? (
+						<div className="flex flex-col gap-[5px] ">
+							{/*TODO: Need to fix the scroll Issue */}
+							<ListItem />
 
-						<ListItem />
-						<ListItem />
-						<ListItem />
-						<ListItem />
+							<ListItem />
+							<ListItem />
+							<ListItem />
+							<ListItem />
 
-						<ListItem />
-						<ListItem />
-						<ListItem />
-						<ListItem />
+							<ListItem />
+							<ListItem />
+							<ListItem />
+							<ListItem />
 
-						<ListItem />
-						<ListItem />
-						<ListItem />
-						<ListItem />
+							<ListItem />
+							<ListItem />
+							<ListItem />
+							<ListItem />
 
-						<ListItem />
-						<ListItem />
-						<ListItem />
-						<ListItem />
+							<ListItem />
+							<ListItem />
+							<ListItem />
+							<ListItem />
 
-						<ListItem />
-						<ListItem />
-						<ListItem />
-						<ListItem />
+							<ListItem />
+							<ListItem />
+							<ListItem />
+							<ListItem />
 
-						<ListItem />
-						<ListItem />
-						<ListItem />
-						<ListItem />
+							<ListItem />
+							<ListItem />
+							<ListItem />
+							<ListItem />
 
-						<ListItem />
-						<ListItem />
-						<ListItem />
-					</div>
+							<ListItem />
+							<ListItem />
+							<ListItem />
+						</div>
+					) : (
+						<EmptyBasket />
+					)}
 				</Flex>
 			</div>
 		</Flex>
 	)
 }
 
-export default index
+export default Index
