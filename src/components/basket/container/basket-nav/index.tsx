@@ -41,7 +41,7 @@ const Index = () => {
 				<Button
 					type="default"
 					size="large"
-					disabled={false}
+					disabled={true}
 					style={{
 						backgroundColor: token.colorPrimary,
 						color: token.colorTextLightSolid,

@@ -1,16 +1,27 @@
-import { Flex } from 'antd'
+import { Flex, theme, Typography } from 'antd'
 import ListItem from '../../common/basket-item/saved-basket-tem'
 import BasketExchange from '../../common/basket-exchange/exchange-selector'
 const index = () => {
+	const { Text } = Typography
+	const { token } = theme.useToken()
 	return (
 		<Flex
 			flex="1"
 			vertical
 			gap="middle"
-			className="h-full  p-[10px] overflow-y-hidden"
+			className="h-full"
+			style={{ padding: token.paddingSM }}
 		>
-			<Flex className="bg-[white] justify-center p-[10px]">
-				<p className="font-medium p-[10px]">Saved Baskets</p>
+			<Flex justify="center" style={{ padding: token.paddingXS }}>
+				<Text
+					style={{
+						padding: token.paddingXS,
+						fontSize: token.fontSizeLG,
+						fontWeight: token.fontWeightStrong,
+					}}
+				>
+					Saved Baskets
+				</Text>
 			</Flex>
 			<div className="border-[2px] ">
 				<BasketExchange />
@@ -21,9 +32,14 @@ const index = () => {
 					vertical
 				>
 					<div className="flex flex-col gap-[5px] ">
-						{/*TODO: Need to fix the scroll Issue */}
+						{/*TODO: Lazy Load the baskets here */}
 						<ListItem />
-
+						<ListItem />
+						<ListItem />
+						<ListItem />
+						<ListItem />
+						<ListItem />
+						<ListItem />
 						<ListItem />
 						<ListItem />
 						<ListItem />

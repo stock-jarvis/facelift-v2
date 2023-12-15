@@ -23,6 +23,7 @@ const Index = ({ open }: ModalProps) => {
 			title="Add New Basket"
 			open={open}
 			width={700}
+			//styles={{header:}}
 			okButtonProps={{ type: 'default' }}
 			onCancel={onModalClose}
 			onOk={onOkSelect}
