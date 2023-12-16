@@ -2,21 +2,38 @@ import { Modal, theme, Flex } from 'antd'
 import Header from './header'
 import Footer from './footer'
 import Toggle from './toggle'
+import { tradeTypeData } from '../../constants/data'
 import StrikeSelector from './strike-selector'
+import StrikeRadioSelector from './strike-radio-selector'
 //import QuantityInput from './quantity-input'
 import PositionSelector from './position-selector'
 //import CappedButton from './capped-button'
 //import ActionSection from '../../common/basket-item/action-section'
 //import ActionSelector from './action-selector'
-import TradeSecion from './trade-section'
+//import TradeSecion from './trade-section'
 import { OptionObject } from '../../types/types'
 import { basketOptions } from '../../constants/data'
-import ProfitLoss from './profit-loss-section'
+//import ProfitLoss from './profit-loss-section'
+import { TradeOptions } from '../../types/types'
 //import Instrument from './instrument'
 //import EntryExit from './entry-exit-container'
-import PositionHolder from './position-holder'
+//import PositionHolder from './position-holder'
+import { useState, useEffect } from 'react'
 const EditBasketModal = () => {
 	const { token } = theme.useToken()
+	const [tradeOption, setTradeOption] = useState<string>('')
+	const [subTradeOption, setSubTradeOption] = useState<string>('')
+	const [subTradeOptionList, setSubTradeOptionList] = useState<TradeOptions[]>(
+		[]
+	)
+
+	useEffect(() => {
+		if (!tradeOption) {
+			setTradeOption(tradeTypeData[0].value)
+			setSubTradeOptionList(tradeTypeData[0].children)
+			setSubTradeOption(tradeTypeData[0].children[0].value)
+		}
+	}, [tradeOption])
 
 	const setToogleValue = (value: string) => {
 		console.log(value)
@@ -24,9 +41,9 @@ const EditBasketModal = () => {
 	const setOptionValue = (value: OptionObject) => {
 		console.log(value)
 	}
-	const setProfitValue = (value: number) => {
-		console.log(value)
-	}
+	// const setProfitValue = (value: number) => {
+	// 	console.log(value)
+	// }
 
 	return (
 		<Modal
@@ -85,7 +102,7 @@ const EditBasketModal = () => {
 					/>
 				</div>
 			</Flex>
-			<Flex>
+			{/* <Flex>
 				<Flex justify="center" align="center" flex={1}>
 					<TradeSecion />
 				</Flex>
@@ -97,13 +114,26 @@ const EditBasketModal = () => {
 					setProfitValue={setProfitValue}
 					setLossValue={setProfitValue}
 				/>
-			</Flex>
+			</Flex> 
 			<Flex justify="center">
 				<Flex className="w-[95%]">
 					<PositionHolder />
 				</Flex>
-			</Flex>
-			<StrikeSelector />
+			</Flex>*/}
+			<StrikeRadioSelector
+				tradeOption={tradeOption}
+				setTradeOption={setTradeOption}
+				setSubTradeOptionList={setSubTradeOptionList}
+				setSubTradeOption={setSubTradeOption}
+			/>
+			<StrikeSelector
+				tradeOption={tradeOption}
+				setTradeOption={setTradeOption}
+				subTradeOption={subTradeOption}
+				setSubTradeOption={setSubTradeOption}
+				subTradeOptionList={subTradeOptionList}
+				setSubTradeOptionList={setSubTradeOptionList}
+			/>
 			{/* <EntryExit /> */}
 		</Modal>
 	)

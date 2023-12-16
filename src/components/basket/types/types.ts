@@ -6,3 +6,9 @@ export interface OptionObject {
 	value: string
 	label: string
 }
+
+export interface TradeOptions {
+	id: number
+	label: string
+	value: string
+}
