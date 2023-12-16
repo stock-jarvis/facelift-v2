@@ -1,5 +1,5 @@
 import { Flex, theme } from 'antd'
-import CappedButton from './capped-button'
+import CappedButton from '../modal-components/capped-button'
 
 interface ProfitLossProps {
 	profitLabel: string

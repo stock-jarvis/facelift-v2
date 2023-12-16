@@ -1,5 +1,5 @@
 import { Flex, Switch, Typography, theme } from 'antd'
-import Toggle from './toggle'
+import Toggle from '../modal-components/toggle'
 import { useEffect, useState } from 'react'
 import { CheckOutlined, CloseOutlined } from '@ant-design/icons'
 const TradeSecion = () => {

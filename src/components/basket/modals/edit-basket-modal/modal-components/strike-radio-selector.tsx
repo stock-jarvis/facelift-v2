@@ -1,7 +1,7 @@
 import { Flex, Radio, theme } from 'antd'
-import { tradeTypeData } from '../../constants/data'
+import { tradeTypeData } from '../../../constants/data'
 import { RadioProps } from 'antd'
-import { TradeOptions } from '../../types/types'
+import { TradeOptions } from '../../../types/types'
 interface StrikeRadioProps {
 	tradeOption: string
 	setTradeOption: (val: string) => void

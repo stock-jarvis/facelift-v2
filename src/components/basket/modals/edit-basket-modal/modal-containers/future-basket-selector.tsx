@@ -1,9 +1,9 @@
 import { Flex } from 'antd'
-import Instrument from './instrument'
-import ActionSelector from './action-selector'
+import Instrument from '../modal-components/instrument'
+import ActionSelector from '../modal-components/action-selector'
 import PositionHolder from './position-holder'
-import QuantityInput from './quantity-input'
-import ExpirySelector from './expiry-selector'
+import QuantityInput from '../modal-components/quantity-input'
+import ExpirySelector from '../modal-components/expiry-selector'
 const FutureBasketSelector = () => {
 	return (
 		<PositionHolder heading="Future">

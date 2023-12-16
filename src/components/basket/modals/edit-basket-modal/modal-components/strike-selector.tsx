@@ -1,9 +1,9 @@
 import { Flex, Select, Input, Typography, theme } from 'antd'
 
-import { tradeTypeData } from '../../constants/data'
+import { tradeTypeData } from '../../../constants/data'
 
 import { SelectProps } from 'antd/es/select'
-import { TradeOptions } from '../../types/types'
+import { TradeOptions } from '../../../types/types'
 
 interface StrikeSelectorProps {
 	tradeOption: string

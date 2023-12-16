@@ -1,4 +1,4 @@
-import TimeSelector from './time-selector'
+import TimeSelector from '../modal-components/time-selector'
 import { Flex, theme } from 'antd'
 const EntryExit = () => {
 	const { token } = theme.useToken()

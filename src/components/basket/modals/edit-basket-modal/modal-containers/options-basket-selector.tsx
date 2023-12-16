@@ -1,14 +1,14 @@
 import { Flex } from 'antd'
 import { useState, useEffect } from 'react'
-import { TradeOptions } from '../../types/types'
-import { tradeTypeData } from '../../constants/data'
-import StrikeRadioSelector from './strike-radio-selector'
+import { TradeOptions } from '../../../types/types'
+import { tradeTypeData } from '../../../constants/data'
+import StrikeRadioSelector from '../modal-components/strike-radio-selector'
 import PositionHolder from './position-holder'
-import StrikeSelector from './strike-selector'
-import Instrument from './instrument'
-import QuantityInput from './quantity-input'
-import ExpirySelector from './expiry-selector'
-import ActionSelector from './action-selector'
+import StrikeSelector from '../modal-components/strike-selector'
+import Instrument from '../modal-components/instrument'
+import QuantityInput from '../modal-components/quantity-input'
+import ExpirySelector from '../modal-components/expiry-selector'
+import ActionSelector from '../modal-components/action-selector'
 
 const OptionsBasketSelector = () => {
 	//const { token } = theme.useToken()

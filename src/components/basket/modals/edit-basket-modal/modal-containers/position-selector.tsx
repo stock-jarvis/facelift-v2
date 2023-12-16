@@ -1,6 +1,6 @@
 import { Flex, Radio, theme } from 'antd'
 import { useState, useEffect } from 'react'
-import { OptionObject } from '../../types/types'
+import { OptionObject } from '../../../types/types'
 interface OptionsProps {
 	onOptionChange: (value: OptionObject) => void
 	options: OptionObject[]
