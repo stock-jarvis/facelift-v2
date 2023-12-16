@@ -1,4 +1,4 @@
-import { Flex, Select, Input } from 'antd'
+import { Flex, Select, Input, Typography, theme } from 'antd'
 
 import { tradeTypeData } from '../../constants/data'
 
@@ -22,6 +22,8 @@ const StrikeSelector = ({
 	subTradeOptionList,
 	setSubTradeOptionList,
 }: StrikeSelectorProps) => {
+	const { token } = theme.useToken()
+
 	// give initial value for the state variable
 
 	// change runtime value of the parent trade type
@@ -41,29 +43,44 @@ const StrikeSelector = ({
 	}
 
 	return (
-		<Flex style={{ width: '300px' }}>
-			<Select
-				size="large"
-				style={{ width: '100%' }}
-				options={tradeTypeData}
-				value={tradeOption}
-				onChange={handleTradeChange}
-			/>
-			<Select
-				size="large"
-				style={{ width: '100%' }}
-				options={subTradeOptionList}
-				value={subTradeOption}
-				onChange={handleSubTradeChange}
-			/>
-			{tradeOption !== 'ATMPt' && tradeOption !== 'HIGHOI' && (
-				<Flex style={{ width: '90px' }}>
-					<Input style={{ width: '80px' }} />
-					{tradeOption !== 'CP' && (
-						<p className="flex self-center pl-[3px]">%</p>
-					)}
-				</Flex>
-			)}
+		<Flex
+			style={{
+				width: 'fit-content',
+				borderRadius: token.borderRadiusLG,
+				padding: token.paddingSM,
+				//boxShadow: '2px 2px 2px 2px rgba(0, 0, 0, 0.25) inset',
+			}}
+			vertical
+			justify="center"
+			align="center"
+		>
+			<Typography.Text style={{ fontWeight: token.fontWeightStrong }}>
+				Strike Type
+			</Typography.Text>
+			<Flex style={{ width: '300px', height: 'fit-content' }}>
+				<Select
+					size="large"
+					style={{ width: '100%' }}
+					options={tradeTypeData}
+					value={tradeOption}
+					onChange={handleTradeChange}
+				/>
+				<Select
+					size="large"
+					style={{ width: '100%' }}
+					options={subTradeOptionList}
+					value={subTradeOption}
+					onChange={handleSubTradeChange}
+				/>
+				{tradeOption !== 'ATMPt' && tradeOption !== 'HIGHOI' && (
+					<Flex style={{ width: '90px' }}>
+						<Input style={{ width: '80px' }} />
+						{tradeOption !== 'CP' && (
+							<p className="flex self-center pl-[3px]">%</p>
+						)}
+					</Flex>
+				)}
+			</Flex>
 		</Flex>
 	)
 }

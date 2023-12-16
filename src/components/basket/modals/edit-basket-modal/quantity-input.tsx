@@ -13,15 +13,13 @@ const QuantityInput = () => {
 				//boxShadow: '2px 2px 2px 2px rgba(0, 0, 0, 0.25) inset',
 			}}
 			vertical
+			justify="center"
 			align="center"
 		>
 			<Typography.Text style={{ fontWeight: token.fontWeightStrong }}>
 				Quantity
 			</Typography.Text>
-			<Input />
-			<Typography.Text style={{ paddingTop: token.paddingSM }}>
-				No. of shares
-			</Typography.Text>
+			<Input size="large" />
 		</Flex>
 	)
 }

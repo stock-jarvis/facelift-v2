@@ -15,17 +15,15 @@ const StrikeRadioSelector = ({
 	setSubTradeOption,
 }: StrikeRadioProps) => {
 	const { token } = theme.useToken()
+
+	// change the trade value for options basket
 	const handleRadioChange: RadioProps['onChange'] = (event) => {
 		setTradeOption(event.target.value)
-
 		const subTradeData =
 			tradeTypeData.find((data) => data.value === event.target.value)
 				?.children || []
-
 		setSubTradeOptionList(subTradeData)
 		setSubTradeOption(subTradeData[0]?.value || '')
-
-		//setSubTradeOptionList
 	}
 	return (
 		<Flex
@@ -33,6 +31,7 @@ const StrikeRadioSelector = ({
 			style={{
 				padding: token.paddingXS,
 			}}
+			flex={1}
 		>
 			<Radio.Group
 				className="flex flex-row flex-1 justify-around"

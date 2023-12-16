@@ -2,9 +2,8 @@ import { Modal, theme, Flex } from 'antd'
 import Header from './header'
 import Footer from './footer'
 import Toggle from './toggle'
-import { tradeTypeData } from '../../constants/data'
-import StrikeSelector from './strike-selector'
-import StrikeRadioSelector from './strike-radio-selector'
+
+import OptionsBasketSelector from './options-basket-selector'
 //import QuantityInput from './quantity-input'
 import PositionSelector from './position-selector'
 //import CappedButton from './capped-button'
@@ -14,26 +13,12 @@ import PositionSelector from './position-selector'
 import { OptionObject } from '../../types/types'
 import { basketOptions } from '../../constants/data'
 //import ProfitLoss from './profit-loss-section'
-import { TradeOptions } from '../../types/types'
+
 //import Instrument from './instrument'
 //import EntryExit from './entry-exit-container'
-//import PositionHolder from './position-holder'
-import { useState, useEffect } from 'react'
+
 const EditBasketModal = () => {
 	const { token } = theme.useToken()
-	const [tradeOption, setTradeOption] = useState<string>('')
-	const [subTradeOption, setSubTradeOption] = useState<string>('')
-	const [subTradeOptionList, setSubTradeOptionList] = useState<TradeOptions[]>(
-		[]
-	)
-
-	useEffect(() => {
-		if (!tradeOption) {
-			setTradeOption(tradeTypeData[0].value)
-			setSubTradeOptionList(tradeTypeData[0].children)
-			setSubTradeOption(tradeTypeData[0].children[0].value)
-		}
-	}, [tradeOption])
 
 	const setToogleValue = (value: string) => {
 		console.log(value)
@@ -114,13 +99,9 @@ const EditBasketModal = () => {
 					setProfitValue={setProfitValue}
 					setLossValue={setProfitValue}
 				/>
-			</Flex> 
-			<Flex justify="center">
-				<Flex className="w-[95%]">
-					<PositionHolder />
-				</Flex>
 			</Flex>*/}
-			<StrikeRadioSelector
+
+			{/*<StrikeRadioSelector
 				tradeOption={tradeOption}
 				setTradeOption={setTradeOption}
 				setSubTradeOptionList={setSubTradeOptionList}
@@ -134,7 +115,8 @@ const EditBasketModal = () => {
 				subTradeOptionList={subTradeOptionList}
 				setSubTradeOptionList={setSubTradeOptionList}
 			/>
-			{/* <EntryExit /> */}
+			 <EntryExit /> */}
+			<OptionsBasketSelector />
 		</Modal>
 	)
 }

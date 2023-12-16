@@ -1,7 +1,22 @@
 import { Flex, Typography, theme, Divider } from 'antd'
 import { useState } from 'react'
-const ActionSelector = () => {
-	const [tag, setTag] = useState('B')
+
+interface ActionSelectorProps {
+	label: string
+	action1: string
+	action2: string
+	color1: string
+	color2: string
+}
+
+const ActionSelector = ({
+	label,
+	action1,
+	action2,
+	color1,
+	color2,
+}: ActionSelectorProps) => {
+	const [tag, setTag] = useState(action1)
 	const { token } = theme.useToken()
 
 	const handleTagChange = (tagVal: string) => {
@@ -22,22 +37,22 @@ const ActionSelector = () => {
 			gap={'middle'}
 		>
 			<Typography.Text style={{ fontWeight: token.fontWeightStrong }}>
-				Action Type
+				{label}
 			</Typography.Text>
-			<Flex gap={'middle'} align="center">
+			<Flex align="center">
 				<div
 					style={{
 						cursor: 'pointer',
 						padding: token.paddingSM,
 						borderBottom:
-							tag === 'B' ? '2px solid green' : '2px solid transparent',
+							tag === action1 ? `2px solid ${color1}` : '2px solid transparent',
 					}}
-					onClick={() => handleTagChange('B')}
+					onClick={() => handleTagChange(action1)}
 				>
 					<Typography.Text
-						style={{ fontWeight: token.fontWeightStrong, color: 'green' }}
+						style={{ fontWeight: token.fontWeightStrong, color: color1 }}
 					>
-						B
+						{action1}
 					</Typography.Text>
 				</div>
 				<Divider
@@ -49,14 +64,14 @@ const ActionSelector = () => {
 						cursor: 'pointer',
 						padding: token.paddingSM,
 						borderBottom:
-							tag === 'S' ? '2px solid red' : '2px solid transparent',
+							tag === action2 ? `2px solid ${color2}` : '2px solid transparent',
 					}}
-					onClick={() => handleTagChange('S')}
+					onClick={() => handleTagChange(action2)}
 				>
 					<Typography.Text
-						style={{ fontWeight: token.fontWeightStrong, color: 'red' }}
+						style={{ fontWeight: token.fontWeightStrong, color: color2 }}
 					>
-						S
+						{action2}
 					</Typography.Text>
 				</div>
 			</Flex>

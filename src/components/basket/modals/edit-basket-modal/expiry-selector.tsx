@@ -18,13 +18,14 @@ const ExpirySelector = () => {
 				//boxShadow: '2px 2px 2px 2px rgba(0, 0, 0, 0.25) inset',
 			}}
 			vertical
+			justify="center"
 			align="center"
 		>
 			<Typography.Text style={{ fontWeight: token.fontWeightStrong }}>
 				Expiry
 			</Typography.Text>
 			<Flex gap={'middle'} align="center">
-				<Select style={{ width: '200px' }} />
+				<Select style={{ width: '200px' }} size="large" />
 			</Flex>
 		</Flex>
 	)

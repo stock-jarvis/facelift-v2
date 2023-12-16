@@ -1,9 +1,8 @@
 import { Button, Flex, Typography, theme } from 'antd'
-import ActionSelector from './action-selector'
-import QuantityInput from './quantity-input'
-import Instrument from './instrument'
-import ExpirySelector from './expiry-selector'
-const PositionHolder = () => {
+interface PositionHolderProps {
+	children: React.ReactNode
+}
+const PositionHolder = ({ children }: PositionHolderProps) => {
 	const { token } = theme.useToken()
 	return (
 		<Flex
@@ -17,26 +16,21 @@ const PositionHolder = () => {
 				//	backgroundColor: '#F1F8FF',
 			}}
 		>
-			<Flex flex={1} justify="flex-start" align="center" gap="middle">
-				<Typography.Text style={{ fontSize: token.fontSizeLG }}>
-					Basket Type:
-				</Typography.Text>
+			<Flex flex={1} justify="center" align="center" gap="middle">
 				<Typography.Text
 					style={{
 						fontSize: token.fontSizeLG,
 						fontWeight: token.fontWeightStrong,
+						padding: token.paddingXS,
+						borderRadius: token.borderRadiusLG,
+						boxShadow: '2px 2px 2px 2px rgba(0, 0, 0, 0.25) inset',
 					}}
 				>
-					Spot
+					Options
 				</Typography.Text>
 			</Flex>
-			<Flex justify="center" align="center">
-				<Flex className="w-full" justify="space-around">
-					<Instrument />
-					<ActionSelector />
-					<QuantityInput />
-					<ExpirySelector />
-				</Flex>
+			<Flex justify="center" align="center" flex={1}>
+				{children}
 			</Flex>
 			<Flex justify="center">
 				<Button
