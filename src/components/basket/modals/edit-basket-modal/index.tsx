@@ -2,7 +2,10 @@ import { Modal, theme, Flex } from 'antd'
 import Header from './modal-containers/header'
 import Footer from './modal-containers/footer'
 import Toggle from './modal-components/toggle'
-
+import FututeBasketDetails from './modal-containers/future-basket-details'
+import OptionBasketDetail from './modal-containers/options-basket-details'
+import ExitCondition from './modal-containers/exit-condition'
+//import YeildButton from './modal-components/yeild-button'
 import OptionsBasketSelector from './modal-containers/options-basket-selector'
 import SpotBasketSelector from './modal-containers/spot-basket-selector'
 import FutureBasketSelector from './modal-containers/future-basket-selector'
@@ -11,14 +14,16 @@ import PositionSelector from './modal-containers/position-selector'
 //import CappedButton from './capped-button'
 //import ActionSection from '../../common/basket-item/action-section'
 //import ActionSelector from './action-selector'
-//import TradeSecion from './trade-section'
+
 import { OptionObject } from '../../types/types'
 import { basketOptions } from '../../constants/data'
+import SpotBasketDetail from './modal-containers/spot-basket-detail'
 //import ProfitLoss from './profit-loss-section'
 
 //import Instrument from './instrument'
 //import EntryExit from './entry-exit-container'
 import { useState } from 'react'
+
 const EditBasketModal = () => {
 	const { token } = theme.useToken()
 	const [basketOption, setBasketOption] = useState<string>('spot')
@@ -34,7 +39,7 @@ const EditBasketModal = () => {
 
 	return (
 		<Modal
-			className="select-none"
+			className="select-none no-scrollbar"
 			title={<Header />}
 			open={true}
 			width={1200}
@@ -59,43 +64,52 @@ const EditBasketModal = () => {
 			}}
 			closeIcon={null}
 		>
-			<Flex
-				vertical
-				justify="space-between"
-				align="center"
-				flex={1}
-				className="p-[10px] gap-10 pt-10 pb-10"
-				style={{
-					backgroundColor: '#F1F8FF',
-					borderRadius: token.borderRadiusLG,
-				}}
-			>
-				<div className="w-[50%]">
-					<Toggle
-						toogle1="INTRADAY"
-						toogle2="POSITIONAL"
-						setToogleValue={setToogleValue}
+			<Flex vertical gap="middle">
+				<Flex
+					vertical
+					justify="space-between"
+					align="center"
+					flex={1}
+					className="p-[10px] gap-10 pt-10 pb-10"
+					style={{
+						backgroundColor: '#F1F8FF',
+						borderRadius: token.borderRadiusLG,
+					}}
+				>
+					<div className="w-[50%]">
+						<Toggle
+							toogle1="INTRADAY"
+							toogle2="POSITIONAL"
+							setToogleValue={setToogleValue}
+						/>
+					</div>
+					<PositionSelector
+						onOptionChange={setOptionValue}
+						options={basketOptions}
 					/>
-				</div>
-				<PositionSelector
-					onOptionChange={setOptionValue}
-					options={basketOptions}
-				/>
-				<div className="w-[50%]">
-					<Toggle
-						toogle1="Spot as ATM"
-						toogle2="Future as ATM"
-						setToogleValue={setToogleValue}
-					/>
-				</div>
+					<div className="w-[50%]">
+						<Toggle
+							toogle1="Spot as ATM"
+							toogle2="Future as ATM"
+							setToogleValue={setToogleValue}
+						/>
+					</div>
+				</Flex>
+				<Flex className="w-[95%] self-center">
+					{basketOption === 'spot' ? (
+						<SpotBasketSelector />
+					) : basketOption === 'future' ? (
+						<FutureBasketSelector />
+					) : (
+						<OptionsBasketSelector />
+					)}
+				</Flex>
+				{/* <YeildButton label={'Total Profit'} /> */}
+				<SpotBasketDetail />
+				<FututeBasketDetails />
+				<OptionBasketDetail />
+				<ExitCondition />
 			</Flex>
-			{basketOption === 'spot' ? (
-				<SpotBasketSelector />
-			) : basketOption === 'future' ? (
-				<FutureBasketSelector />
-			) : (
-				<OptionsBasketSelector />
-			)}
 		</Modal>
 	)
 }

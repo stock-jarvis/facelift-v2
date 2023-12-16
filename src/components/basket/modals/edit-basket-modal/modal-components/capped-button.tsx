@@ -1,5 +1,5 @@
 import { useState, useEffect, ChangeEvent } from 'react'
-import { Typography, theme, Flex, Input } from 'antd'
+import { Typography, theme, Flex, Input, Tooltip } from 'antd'
 import { CloseOutlined } from '@ant-design/icons'
 
 interface CappedButtonProps {
@@ -33,26 +33,28 @@ const CappedButton = ({ label, value, setValue }: CappedButtonProps) => {
 			}}
 		>
 			{isCapped ? (
-				<Flex
-					onClick={() => setIsCapped(false)}
-					style={{
-						padding: token.paddingMD,
-						borderRadius: token.borderRadiusLG,
-						backgroundColor: token.colorPrimary,
-					}}
-					justify="center"
-					flex={1}
-				>
-					<Typography.Text
+				<Tooltip title={`Add ${label}`}>
+					<Flex
+						onClick={() => setIsCapped(false)}
 						style={{
-							fontWeight: token.fontWeightStrong,
-							fontSize: token.fontSizeLG,
-							color: token.colorBgBase,
+							padding: token.paddingMD,
+							borderRadius: token.borderRadiusLG,
+							backgroundColor: token.colorPrimary,
 						}}
+						justify="center"
+						flex={1}
 					>
-						{label}
-					</Typography.Text>
-				</Flex>
+						<Typography.Text
+							style={{
+								fontWeight: token.fontWeightStrong,
+								fontSize: token.fontSizeLG,
+								color: token.colorBgBase,
+							}}
+						>
+							{label}
+						</Typography.Text>
+					</Flex>
+				</Tooltip>
 			) : (
 				<Flex
 					style={{

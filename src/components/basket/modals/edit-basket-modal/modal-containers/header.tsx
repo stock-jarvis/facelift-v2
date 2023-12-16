@@ -1,4 +1,4 @@
-import { Flex, Select, Space, theme } from 'antd'
+import { Flex, Select, Space, theme, Tooltip } from 'antd'
 import { CloseOutlined } from '@ant-design/icons'
 const Header = () => {
 	const { token } = theme.useToken()
@@ -6,17 +6,21 @@ const Header = () => {
 		<Flex align="center" flex="1">
 			<Flex flex={1} gap={'middle'} justify="center">
 				<Space>
-					<Select
-						style={{ width: '100px' }}
-						options={[{ id: 1, value: 1, label: '1' }]}
-					/>
+					<Tooltip title="Select an Exchange">
+						<Select
+							style={{ width: '100px' }}
+							options={[{ id: 1, value: 1, label: '1' }]}
+						/>
+					</Tooltip>
 				</Space>
-				<Space>
-					<Select
-						style={{ width: '100px' }}
-						options={[{ id: 1, value: 1, label: '1' }]}
-					/>
-				</Space>
+				<Tooltip title="Select Instrument">
+					<Space>
+						<Select
+							style={{ width: '100px' }}
+							options={[{ id: 1, value: 1, label: '1' }]}
+						/>
+					</Space>
+				</Tooltip>
 			</Flex>
 			<Flex
 				style={{

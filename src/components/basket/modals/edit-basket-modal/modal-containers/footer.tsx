@@ -1,4 +1,4 @@
-import { Flex, Button, theme, Typography, Input, Space } from 'antd'
+import { Flex, Button, theme, Typography, Input, Space, Tooltip } from 'antd'
 
 const Footer = () => {
 	const { token } = theme.useToken()
@@ -54,14 +54,19 @@ const Footer = () => {
 						Apple
 					</Typography.Text>
 				</Space>
-				<Button
-					className="max-md:w-[100%]"
-					style={{ backgroundColor: token.colorPrimary }}
-					type="primary"
-					size="large"
-				>
-					Save Basket
-				</Button>
+				<Tooltip title="Click to save basket">
+					<Button
+						className="max-md:w-[100%]"
+						style={{
+							backgroundColor: token.colorPrimary,
+							fontWeight: token.fontWeightStrong,
+						}}
+						type="primary"
+						size="large"
+					>
+						Save Basket
+					</Button>
+				</Tooltip>
 			</Flex>
 		</Flex>
 	)

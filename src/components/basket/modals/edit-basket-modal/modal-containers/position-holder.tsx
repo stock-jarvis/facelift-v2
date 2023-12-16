@@ -1,4 +1,4 @@
-import { Button, Flex, Typography, theme } from 'antd'
+import { Button, Flex, Typography, theme, Tooltip } from 'antd'
 interface PositionHolderProps {
 	children: React.ReactNode
 	heading: string
@@ -11,7 +11,7 @@ const PositionHolder = ({ children, heading }: PositionHolderProps) => {
 			flex={1}
 			gap="middle"
 			style={{
-				boxShadow: '-2px 2px 3px rgba(0, 0, 0, 0.25)',
+				boxShadow: '-2px 2px 3px 3px rgba(0, 0, 0, 0.25)',
 				padding: token.paddingSM,
 				borderRadius: token.borderRadiusLG,
 				//	backgroundColor: '#F1F8FF',
@@ -34,17 +34,19 @@ const PositionHolder = ({ children, heading }: PositionHolderProps) => {
 				{children}
 			</Flex>
 			<Flex justify="center">
-				<Button
-					size="large"
-					style={{
-						backgroundColor: token.colorPrimary,
-						fontSize: token.fontSizeLG,
-						fontWeight: token.fontWeightStrong,
-						color: token.colorBgBase,
-					}}
-				>
-					Add Position
-				</Button>
+				<Tooltip title="Click to Add Position">
+					<Button
+						size="large"
+						style={{
+							backgroundColor: token.colorPrimary,
+							fontSize: token.fontSizeLG,
+							fontWeight: token.fontWeightStrong,
+							color: token.colorBgBase,
+						}}
+					>
+						Add Position
+					</Button>
+				</Tooltip>
 			</Flex>
 		</Flex>
 	)
