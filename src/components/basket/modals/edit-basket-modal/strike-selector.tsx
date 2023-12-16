@@ -1,7 +1,8 @@
 import { Flex, Select } from 'antd'
 
 import { tradeTypeData } from '../../constants/data'
-import { useState, useEffect, ChangeEvent } from 'react'
+import { useState, useEffect } from 'react'
+import { SelectProps } from 'antd/es/select'
 interface TradeOptions {
 	id: number
 	label: string
@@ -14,18 +15,14 @@ const StrikeSelector = () => {
 
 	useEffect(() => {
 		if (!tradeOption) {
-			setTradeOption({
-				id: tradeTypeData[0].id,
-				label: tradeTypeData[0].label,
-				value: tradeTypeData[0].value,
-			})
+			setTradeOption(tradeTypeData[0])
 			setSubTradeOptionList(tradeTypeData[0].children)
 			setSubTradeOption(tradeTypeData[0].children[0])
 		}
 	}, [tradeOption])
 
-	const handleTradeChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-		console.log(event.target.value)
+	const handleTradeChange: SelectProps['onChange'] = (value: TradeOptions) => {
+		console.log(value)
 	}
 
 	return (
