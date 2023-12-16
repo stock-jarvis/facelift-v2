@@ -99,7 +99,10 @@ const CappedButton = ({ label, value, setValue }: CappedButtonProps) => {
 						/>
 					</Flex>
 					<CloseOutlined
-						style={{ fontWeight: token.fontWeightStrong }}
+						style={{
+							fontWeight: token.fontWeightStrong,
+							fontSize: token.fontSizeHeading4,
+						}}
 						onClick={() => setIsCapped(true)}
 					/>
 				</Flex>

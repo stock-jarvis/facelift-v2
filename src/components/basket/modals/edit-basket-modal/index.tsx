@@ -4,12 +4,14 @@ import Footer from './footer'
 import Toggle from './toggle'
 import PositionSelector from './position-selector'
 //import CappedButton from './capped-button'
+//import ActionSection from '../../common/basket-item/action-section'
+import ActionSelector from './action-selector'
 import TradeSecion from './trade-section'
 import { OptionObject } from '../../types/types'
 import { basketOptions } from '../../constants/data'
 import ProfitLoss from './profit-loss-section'
 
-import EntryExit from './entry-exit-container'
+//import EntryExit from './entry-exit-container'
 const EditBasketModal = () => {
 	const { token } = theme.useToken()
 
@@ -93,7 +95,9 @@ const EditBasketModal = () => {
 					setLossValue={setProfitValue}
 				/>
 			</Flex>
-			<EntryExit />
+
+			<ActionSelector />
+			{/* <EntryExit /> */}
 		</Modal>
 	)
 }

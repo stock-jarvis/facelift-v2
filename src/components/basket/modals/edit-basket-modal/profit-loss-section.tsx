@@ -22,7 +22,7 @@ const ProfitLoss = ({
 	return (
 		<Flex
 			flex="1"
-			style={{ padding: token.paddingMD }}
+			style={{ padding: token.paddingMD, cursor: 'pointer' }}
 			justify="center"
 			align="center"
 			gap="middle"

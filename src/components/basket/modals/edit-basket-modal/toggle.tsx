@@ -31,6 +31,7 @@ const Toggle = ({ toogle1, toogle2, setToogleValue }: ToggleProps) => {
 				background: token.colorBgBase,
 				boxShadow: '1px 2px 3px rgba(0, 0, 0, 0.25)',
 				borderRadius: token.borderRadiusLG,
+				cursor: 'pointer',
 			}}
 			gap="middle"
 		>
