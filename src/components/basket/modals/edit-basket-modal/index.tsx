@@ -2,16 +2,18 @@ import { Modal, theme, Flex } from 'antd'
 import Header from './header'
 import Footer from './footer'
 import Toggle from './toggle'
+//import QuantityInput from './quantity-input'
 import PositionSelector from './position-selector'
 //import CappedButton from './capped-button'
 //import ActionSection from '../../common/basket-item/action-section'
-import ActionSelector from './action-selector'
+//import ActionSelector from './action-selector'
 import TradeSecion from './trade-section'
 import { OptionObject } from '../../types/types'
 import { basketOptions } from '../../constants/data'
 import ProfitLoss from './profit-loss-section'
-
+//import Instrument from './instrument'
 //import EntryExit from './entry-exit-container'
+import PositionHolder from './position-holder'
 const EditBasketModal = () => {
 	const { token } = theme.useToken()
 
@@ -95,8 +97,11 @@ const EditBasketModal = () => {
 					setLossValue={setProfitValue}
 				/>
 			</Flex>
-
-			<ActionSelector />
+			<Flex justify="center">
+				<Flex className="w-[95%]">
+					<PositionHolder />
+				</Flex>
+			</Flex>
 			{/* <EntryExit /> */}
 		</Modal>
 	)

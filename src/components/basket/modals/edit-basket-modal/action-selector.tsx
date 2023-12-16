@@ -15,7 +15,7 @@ const ActionSelector = () => {
 				width: 'fit-content',
 				borderRadius: token.borderRadiusLG,
 				padding: token.paddingSM,
-				boxShadow: '1px 2px 3px rgba(0, 0, 0, 0.25) inset',
+				//boxShadow: '2px 2px 2px 2px rgba(0, 0, 0, 0.25) inset',
 			}}
 			vertical
 			align="center"
@@ -27,6 +27,7 @@ const ActionSelector = () => {
 			<Flex gap={'middle'} align="center">
 				<div
 					style={{
+						cursor: 'pointer',
 						padding: token.paddingSM,
 						borderBottom:
 							tag === 'B' ? '2px solid green' : '2px solid transparent',
@@ -45,6 +46,7 @@ const ActionSelector = () => {
 				/>
 				<div
 					style={{
+						cursor: 'pointer',
 						padding: token.paddingSM,
 						borderBottom:
 							tag === 'S' ? '2px solid red' : '2px solid transparent',
