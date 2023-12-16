@@ -27,7 +27,7 @@ const OptionsBasketSelector = () => {
 	}, [tradeOption])
 
 	return (
-		<PositionHolder>
+		<PositionHolder heading="Options">
 			<Flex flex="1" vertical gap="middle">
 				<Flex flex="1">
 					<StrikeRadioSelector

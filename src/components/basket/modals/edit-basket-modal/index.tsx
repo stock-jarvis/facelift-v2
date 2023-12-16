@@ -4,6 +4,8 @@ import Footer from './footer'
 import Toggle from './toggle'
 
 import OptionsBasketSelector from './options-basket-selector'
+import SpotBasketSelector from './spot-basket-selector'
+import FutureBasketSelector from './future-basket-selector'
 //import QuantityInput from './quantity-input'
 import PositionSelector from './position-selector'
 //import CappedButton from './capped-button'
@@ -16,15 +18,15 @@ import { basketOptions } from '../../constants/data'
 
 //import Instrument from './instrument'
 //import EntryExit from './entry-exit-container'
-
+import { useState } from 'react'
 const EditBasketModal = () => {
 	const { token } = theme.useToken()
-
+	const [basketOption, setBasketOption] = useState<string>('spot')
 	const setToogleValue = (value: string) => {
-		console.log(value)
+		value
 	}
 	const setOptionValue = (value: OptionObject) => {
-		console.log(value)
+		setBasketOption(value.value)
 	}
 	// const setProfitValue = (value: number) => {
 	// 	console.log(value)
@@ -87,36 +89,13 @@ const EditBasketModal = () => {
 					/>
 				</div>
 			</Flex>
-			{/* <Flex>
-				<Flex justify="center" align="center" flex={1}>
-					<TradeSecion />
-				</Flex>
-				<ProfitLoss
-					profitLabel="Total Profit"
-					lossLabel="Total Loss"
-					profitValue={1}
-					lossValue={1}
-					setProfitValue={setProfitValue}
-					setLossValue={setProfitValue}
-				/>
-			</Flex>*/}
-
-			{/*<StrikeRadioSelector
-				tradeOption={tradeOption}
-				setTradeOption={setTradeOption}
-				setSubTradeOptionList={setSubTradeOptionList}
-				setSubTradeOption={setSubTradeOption}
-			/>
-			<StrikeSelector
-				tradeOption={tradeOption}
-				setTradeOption={setTradeOption}
-				subTradeOption={subTradeOption}
-				setSubTradeOption={setSubTradeOption}
-				subTradeOptionList={subTradeOptionList}
-				setSubTradeOptionList={setSubTradeOptionList}
-			/>
-			 <EntryExit /> */}
-			<OptionsBasketSelector />
+			{basketOption === 'spot' ? (
+				<SpotBasketSelector />
+			) : basketOption === 'future' ? (
+				<FutureBasketSelector />
+			) : (
+				<OptionsBasketSelector />
+			)}
 		</Modal>
 	)
 }

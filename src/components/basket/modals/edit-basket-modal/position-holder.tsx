@@ -1,8 +1,9 @@
 import { Button, Flex, Typography, theme } from 'antd'
 interface PositionHolderProps {
 	children: React.ReactNode
+	heading: string
 }
-const PositionHolder = ({ children }: PositionHolderProps) => {
+const PositionHolder = ({ children, heading }: PositionHolderProps) => {
 	const { token } = theme.useToken()
 	return (
 		<Flex
@@ -10,7 +11,7 @@ const PositionHolder = ({ children }: PositionHolderProps) => {
 			flex={1}
 			gap="middle"
 			style={{
-				boxShadow: '1px 2px 3px rgba(0, 0, 0, 0.25)',
+				boxShadow: '-2px 2px 3px rgba(0, 0, 0, 0.25)',
 				padding: token.paddingSM,
 				borderRadius: token.borderRadiusLG,
 				//	backgroundColor: '#F1F8FF',
@@ -26,7 +27,7 @@ const PositionHolder = ({ children }: PositionHolderProps) => {
 						boxShadow: '2px 2px 2px 2px rgba(0, 0, 0, 0.25) inset',
 					}}
 				>
-					Options
+					{heading}
 				</Typography.Text>
 			</Flex>
 			<Flex justify="center" align="center" flex={1}>
