@@ -1,9 +1,11 @@
-import { Button, Tooltip } from 'antd'
+import { Button, Tooltip, theme } from 'antd'
 
 import { IconContext } from 'react-icons'
 import { PiShuffleAngular } from 'react-icons/pi'
 
 const Randomize = () => {
+	const { token } = theme.useToken()
+
 	const handleClickRandomize = () => {
 		// TODO: Implement randomize
 	}
@@ -14,7 +16,7 @@ const Randomize = () => {
 				icon={
 					<IconContext.Provider
 						value={{
-							size: '18px',
+							size: `${token.sizeLG}px`,
 							style: {
 								verticalAlign: 'middle',
 							},
@@ -23,7 +25,7 @@ const Randomize = () => {
 						<PiShuffleAngular />
 					</IconContext.Provider>
 				}
-				type="text"
+				type="link"
 				shape="circle"
 				// TODO: Make icon blue and add Tooltip
 				onClick={handleClickRandomize}

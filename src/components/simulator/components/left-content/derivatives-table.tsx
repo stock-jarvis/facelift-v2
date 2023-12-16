@@ -65,6 +65,7 @@ const DerivativesTable = () => {
 	return (
 		// TODO: Implement Date selection component
 		<Table
+			rowKey="key"
 			// TODO: Fix virtual
 			// TODO: Handle loading
 			loading={false}

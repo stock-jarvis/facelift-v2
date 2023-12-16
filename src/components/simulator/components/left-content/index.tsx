@@ -1,39 +1,80 @@
-import { Flex, Radio, RadioGroupProps } from 'antd'
-
+import { Tabs, TabsProps, notification } from 'antd'
 import { useSimulatorParamsStore } from '../../store/simulator-params-store'
-import InstrumentDayDetail from './instrument-day-detail'
-import DerivatiesParamSelection from './derivatives-param-selection'
-import DerivativesTable from './derivatives-table'
+import { useMemo } from 'react'
+import TabContent from './tab-content'
+import { useToggle } from 'src/common/utils/state-utils'
+import InstrumentSelectionModal from './instrument-selection-modal'
+import { MAX_INSTRUMENTS_ALLOWED } from '../../constants'
+
+type Tab = NonNullable<TabsProps['items']>[number]
 
 const LeftContent = () => {
-	const { selectedInstruments, activeInstrument, setActiveInstrument } =
-		useSimulatorParamsStore()
+	const [api, contextHolder] = notification.useNotification()
 
-	const handleChangeExchange: RadioGroupProps['onChange'] = (event) =>
-		setActiveInstrument(event.target.value)
+	const {
+		selectedInstruments,
+		activeInstrument,
+		setActiveInstrument,
+		removeSelectedInstrument,
+	} = useSimulatorParamsStore()
+
+	const [isInstrumentSelectionModalOpen, toggleInstrumentSelectionModalOpen] =
+		useToggle()
+
+	const items = useMemo(
+		() =>
+			selectedInstruments.map(
+				(instrument, index) =>
+					({
+						key: instrument,
+						label: instrument,
+						children: <TabContent instrument={instrument} />,
+						/** First option is not closable */
+						closable: index !== 0,
+					}) as Tab
+			),
+		[selectedInstruments]
+	)
+
+	const handleAddTab = () => toggleInstrumentSelectionModalOpen()
+
+	const handleRemoveTab = (targetKey: string) =>
+		removeSelectedInstrument(targetKey)
+
+	const handleEditTabs: TabsProps['onEdit'] = (targetKey, action) => {
+		if (action === 'add') {
+			if (selectedInstruments.length < MAX_INSTRUMENTS_ALLOWED) {
+				handleAddTab()
+			} else {
+				api.info({
+					message: 'Cannot select more instruments',
+					description: `Only ${MAX_INSTRUMENTS_ALLOWED} instruments are supported. Please remove an instrument to add more.`,
+				})
+			}
+		} else if (action === 'remove') {
+			handleRemoveTab(targetKey as string)
+		}
+	}
 
 	return (
-		<Flex className="w-full" gap="large" vertical>
-			<Radio.Group
-				value={activeInstrument}
-				className="flex flex-row"
-				buttonStyle="solid"
-				onChange={handleChangeExchange}
-			>
-				{selectedInstruments.map((instrument) => (
-					<Radio.Button
-						className="w-full text-center"
-						key={instrument}
-						value={instrument}
-					>
-						{instrument}
-					</Radio.Button>
-				))}
-			</Radio.Group>
-			<InstrumentDayDetail />
-			<DerivatiesParamSelection />
-			<DerivativesTable />
-		</Flex>
+		<>
+			{contextHolder}
+
+			<Tabs
+				type="editable-card"
+				items={items}
+				activeKey={activeInstrument}
+				onEdit={handleEditTabs}
+				onChange={setActiveInstrument}
+			/>
+
+			{isInstrumentSelectionModalOpen && (
+				<InstrumentSelectionModal
+					open={isInstrumentSelectionModalOpen}
+					onCancel={toggleInstrumentSelectionModalOpen}
+				/>
+			)}
+		</>
 	)
 }
 

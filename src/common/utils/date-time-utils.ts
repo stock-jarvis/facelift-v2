@@ -4,7 +4,7 @@ const TIME_TEMPLATE = 'HH:mm:ss'
 
 const DATE_TEMPLATE = 'DD-MM-YYYY'
 
-const DATE_TEMPLATE_WITH_DAY = `ddd ${DATE_TEMPLATE}`
+export const DATE_TEMPLATE_WITH_DAY = `ddd ${DATE_TEMPLATE}`
 
 export const getDateAsStringFromDayjs = (
 	dayjsDate: Dayjs,

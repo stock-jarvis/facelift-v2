@@ -1,9 +1,7 @@
 import {
 	Flex,
-	Radio,
 	TimePicker,
 	DatePicker,
-	RadioGroupProps,
 	DatePickerProps,
 	TimePickerProps,
 } from 'antd'
@@ -11,17 +9,13 @@ import {
 import Jump from './jump'
 import Randomize from './randomize'
 import TimeMachine from './time-machine'
-import InstrumentSelection from './instrument-selection'
 
-import { Exchange } from '../../../../common/enums'
 import { useSimulatorParamsStore } from '../../store/simulator-params-store'
+import ExchangeSelection from './exchange-selection'
+import { DATE_TEMPLATE_WITH_DAY } from 'src/common/utils/date-time-utils'
 
 const ParamSelection = () => {
-	const { date, time, exchange, setDate, setTime, setExchange } =
-		useSimulatorParamsStore()
-
-	const handleChangeExchange: RadioGroupProps['onChange'] = (event) =>
-		setExchange(event.target.value)
+	const { date, time, setDate, setTime } = useSimulatorParamsStore()
 
 	const handleDateChange: DatePickerProps['onChange'] = (date) => setDate(date!)
 
@@ -30,35 +24,31 @@ const ParamSelection = () => {
 	return (
 		<>
 			<Flex justify="space-between" align="center">
-				<Radio.Group
-					value={exchange}
-					buttonStyle="solid"
-					onChange={handleChangeExchange}
-				>
-					{Object.values(Exchange).map((exchange) => (
-						<Radio.Button key={exchange} value={exchange}>
-							{exchange}
-						</Radio.Button>
-					))}
-				</Radio.Group>
-
-				<InstrumentSelection />
-
-				<Jump />
-
-				<TimeMachine />
+				<ExchangeSelection />
 
 				<DatePicker
 					value={date}
+					format={DATE_TEMPLATE_WITH_DAY}
 					allowClear={false}
 					onChange={handleDateChange}
+					style={{
+						width: '150px',
+					}}
 				/>
 
 				<TimePicker
 					value={time}
 					allowClear={false}
 					onChange={handleTimeChange}
+					style={{
+						width: '110px',
+					}}
 				/>
+
+				<TimeMachine />
+				{/* Dummy Div to center time machine. Remove after adding new option */}
+				<div></div>
+				<Jump />
 
 				<Randomize />
 			</Flex>

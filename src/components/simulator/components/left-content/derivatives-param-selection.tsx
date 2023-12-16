@@ -1,4 +1,12 @@
-import { Flex, Select, SelectProps, Space, Typography, theme } from 'antd'
+import {
+	Button,
+	Flex,
+	Select,
+	SelectProps,
+	Space,
+	Typography,
+	theme,
+} from 'antd'
 import { PlusOutlined } from '@ant-design/icons'
 import Link from 'antd/es/typography/Link'
 import { useMemo, useState } from 'react'
@@ -13,10 +21,14 @@ type TitleLinkValueProps = {
 }
 
 const TitleLinkValue: React.FC<TitleLinkValueProps> = ({ title, value }) => (
-	<Space>
-		<Link>{title} :</Link>
-		<Text>{value}</Text>
-		<PlusOutlined />
+	<Space size="small">
+		<Text strong>{title} :</Text>
+		<Link>
+			<Space>
+				<Text>{value}</Text>
+				<PlusOutlined />
+			</Space>
+		</Link>
 	</Space>
 )
 
