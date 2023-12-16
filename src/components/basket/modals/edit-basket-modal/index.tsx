@@ -2,6 +2,7 @@ import { Modal, theme, Flex } from 'antd'
 import Header from './header'
 import Footer from './footer'
 import Toggle from './toggle'
+import StrikeSelector from './strike-selector'
 //import QuantityInput from './quantity-input'
 import PositionSelector from './position-selector'
 //import CappedButton from './capped-button'
@@ -102,6 +103,7 @@ const EditBasketModal = () => {
 					<PositionHolder />
 				</Flex>
 			</Flex>
+			<StrikeSelector />
 			{/* <EntryExit /> */}
 		</Modal>
 	)
