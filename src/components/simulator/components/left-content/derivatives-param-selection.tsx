@@ -3,7 +3,7 @@ import { PlusOutlined } from '@ant-design/icons'
 import Link from 'antd/es/typography/Link'
 import { useMemo, useState } from 'react'
 import { convertValuesToDefaultOptions } from 'src/common/utils/conversion-utils'
-import { DerivativesMetric } from '../../enums'
+import { DerivativesMetric } from '../../../../common/enums'
 
 const { Text } = Typography
 

@@ -2,7 +2,7 @@ import { create } from 'zustand'
 import dayjs, { Dayjs } from 'dayjs'
 
 import { BANK_NIFTY_TICKER } from '../constants'
-import { Exchange } from '../enums'
+import { Exchange } from '../../../common/enums'
 
 type SimulatorParams = {
 	time: Dayjs

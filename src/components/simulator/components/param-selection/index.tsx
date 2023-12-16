@@ -13,7 +13,7 @@ import Randomize from './randomize'
 import TimeMachine from './time-machine'
 import InstrumentSelection from './instrument-selection'
 
-import { Exchange } from '../../enums'
+import { Exchange } from '../../../../common/enums'
 import { useSimulatorParamsStore } from '../../store/simulator-params-store'
 
 const ParamSelection = () => {
