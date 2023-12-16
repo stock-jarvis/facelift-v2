@@ -3,8 +3,7 @@ import { PlusOutlined } from '@ant-design/icons'
 import Link from 'antd/es/typography/Link'
 import { useMemo, useState } from 'react'
 import { convertValuesToDefaultOptions } from 'src/common/utils/conversion-utils'
-import { DerivativesMetric } from '../../types'
-import { availableDerivativesMetrics } from '../../constants'
+import { DerivativesMetric } from '../../enums'
 
 const { Text } = Typography
 
@@ -15,10 +14,9 @@ type TitleLinkValueProps = {
 
 const TitleLinkValue: React.FC<TitleLinkValueProps> = ({ title, value }) => (
 	<Space>
-		<Link>
-			<PlusOutlined /> {title} :
-		</Link>
+		<Link>{title} :</Link>
 		<Text>{value}</Text>
+		<PlusOutlined />
 	</Space>
 )
 
@@ -27,13 +25,11 @@ const DerivatiesParamSelection = () => {
 
 	// TODO: Change variable name
 	const [selectedDerivativeMetric, setSelectedDerivativeMetric] =
-		useState<DerivativesMetric>('OI')
+		useState<DerivativesMetric>(DerivativesMetric.OpenInterest)
 
 	// TODO: Change variable name
 	const derivativeMetricOptions = useMemo(
-		// @ts-expect-error availableDerivativesMetrics is DerivativesMetric[] type and the function expects array of string or number
-		// DerivativesMetric[] is ultimately a string array.
-		() => convertValuesToDefaultOptions(availableDerivativesMetrics),
+		() => convertValuesToDefaultOptions(Object.values(DerivativesMetric)),
 		[]
 	)
 

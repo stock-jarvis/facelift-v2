@@ -21,7 +21,7 @@ type OptionStrikeTableData = {
 
 type TableProps = AntdTableProps<OptionStrikeTableData>
 
-const OptionStrikeTable = () => {
+const DerivativesTable = () => {
 	const dataSource: TableProps['dataSource'] = useMemo(() => mockData, [])
 
 	const columns: TableProps['columns'] = [
@@ -78,4 +78,4 @@ const OptionStrikeTable = () => {
 	)
 }
 
-export default OptionStrikeTable
+export default DerivativesTable

@@ -2,7 +2,7 @@ import { create } from 'zustand'
 import dayjs, { Dayjs } from 'dayjs'
 
 import { BANK_NIFTY_TICKER } from '../constants'
-import { Exchange } from '../types'
+import { Exchange } from '../enums'
 
 type SimulatorParams = {
 	time: Dayjs
@@ -27,7 +27,7 @@ type SimulatorParamsActions = {
 const defaultState: SimulatorParams = {
 	time: dayjs().startOf('day'),
 	date: dayjs(),
-	exchange: 'NSE',
+	exchange: Exchange.NSE,
 	activeInstrument: BANK_NIFTY_TICKER,
 	selectedInstruments: [BANK_NIFTY_TICKER],
 }

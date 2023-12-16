@@ -8,13 +8,13 @@ import {
 	TimePickerProps,
 } from 'antd'
 
-import InstrumentSelection from './instrument-selection'
-
-import { availableExchanges } from '../../constants'
-import { useSimulatorParamsStore } from '../../store/simulator-params-store'
 import Jump from './jump'
 import Randomize from './randomize'
 import TimeMachine from './time-machine'
+import InstrumentSelection from './instrument-selection'
+
+import { Exchange } from '../../enums'
+import { useSimulatorParamsStore } from '../../store/simulator-params-store'
 
 const ParamSelection = () => {
 	const { date, time, exchange, setDate, setTime, setExchange } =
@@ -35,7 +35,7 @@ const ParamSelection = () => {
 					buttonStyle="solid"
 					onChange={handleChangeExchange}
 				>
-					{availableExchanges.map((exchange) => (
+					{Object.values(Exchange).map((exchange) => (
 						<Radio.Button key={exchange} value={exchange}>
 							{exchange}
 						</Radio.Button>
