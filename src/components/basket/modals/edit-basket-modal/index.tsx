@@ -15,8 +15,8 @@ import PositionSelector from './modal-containers/position-selector'
 
 import { generateUniqueId } from '../../common/utils/randomizer'
 
-import { futureExpiry, optionExpiry } from '../../constants/data'
-import { OptionObject } from '../../types/types'
+import { futureExpiry, optionExpiry, tradeTypeData } from '../../constants/data'
+import { OptionObject, TradeOptions } from '../../types/types'
 import { basketOptions } from '../../constants/data'
 
 interface BasketDataProps {
@@ -35,6 +35,13 @@ const EditBasketModal = () => {
 	const [optionType, setOptionType] = useState<string>('CE')
 	const [futureExpiryList] = useState<OptionObject[]>(futureExpiry)
 	const [optionExpiryList] = useState<OptionObject[]>(optionExpiry)
+	const [tradeOption, setTradeOption] = useState<string>(tradeTypeData[0].value)
+	const [subTradeOption, setSubTradeOption] = useState<string>(
+		tradeTypeData[0].children[0].value
+	)
+	const [subTradeOptionList, setSubTradeOptionList] = useState<TradeOptions[]>(
+		tradeTypeData[0].children
+	)
 	const [futureExpiryBaseValue, setFutureExpiryBaseValue] =
 		useState<string>('Monthly')
 	const [optionExpiryBaseValue, setOptionExpiryBaseValue] =
@@ -170,6 +177,12 @@ const EditBasketModal = () => {
 								handleBaseActionChange={setActionValue}
 								baseOptionValue={optionType}
 								handleBaseOptionChange={setOptionType}
+								baseSubTradeOption={subTradeOption}
+								baseTradeOption={tradeOption}
+								baseSubTradeOptionList={subTradeOptionList}
+								handleBaseTradeChange={setTradeOption}
+								handleBaseSubTradeChange={setSubTradeOption}
+								handleBaseSubTradeListChange={setSubTradeOptionList}
 							/>
 						)}
 					</Flex>
@@ -206,6 +219,9 @@ const EditBasketModal = () => {
 								baseActionValue={actionValue}
 								baseOptionValue={optionType}
 								optionExpiryList={optionExpiryList}
+								baseSubTradeOption={subTradeOption}
+								baseTradeOption={tradeOption}
+								baseSubTradeOptionList={subTradeOptionList}
 							/>
 						)
 					)}

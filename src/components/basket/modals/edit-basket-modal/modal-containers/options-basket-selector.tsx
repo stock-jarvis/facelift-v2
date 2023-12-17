@@ -1,7 +1,5 @@
 import { Flex } from 'antd'
-import { useState, useEffect } from 'react'
 import { TradeOptions } from '../../../types/types'
-import { tradeTypeData } from '../../../constants/data'
 import { OptionObject } from '../../../types/types'
 import StrikeRadioSelector from '../modal-components/strike-radio-selector'
 import PositionHolder from './position-holder'
@@ -16,11 +14,17 @@ interface BasketProps {
 	handleBaseActionChange: (val: string) => void
 	handleBaseOptionChange: (val: string) => void
 	handleBaseExpiryChange: (val: string) => void
+	handleBaseTradeChange: (val: string) => void
+	handleBaseSubTradeChange: (val: string) => void
+	handleBaseSubTradeListChange: (val: TradeOptions[]) => void
 	baseQuantityValue: number
 	baseActionValue: string
 	baseOptionValue: string
 	optionExpiryList: OptionObject[]
 	optionExpiryBaseValue: string
+	baseTradeOption: string
+	baseSubTradeOption: string
+	baseSubTradeOptionList: TradeOptions[]
 }
 const OptionsBasketSelector = ({
 	handleAddBasket,
@@ -33,21 +37,14 @@ const OptionsBasketSelector = ({
 	baseActionValue,
 	optionExpiryList,
 	baseOptionValue,
+	handleBaseTradeChange,
+	handleBaseSubTradeChange,
+	handleBaseSubTradeListChange,
+	baseTradeOption,
+	baseSubTradeOption,
+	baseSubTradeOptionList,
 }: BasketProps) => {
 	//const { token } = theme.useToken()
-	const [tradeOption, setTradeOption] = useState<string>('')
-	const [subTradeOption, setSubTradeOption] = useState<string>('')
-	const [subTradeOptionList, setSubTradeOptionList] = useState<TradeOptions[]>(
-		[]
-	)
-
-	useEffect(() => {
-		if (!tradeOption) {
-			setTradeOption(tradeTypeData[0].value)
-			setSubTradeOptionList(tradeTypeData[0].children)
-			setSubTradeOption(tradeTypeData[0].children[0].value)
-		}
-	}, [tradeOption])
 
 	return (
 		<PositionHolder
@@ -58,10 +55,10 @@ const OptionsBasketSelector = ({
 			<Flex flex="1" vertical gap="middle">
 				<Flex flex="1">
 					<StrikeRadioSelector
-						tradeOption={tradeOption}
-						setTradeOption={setTradeOption}
-						setSubTradeOptionList={setSubTradeOptionList}
-						setSubTradeOption={setSubTradeOption}
+						tradeOption={baseTradeOption}
+						setTradeOption={handleBaseTradeChange}
+						setSubTradeOptionList={handleBaseSubTradeListChange}
+						setSubTradeOption={handleBaseSubTradeChange}
 					/>
 				</Flex>
 				<Flex flex={1} justify="space-around" align="center">
@@ -85,12 +82,12 @@ const OptionsBasketSelector = ({
 						handleBaseActionChange={handleBaseOptionChange}
 					/>
 					<StrikeSelector
-						tradeOption={tradeOption}
-						setTradeOption={setTradeOption}
-						subTradeOption={subTradeOption}
-						setSubTradeOption={setSubTradeOption}
-						subTradeOptionList={subTradeOptionList}
-						setSubTradeOptionList={setSubTradeOptionList}
+						tradeOption={baseTradeOption}
+						setTradeOption={handleBaseTradeChange}
+						subTradeOption={baseSubTradeOption}
+						setSubTradeOption={handleBaseSubTradeChange}
+						subTradeOptionList={baseSubTradeOptionList}
+						setSubTradeOptionList={handleBaseSubTradeListChange}
 					/>
 					<QuantityInput
 						baseQuantityValue={baseQuantityValue}

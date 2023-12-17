@@ -6,8 +6,7 @@ import QuantityInput from '../modal-components/quantity-input'
 import YeildButton from '../modal-components/yeild-button'
 import ExpirySelector from '../modal-components/expiry-selector'
 import StrikeSelector from '../modal-components/strike-selector'
-import { useState, useEffect } from 'react'
-import { tradeTypeData } from 'src/components/basket/constants/data'
+import { useState } from 'react'
 import { OptionObject, TradeOptions } from 'src/components/basket/types/types'
 interface OptionDetailsProps {
 	id: string
@@ -18,6 +17,9 @@ interface OptionDetailsProps {
 	baseOptionValue: string
 	optionExpiryBaseValue: string
 	optionExpiryList: OptionObject[]
+	baseTradeOption: string
+	baseSubTradeOption: string
+	baseSubTradeOptionList: TradeOptions[]
 }
 const OptionBasketDetail = ({
 	id,
@@ -28,23 +30,21 @@ const OptionBasketDetail = ({
 	baseOptionValue,
 	optionExpiryList,
 	optionExpiryBaseValue,
+	baseTradeOption,
+	baseSubTradeOption,
+	baseSubTradeOptionList,
 }: OptionDetailsProps) => {
 	const [quantityValue, setQuantityValue] = useState<number>(baseQuanity)
 	const [actionValue, setActionValue] = useState<string>(baseActionValue)
 	const [optionType, setOptionType] = useState<string>(baseOptionValue)
-	const [tradeOption, setTradeOption] = useState<string>('')
-	const [subTradeOption, setSubTradeOption] = useState<string>('')
+	const [tradeOption, setTradeOption] = useState<string>(baseTradeOption)
+	const [subTradeOption, setSubTradeOption] =
+		useState<string>(baseSubTradeOption)
 	const [subTradeOptionList, setSubTradeOptionList] = useState<TradeOptions[]>(
-		[]
+		baseSubTradeOptionList
 	)
 	const [expiryValue, setExpiryValue] = useState<string>(optionExpiryBaseValue)
-	useEffect(() => {
-		if (!tradeOption) {
-			setTradeOption(tradeTypeData[0].value)
-			setSubTradeOptionList(tradeTypeData[0].children)
-			setSubTradeOption(tradeTypeData[0].children[0].value)
-		}
-	}, [tradeOption])
+
 	return (
 		<DetailBasketHolder
 			id={id}
