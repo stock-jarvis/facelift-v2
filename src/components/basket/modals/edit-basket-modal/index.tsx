@@ -30,11 +30,16 @@ const EditBasketModal = () => {
 
 	//Initial values for positions
 	const [quantityValue, setQuantityValue] = useState<number>(1)
+	const [actionValue, setActionValue] = useState<string>('B')
+	const [optionType, setOptionType] = useState<string>('CE')
 
 	const setToogleValue = (value: string) => {
 		value
 	}
 	const setOptionValue = (value: OptionObject) => {
+		setQuantityValue(1)
+		setActionValue('B')
+		setOptionType('CE')
 		setBasketOption(value.value)
 	}
 
@@ -43,11 +48,10 @@ const EditBasketModal = () => {
 	}
 
 	const handleDeleteBasket = (id: string) => {
-		console.log('delete clicked')
 		setBasket(basket.filter((basket) => basket.id !== id))
 	}
+
 	const handleCopyBasket = (id: string) => {
-		console.log('copy clicked')
 		const basketToBeCopied = basket.find((basket) => basket.id === id)
 		if (basketToBeCopied) {
 			setBasket((prev) => [
@@ -131,18 +135,26 @@ const EditBasketModal = () => {
 								handleBaseQuantityChange={setQuantityValue}
 								baseQuantityValue={quantityValue}
 								handleAddBasket={handleAddBasket}
+								baseActionValue={actionValue}
+								handleBaseActionChange={setActionValue}
 							/>
 						) : basketOption === 'future' ? (
 							<FutureBasketSelector
 								handleAddBasket={handleAddBasket}
 								handleBaseQuantityChange={setQuantityValue}
 								baseQuantityValue={quantityValue}
+								baseActionValue={actionValue}
+								handleBaseActionChange={setActionValue}
 							/>
 						) : (
 							<OptionsBasketSelector
 								handleAddBasket={handleAddBasket}
 								handleBaseQuantityChange={setQuantityValue}
 								baseQuantityValue={quantityValue}
+								baseActionValue={actionValue}
+								handleBaseActionChange={setActionValue}
+								baseOptionValue={optionType}
+								handleBaseOptionChange={setOptionType}
 							/>
 						)}
 					</Flex>
@@ -155,6 +167,7 @@ const EditBasketModal = () => {
 								baseQuanity={quantityValue}
 								handleDeleteBasket={handleDeleteBasket}
 								handleCopyBasket={handleCopyBasket}
+								baseActionValue={actionValue}
 							/>
 						) : bask.type === 'future' ? (
 							<FututeBasketDetails
@@ -163,6 +176,7 @@ const EditBasketModal = () => {
 								baseQuanity={quantityValue}
 								handleDeleteBasket={handleDeleteBasket}
 								handleCopyBasket={handleCopyBasket}
+								baseActionValue={actionValue}
 							/>
 						) : (
 							<OptionBasketDetail
@@ -171,6 +185,8 @@ const EditBasketModal = () => {
 								baseQuanity={quantityValue}
 								handleDeleteBasket={handleDeleteBasket}
 								handleCopyBasket={handleCopyBasket}
+								baseActionValue={actionValue}
+								baseOptionValue={optionType}
 							/>
 						)
 					)}

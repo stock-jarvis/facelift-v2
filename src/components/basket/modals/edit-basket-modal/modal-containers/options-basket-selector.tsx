@@ -12,12 +12,20 @@ import ActionSelector from '../modal-components/action-selector'
 interface BasketProps {
 	handleAddBasket: (val: string) => void
 	handleBaseQuantityChange: (value: number) => void
+	handleBaseActionChange: (val: string) => void
+	handleBaseOptionChange: (val: string) => void
 	baseQuantityValue: number
+	baseActionValue: string
+	baseOptionValue: string
 }
 const OptionsBasketSelector = ({
 	handleAddBasket,
 	handleBaseQuantityChange,
+	handleBaseOptionChange,
+	handleBaseActionChange,
 	baseQuantityValue,
+	baseActionValue,
+	baseOptionValue,
 }: BasketProps) => {
 	//const { token } = theme.useToken()
 	const [tradeOption, setTradeOption] = useState<string>('')
@@ -57,6 +65,8 @@ const OptionsBasketSelector = ({
 						action2="S"
 						color1="green"
 						color2="red"
+						baseActionValue={baseActionValue}
+						handleBaseActionChange={handleBaseActionChange}
 					/>
 					<ActionSelector
 						label="Option Type"
@@ -64,6 +74,8 @@ const OptionsBasketSelector = ({
 						action2="PE"
 						color1="black"
 						color2="purple"
+						baseActionValue={baseOptionValue}
+						handleBaseActionChange={handleBaseOptionChange}
 					/>
 					<StrikeSelector
 						tradeOption={tradeOption}

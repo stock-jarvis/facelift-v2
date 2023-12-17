@@ -10,6 +10,7 @@ interface SpotDetailsProps {
 	handleDeleteBasket: (val: string) => void
 	handleCopyBasket: (val: string) => void
 	baseQuanity: number
+	baseActionValue: string
 }
 
 const SpotBasketDetail = ({
@@ -17,8 +18,10 @@ const SpotBasketDetail = ({
 	handleDeleteBasket,
 	handleCopyBasket,
 	baseQuanity,
+	baseActionValue,
 }: SpotDetailsProps) => {
 	const [quantityValue, setQuantityValue] = useState<number>(baseQuanity)
+	const [actionValue, setActionValue] = useState<string>(baseActionValue)
 
 	return (
 		<DetailBasketHolder
@@ -37,6 +40,8 @@ const SpotBasketDetail = ({
 						action2="S"
 						color1="green"
 						color2="red"
+						baseActionValue={actionValue}
+						handleBaseActionChange={setActionValue}
 					/>
 				</Flex>
 				<Flex flex={1}>

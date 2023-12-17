@@ -8,11 +8,15 @@ interface BasketProps {
 	handleAddBasket: (val: string) => void
 	handleBaseQuantityChange: (value: number) => void
 	baseQuantityValue: number
+	baseActionValue: string
+	handleBaseActionChange: (val: string) => void
 }
 const FutureBasketSelector = ({
 	handleAddBasket,
 	handleBaseQuantityChange,
 	baseQuantityValue,
+	baseActionValue,
+	handleBaseActionChange,
 }: BasketProps) => {
 	return (
 		<PositionHolder
@@ -28,6 +32,8 @@ const FutureBasketSelector = ({
 					action2="S"
 					color1="green"
 					color2="red"
+					baseActionValue={baseActionValue}
+					handleBaseActionChange={handleBaseActionChange}
 				/>
 
 				<QuantityInput

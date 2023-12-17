@@ -14,14 +14,20 @@ interface OptionDetailsProps {
 	handleDeleteBasket: (val: string) => void
 	handleCopyBasket: (val: string) => void
 	baseQuanity: number
+	baseActionValue: string
+	baseOptionValue: string
 }
 const OptionBasketDetail = ({
 	id,
 	handleDeleteBasket,
 	handleCopyBasket,
 	baseQuanity,
+	baseActionValue,
+	baseOptionValue,
 }: OptionDetailsProps) => {
 	const [quantityValue, setQuantityValue] = useState<number>(baseQuanity)
+	const [actionValue, setActionValue] = useState<string>(baseActionValue)
+	const [optionType, setOptionType] = useState<string>(baseOptionValue)
 	const [tradeOption, setTradeOption] = useState<string>('')
 	const [subTradeOption, setSubTradeOption] = useState<string>('')
 	const [subTradeOptionList, setSubTradeOptionList] = useState<TradeOptions[]>(
@@ -55,8 +61,22 @@ const OptionBasketDetail = ({
 								action2="S"
 								color1="green"
 								color2="red"
+								baseActionValue={actionValue}
+								handleBaseActionChange={setActionValue}
 							/>
 						</Flex>
+						<Flex flex={1} justify="center">
+							<ActionSelector
+								label="Option Type"
+								action1="CE"
+								action2="PE"
+								color1="black"
+								color2="purple"
+								baseActionValue={optionType}
+								handleBaseActionChange={setOptionType}
+							/>
+						</Flex>
+
 						<Flex flex={1}>
 							<StrikeSelector
 								tradeOption={tradeOption}

@@ -9,6 +9,7 @@ import ExpirySelector from '../modal-components/expiry-selector'
 interface FututreDetailsProps {
 	id: string
 	baseQuanity: number
+	baseActionValue: string
 	handleDeleteBasket: (val: string) => void
 	handleCopyBasket: (val: string) => void
 }
@@ -17,8 +18,11 @@ const FututeBasketDetails = ({
 	handleDeleteBasket,
 	handleCopyBasket,
 	baseQuanity,
+	baseActionValue,
 }: FututreDetailsProps) => {
 	const [quantityValue, setQuantityValue] = useState<number>(baseQuanity)
+	const [actionValue, setActionValue] = useState<string>(baseActionValue)
+
 	return (
 		<DetailBasketHolder
 			handleCopyBasket={handleCopyBasket}
@@ -36,6 +40,8 @@ const FututeBasketDetails = ({
 						action2="S"
 						color1="green"
 						color2="red"
+						baseActionValue={actionValue}
+						handleBaseActionChange={setActionValue}
 					/>
 				</Flex>
 				<Flex flex={1}>

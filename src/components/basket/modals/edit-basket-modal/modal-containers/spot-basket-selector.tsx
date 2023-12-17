@@ -6,12 +6,16 @@ import QuantityInput from '../modal-components/quantity-input'
 interface BasketProps {
 	handleAddBasket: (val: string) => void
 	handleBaseQuantityChange: (value: number) => void
+	handleBaseActionChange: (val: string) => void
 	baseQuantityValue: number
+	baseActionValue: string
 }
 const SpotBasketSelector = ({
 	handleAddBasket,
 	handleBaseQuantityChange,
 	baseQuantityValue,
+	baseActionValue,
+	handleBaseActionChange,
 }: BasketProps) => {
 	return (
 		<PositionHolder heading="Spot" onClick={handleAddBasket} basketType="spot">
@@ -26,6 +30,8 @@ const SpotBasketSelector = ({
 						action2="S"
 						color1="green"
 						color2="red"
+						baseActionValue={baseActionValue}
+						handleBaseActionChange={handleBaseActionChange}
 					/>
 				</Flex>
 				<Flex flex={1} justify="center">

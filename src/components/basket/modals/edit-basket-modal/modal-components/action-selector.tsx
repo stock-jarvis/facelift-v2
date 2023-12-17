@@ -1,12 +1,14 @@
 import { Flex, Typography, theme, Divider } from 'antd'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 
 interface ActionSelectorProps {
+	handleBaseActionChange: (val: string) => void
 	label: string
 	action1: string
 	action2: string
 	color1: string
 	color2: string
+	baseActionValue: string
 }
 
 const ActionSelector = ({
@@ -15,15 +17,24 @@ const ActionSelector = ({
 	action2,
 	color1,
 	color2,
+	baseActionValue,
+	handleBaseActionChange,
 }: ActionSelectorProps) => {
-	const [tag, setTag] = useState(action1)
+	const [tag, setTag] = useState<string>()
 	const { token } = theme.useToken()
 
 	const handleTagChange = (tagVal: string) => {
 		if (tagVal !== tag) {
 			setTag(tagVal)
+			handleBaseActionChange(tagVal)
 		}
 	}
+
+	useEffect(() => {
+		if (!tag) {
+			setTag(baseActionValue)
+		}
+	}, [baseActionValue, tag])
 	return (
 		<Flex
 			style={{
