@@ -12,13 +12,13 @@ interface ActionSelectorProps {
 }
 
 const ActionSelector = ({
+	handleBaseActionChange,
 	label,
 	action1,
 	action2,
 	color1,
 	color2,
 	baseActionValue,
-	handleBaseActionChange,
 }: ActionSelectorProps) => {
 	const [tag, setTag] = useState<string>()
 	const { token } = theme.useToken()
@@ -41,7 +41,6 @@ const ActionSelector = ({
 				width: 'fit-content',
 				borderRadius: token.borderRadiusLG,
 				padding: token.paddingSM,
-				//boxShadow: '2px 2px 2px 2px rgba(0, 0, 0, 0.25) inset',
 			}}
 			vertical
 			align="center"

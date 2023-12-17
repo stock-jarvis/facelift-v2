@@ -2,21 +2,21 @@ import { Flex, theme } from 'antd'
 import CappedButton from '../modal-components/capped-button'
 
 interface ProfitLossProps {
+	setProfitValue: (value: number) => void
+	setLossValue: (value: number) => void
 	profitLabel: string
 	lossLabel: string
 	profitValue: number
 	lossValue: number
-	setProfitValue: (value: number) => void
-	setLossValue: (value: number) => void
 }
 
 const ProfitLoss = ({
+	setProfitValue,
+	setLossValue,
 	profitLabel,
 	lossLabel,
 	profitValue,
 	lossValue,
-	setProfitValue,
-	setLossValue,
 }: ProfitLossProps) => {
 	const { token } = theme.useToken()
 	return (

@@ -6,12 +6,12 @@ import { SelectProps } from 'antd/es/select'
 import { TradeOptions } from '../../../types/types'
 
 interface StrikeSelectorProps {
-	tradeOption: string
 	setTradeOption: (val: string) => void
-	subTradeOption: string
 	setSubTradeOption: (val: string) => void
-	subTradeOptionList: TradeOptions[]
 	setSubTradeOptionList: (val: TradeOptions[]) => void
+	tradeOption: string
+	subTradeOption: string
+	subTradeOptionList: TradeOptions[]
 }
 
 const StrikeSelector = ({
@@ -74,7 +74,7 @@ const StrikeSelector = ({
 				/>
 				{tradeOption !== 'ATMPt' && tradeOption !== 'HIGHOI' && (
 					<Flex style={{ width: '90px' }}>
-						<Input style={{ width: '80px' }} />
+						<Input style={{ width: '80px' }} type="number" />
 						{tradeOption !== 'CP' && (
 							<p className="flex self-center pl-[3px]">%</p>
 						)}

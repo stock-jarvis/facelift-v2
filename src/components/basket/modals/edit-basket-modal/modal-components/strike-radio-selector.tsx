@@ -3,10 +3,10 @@ import { tradeTypeData } from '../../../constants/data'
 import { RadioProps } from 'antd'
 import { TradeOptions } from '../../../types/types'
 interface StrikeRadioProps {
-	tradeOption: string
 	setTradeOption: (val: string) => void
 	setSubTradeOptionList: (val: TradeOptions[]) => void
 	setSubTradeOption: (val: string) => void
+	tradeOption: string
 }
 const StrikeRadioSelector = ({
 	tradeOption,

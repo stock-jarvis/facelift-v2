@@ -1,16 +1,16 @@
 import { Button, Flex, Typography, theme, Tooltip } from 'antd'
 import { ButtonProps } from 'antd'
 interface PositionHolderProps {
+	onClick: (val: string) => void
 	children: React.ReactNode
 	heading: string
 	basketType: string
-	onClick: (val: string) => void
 }
 const PositionHolder = ({
+	onClick,
 	children,
 	heading,
 	basketType,
-	onClick,
 }: PositionHolderProps) => {
 	const { token } = theme.useToken()
 

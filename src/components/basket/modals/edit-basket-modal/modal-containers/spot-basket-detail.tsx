@@ -6,17 +6,17 @@ import YeildButton from '../modal-components/yeild-button'
 import { Flex } from 'antd'
 import { useState } from 'react'
 interface SpotDetailsProps {
-	id: string
 	handleDeleteBasket: (val: string) => void
 	handleCopyBasket: (val: string) => void
+	id: string
 	baseQuanity: number
 	baseActionValue: string
 }
 
 const SpotBasketDetail = ({
-	id,
 	handleDeleteBasket,
 	handleCopyBasket,
+	id,
 	baseQuanity,
 	baseActionValue,
 }: SpotDetailsProps) => {

@@ -9,9 +9,9 @@ import StrikeSelector from '../modal-components/strike-selector'
 import { useState } from 'react'
 import { OptionObject, TradeOptions } from 'src/components/basket/types/types'
 interface OptionDetailsProps {
-	id: string
 	handleDeleteBasket: (val: string) => void
 	handleCopyBasket: (val: string) => void
+	id: string
 	baseQuanity: number
 	baseActionValue: string
 	baseOptionValue: string
@@ -22,9 +22,9 @@ interface OptionDetailsProps {
 	baseSubTradeOptionList: TradeOptions[]
 }
 const OptionBasketDetail = ({
-	id,
 	handleDeleteBasket,
 	handleCopyBasket,
+	id,
 	baseQuanity,
 	baseActionValue,
 	baseOptionValue,

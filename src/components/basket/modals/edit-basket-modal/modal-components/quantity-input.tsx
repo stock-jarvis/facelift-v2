@@ -4,8 +4,8 @@ import { ChangeEvent } from 'react'
 import { useState, useEffect } from 'react'
 
 interface QuantityProps {
-	baseQuantityValue: number
 	handleQantityChange: (value: number) => void
+	baseQuantityValue: number
 }
 
 const QuantityInput = ({

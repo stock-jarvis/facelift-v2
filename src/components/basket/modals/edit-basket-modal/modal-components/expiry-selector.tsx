@@ -2,9 +2,9 @@ import { Flex, Typography, theme, Select } from 'antd'
 import { OptionObject } from 'src/components/basket/types/types'
 import { SelectProps } from 'antd'
 interface ExpirySelectorProps {
+	handleExpiryChange: (val: string) => void
 	expiryOptions: OptionObject[]
 	expiryValue: string
-	handleExpiryChange: (val: string) => void
 }
 const ExpirySelector = ({
 	expiryOptions,

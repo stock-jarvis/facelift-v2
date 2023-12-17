@@ -13,9 +13,9 @@ interface BasketProps {
 const SpotBasketSelector = ({
 	handleAddBasket,
 	handleBaseQuantityChange,
+	handleBaseActionChange,
 	baseQuantityValue,
 	baseActionValue,
-	handleBaseActionChange,
 }: BasketProps) => {
 	return (
 		<PositionHolder heading="Spot" onClick={handleAddBasket} basketType="spot">

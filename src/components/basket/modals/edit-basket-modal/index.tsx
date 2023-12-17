@@ -57,6 +57,9 @@ const EditBasketModal = () => {
 		setOptionExpiryBaseValue('Monthly')
 		setFutureExpiryBaseValue('Monthly')
 		setBasketOption(value.value)
+		setTradeOption(tradeTypeData[0].value)
+		setSubTradeOption(tradeTypeData[0].children[0].value)
+		setSubTradeOptionList(tradeTypeData[0].children)
 	}
 
 	const handleAddBasket = (value: string) => {

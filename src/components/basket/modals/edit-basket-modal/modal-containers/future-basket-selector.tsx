@@ -8,21 +8,21 @@ import ExpirySelector from '../modal-components/expiry-selector'
 interface BasketProps {
 	handleAddBasket: (val: string) => void
 	handleBaseQuantityChange: (value: number) => void
-	baseQuantityValue: number
-	baseActionValue: string
+	handleBaseExpiryChange: (val: string) => void
 	handleBaseActionChange: (val: string) => void
 	futureExpiryList: OptionObject[]
 	futureExpiryBaseValue: string
-	handleBaseExpiryChange: (val: string) => void
+	baseQuantityValue: number
+	baseActionValue: string
 }
 const FutureBasketSelector = ({
 	handleAddBasket,
 	handleBaseQuantityChange,
-	baseQuantityValue,
-	futureExpiryBaseValue,
+	handleBaseActionChange,
 	handleBaseExpiryChange,
 	baseActionValue,
-	handleBaseActionChange,
+	baseQuantityValue,
+	futureExpiryBaseValue,
 	futureExpiryList,
 }: BasketProps) => {
 	return (
