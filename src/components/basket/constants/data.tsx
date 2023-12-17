@@ -7,6 +7,72 @@ import {
 	SnippetsOutlined,
 } from '@ant-design/icons'
 
+export const futureExpiry: OptionObject[] = [
+	{
+		id: 1,
+		value: 'Monthly',
+		label: 'Monthly',
+	},
+	{
+		id: 2,
+		value: 'Monthly +1',
+		label: 'Monthly +1',
+	},
+	{
+		id: 3,
+		value: 'Monthly +2',
+		label: 'Monthly +2',
+	},
+]
+
+export const optionExpiry: OptionObject[] = [
+	{
+		id: 1,
+		value: 'Weekly',
+		label: 'Weekly',
+	},
+	{
+		id: 2,
+		value: 'Weekly +1',
+		label: 'Weekly +1',
+	},
+	{
+		id: 2,
+		value: 'Weekly +2',
+		label: 'Weekly +2',
+	},
+	{
+		id: 3,
+		value: 'Weekly +3',
+		label: 'Weekly +3',
+	},
+	{
+		id: 4,
+		value: 'Monthly',
+		label: 'Monthly',
+	},
+	{
+		id: 5,
+		value: 'Monthly +1',
+		label: 'Monthly +1',
+	},
+	{
+		id: 6,
+		value: 'Monthly +2',
+		label: 'Monthly +2',
+	},
+	{
+		id: 7,
+		value: 'Monthly +3',
+		label: 'Monthly +3',
+	},
+	{
+		id: 8,
+		value: 'Yearly',
+		label: 'Yearly',
+	},
+]
+
 export const basketOptions: OptionObject[] = [
 	{
 		id: 1,

@@ -8,7 +8,7 @@ import ExpirySelector from '../modal-components/expiry-selector'
 import StrikeSelector from '../modal-components/strike-selector'
 import { useState, useEffect } from 'react'
 import { tradeTypeData } from 'src/components/basket/constants/data'
-import { TradeOptions } from 'src/components/basket/types/types'
+import { OptionObject, TradeOptions } from 'src/components/basket/types/types'
 interface OptionDetailsProps {
 	id: string
 	handleDeleteBasket: (val: string) => void
@@ -16,6 +16,8 @@ interface OptionDetailsProps {
 	baseQuanity: number
 	baseActionValue: string
 	baseOptionValue: string
+	optionExpiryBaseValue: string
+	optionExpiryList: OptionObject[]
 }
 const OptionBasketDetail = ({
 	id,
@@ -24,6 +26,8 @@ const OptionBasketDetail = ({
 	baseQuanity,
 	baseActionValue,
 	baseOptionValue,
+	optionExpiryList,
+	optionExpiryBaseValue,
 }: OptionDetailsProps) => {
 	const [quantityValue, setQuantityValue] = useState<number>(baseQuanity)
 	const [actionValue, setActionValue] = useState<string>(baseActionValue)
@@ -33,7 +37,7 @@ const OptionBasketDetail = ({
 	const [subTradeOptionList, setSubTradeOptionList] = useState<TradeOptions[]>(
 		[]
 	)
-
+	const [expiryValue, setExpiryValue] = useState<string>(optionExpiryBaseValue)
 	useEffect(() => {
 		if (!tradeOption) {
 			setTradeOption(tradeTypeData[0].value)
@@ -94,7 +98,11 @@ const OptionBasketDetail = ({
 							/>
 						</Flex>
 						<Flex flex={1}>
-							<ExpirySelector />
+							<ExpirySelector
+								expiryValue={expiryValue}
+								handleExpiryChange={setExpiryValue}
+								expiryOptions={optionExpiryList}
+							/>
 						</Flex>
 					</Flex>
 					<Flex flex="1" justify="center" gap="middle">

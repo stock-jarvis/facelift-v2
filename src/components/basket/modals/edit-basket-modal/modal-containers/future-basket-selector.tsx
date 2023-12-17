@@ -1,4 +1,5 @@
 import { Flex } from 'antd'
+import { OptionObject } from 'src/components/basket/types/types'
 import Instrument from '../modal-components/instrument'
 import ActionSelector from '../modal-components/action-selector'
 import PositionHolder from './position-holder'
@@ -10,13 +11,19 @@ interface BasketProps {
 	baseQuantityValue: number
 	baseActionValue: string
 	handleBaseActionChange: (val: string) => void
+	futureExpiryList: OptionObject[]
+	futureExpiryBaseValue: string
+	handleBaseExpiryChange: (val: string) => void
 }
 const FutureBasketSelector = ({
 	handleAddBasket,
 	handleBaseQuantityChange,
 	baseQuantityValue,
+	futureExpiryBaseValue,
+	handleBaseExpiryChange,
 	baseActionValue,
 	handleBaseActionChange,
+	futureExpiryList,
 }: BasketProps) => {
 	return (
 		<PositionHolder
@@ -40,7 +47,11 @@ const FutureBasketSelector = ({
 					baseQuantityValue={baseQuantityValue}
 					handleQantityChange={handleBaseQuantityChange}
 				/>
-				<ExpirySelector />
+				<ExpirySelector
+					handleExpiryChange={handleBaseExpiryChange}
+					expiryValue={futureExpiryBaseValue}
+					expiryOptions={futureExpiryList}
+				/>
 			</Flex>
 		</PositionHolder>
 	)

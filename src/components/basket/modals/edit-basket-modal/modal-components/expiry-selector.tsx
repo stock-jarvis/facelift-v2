@@ -1,21 +1,28 @@
 import { Flex, Typography, theme, Select } from 'antd'
-//import { useState } from 'react'
-const ExpirySelector = () => {
-	//	const [tag, setTag] = useState('B')
+import { OptionObject } from 'src/components/basket/types/types'
+import { SelectProps } from 'antd'
+interface ExpirySelectorProps {
+	expiryOptions: OptionObject[]
+	expiryValue: string
+	handleExpiryChange: (val: string) => void
+}
+const ExpirySelector = ({
+	expiryOptions,
+	expiryValue,
+	handleExpiryChange,
+}: ExpirySelectorProps) => {
 	const { token } = theme.useToken()
 
-	// const handleTagChange = (tagVal: string) => {
-	// 	if (tagVal !== tag) {
-	// 		setTag(tagVal)
-	// 	}
-	// }
+	const onHandleExpiryChange: SelectProps['onChange'] = (val: string) => {
+		handleExpiryChange(val)
+	}
+
 	return (
 		<Flex
 			style={{
 				width: 'fit-content',
 				borderRadius: token.borderRadiusLG,
 				padding: token.paddingSM,
-				//boxShadow: '2px 2px 2px 2px rgba(0, 0, 0, 0.25) inset',
 			}}
 			vertical
 			justify="center"
@@ -25,7 +32,13 @@ const ExpirySelector = () => {
 				Expiry
 			</Typography.Text>
 			<Flex gap={'middle'} align="center">
-				<Select style={{ width: '200px' }} size="large" />
+				<Select
+					value={expiryValue}
+					onChange={onHandleExpiryChange}
+					style={{ width: '200px' }}
+					size="large"
+					options={expiryOptions}
+				/>
 			</Flex>
 		</Flex>
 	)

@@ -15,6 +15,7 @@ import PositionSelector from './modal-containers/position-selector'
 
 import { generateUniqueId } from '../../common/randomizer'
 
+import { futureExpiry, optionExpiry } from '../../constants/data'
 import { OptionObject } from '../../types/types'
 import { basketOptions } from '../../constants/data'
 
@@ -32,6 +33,12 @@ const EditBasketModal = () => {
 	const [quantityValue, setQuantityValue] = useState<number>(1)
 	const [actionValue, setActionValue] = useState<string>('B')
 	const [optionType, setOptionType] = useState<string>('CE')
+	const [futureExpiryList] = useState<OptionObject[]>(futureExpiry)
+	const [optionExpiryList] = useState<OptionObject[]>(optionExpiry)
+	const [futureExpiryBaseValue, setFutureExpiryBaseValue] =
+		useState<string>('Monthly')
+	const [optionExpiryBaseValue, setOptionExpiryBaseValue] =
+		useState<string>('Monthly')
 
 	const setToogleValue = (value: string) => {
 		value
@@ -40,6 +47,8 @@ const EditBasketModal = () => {
 		setQuantityValue(1)
 		setActionValue('B')
 		setOptionType('CE')
+		setOptionExpiryBaseValue('Monthly')
+		setFutureExpiryBaseValue('Monthly')
 		setBasketOption(value.value)
 	}
 
@@ -140,14 +149,20 @@ const EditBasketModal = () => {
 							/>
 						) : basketOption === 'future' ? (
 							<FutureBasketSelector
+								futureExpiryBaseValue={futureExpiryBaseValue}
+								futureExpiryList={futureExpiryList}
 								handleAddBasket={handleAddBasket}
 								handleBaseQuantityChange={setQuantityValue}
 								baseQuantityValue={quantityValue}
 								baseActionValue={actionValue}
 								handleBaseActionChange={setActionValue}
+								handleBaseExpiryChange={setFutureExpiryBaseValue}
 							/>
 						) : (
 							<OptionsBasketSelector
+								handleBaseExpiryChange={setOptionExpiryBaseValue}
+								optionExpiryBaseValue={optionExpiryBaseValue}
+								optionExpiryList={optionExpiryList}
 								handleAddBasket={handleAddBasket}
 								handleBaseQuantityChange={setQuantityValue}
 								baseQuantityValue={quantityValue}
@@ -177,16 +192,20 @@ const EditBasketModal = () => {
 								handleDeleteBasket={handleDeleteBasket}
 								handleCopyBasket={handleCopyBasket}
 								baseActionValue={actionValue}
+								futureExpiryBaseValue={futureExpiryBaseValue}
+								futureExpiryList={futureExpiryList}
 							/>
 						) : (
 							<OptionBasketDetail
 								key={bask.id}
 								id={bask.id}
 								baseQuanity={quantityValue}
+								optionExpiryBaseValue={optionExpiryBaseValue}
 								handleDeleteBasket={handleDeleteBasket}
 								handleCopyBasket={handleCopyBasket}
 								baseActionValue={actionValue}
 								baseOptionValue={optionType}
+								optionExpiryList={optionExpiryList}
 							/>
 						)
 					)}

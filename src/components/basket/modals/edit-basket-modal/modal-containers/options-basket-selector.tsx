@@ -2,6 +2,7 @@ import { Flex } from 'antd'
 import { useState, useEffect } from 'react'
 import { TradeOptions } from '../../../types/types'
 import { tradeTypeData } from '../../../constants/data'
+import { OptionObject } from '../../../types/types'
 import StrikeRadioSelector from '../modal-components/strike-radio-selector'
 import PositionHolder from './position-holder'
 import StrikeSelector from '../modal-components/strike-selector'
@@ -14,17 +15,23 @@ interface BasketProps {
 	handleBaseQuantityChange: (value: number) => void
 	handleBaseActionChange: (val: string) => void
 	handleBaseOptionChange: (val: string) => void
+	handleBaseExpiryChange: (val: string) => void
 	baseQuantityValue: number
 	baseActionValue: string
 	baseOptionValue: string
+	optionExpiryList: OptionObject[]
+	optionExpiryBaseValue: string
 }
 const OptionsBasketSelector = ({
 	handleAddBasket,
 	handleBaseQuantityChange,
 	handleBaseOptionChange,
 	handleBaseActionChange,
+	handleBaseExpiryChange,
+	optionExpiryBaseValue,
 	baseQuantityValue,
 	baseActionValue,
+	optionExpiryList,
 	baseOptionValue,
 }: BasketProps) => {
 	//const { token } = theme.useToken()
@@ -89,7 +96,11 @@ const OptionsBasketSelector = ({
 						baseQuantityValue={baseQuantityValue}
 						handleQantityChange={handleBaseQuantityChange}
 					/>
-					<ExpirySelector />
+					<ExpirySelector
+						handleExpiryChange={handleBaseExpiryChange}
+						expiryValue={optionExpiryBaseValue}
+						expiryOptions={optionExpiryList}
+					/>
 				</Flex>
 			</Flex>
 		</PositionHolder>
