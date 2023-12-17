@@ -5,6 +5,10 @@ import ActionSelector from '../modal-components/action-selector'
 import YeildButton from '../modal-components/yeild-button'
 import { Flex } from 'antd'
 import { useState } from 'react'
+import {
+	spotLossOptions,
+	totalProfitOptions,
+} from 'src/components/basket/constants/data'
 interface SpotDetailsProps {
 	handleDeleteBasket: (val: string) => void
 	handleCopyBasket: (val: string) => void
@@ -22,7 +26,12 @@ const SpotBasketDetail = ({
 }: SpotDetailsProps) => {
 	const [quantityValue, setQuantityValue] = useState<number>(baseQuanity)
 	const [actionValue, setActionValue] = useState<string>(baseActionValue)
-
+	const [spotLossType, setSpotLossType] = useState<string>(
+		spotLossOptions[0].value
+	)
+	const [totalProfitType, setTotalProfitType] = useState<string>(
+		totalProfitOptions[0].value
+	)
 	return (
 		<DetailBasketHolder
 			id={id}
@@ -51,10 +60,20 @@ const SpotBasketDetail = ({
 					/>
 				</Flex>
 				<Flex flex={1} style={{ marginTop: '23px' }}>
-					<YeildButton label="Total Profit" />
+					<YeildButton
+						options={totalProfitOptions}
+						label="Total Profit"
+						targetType={totalProfitType}
+						handleTargetTypeChange={setTotalProfitType}
+					/>
 				</Flex>
 				<Flex flex={1} style={{ marginTop: '23px' }}>
-					<YeildButton label="Spot Loss" />
+					<YeildButton
+						label="Spot Loss"
+						options={spotLossOptions}
+						targetType={spotLossType}
+						handleTargetTypeChange={setSpotLossType}
+					/>
 				</Flex>
 			</Flex>
 		</DetailBasketHolder>

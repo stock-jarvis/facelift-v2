@@ -7,6 +7,11 @@ import QuantityInput from '../modal-components/quantity-input'
 import YeildButton from '../modal-components/yeild-button'
 import ExpirySelector from '../modal-components/expiry-selector'
 import { OptionObject } from 'src/components/basket/types/types'
+import {
+	spotLossOptions,
+	totalProfitOptions,
+} from 'src/components/basket/constants/data'
+
 interface FututreDetailsProps {
 	id: string
 	baseQuanity: number
@@ -28,6 +33,12 @@ const FututeBasketDetails = ({
 	const [quantityValue, setQuantityValue] = useState<number>(baseQuanity)
 	const [actionValue, setActionValue] = useState<string>(baseActionValue)
 	const [expirtyValue, setExpiryValue] = useState<string>(futureExpiryBaseValue)
+	const [spotLossType, setSpotLossType] = useState<string>(
+		spotLossOptions[0].value
+	)
+	const [totalProfitType, setTotalProfitType] = useState<string>(
+		totalProfitOptions[0].value
+	)
 	return (
 		<DetailBasketHolder
 			handleCopyBasket={handleCopyBasket}
@@ -63,10 +74,20 @@ const FututeBasketDetails = ({
 					/>
 				</Flex>
 				<Flex flex={1} style={{ marginTop: '23px' }}>
-					<YeildButton label="Total Profit" />
+					<YeildButton
+						label="Total Profit"
+						options={totalProfitOptions}
+						targetType={totalProfitType}
+						handleTargetTypeChange={setTotalProfitType}
+					/>
 				</Flex>
 				<Flex flex={1} style={{ marginTop: '23px' }}>
-					<YeildButton label="Spot Loss" />
+					<YeildButton
+						label="Spot Loss"
+						options={spotLossOptions}
+						targetType={spotLossType}
+						handleTargetTypeChange={setSpotLossType}
+					/>
 				</Flex>
 			</Flex>
 		</DetailBasketHolder>

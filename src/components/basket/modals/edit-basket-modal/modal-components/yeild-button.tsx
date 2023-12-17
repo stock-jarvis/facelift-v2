@@ -1,12 +1,26 @@
 import { Flex, theme, Button, Input, Select, Tooltip } from 'antd'
 import { PlusOutlined, CloseOutlined } from '@ant-design/icons'
 import { useState } from 'react'
+import { SelectProps } from 'antd'
+import { OptionObject } from 'src/components/basket/types/types'
 interface YeildButtonProps {
 	label: string
+	options: OptionObject[]
+	targetType: string
+	handleTargetTypeChange: (val: string) => void
 }
-const YeildButton = ({ label }: YeildButtonProps) => {
+const YeildButton = ({
+	label,
+	options,
+	targetType,
+	handleTargetTypeChange,
+}: YeildButtonProps) => {
 	const { token } = theme.useToken()
 	const [buttonOpened, setButtonOpened] = useState(false)
+
+	const handleTypeChange: SelectProps['onChange'] = (value: string) => {
+		handleTargetTypeChange(value)
+	}
 	return (
 		<Flex align="center">
 			{!buttonOpened ? (
@@ -56,7 +70,12 @@ const YeildButton = ({ label }: YeildButtonProps) => {
 					gap="middle"
 				>
 					<Flex>
-						<Select style={{ minWidth: '70px' }} />
+						<Select
+							style={{ minWidth: '90px' }}
+							options={options}
+							value={targetType}
+							onChange={handleTypeChange}
+						/>
 						<Input />
 					</Flex>
 					<CloseOutlined onClick={() => setButtonOpened(false)} />

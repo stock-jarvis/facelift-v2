@@ -85,7 +85,7 @@ const EditBasketModal = () => {
 	return (
 		<Modal
 			className="select-none no-scrollbar"
-			open={true}
+			open={false}
 			width={1200}
 			title={<Header />}
 			footer={<Footer />}

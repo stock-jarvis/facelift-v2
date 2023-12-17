@@ -8,6 +8,10 @@ import ExpirySelector from '../modal-components/expiry-selector'
 import StrikeSelector from '../modal-components/strike-selector'
 import { useState } from 'react'
 import { OptionObject, TradeOptions } from 'src/components/basket/types/types'
+import {
+	spotLossOptions,
+	totalProfitOptions,
+} from 'src/components/basket/constants/data'
 interface OptionDetailsProps {
 	id: string
 	baseQuanity: number
@@ -48,6 +52,13 @@ const OptionBasketDetail = ({
 		baseSubTradeOptionList
 	)
 	const [expiryValue, setExpiryValue] = useState<string>(optionExpiryBaseValue)
+
+	const [spotLossType, setSpotLossType] = useState<string>(
+		spotLossOptions[0].value
+	)
+	const [totalProfitType, setTotalProfitType] = useState<string>(
+		totalProfitOptions[0].value
+	)
 
 	return (
 		<DetailBasketHolder
@@ -113,10 +124,20 @@ const OptionBasketDetail = ({
 					</Flex>
 					<Flex flex="1" justify="center" gap="middle">
 						<Flex>
-							<YeildButton label="Total Profit" />
+							<YeildButton
+								label="Total Profit"
+								options={totalProfitOptions}
+								targetType={totalProfitType}
+								handleTargetTypeChange={setTotalProfitType}
+							/>
 						</Flex>
 						<Flex>
-							<YeildButton label="Spot Loss" />
+							<YeildButton
+								label="Spot Loss"
+								options={spotLossOptions}
+								targetType={spotLossType}
+								handleTargetTypeChange={setSpotLossType}
+							/>
 						</Flex>
 					</Flex>
 				</Flex>

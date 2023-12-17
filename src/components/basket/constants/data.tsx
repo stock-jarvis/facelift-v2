@@ -221,3 +221,39 @@ export const tradeTypeData = [
 		],
 	},
 ]
+
+export const spotLossOptions: OptionObject[] = [
+	{
+		id: 1,
+		value: 'percent',
+		label: 'SL %',
+	},
+	{
+		id: 2,
+		value: 'rupees',
+		label: 'SL ₹',
+	},
+	{
+		id: 3,
+		value: 'points',
+		label: 'SL Pt',
+	},
+]
+
+export const totalProfitOptions: OptionObject[] = [
+	{
+		id: 1,
+		value: 'percent',
+		label: 'TP %',
+	},
+	{
+		id: 2,
+		value: 'rupees',
+		label: 'TP ₹',
+	},
+	{
+		id: 3,
+		value: 'points',
+		label: 'TP Pt',
+	},
+]
