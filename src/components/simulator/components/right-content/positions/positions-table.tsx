@@ -1,13 +1,6 @@
-import {
-	Table,
-	TableProps as AntdTableProps,
-	Space,
-	Button,
-	Tooltip,
-} from 'antd'
+import { Table, TableProps, Space, Button, Tooltip } from 'antd'
 import { Dayjs } from 'dayjs'
-import { RxExit, RxTrash } from 'react-icons/rx'
-import { SaveOutlined } from '@ant-design/icons'
+import { RxTrash } from 'react-icons/rx'
 
 import {
 	getDateAsStringFromDayjs,
@@ -18,6 +11,8 @@ import { TradeAction } from 'src/common/enums'
 import { positionsMockData } from './mock-data'
 
 import TradeActionIndicator from 'src/common/components/trade-action-indicator'
+import renderFooter from './footer'
+import ExitLots from './exit-lots'
 
 export type Position = {
 	tradeAction: TradeAction
@@ -35,10 +30,10 @@ export type Position = {
 	// }
 }
 
-type TableProps = AntdTableProps<Position>
+export type PositionsAntdTableProps = TableProps<Position>
 
 const PositionsTable = () => {
-	const columns: TableProps['columns'] = [
+	const columns: PositionsAntdTableProps['columns'] = [
 		{
 			/** No title in table header */
 			key: 'tradeAction',
@@ -103,9 +98,8 @@ const PositionsTable = () => {
 			dataIndex: 'tradeAction',
 			render: () => (
 				<Space size="large">
-					<Tooltip title="Exit position">
-						<Button size="large" type="text" shape="circle" icon={<RxExit />} />
-					</Tooltip>
+					{/* // TODO: Wire up lots */}
+					<ExitLots />
 					<Tooltip title="Remove row">
 						<Button
 							size="large"
@@ -127,13 +121,7 @@ const PositionsTable = () => {
 			pagination={false}
 			dataSource={positionsMockData}
 			scroll={{ y: 'calc(100vh - 270px)' }}
-			footer={() => (
-				<Space>
-					<Button type="primary" icon={<SaveOutlined />}>
-						Saved Simulations
-					</Button>
-				</Space>
-			)}
+			footer={renderFooter}
 		/>
 	)
 }
