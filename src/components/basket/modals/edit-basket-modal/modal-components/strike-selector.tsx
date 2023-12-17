@@ -28,21 +28,17 @@ const StrikeSelector = ({
 }: StrikeSelectorProps) => {
 	const { token } = theme.useToken()
 
-	// give initial value for the state variable
-
-	// change runtime value of the parent trade type
 	const handleTradeChange: SelectProps['onChange'] = (value: string) => {
-		///props over change
 		const subTradeData =
 			tradeTypeData.find((data) => data.value === value)?.children || []
 		setTradeOption(value)
 		setSubTradeOptionList(subTradeData)
 		setSubTradeOption(subTradeData[0]?.value || '')
+		setTradeValue(1)
 	}
 
-	// change runtime value of the subtrade type
 	const handleSubTradeChange: SelectProps['onChange'] = (value: string) => {
-		// prop value
+		//TODO:Update on Demand
 		setSubTradeOption(value)
 	}
 
@@ -70,7 +66,6 @@ const StrikeSelector = ({
 				width: 'fit-content',
 				borderRadius: token.borderRadiusLG,
 				padding: token.paddingSM,
-				//boxShadow: '2px 2px 2px 2px rgba(0, 0, 0, 0.25) inset',
 			}}
 			vertical
 			justify="center"

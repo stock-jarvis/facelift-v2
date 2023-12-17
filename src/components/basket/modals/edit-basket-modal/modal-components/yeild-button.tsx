@@ -1,26 +1,49 @@
 import { Flex, theme, Button, Input, Select, Tooltip } from 'antd'
 import { PlusOutlined, CloseOutlined } from '@ant-design/icons'
-import { useState } from 'react'
-import { SelectProps } from 'antd'
+import { useState, ChangeEvent } from 'react'
+import { SelectProps, InputProps } from 'antd'
 import { OptionObject } from 'src/components/basket/types/types'
 interface YeildButtonProps {
 	label: string
 	options: OptionObject[]
 	targetType: string
+	targetValue: number
+	handleTargetValueChange: (val: number) => void
 	handleTargetTypeChange: (val: string) => void
 }
 const YeildButton = ({
 	label,
 	options,
 	targetType,
+	targetValue,
+	handleTargetValueChange,
 	handleTargetTypeChange,
 }: YeildButtonProps) => {
 	const { token } = theme.useToken()
 	const [buttonOpened, setButtonOpened] = useState(false)
 
 	const handleTypeChange: SelectProps['onChange'] = (value: string) => {
+		handleTargetValueChange(1)
 		handleTargetTypeChange(value)
 	}
+	const handleInputChange: InputProps['onChange'] = (
+		e: ChangeEvent<HTMLInputElement>
+	) => {
+		if (+e.target.value <= 0) {
+			handleTargetValueChange(1)
+		} else {
+			if (targetType === 'percent') {
+				if (+e.target.value > 100) {
+					handleTargetValueChange(100)
+				} else {
+					handleTargetValueChange(+e.target.value)
+				}
+			} else {
+				handleTargetValueChange(+e.target.value)
+			}
+		}
+	}
+
 	return (
 		<Flex align="center">
 			{!buttonOpened ? (
@@ -28,7 +51,6 @@ const YeildButton = ({
 					<Flex
 						style={{
 							height: 'fit-content',
-							//border: `2px solid ${token.colorPrimary}`,
 							borderRadius: token.borderRadiusLG,
 						}}
 					>
@@ -64,8 +86,6 @@ const YeildButton = ({
 						padding: token.paddingXS,
 						borderRadius: token.borderRadiusLG,
 						boxShadow: '2px 2px 2px 2px rgba(0, 0, 0, 0.25) inset',
-						//width: 'fit-content',
-						//	border: `2px solid ${token.colorPrimary}`,
 					}}
 					gap="middle"
 				>
@@ -76,7 +96,7 @@ const YeildButton = ({
 							value={targetType}
 							onChange={handleTypeChange}
 						/>
-						<Input />
+						<Input value={targetValue} onChange={handleInputChange} />
 					</Flex>
 					<CloseOutlined onClick={() => setButtonOpened(false)} />
 				</Flex>

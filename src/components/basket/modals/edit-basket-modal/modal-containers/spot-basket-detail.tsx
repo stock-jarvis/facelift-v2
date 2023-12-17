@@ -32,6 +32,8 @@ const SpotBasketDetail = ({
 	const [totalProfitType, setTotalProfitType] = useState<string>(
 		totalProfitOptions[0].value
 	)
+	const [totalProfitValue, setTotalProfitValue] = useState<number>(1)
+	const [spotLossValue, setSpotLossValue] = useState<number>(1)
 	return (
 		<DetailBasketHolder
 			id={id}
@@ -64,6 +66,8 @@ const SpotBasketDetail = ({
 						options={totalProfitOptions}
 						label="Total Profit"
 						targetType={totalProfitType}
+						targetValue={totalProfitValue}
+						handleTargetValueChange={setTotalProfitValue}
 						handleTargetTypeChange={setTotalProfitType}
 					/>
 				</Flex>
@@ -72,6 +76,8 @@ const SpotBasketDetail = ({
 						label="Spot Loss"
 						options={spotLossOptions}
 						targetType={spotLossType}
+						targetValue={spotLossValue}
+						handleTargetValueChange={setSpotLossValue}
 						handleTargetTypeChange={setSpotLossType}
 					/>
 				</Flex>

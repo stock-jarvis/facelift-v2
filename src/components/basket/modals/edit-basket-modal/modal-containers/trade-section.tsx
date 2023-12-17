@@ -20,7 +20,6 @@ const TradeSecion = () => {
 					toogle1="Square off one Leg"
 					toogle2="Square of All Legs"
 					setToogleValue={(value: string) => {
-						console.log(value)
 						setToggleValue(value)
 					}}
 				/>

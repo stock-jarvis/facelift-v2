@@ -39,6 +39,8 @@ const FututeBasketDetails = ({
 	const [totalProfitType, setTotalProfitType] = useState<string>(
 		totalProfitOptions[0].value
 	)
+	const [totalProfitValue, setTotalProfitValue] = useState<number>(1)
+	const [spotLossValue, setSpotLossValue] = useState<number>(1)
 	return (
 		<DetailBasketHolder
 			handleCopyBasket={handleCopyBasket}
@@ -78,6 +80,8 @@ const FututeBasketDetails = ({
 						label="Total Profit"
 						options={totalProfitOptions}
 						targetType={totalProfitType}
+						targetValue={totalProfitValue}
+						handleTargetValueChange={setTotalProfitValue}
 						handleTargetTypeChange={setTotalProfitType}
 					/>
 				</Flex>
@@ -86,6 +90,8 @@ const FututeBasketDetails = ({
 						label="Spot Loss"
 						options={spotLossOptions}
 						targetType={spotLossType}
+						targetValue={spotLossValue}
+						handleTargetValueChange={setSpotLossValue}
 						handleTargetTypeChange={setSpotLossType}
 					/>
 				</Flex>

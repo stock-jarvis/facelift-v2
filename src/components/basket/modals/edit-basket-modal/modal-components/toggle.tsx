@@ -67,7 +67,6 @@ const Toggle = ({ toogle1, toogle2, setToogleValue }: ToggleProps) => {
 					backgroundColor:
 						toogleValue === toogle2 ? token.colorPrimary : token.colorBgBase,
 					padding: token.paddingXS,
-
 					borderRadius: token.borderRadiusLG,
 				}}
 			>

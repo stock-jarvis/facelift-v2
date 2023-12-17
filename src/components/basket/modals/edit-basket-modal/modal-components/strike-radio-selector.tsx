@@ -16,7 +16,6 @@ const StrikeRadioSelector = ({
 }: StrikeRadioProps) => {
 	const { token } = theme.useToken()
 
-	// change the trade value for options basket
 	const handleRadioChange: RadioProps['onChange'] = (event) => {
 		setTradeOption(event.target.value)
 		const subTradeData =
