@@ -5,9 +5,22 @@ import ActionSelector from '../modal-components/action-selector'
 import QuantityInput from '../modal-components/quantity-input'
 import YeildButton from '../modal-components/yeild-button'
 import ExpirySelector from '../modal-components/expiry-selector'
-const FututeBasketDetails = () => {
+interface FututreDetailsProps {
+	id: string
+	handleDeleteBasket: (val: string) => void
+	handleCopyBasket: (val: string) => void
+}
+const FututeBasketDetails = ({
+	id,
+	handleDeleteBasket,
+	handleCopyBasket,
+}: FututreDetailsProps) => {
 	return (
-		<DetailBasketHolder>
+		<DetailBasketHolder
+			handleCopyBasket={handleCopyBasket}
+			id={id}
+			handleDeleteBasket={handleDeleteBasket}
+		>
 			<Flex flex="1" justify="space-around">
 				<Flex flex={1} justify="center">
 					<Instrument />

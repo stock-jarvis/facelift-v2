@@ -1,31 +1,31 @@
+import { useState } from 'react'
 import { Modal, theme, Flex } from 'antd'
+
 import Header from './modal-containers/header'
 import Footer from './modal-containers/footer'
 import Toggle from './modal-components/toggle'
 import FututeBasketDetails from './modal-containers/future-basket-details'
 import OptionBasketDetail from './modal-containers/options-basket-details'
+import SpotBasketDetail from './modal-containers/spot-basket-detail'
 import ExitCondition from './modal-containers/exit-condition'
-//import YeildButton from './modal-components/yeild-button'
 import OptionsBasketSelector from './modal-containers/options-basket-selector'
 import SpotBasketSelector from './modal-containers/spot-basket-selector'
 import FutureBasketSelector from './modal-containers/future-basket-selector'
-//import QuantityInput from './quantity-input'
 import PositionSelector from './modal-containers/position-selector'
-//import CappedButton from './capped-button'
-//import ActionSection from '../../common/basket-item/action-section'
-//import ActionSelector from './action-selector'
+
+import { generateUniqueId } from '../../common/randomizer'
 
 import { OptionObject } from '../../types/types'
 import { basketOptions } from '../../constants/data'
-import SpotBasketDetail from './modal-containers/spot-basket-detail'
-//import ProfitLoss from './profit-loss-section'
 
-//import Instrument from './instrument'
-//import EntryExit from './entry-exit-container'
-import { useState } from 'react'
+interface BasketDataProps {
+	type: string
+	id: string
+}
 
 const EditBasketModal = () => {
 	const { token } = theme.useToken()
+	const [basket, setBasket] = useState<BasketDataProps[]>([])
 	const [basketOption, setBasketOption] = useState<string>('spot')
 	const setToogleValue = (value: string) => {
 		value
@@ -33,9 +33,23 @@ const EditBasketModal = () => {
 	const setOptionValue = (value: OptionObject) => {
 		setBasketOption(value.value)
 	}
-	// const setProfitValue = (value: number) => {
-	// 	console.log(value)
-	// }
+
+	const handleAddBasket = (value: string) => {
+		setBasket((prev) => [...prev, { type: value, id: generateUniqueId() }])
+	}
+
+	const handleDeleteBasket = (id: string) => {
+		setBasket(basket.filter((basket) => basket.id !== id))
+	}
+	const handleCopyBasket = (id: string) => {
+		const basketToBeCopied = basket.find((basket) => basket.id === id)
+		if (basketToBeCopied) {
+			setBasket((prev) => [
+				...prev,
+				{ ...basketToBeCopied, id: generateUniqueId() },
+			])
+		}
+	}
 
 	return (
 		<Modal
@@ -97,18 +111,40 @@ const EditBasketModal = () => {
 				</Flex>
 				<Flex className="w-[95%] self-center">
 					{basketOption === 'spot' ? (
-						<SpotBasketSelector />
+						<SpotBasketSelector handleAddBasket={handleAddBasket} />
 					) : basketOption === 'future' ? (
-						<FutureBasketSelector />
+						<FutureBasketSelector handleAddBasket={handleAddBasket} />
 					) : (
-						<OptionsBasketSelector />
+						<OptionsBasketSelector handleAddBasket={handleAddBasket} />
 					)}
 				</Flex>
-				{/* <YeildButton label={'Total Profit'} /> */}
-				<SpotBasketDetail />
-				<FututeBasketDetails />
-				<OptionBasketDetail />
-				<ExitCondition />
+
+				{basket?.map((bask) =>
+					bask.type === 'spot' ? (
+						<SpotBasketDetail
+							key={bask.type}
+							id={bask.id}
+							handleDeleteBasket={handleDeleteBasket}
+							handleCopyBasket={handleCopyBasket}
+						/>
+					) : bask.type === 'future' ? (
+						<FututeBasketDetails
+							key={bask.type}
+							id={bask.id}
+							handleDeleteBasket={handleDeleteBasket}
+							handleCopyBasket={handleCopyBasket}
+						/>
+					) : (
+						<OptionBasketDetail
+							key={bask.type}
+							id={bask.id}
+							handleDeleteBasket={handleDeleteBasket}
+							handleCopyBasket={handleCopyBasket}
+						/>
+					)
+				)}
+
+				{basket.length > 0 && <ExitCondition />}
 			</Flex>
 		</Modal>
 	)

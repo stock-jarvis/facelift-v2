@@ -1,10 +1,22 @@
 import { Button, Flex, Typography, theme, Tooltip } from 'antd'
+import { ButtonProps } from 'antd'
 interface PositionHolderProps {
 	children: React.ReactNode
 	heading: string
+	basketType: string
+	onClick: (val: string) => void
 }
-const PositionHolder = ({ children, heading }: PositionHolderProps) => {
+const PositionHolder = ({
+	children,
+	heading,
+	basketType,
+	onClick,
+}: PositionHolderProps) => {
 	const { token } = theme.useToken()
+
+	const handleClick: ButtonProps['onClick'] = () => {
+		onClick(basketType)
+	}
 	return (
 		<Flex
 			vertical
@@ -43,6 +55,7 @@ const PositionHolder = ({ children, heading }: PositionHolderProps) => {
 							fontWeight: token.fontWeightStrong,
 							color: token.colorBgBase,
 						}}
+						onClick={handleClick}
 					>
 						Add Position
 					</Button>

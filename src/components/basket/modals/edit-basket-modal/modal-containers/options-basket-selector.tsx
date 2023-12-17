@@ -9,8 +9,10 @@ import Instrument from '../modal-components/instrument'
 import QuantityInput from '../modal-components/quantity-input'
 import ExpirySelector from '../modal-components/expiry-selector'
 import ActionSelector from '../modal-components/action-selector'
-
-const OptionsBasketSelector = () => {
+interface BasketProps {
+	handleAddBasket: (val: string) => void
+}
+const OptionsBasketSelector = ({ handleAddBasket }: BasketProps) => {
 	//const { token } = theme.useToken()
 	const [tradeOption, setTradeOption] = useState<string>('')
 	const [subTradeOption, setSubTradeOption] = useState<string>('')
@@ -27,7 +29,11 @@ const OptionsBasketSelector = () => {
 	}, [tradeOption])
 
 	return (
-		<PositionHolder heading="Options">
+		<PositionHolder
+			heading="Options"
+			basketType="options"
+			onClick={handleAddBasket}
+		>
 			<Flex flex="1" vertical gap="middle">
 				<Flex flex="1">
 					<StrikeRadioSelector

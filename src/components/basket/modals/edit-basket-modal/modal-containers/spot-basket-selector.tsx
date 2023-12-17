@@ -3,10 +3,12 @@ import Instrument from '../modal-components/instrument'
 import ActionSelector from '../modal-components/action-selector'
 import PositionHolder from './position-holder'
 import QuantityInput from '../modal-components/quantity-input'
-
-const SpotBasketSelector = () => {
+interface BasketProps {
+	handleAddBasket: (val: string) => void
+}
+const SpotBasketSelector = ({ handleAddBasket }: BasketProps) => {
 	return (
-		<PositionHolder heading="Spot">
+		<PositionHolder heading="Spot" onClick={handleAddBasket} basketType="spot">
 			<Flex flex={1} align="center">
 				<Flex flex={1} justify="center">
 					<Instrument />

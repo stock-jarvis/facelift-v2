@@ -13,14 +13,15 @@ const Header = () => {
 						/>
 					</Tooltip>
 				</Space>
-				<Tooltip title="Select Instrument">
-					<Space>
+
+				<Space>
+					<Tooltip title="Select Instrument">
 						<Select
 							style={{ width: '100px' }}
 							options={[{ id: 1, value: 1, label: '1' }]}
 						/>
-					</Space>
-				</Tooltip>
+					</Tooltip>
+				</Space>
 			</Flex>
 			<Flex
 				style={{

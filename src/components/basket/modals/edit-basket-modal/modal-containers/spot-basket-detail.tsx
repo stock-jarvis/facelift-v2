@@ -4,9 +4,24 @@ import QuantityInput from '../modal-components/quantity-input'
 import ActionSelector from '../modal-components/action-selector'
 import YeildButton from '../modal-components/yeild-button'
 import { Flex } from 'antd'
-const SpotBasketDetail = () => {
+
+interface SpotDetailsProps {
+	id: string
+	handleDeleteBasket: (val: string) => void
+	handleCopyBasket: (val: string) => void
+}
+
+const SpotBasketDetail = ({
+	id,
+	handleDeleteBasket,
+	handleCopyBasket,
+}: SpotDetailsProps) => {
 	return (
-		<DetailBasketHolder>
+		<DetailBasketHolder
+			id={id}
+			handleDeleteBasket={handleDeleteBasket}
+			handleCopyBasket={handleCopyBasket}
+		>
 			<Flex flex="1" justify="space-around">
 				<Flex flex={1} justify="center">
 					<Instrument />

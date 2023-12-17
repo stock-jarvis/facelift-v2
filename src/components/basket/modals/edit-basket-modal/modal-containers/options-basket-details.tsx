@@ -9,7 +9,16 @@ import StrikeSelector from '../modal-components/strike-selector'
 import { useState, useEffect } from 'react'
 import { tradeTypeData } from 'src/components/basket/constants/data'
 import { TradeOptions } from 'src/components/basket/types/types'
-const OptionBasketDetail = () => {
+interface OptionDetailsProps {
+	id: string
+	handleDeleteBasket: (val: string) => void
+	handleCopyBasket: (val: string) => void
+}
+const OptionBasketDetail = ({
+	id,
+	handleDeleteBasket,
+	handleCopyBasket,
+}: OptionDetailsProps) => {
 	const [tradeOption, setTradeOption] = useState<string>('')
 	const [subTradeOption, setSubTradeOption] = useState<string>('')
 	const [subTradeOptionList, setSubTradeOptionList] = useState<TradeOptions[]>(
@@ -24,7 +33,11 @@ const OptionBasketDetail = () => {
 		}
 	}, [tradeOption])
 	return (
-		<DetailBasketHolder>
+		<DetailBasketHolder
+			id={id}
+			handleDeleteBasket={handleDeleteBasket}
+			handleCopyBasket={handleCopyBasket}
+		>
 			<Flex className="h-fit">
 				<Flex className="p-10">
 					<Instrument />

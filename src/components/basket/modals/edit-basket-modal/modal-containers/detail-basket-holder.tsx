@@ -3,8 +3,16 @@ import { CopyOutlined, DeleteOutlined } from '@ant-design/icons'
 
 interface PositionHolderProps {
 	children: React.ReactNode
+	id: string
+	handleDeleteBasket: (val: string) => void
+	handleCopyBasket: (val: string) => void
 }
-const DetailBasketHolder = ({ children }: PositionHolderProps) => {
+const DetailBasketHolder = ({
+	children,
+	id,
+	handleDeleteBasket,
+	handleCopyBasket,
+}: PositionHolderProps) => {
 	const { token } = theme.useToken()
 	return (
 		<Flex
@@ -27,10 +35,16 @@ const DetailBasketHolder = ({ children }: PositionHolderProps) => {
 				gap="middle"
 			>
 				<Tooltip title="Duplicate">
-					<CopyOutlined style={{ fontSize: token.fontSizeXL }} />
+					<CopyOutlined
+						style={{ fontSize: token.fontSizeXL, backgroundColor: 'red' }}
+						onClick={() => handleCopyBasket(id)}
+					/>
 				</Tooltip>
 				<Tooltip title="Delete">
-					<DeleteOutlined style={{ fontSize: token.fontSizeXL }} />
+					<DeleteOutlined
+						style={{ fontSize: token.fontSizeXL, backgroundColor: 'red' }}
+						onClick={() => handleDeleteBasket(id)}
+					/>
 				</Tooltip>
 			</Flex>
 		</Flex>
