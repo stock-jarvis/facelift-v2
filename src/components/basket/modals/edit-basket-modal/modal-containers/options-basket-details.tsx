@@ -9,21 +9,20 @@ import StrikeSelector from '../modal-components/strike-selector'
 import { useState } from 'react'
 import { OptionObject, TradeOptions } from 'src/components/basket/types/types'
 interface OptionDetailsProps {
-	handleDeleteBasket: (val: string) => void
-	handleCopyBasket: (val: string) => void
 	id: string
 	baseQuanity: number
 	baseActionValue: string
 	baseOptionValue: string
 	optionExpiryBaseValue: string
 	optionExpiryList: OptionObject[]
+	baseTradeValue: number
 	baseTradeOption: string
 	baseSubTradeOption: string
 	baseSubTradeOptionList: TradeOptions[]
+	handleDeleteBasket: (val: string) => void
+	handleCopyBasket: (val: string) => void
 }
 const OptionBasketDetail = ({
-	handleDeleteBasket,
-	handleCopyBasket,
 	id,
 	baseQuanity,
 	baseActionValue,
@@ -33,13 +32,18 @@ const OptionBasketDetail = ({
 	baseTradeOption,
 	baseSubTradeOption,
 	baseSubTradeOptionList,
+	baseTradeValue,
+	handleDeleteBasket,
+	handleCopyBasket,
 }: OptionDetailsProps) => {
 	const [quantityValue, setQuantityValue] = useState<number>(baseQuanity)
 	const [actionValue, setActionValue] = useState<string>(baseActionValue)
 	const [optionType, setOptionType] = useState<string>(baseOptionValue)
 	const [tradeOption, setTradeOption] = useState<string>(baseTradeOption)
+	const [tradeValue, setTradeValue] = useState<number>(baseTradeValue)
 	const [subTradeOption, setSubTradeOption] =
 		useState<string>(baseSubTradeOption)
+
 	const [subTradeOptionList, setSubTradeOptionList] = useState<TradeOptions[]>(
 		baseSubTradeOptionList
 	)
@@ -84,6 +88,8 @@ const OptionBasketDetail = ({
 						<Flex flex={1}>
 							<StrikeSelector
 								tradeOption={tradeOption}
+								tradeValue={tradeValue}
+								setTradeValue={setTradeValue}
 								setTradeOption={setTradeOption}
 								subTradeOption={subTradeOption}
 								setSubTradeOption={setSubTradeOption}

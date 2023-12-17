@@ -3,9 +3,9 @@ import { Typography, theme, Flex, Input, Tooltip } from 'antd'
 import { CloseOutlined } from '@ant-design/icons'
 
 interface CappedButtonProps {
-	setValue: (value: number) => void
 	label: string
 	value: number
+	setValue: (value: number) => void
 }
 
 const CappedButton = ({ label, value, setValue }: CappedButtonProps) => {

@@ -6,24 +6,24 @@ import PositionHolder from './position-holder'
 import QuantityInput from '../modal-components/quantity-input'
 import ExpirySelector from '../modal-components/expiry-selector'
 interface BasketProps {
-	handleAddBasket: (val: string) => void
-	handleBaseQuantityChange: (value: number) => void
-	handleBaseExpiryChange: (val: string) => void
-	handleBaseActionChange: (val: string) => void
 	futureExpiryList: OptionObject[]
 	futureExpiryBaseValue: string
 	baseQuantityValue: number
 	baseActionValue: string
+	handleAddBasket: (val: string) => void
+	handleBaseQuantityChange: (value: number) => void
+	handleBaseExpiryChange: (val: string) => void
+	handleBaseActionChange: (val: string) => void
 }
 const FutureBasketSelector = ({
-	handleAddBasket,
-	handleBaseQuantityChange,
-	handleBaseActionChange,
-	handleBaseExpiryChange,
 	baseActionValue,
 	baseQuantityValue,
 	futureExpiryBaseValue,
 	futureExpiryList,
+	handleAddBasket,
+	handleBaseQuantityChange,
+	handleBaseActionChange,
+	handleBaseExpiryChange,
 }: BasketProps) => {
 	return (
 		<PositionHolder

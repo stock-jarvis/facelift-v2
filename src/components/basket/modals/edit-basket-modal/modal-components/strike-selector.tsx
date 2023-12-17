@@ -1,26 +1,30 @@
 import { Flex, Select, Input, Typography, theme } from 'antd'
-
+import { ChangeEvent } from 'react'
 import { tradeTypeData } from '../../../constants/data'
-
+import { InputProps } from 'antd'
 import { SelectProps } from 'antd/es/select'
 import { TradeOptions } from '../../../types/types'
 
 interface StrikeSelectorProps {
-	setTradeOption: (val: string) => void
-	setSubTradeOption: (val: string) => void
-	setSubTradeOptionList: (val: TradeOptions[]) => void
 	tradeOption: string
 	subTradeOption: string
 	subTradeOptionList: TradeOptions[]
+	tradeValue: number
+	setTradeOption: (val: string) => void
+	setSubTradeOption: (val: string) => void
+	setSubTradeOptionList: (val: TradeOptions[]) => void
+	setTradeValue: (val: number) => void
 }
 
 const StrikeSelector = ({
 	tradeOption,
-	setTradeOption,
 	subTradeOption,
-	setSubTradeOption,
 	subTradeOptionList,
+	tradeValue,
+	setTradeOption,
+	setSubTradeOption,
 	setSubTradeOptionList,
+	setTradeValue,
 }: StrikeSelectorProps) => {
 	const { token } = theme.useToken()
 
@@ -40,6 +44,24 @@ const StrikeSelector = ({
 	const handleSubTradeChange: SelectProps['onChange'] = (value: string) => {
 		// prop value
 		setSubTradeOption(value)
+	}
+
+	const handleInputChange: InputProps['onChange'] = (
+		e: ChangeEvent<HTMLInputElement>
+	) => {
+		if (+e.target.value <= 0) {
+			setTradeValue(1)
+		} else {
+			if (tradeOption !== 'CP') {
+				if (+e.target.value > 100) {
+					setTradeValue(100)
+				} else {
+					setTradeValue(+e.target.value)
+				}
+			} else {
+				setTradeValue(+e.target.value)
+			}
+		}
 	}
 
 	return (
@@ -74,7 +96,12 @@ const StrikeSelector = ({
 				/>
 				{tradeOption !== 'ATMPt' && tradeOption !== 'HIGHOI' && (
 					<Flex style={{ width: '90px' }}>
-						<Input style={{ width: '80px' }} type="number" />
+						<Input
+							style={{ width: '80px' }}
+							type="number"
+							value={tradeValue}
+							onChange={handleInputChange}
+						/>
 						{tradeOption !== 'CP' && (
 							<p className="flex self-center pl-[3px]">%</p>
 						)}

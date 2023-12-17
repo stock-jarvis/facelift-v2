@@ -8,22 +8,22 @@ import YeildButton from '../modal-components/yeild-button'
 import ExpirySelector from '../modal-components/expiry-selector'
 import { OptionObject } from 'src/components/basket/types/types'
 interface FututreDetailsProps {
-	handleDeleteBasket: (val: string) => void
-	handleCopyBasket: (val: string) => void
 	id: string
 	baseQuanity: number
 	baseActionValue: string
 	futureExpiryList: OptionObject[]
 	futureExpiryBaseValue: string
+	handleDeleteBasket: (val: string) => void
+	handleCopyBasket: (val: string) => void
 }
 const FututeBasketDetails = ({
-	handleDeleteBasket,
-	handleCopyBasket,
 	id,
 	baseQuanity,
 	baseActionValue,
 	futureExpiryList,
 	futureExpiryBaseValue,
+	handleCopyBasket,
+	handleDeleteBasket,
 }: FututreDetailsProps) => {
 	const [quantityValue, setQuantityValue] = useState<number>(baseQuanity)
 	const [actionValue, setActionValue] = useState<string>(baseActionValue)

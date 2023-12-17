@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react'
 import { Space, Flex, theme, Typography } from 'antd'
 interface ToggleProps {
-	setToogleValue: (val: string) => void
 	toogle1: string
 	toogle2: string
+	setToogleValue: (val: string) => void
 }
 const Toggle = ({ toogle1, toogle2, setToogleValue }: ToggleProps) => {
 	const { token } = theme.useToken()

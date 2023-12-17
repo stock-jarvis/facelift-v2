@@ -12,13 +12,15 @@ import OptionsBasketSelector from './modal-containers/options-basket-selector'
 import SpotBasketSelector from './modal-containers/spot-basket-selector'
 import FutureBasketSelector from './modal-containers/future-basket-selector'
 import PositionSelector from './modal-containers/position-selector'
-
 import { generateUniqueId } from '../../common/utils/randomizer'
 
 import { futureExpiry, optionExpiry, tradeTypeData } from '../../constants/data'
 import { OptionObject, TradeOptions } from '../../types/types'
 import { basketOptions } from '../../constants/data'
 
+const initialSubTrade = tradeTypeData[0].children[0].value
+const initialSubTradeList = tradeTypeData[0].children
+const initialTrade = tradeTypeData[0].value
 interface BasketDataProps {
 	type: string
 	id: string
@@ -30,18 +32,17 @@ const EditBasketModal = () => {
 	const [basketOption, setBasketOption] = useState<string>('spot')
 
 	//Initial values for positions
+
 	const [quantityValue, setQuantityValue] = useState<number>(1)
 	const [actionValue, setActionValue] = useState<string>('B')
 	const [optionType, setOptionType] = useState<string>('CE')
 	const [futureExpiryList] = useState<OptionObject[]>(futureExpiry)
 	const [optionExpiryList] = useState<OptionObject[]>(optionExpiry)
-	const [tradeOption, setTradeOption] = useState<string>(tradeTypeData[0].value)
-	const [subTradeOption, setSubTradeOption] = useState<string>(
-		tradeTypeData[0].children[0].value
-	)
-	const [subTradeOptionList, setSubTradeOptionList] = useState<TradeOptions[]>(
-		tradeTypeData[0].children
-	)
+	const [tradeOption, setTradeOption] = useState<string>(initialTrade)
+	const [tradeValue, setTradeValue] = useState<number>(1)
+	const [subTradeOption, setSubTradeOption] = useState<string>(initialSubTrade)
+	const [subTradeOptionList, setSubTradeOptionList] =
+		useState<TradeOptions[]>(initialSubTradeList)
 	const [futureExpiryBaseValue, setFutureExpiryBaseValue] =
 		useState<string>('Monthly')
 	const [optionExpiryBaseValue, setOptionExpiryBaseValue] =
@@ -57,6 +58,7 @@ const EditBasketModal = () => {
 		setOptionExpiryBaseValue('Monthly')
 		setFutureExpiryBaseValue('Monthly')
 		setBasketOption(value.value)
+		setTradeValue(1)
 		setTradeOption(tradeTypeData[0].value)
 		setSubTradeOption(tradeTypeData[0].children[0].value)
 		setSubTradeOptionList(tradeTypeData[0].children)
@@ -137,8 +139,8 @@ const EditBasketModal = () => {
 							/>
 						</div>
 						<PositionSelector
-							onOptionChange={setOptionValue}
 							options={basketOptions}
+							onOptionChange={setOptionValue}
 						/>
 						<div className="w-[50%]">
 							<Toggle
@@ -151,38 +153,40 @@ const EditBasketModal = () => {
 					<Flex className="w-[95%] self-center">
 						{basketOption === 'spot' ? (
 							<SpotBasketSelector
-								handleBaseQuantityChange={setQuantityValue}
 								baseQuantityValue={quantityValue}
-								handleAddBasket={handleAddBasket}
 								baseActionValue={actionValue}
 								handleBaseActionChange={setActionValue}
+								handleAddBasket={handleAddBasket}
+								handleBaseQuantityChange={setQuantityValue}
 							/>
 						) : basketOption === 'future' ? (
 							<FutureBasketSelector
 								futureExpiryBaseValue={futureExpiryBaseValue}
 								futureExpiryList={futureExpiryList}
-								handleAddBasket={handleAddBasket}
-								handleBaseQuantityChange={setQuantityValue}
 								baseQuantityValue={quantityValue}
 								baseActionValue={actionValue}
 								handleBaseActionChange={setActionValue}
 								handleBaseExpiryChange={setFutureExpiryBaseValue}
+								handleAddBasket={handleAddBasket}
+								handleBaseQuantityChange={setQuantityValue}
 							/>
 						) : (
 							<OptionsBasketSelector
-								handleBaseExpiryChange={setOptionExpiryBaseValue}
 								optionExpiryBaseValue={optionExpiryBaseValue}
 								optionExpiryList={optionExpiryList}
-								handleAddBasket={handleAddBasket}
-								handleBaseQuantityChange={setQuantityValue}
 								baseQuantityValue={quantityValue}
 								baseActionValue={actionValue}
-								handleBaseActionChange={setActionValue}
 								baseOptionValue={optionType}
-								handleBaseOptionChange={setOptionType}
 								baseSubTradeOption={subTradeOption}
+								baseTradeValue={tradeValue}
 								baseTradeOption={tradeOption}
 								baseSubTradeOptionList={subTradeOptionList}
+								handleBaseExpiryChange={setOptionExpiryBaseValue}
+								handleAddBasket={handleAddBasket}
+								handleBaseQuantityChange={setQuantityValue}
+								handleBaseActionChange={setActionValue}
+								handleBaseOptionChange={setOptionType}
+								handleBaseTradeValueChange={setTradeValue}
 								handleBaseTradeChange={setTradeOption}
 								handleBaseSubTradeChange={setSubTradeOption}
 								handleBaseSubTradeListChange={setSubTradeOptionList}
@@ -196,20 +200,20 @@ const EditBasketModal = () => {
 								key={bask.id}
 								id={bask.id}
 								baseQuanity={quantityValue}
+								baseActionValue={actionValue}
 								handleDeleteBasket={handleDeleteBasket}
 								handleCopyBasket={handleCopyBasket}
-								baseActionValue={actionValue}
 							/>
 						) : bask.type === 'future' ? (
 							<FututeBasketDetails
 								key={bask.id}
 								id={bask.id}
 								baseQuanity={quantityValue}
-								handleDeleteBasket={handleDeleteBasket}
-								handleCopyBasket={handleCopyBasket}
 								baseActionValue={actionValue}
 								futureExpiryBaseValue={futureExpiryBaseValue}
 								futureExpiryList={futureExpiryList}
+								handleDeleteBasket={handleDeleteBasket}
+								handleCopyBasket={handleCopyBasket}
 							/>
 						) : (
 							<OptionBasketDetail
@@ -217,14 +221,15 @@ const EditBasketModal = () => {
 								id={bask.id}
 								baseQuanity={quantityValue}
 								optionExpiryBaseValue={optionExpiryBaseValue}
-								handleDeleteBasket={handleDeleteBasket}
-								handleCopyBasket={handleCopyBasket}
 								baseActionValue={actionValue}
 								baseOptionValue={optionType}
 								optionExpiryList={optionExpiryList}
 								baseSubTradeOption={subTradeOption}
 								baseTradeOption={tradeOption}
 								baseSubTradeOptionList={subTradeOptionList}
+								baseTradeValue={tradeValue}
+								handleDeleteBasket={handleDeleteBasket}
+								handleCopyBasket={handleCopyBasket}
 							/>
 						)
 					)}

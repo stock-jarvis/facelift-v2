@@ -2,13 +2,13 @@ import { Flex, Typography, theme, Divider } from 'antd'
 import { useState, useEffect } from 'react'
 
 interface ActionSelectorProps {
-	handleBaseActionChange: (val: string) => void
 	label: string
 	action1: string
 	action2: string
 	color1: string
 	color2: string
 	baseActionValue: string
+	handleBaseActionChange: (val: string) => void
 }
 
 const ActionSelector = ({

@@ -17,6 +17,8 @@ interface BasketProps {
 	handleBaseTradeChange: (val: string) => void
 	handleBaseSubTradeChange: (val: string) => void
 	handleBaseSubTradeListChange: (val: TradeOptions[]) => void
+	handleBaseTradeValueChange: (val: number) => void
+	baseTradeValue: number
 	baseQuantityValue: number
 	baseActionValue: string
 	baseOptionValue: string
@@ -35,6 +37,8 @@ const OptionsBasketSelector = ({
 	handleBaseTradeChange,
 	handleBaseSubTradeChange,
 	handleBaseSubTradeListChange,
+	handleBaseTradeValueChange,
+	baseTradeValue,
 	optionExpiryBaseValue,
 	baseQuantityValue,
 	baseActionValue,
@@ -83,6 +87,8 @@ const OptionsBasketSelector = ({
 					/>
 					<StrikeSelector
 						tradeOption={baseTradeOption}
+						tradeValue={baseTradeValue}
+						setTradeValue={handleBaseTradeValueChange}
 						setTradeOption={handleBaseTradeChange}
 						subTradeOption={baseSubTradeOption}
 						setSubTradeOption={handleBaseSubTradeChange}

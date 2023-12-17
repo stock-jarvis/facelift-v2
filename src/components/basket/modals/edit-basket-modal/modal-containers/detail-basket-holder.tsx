@@ -2,16 +2,16 @@ import { Flex, theme, Tooltip } from 'antd'
 import { CopyOutlined, DeleteOutlined } from '@ant-design/icons'
 
 interface PositionHolderProps {
-	handleDeleteBasket: (val: string) => void
-	handleCopyBasket: (val: string) => void
-	children: React.ReactNode
 	id: string
+	children: React.ReactNode
+	handleCopyBasket: (val: string) => void
+	handleDeleteBasket: (val: string) => void
 }
 const DetailBasketHolder = ({
-	children,
 	id,
-	handleDeleteBasket,
+	children,
 	handleCopyBasket,
+	handleDeleteBasket,
 }: PositionHolderProps) => {
 	const { token } = theme.useToken()
 	return (

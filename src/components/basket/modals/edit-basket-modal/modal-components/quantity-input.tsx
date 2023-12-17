@@ -24,7 +24,7 @@ const QuantityInput = ({
 	const handleInputChange: InputProps['onChange'] = (
 		e: ChangeEvent<HTMLInputElement>
 	) => {
-		if (+e.target.value < 0) {
+		if (+e.target.value <= 0) {
 			setQuantityValue(1)
 			handleQantityChange(1)
 		} else {
