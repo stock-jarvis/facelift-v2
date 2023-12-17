@@ -1,5 +1,6 @@
 import DetailBasketHolder from './detail-basket-holder'
 import { Flex } from 'antd'
+import { useState } from 'react'
 import Instrument from '../modal-components/instrument'
 import ActionSelector from '../modal-components/action-selector'
 import QuantityInput from '../modal-components/quantity-input'
@@ -7,6 +8,7 @@ import YeildButton from '../modal-components/yeild-button'
 import ExpirySelector from '../modal-components/expiry-selector'
 interface FututreDetailsProps {
 	id: string
+	baseQuanity: number
 	handleDeleteBasket: (val: string) => void
 	handleCopyBasket: (val: string) => void
 }
@@ -14,7 +16,9 @@ const FututeBasketDetails = ({
 	id,
 	handleDeleteBasket,
 	handleCopyBasket,
+	baseQuanity,
 }: FututreDetailsProps) => {
+	const [quantityValue, setQuantityValue] = useState<number>(baseQuanity)
 	return (
 		<DetailBasketHolder
 			handleCopyBasket={handleCopyBasket}
@@ -35,7 +39,10 @@ const FututeBasketDetails = ({
 					/>
 				</Flex>
 				<Flex flex={1}>
-					<QuantityInput />
+					<QuantityInput
+						baseQuantityValue={quantityValue}
+						handleQantityChange={setQuantityValue}
+					/>
 				</Flex>
 				<Flex flex={1}>
 					<ExpirySelector />

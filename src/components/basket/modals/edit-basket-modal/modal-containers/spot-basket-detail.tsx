@@ -4,18 +4,22 @@ import QuantityInput from '../modal-components/quantity-input'
 import ActionSelector from '../modal-components/action-selector'
 import YeildButton from '../modal-components/yeild-button'
 import { Flex } from 'antd'
-
+import { useState } from 'react'
 interface SpotDetailsProps {
 	id: string
 	handleDeleteBasket: (val: string) => void
 	handleCopyBasket: (val: string) => void
+	baseQuanity: number
 }
 
 const SpotBasketDetail = ({
 	id,
 	handleDeleteBasket,
 	handleCopyBasket,
+	baseQuanity,
 }: SpotDetailsProps) => {
+	const [quantityValue, setQuantityValue] = useState<number>(baseQuanity)
+
 	return (
 		<DetailBasketHolder
 			id={id}
@@ -36,7 +40,10 @@ const SpotBasketDetail = ({
 					/>
 				</Flex>
 				<Flex flex={1}>
-					<QuantityInput />
+					<QuantityInput
+						baseQuantityValue={quantityValue}
+						handleQantityChange={setQuantityValue}
+					/>
 				</Flex>
 				<Flex flex={1} style={{ marginTop: '23px' }}>
 					<YeildButton label="Total Profit" />

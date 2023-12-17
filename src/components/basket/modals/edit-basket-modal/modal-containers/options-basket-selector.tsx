@@ -11,8 +11,14 @@ import ExpirySelector from '../modal-components/expiry-selector'
 import ActionSelector from '../modal-components/action-selector'
 interface BasketProps {
 	handleAddBasket: (val: string) => void
+	handleBaseQuantityChange: (value: number) => void
+	baseQuantityValue: number
 }
-const OptionsBasketSelector = ({ handleAddBasket }: BasketProps) => {
+const OptionsBasketSelector = ({
+	handleAddBasket,
+	handleBaseQuantityChange,
+	baseQuantityValue,
+}: BasketProps) => {
 	//const { token } = theme.useToken()
 	const [tradeOption, setTradeOption] = useState<string>('')
 	const [subTradeOption, setSubTradeOption] = useState<string>('')
@@ -67,7 +73,10 @@ const OptionsBasketSelector = ({ handleAddBasket }: BasketProps) => {
 						subTradeOptionList={subTradeOptionList}
 						setSubTradeOptionList={setSubTradeOptionList}
 					/>
-					<QuantityInput />
+					<QuantityInput
+						baseQuantityValue={baseQuantityValue}
+						handleQantityChange={handleBaseQuantityChange}
+					/>
 					<ExpirySelector />
 				</Flex>
 			</Flex>

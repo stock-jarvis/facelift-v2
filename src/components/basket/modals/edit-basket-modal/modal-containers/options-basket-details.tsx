@@ -13,12 +13,15 @@ interface OptionDetailsProps {
 	id: string
 	handleDeleteBasket: (val: string) => void
 	handleCopyBasket: (val: string) => void
+	baseQuanity: number
 }
 const OptionBasketDetail = ({
 	id,
 	handleDeleteBasket,
 	handleCopyBasket,
+	baseQuanity,
 }: OptionDetailsProps) => {
+	const [quantityValue, setQuantityValue] = useState<number>(baseQuanity)
 	const [tradeOption, setTradeOption] = useState<string>('')
 	const [subTradeOption, setSubTradeOption] = useState<string>('')
 	const [subTradeOptionList, setSubTradeOptionList] = useState<TradeOptions[]>(
@@ -65,17 +68,20 @@ const OptionBasketDetail = ({
 							/>
 						</Flex>
 						<Flex flex={1}>
-							<QuantityInput />
+							<QuantityInput
+								baseQuantityValue={quantityValue}
+								handleQantityChange={setQuantityValue}
+							/>
 						</Flex>
 						<Flex flex={1}>
 							<ExpirySelector />
 						</Flex>
 					</Flex>
 					<Flex flex="1" justify="center" gap="middle">
-						<Flex style={{ marginTop: '23px' }}>
+						<Flex>
 							<YeildButton label="Total Profit" />
 						</Flex>
-						<Flex style={{ marginTop: '23px' }}>
+						<Flex>
 							<YeildButton label="Spot Loss" />
 						</Flex>
 					</Flex>

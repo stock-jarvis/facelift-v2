@@ -27,6 +27,10 @@ const EditBasketModal = () => {
 	const { token } = theme.useToken()
 	const [basket, setBasket] = useState<BasketDataProps[]>([])
 	const [basketOption, setBasketOption] = useState<string>('spot')
+
+	//Initial values for positions
+	const [quantityValue, setQuantityValue] = useState<number>(1)
+
 	const setToogleValue = (value: string) => {
 		value
 	}
@@ -39,9 +43,11 @@ const EditBasketModal = () => {
 	}
 
 	const handleDeleteBasket = (id: string) => {
+		console.log('delete clicked')
 		setBasket(basket.filter((basket) => basket.id !== id))
 	}
 	const handleCopyBasket = (id: string) => {
+		console.log('copy clicked')
 		const basketToBeCopied = basket.find((basket) => basket.id === id)
 		if (basketToBeCopied) {
 			setBasket((prev) => [
@@ -54,9 +60,9 @@ const EditBasketModal = () => {
 	return (
 		<Modal
 			className="select-none no-scrollbar"
-			title={<Header />}
 			open={true}
 			width={1200}
+			title={<Header />}
 			footer={<Footer />}
 			styles={{
 				content: {
@@ -71,9 +77,8 @@ const EditBasketModal = () => {
 					padding: token.paddingXS,
 				},
 				body: {
-					height: '500px',
-					padding: token.paddingXS,
 					overflow: 'scroll',
+					scrollBehavior: 'smooth',
 				},
 			}}
 			closeIcon={null}
@@ -81,70 +86,96 @@ const EditBasketModal = () => {
 			<Flex vertical gap="middle">
 				<Flex
 					vertical
-					justify="space-between"
-					align="center"
-					flex={1}
-					className="p-[10px] gap-10 pt-10 pb-10"
+					gap={'middle'}
 					style={{
-						backgroundColor: '#F1F8FF',
-						borderRadius: token.borderRadiusLG,
+						padding: token.paddingMD,
+						height: '500px',
+						overflow: 'scroll',
+						scrollBehavior: 'smooth',
 					}}
+					className="no-scrollbar"
 				>
-					<div className="w-[50%]">
-						<Toggle
-							toogle1="INTRADAY"
-							toogle2="POSITIONAL"
-							setToogleValue={setToogleValue}
+					<Flex
+						vertical
+						justify="space-between"
+						align="center"
+						flex={1}
+						className="p-[10px] gap-10 pt-10 pb-10"
+						style={{
+							backgroundColor: '#F1F8FF',
+							borderRadius: token.borderRadiusLG,
+						}}
+					>
+						<div className="w-[50%]">
+							<Toggle
+								toogle1="INTRADAY"
+								toogle2="POSITIONAL"
+								setToogleValue={setToogleValue}
+							/>
+						</div>
+						<PositionSelector
+							onOptionChange={setOptionValue}
+							options={basketOptions}
 						/>
-					</div>
-					<PositionSelector
-						onOptionChange={setOptionValue}
-						options={basketOptions}
-					/>
-					<div className="w-[50%]">
-						<Toggle
-							toogle1="Spot as ATM"
-							toogle2="Future as ATM"
-							setToogleValue={setToogleValue}
-						/>
-					</div>
-				</Flex>
-				<Flex className="w-[95%] self-center">
-					{basketOption === 'spot' ? (
-						<SpotBasketSelector handleAddBasket={handleAddBasket} />
-					) : basketOption === 'future' ? (
-						<FutureBasketSelector handleAddBasket={handleAddBasket} />
-					) : (
-						<OptionsBasketSelector handleAddBasket={handleAddBasket} />
+						<div className="w-[50%]">
+							<Toggle
+								toogle1="Spot as ATM"
+								toogle2="Future as ATM"
+								setToogleValue={setToogleValue}
+							/>
+						</div>
+					</Flex>
+					<Flex className="w-[95%] self-center">
+						{basketOption === 'spot' ? (
+							<SpotBasketSelector
+								handleBaseQuantityChange={setQuantityValue}
+								baseQuantityValue={quantityValue}
+								handleAddBasket={handleAddBasket}
+							/>
+						) : basketOption === 'future' ? (
+							<FutureBasketSelector
+								handleAddBasket={handleAddBasket}
+								handleBaseQuantityChange={setQuantityValue}
+								baseQuantityValue={quantityValue}
+							/>
+						) : (
+							<OptionsBasketSelector
+								handleAddBasket={handleAddBasket}
+								handleBaseQuantityChange={setQuantityValue}
+								baseQuantityValue={quantityValue}
+							/>
+						)}
+					</Flex>
+
+					{basket?.map((bask) =>
+						bask.type === 'spot' ? (
+							<SpotBasketDetail
+								key={bask.id}
+								id={bask.id}
+								baseQuanity={quantityValue}
+								handleDeleteBasket={handleDeleteBasket}
+								handleCopyBasket={handleCopyBasket}
+							/>
+						) : bask.type === 'future' ? (
+							<FututeBasketDetails
+								key={bask.id}
+								id={bask.id}
+								baseQuanity={quantityValue}
+								handleDeleteBasket={handleDeleteBasket}
+								handleCopyBasket={handleCopyBasket}
+							/>
+						) : (
+							<OptionBasketDetail
+								key={bask.id}
+								id={bask.id}
+								baseQuanity={quantityValue}
+								handleDeleteBasket={handleDeleteBasket}
+								handleCopyBasket={handleCopyBasket}
+							/>
+						)
 					)}
+					{basket.length > 0 && <ExitCondition />}
 				</Flex>
-
-				{basket?.map((bask) =>
-					bask.type === 'spot' ? (
-						<SpotBasketDetail
-							key={bask.type}
-							id={bask.id}
-							handleDeleteBasket={handleDeleteBasket}
-							handleCopyBasket={handleCopyBasket}
-						/>
-					) : bask.type === 'future' ? (
-						<FututeBasketDetails
-							key={bask.type}
-							id={bask.id}
-							handleDeleteBasket={handleDeleteBasket}
-							handleCopyBasket={handleCopyBasket}
-						/>
-					) : (
-						<OptionBasketDetail
-							key={bask.type}
-							id={bask.id}
-							handleDeleteBasket={handleDeleteBasket}
-							handleCopyBasket={handleCopyBasket}
-						/>
-					)
-				)}
-
-				{basket.length > 0 && <ExitCondition />}
 			</Flex>
 		</Modal>
 	)

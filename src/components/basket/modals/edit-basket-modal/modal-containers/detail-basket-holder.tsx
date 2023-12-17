@@ -36,13 +36,13 @@ const DetailBasketHolder = ({
 			>
 				<Tooltip title="Duplicate">
 					<CopyOutlined
-						style={{ fontSize: token.fontSizeXL, backgroundColor: 'red' }}
+						style={{ fontSize: token.fontSizeXL }}
 						onClick={() => handleCopyBasket(id)}
 					/>
 				</Tooltip>
 				<Tooltip title="Delete">
 					<DeleteOutlined
-						style={{ fontSize: token.fontSizeXL, backgroundColor: 'red' }}
+						style={{ fontSize: token.fontSizeXL }}
 						onClick={() => handleDeleteBasket(id)}
 					/>
 				</Tooltip>

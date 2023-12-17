@@ -1,8 +1,37 @@
 import { Flex, Typography, theme, Input } from 'antd'
-//import { useState } from 'react'
-const QuantityInput = () => {
-	//const [tag, setTag] = useState('B')
+import { InputProps } from 'antd'
+import { ChangeEvent } from 'react'
+import { useState, useEffect } from 'react'
+
+interface QuantityProps {
+	baseQuantityValue: number
+	handleQantityChange: (value: number) => void
+}
+
+const QuantityInput = ({
+	baseQuantityValue,
+	handleQantityChange,
+}: QuantityProps) => {
+	const [quantityValue, setQuantityValue] = useState<number>()
 	const { token } = theme.useToken()
+
+	useEffect(() => {
+		if (!quantityValue) {
+			setQuantityValue(baseQuantityValue)
+		}
+	}, [baseQuantityValue, quantityValue])
+
+	const handleInputChange: InputProps['onChange'] = (
+		e: ChangeEvent<HTMLInputElement>
+	) => {
+		if (+e.target.value < 0) {
+			setQuantityValue(1)
+			handleQantityChange(1)
+		} else {
+			setQuantityValue(+e.target.value)
+			handleQantityChange(+e.target.value)
+		}
+	}
 
 	return (
 		<Flex
@@ -10,7 +39,6 @@ const QuantityInput = () => {
 				width: 'fit-content',
 				borderRadius: token.borderRadiusLG,
 				padding: token.paddingSM,
-				//boxShadow: '2px 2px 2px 2px rgba(0, 0, 0, 0.25) inset',
 			}}
 			vertical
 			justify="center"
@@ -19,7 +47,12 @@ const QuantityInput = () => {
 			<Typography.Text style={{ fontWeight: token.fontWeightStrong }}>
 				Quantity
 			</Typography.Text>
-			<Input size="large" />
+			<Input
+				value={quantityValue}
+				size="large"
+				type="number"
+				onChange={handleInputChange}
+			/>
 		</Flex>
 	)
 }

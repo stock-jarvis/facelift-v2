@@ -6,8 +6,14 @@ import QuantityInput from '../modal-components/quantity-input'
 import ExpirySelector from '../modal-components/expiry-selector'
 interface BasketProps {
 	handleAddBasket: (val: string) => void
+	handleBaseQuantityChange: (value: number) => void
+	baseQuantityValue: number
 }
-const FutureBasketSelector = ({ handleAddBasket }: BasketProps) => {
+const FutureBasketSelector = ({
+	handleAddBasket,
+	handleBaseQuantityChange,
+	baseQuantityValue,
+}: BasketProps) => {
 	return (
 		<PositionHolder
 			heading="Future"
@@ -24,7 +30,10 @@ const FutureBasketSelector = ({ handleAddBasket }: BasketProps) => {
 					color2="red"
 				/>
 
-				<QuantityInput />
+				<QuantityInput
+					baseQuantityValue={baseQuantityValue}
+					handleQantityChange={handleBaseQuantityChange}
+				/>
 				<ExpirySelector />
 			</Flex>
 		</PositionHolder>
