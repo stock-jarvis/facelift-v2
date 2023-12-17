@@ -10,9 +10,9 @@ import {
 import { TradeAction } from 'src/common/enums'
 import { positionsMockData } from './mock-data'
 
-import TradeActionIndicator from 'src/common/components/trade-action-indicator'
 import renderFooter from './footer'
 import ExitLots from './exit-lots'
+import { renderTradeAction } from 'src/common/utils/render-utils'
 
 export type Position = {
 	tradeAction: TradeAction
@@ -38,9 +38,7 @@ const PositionsTable = () => {
 			/** No title in table header */
 			key: 'tradeAction',
 			dataIndex: 'tradeAction',
-			render: (tradeAction: TradeAction) => (
-				<TradeActionIndicator tradeAction={tradeAction} />
-			),
+			render: renderTradeAction,
 			width: 50,
 			align: 'center',
 		},
@@ -120,7 +118,7 @@ const PositionsTable = () => {
 			columns={columns}
 			pagination={false}
 			dataSource={positionsMockData}
-			scroll={{ y: 'calc(100vh - 270px)' }}
+			scroll={{ y: 'calc(100vh - 280px)' }}
 			footer={renderFooter}
 		/>
 	)

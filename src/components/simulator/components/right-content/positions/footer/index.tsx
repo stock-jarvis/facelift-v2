@@ -1,8 +1,9 @@
-import { Button, Flex, Space } from 'antd'
-import { SaveOutlined, BellOutlined, PlusOutlined } from '@ant-design/icons'
+import { Button, Flex } from 'antd'
+import { SaveOutlined } from '@ant-design/icons'
 
 import { PositionsAntdTableProps } from '../positions-table'
 import SaveSimulation from './save-simulation'
+import Alerts from './alerts'
 
 const renderFooter: PositionsAntdTableProps['footer'] = () => {
 	return (
@@ -11,11 +12,8 @@ const renderFooter: PositionsAntdTableProps['footer'] = () => {
 				Saved Simulations
 			</Button>
 
-			<Button type="link" icon={<PlusOutlined />}>
-				<Space>
-					Alerts <BellOutlined />
-				</Space>
-			</Button>
+			<Alerts />
+
 			<SaveSimulation />
 		</Flex>
 	)

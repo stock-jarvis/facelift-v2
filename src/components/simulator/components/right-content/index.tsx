@@ -2,6 +2,7 @@ import { Tabs, TabsProps } from 'antd'
 
 import './styles/antd-styles-override.css'
 import Positions from './positions'
+import Greeks from './greeks'
 
 const items: TabsProps['items'] = [
 	{
@@ -12,7 +13,7 @@ const items: TabsProps['items'] = [
 	{
 		key: 'greeks',
 		label: 'Greeks',
-		children: <div>Greeks</div>,
+		children: <Greeks />,
 	},
 	{
 		key: 'payoffCharts',
