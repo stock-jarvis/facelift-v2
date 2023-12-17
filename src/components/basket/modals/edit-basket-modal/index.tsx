@@ -13,7 +13,7 @@ import SpotBasketSelector from './modal-containers/spot-basket-selector'
 import FutureBasketSelector from './modal-containers/future-basket-selector'
 import PositionSelector from './modal-containers/position-selector'
 
-import { generateUniqueId } from '../../common/randomizer'
+import { generateUniqueId } from '../../common/utils/randomizer'
 
 import { futureExpiry, optionExpiry } from '../../constants/data'
 import { OptionObject } from '../../types/types'
