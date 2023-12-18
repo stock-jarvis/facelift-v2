@@ -6,9 +6,9 @@ import QuantityInput from '../modal-components/quantity-input'
 import YeildButton from '../modal-components/yeild-button'
 import ExpirySelector from '../modal-components/expiry-selector'
 import StrikeSelector from '../modal-components/strike-selector'
-import { useQuantityChange } from '../modal-hooks/useQuantityChange'
+import { useValueChange } from '../modal-hooks/useValueChange'
 import { useActionChange } from '../modal-hooks/useActionChange'
-import { useExpiryChange } from '../modal-hooks/useExpiryChange'
+import { useTypeChange } from '../modal-hooks/useTypeChange'
 import { useState } from 'react'
 import {
 	OptionObject,
@@ -74,10 +74,35 @@ const OptionBasketDetail = ({
 	const [totalProfitValue, setTotalProfitValue] = useState<number>(1)
 	const [spotLossValue, setSpotLossValue] = useState<number>(1)
 
-	useQuantityChange(quantityValue, id, basket, handleEditBasket)
+	useValueChange(quantityValue, id, basket, handleEditBasket, 'qunatity')
+	useValueChange(tradeValue, id, basket, handleEditBasket, 'trade_type_value')
+	useValueChange(
+		totalProfitValue,
+		id,
+		basket,
+		handleEditBasket,
+		'total_profit_value'
+	)
+	useValueChange(spotLossValue, id, basket, handleEditBasket, 'stop_loss_value')
 	useActionChange(actionValue, id, basket, handleEditBasket, 'action_type')
 	useActionChange(optionType, id, basket, handleEditBasket, 'option_type')
-	useExpiryChange(expiryValue, id, basket, handleEditBasket)
+	useTypeChange(tradeOption, id, basket, handleEditBasket, 'trade_type')
+	useTypeChange(expiryValue, id, basket, handleEditBasket, 'expiry')
+	useTypeChange(spotLossType, id, basket, handleEditBasket, 'stop_loss_type')
+	useTypeChange(
+		totalProfitType,
+		id,
+		basket,
+		handleEditBasket,
+		'total_profit_type'
+	)
+	useTypeChange(
+		subTradeOption,
+		id,
+		basket,
+		handleEditBasket,
+		'trade_type_params'
+	)
 
 	return (
 		<DetailBasketHolder

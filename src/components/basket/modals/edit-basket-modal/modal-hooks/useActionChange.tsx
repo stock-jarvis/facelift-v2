@@ -1,13 +1,17 @@
 import { useEffect } from 'react'
-import { BasketDataProps } from 'src/components/basket/types/types'
+import {
+	BasketDataProps,
+	OptionsBasket,
+} from 'src/components/basket/types/types'
 
 type key = 'action_type' | 'option_type'
+type basketState = OptionsBasket | BasketDataProps
 
 export const useActionChange = (
 	actionValue: string,
 	id: string,
-	basket: BasketDataProps[],
-	editBasket: (data: BasketDataProps[]) => void,
+	basket: basketState[],
+	editBasket: (data: basketState[]) => void,
 	keyValue: key
 ) => {
 	useEffect(() => {

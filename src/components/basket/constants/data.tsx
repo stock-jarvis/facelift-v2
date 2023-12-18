@@ -198,8 +198,8 @@ export const tradeTypeData = [
 			{ id: 1, label: '1st highest OI', value: '1st highestOI' },
 			{ id: 2, label: '2nd highest OI', value: '2nd highestOI' },
 			{ id: 3, label: '3rd highest OI', value: '3rd highestOI' },
-			{ id: 4, label: '4th highest OI', value: '5th highestOI' },
-			{ id: 5, label: '5th highest OI', value: '6th highestOI' },
+			{ id: 4, label: '4th highest OI', value: '4th highestOI' },
+			{ id: 5, label: '5th highest OI', value: '5th highestOI' },
 		],
 	},
 	{

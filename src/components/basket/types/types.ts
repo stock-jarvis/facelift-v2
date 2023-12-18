@@ -16,9 +16,30 @@ export interface BasketDataProps {
 	qunatity: number
 	type: string
 	id: string
-	stopLoss: number
-	totalProfit: number
+	stop_loss_value: number
+	total_profit_value: number
+	stop_loss_type: string
+	total_profit_type: string
 	action_type: string
-	option_type?: string
-	expiry?: string
+	// option_type?: string
+	// expiry?: string
+	// trade_type?: string
+	// trade_type_params?: string
+	// trade_type_value?: number
+}
+
+export interface OptionsBasket {
+	qunatity: number
+	type: string
+	id: string
+	stop_loss_value: number
+	total_profit_value: number
+	stop_loss_type: string
+	total_profit_type: string
+	action_type: string
+	option_type: string
+	expiry: string
+	trade_type: string
+	trade_type_params: string
+	trade_type_value: number
 }

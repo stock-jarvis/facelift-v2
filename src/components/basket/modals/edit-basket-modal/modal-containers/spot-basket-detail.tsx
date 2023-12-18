@@ -10,8 +10,9 @@ import {
 	spotLossOptions,
 	totalProfitOptions,
 } from 'src/components/basket/constants/data'
-import { useQuantityChange } from '../modal-hooks/useQuantityChange'
+import { useValueChange } from '../modal-hooks/useValueChange'
 import { useActionChange } from '../modal-hooks/useActionChange'
+import { useTypeChange } from '../modal-hooks/useTypeChange'
 interface SpotDetailsProps {
 	handleDeleteBasket: (val: string) => void
 	handleCopyBasket: (val: string) => void
@@ -41,8 +42,25 @@ const SpotBasketDetail = ({
 	)
 	const [totalProfitValue, setTotalProfitValue] = useState<number>(1)
 	const [spotLossValue, setSpotLossValue] = useState<number>(1)
-	useQuantityChange(quantityValue, id, basket, handleEditBasket)
+	useValueChange(quantityValue, id, basket, handleEditBasket, 'qunatity')
 	useActionChange(actionValue, id, basket, handleEditBasket, 'action_type')
+	useValueChange(
+		totalProfitValue,
+		id,
+		basket,
+		handleEditBasket,
+		'total_profit_value'
+	)
+	useValueChange(spotLossValue, id, basket, handleEditBasket, 'stop_loss_value')
+	useTypeChange(spotLossType, id, basket, handleEditBasket, 'stop_loss_type')
+	useTypeChange(
+		totalProfitType,
+		id,
+		basket,
+		handleEditBasket,
+		'total_profit_type'
+	)
+
 	return (
 		<DetailBasketHolder
 			id={id}

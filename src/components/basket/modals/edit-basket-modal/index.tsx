@@ -14,8 +14,19 @@ import FutureBasketSelector from './modal-containers/future-basket-selector'
 import PositionSelector from './modal-containers/position-selector'
 import { generateUniqueId } from '../../common/utils/randomizer'
 
-import { futureExpiry, optionExpiry, tradeTypeData } from '../../constants/data'
-import { OptionObject, TradeOptions, BasketDataProps } from '../../types/types'
+import {
+	futureExpiry,
+	optionExpiry,
+	tradeTypeData,
+	totalProfitOptions,
+	spotLossOptions,
+} from '../../constants/data'
+import {
+	OptionObject,
+	TradeOptions,
+	BasketDataProps,
+	//OptionsBasket,
+} from '../../types/types'
 import { basketOptions } from '../../constants/data'
 
 const initialSubTrade = tradeTypeData[0].children[0].value
@@ -26,37 +37,44 @@ const defaultSpotPosition: BasketDataProps = {
 	id: generateUniqueId(),
 	qunatity: 1,
 	action_type: 'B',
-	stopLoss: 0,
-	totalProfit: 0,
+	stop_loss_value: 0,
+	total_profit_value: 0,
 	type: 'spot',
+	stop_loss_type: spotLossOptions[0].value,
+	total_profit_type: totalProfitOptions[0].value,
 }
 const defaultFuturePosition: BasketDataProps = {
 	id: generateUniqueId(),
 	qunatity: 1,
 	action_type: 'B',
-	stopLoss: 0,
-	totalProfit: 0,
+	stop_loss_value: 0,
+	total_profit_value: 0,
 	type: 'future',
 	expiry: 'Monthly',
+	stop_loss_type: spotLossOptions[0].value,
+	total_profit_type: totalProfitOptions[0].value,
 }
 
 const defaultOptionsPosition: BasketDataProps = {
 	id: generateUniqueId(),
 	qunatity: 1,
 	action_type: 'B',
-	stopLoss: 0,
-	totalProfit: 0,
+	stop_loss_value: 0,
+	total_profit_value: 0,
+	stop_loss_type: spotLossOptions[0].value,
+	total_profit_type: totalProfitOptions[0].value,
 	option_type: 'CE',
 	type: 'options',
 	expiry: 'Monthly',
+	trade_type: tradeTypeData[0].value,
+	trade_type_params: tradeTypeData[0].children[0].value,
+	trade_type_value: 1,
 }
 
 const EditBasketModal = () => {
 	const { token } = theme.useToken()
-	const [basket, setBasket] = useState<BasketDataProps[]>([])
+	const [basket, setBasket] = useState<Array<BasketDataProps>>([])
 	const [basketOption, setBasketOption] = useState<string>('spot')
-
-	//Initial values for positions
 
 	const [quantityValue, setQuantityValue] = useState<number>(1)
 	const [actionValue, setActionValue] = useState<string>('B')
