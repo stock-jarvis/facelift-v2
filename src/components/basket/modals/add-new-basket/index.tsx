@@ -2,32 +2,25 @@ import { Modal } from 'antd'
 import ExhchangeSelector from '../../common/basket-exchange/exchange-selector'
 import { Flex, Select, Input } from 'antd'
 import { useBasketStore } from '../../store/basket-store'
-import { useState, ChangeEvent } from 'react'
+import { useState, ChangeEvent, useEffect } from 'react'
 import { SelectProps, InputProps } from 'antd'
-
+import { RunTimeBasketData } from '../../types/types'
 import { generateUniqueId } from '../../common/utils/randomizer'
 interface ModalProps {
 	open: boolean
 }
-interface BasketProps {
-	id: string
-	intrument: string
-	name: string
-	exchange: string
-}
 
 const Index = ({ open }: ModalProps) => {
-	//const modal = Modal.info().destroy();
-	//Modal.destroyAll()
-	const { toggleSetBasketModalOpen, exchange } = useBasketStore()
+	const [exhange, setExchange] = useState<string>('NSE')
+	const { toggleSetBasketModalOpen, addNewRuntimeBasket } = useBasketStore()
 	const [basketName, setBasketName] = useState<string>()
 	const [instrument, setInstrument] = useState<string>()
 	const [basketNameError, setBasketNameError] = useState<boolean>(false)
 	const [basketInstrumentError, setBasketInstrumentError] =
 		useState<boolean>(false)
-	const [basketData, setBasketData] = useState<BasketProps>({
+	const [basketData, setBasketData] = useState<RunTimeBasketData>({
 		id: '',
-		intrument: '',
+		instrument: '',
 		name: '',
 		exchange: '',
 	})
@@ -35,15 +28,24 @@ const Index = ({ open }: ModalProps) => {
 		toggleSetBasketModalOpen(false)
 	}
 
+	useEffect(() => {
+		//	console.log(basketData)
+	}, [basketData])
+
 	const onOkSelect = () => {
 		if (basketName && instrument) {
 			setBasketData({
 				id: generateUniqueId(),
 				name: basketName,
-				intrument: instrument,
-				exchange: exchange.type,
+				instrument: instrument,
+				exchange: exhange,
 			})
-
+			addNewRuntimeBasket({
+				id: generateUniqueId(),
+				name: basketName,
+				instrument: instrument,
+				exchange: exhange,
+			})
 			toggleSetBasketModalOpen(false)
 		} else {
 			if (!basketName) {
@@ -83,7 +85,10 @@ const Index = ({ open }: ModalProps) => {
 		>
 			<Flex vertical gap="large">
 				<Flex className="w-[40%] shadow-sm">
-					<ExhchangeSelector />
+					<ExhchangeSelector
+						exchangeValue={exhange}
+						handleTradeChange={setExchange}
+					/>
 				</Flex>
 				<Flex flex={1} vertical gap="middle">
 					<Input

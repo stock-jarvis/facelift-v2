@@ -1,12 +1,15 @@
 import { Flex } from 'antd'
-
+import { useEffect } from 'react'
 import AddBasketModal from './modals/add-new-basket'
 import SaveBasket from './container/saved-basket-container'
 import BasketContainer from './container/baskets-container'
 import { useBasketStore } from './store/basket-store'
 import EditBasketModal from './modals/edit-basket-modal'
 const Basket = () => {
-	const { isAddBasketModalOpen } = useBasketStore()
+	const { isAddBasketModalOpen, runtimeBasketList } = useBasketStore()
+	useEffect(() => {
+		console.log(runtimeBasketList)
+	}, [runtimeBasketList])
 	return (
 		<>
 			<EditBasketModal />

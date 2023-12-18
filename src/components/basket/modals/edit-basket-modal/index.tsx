@@ -133,12 +133,12 @@ const EditBasketModal = () => {
 	}
 
 	useEffect(() => {
-		console.log(basket)
+		//console.log(basket)
 	}, [basket])
 	return (
 		<Modal
 			className="select-none no-scrollbar"
-			open={true}
+			open={false}
 			width={1200}
 			title={<Header />}
 			footer={<Footer />}

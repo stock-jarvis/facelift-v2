@@ -21,11 +21,11 @@ export interface BasketDataProps {
 	stop_loss_type: string
 	total_profit_type: string
 	action_type: string
-	// option_type?: string
-	// expiry?: string
-	// trade_type?: string
-	// trade_type_params?: string
-	// trade_type_value?: number
+	option_type?: string
+	expiry?: string
+	trade_type?: string
+	trade_type_params?: string
+	trade_type_value?: number
 }
 
 export interface OptionsBasket {
@@ -42,4 +42,11 @@ export interface OptionsBasket {
 	trade_type: string
 	trade_type_params: string
 	trade_type_value: number
+}
+
+export interface RunTimeBasketData {
+	id: string
+	name: string
+	exchange: string
+	instrument: string
 }
