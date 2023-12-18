@@ -6,6 +6,7 @@ const TradeSecion = () => {
 	const { token } = theme.useToken()
 	const [toggleValue, setToggleValue] = useState('Square off one Leg')
 	const [trade, setTrade] = useState(false)
+
 	useEffect(() => {
 		if (toggleValue === 'Square off one Leg') {
 			setTrade(false)
@@ -13,6 +14,7 @@ const TradeSecion = () => {
 			setTrade(true)
 		}
 	}, [toggleValue])
+
 	return (
 		<Flex flex={1} justify="center" align="center" vertical className="gap-10">
 			<div className="w-[80%] ">

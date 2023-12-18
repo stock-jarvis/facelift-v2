@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Modal, theme, Flex } from 'antd'
 
 import Header from './modal-containers/header'
@@ -15,15 +15,38 @@ import PositionSelector from './modal-containers/position-selector'
 import { generateUniqueId } from '../../common/utils/randomizer'
 
 import { futureExpiry, optionExpiry, tradeTypeData } from '../../constants/data'
-import { OptionObject, TradeOptions } from '../../types/types'
+import { OptionObject, TradeOptions, BasketDataProps } from '../../types/types'
 import { basketOptions } from '../../constants/data'
 
 const initialSubTrade = tradeTypeData[0].children[0].value
 const initialSubTradeList = tradeTypeData[0].children
 const initialTrade = tradeTypeData[0].value
-interface BasketDataProps {
-	type: string
-	id: string
+
+const defaultSpotPosition: BasketDataProps = {
+	id: generateUniqueId(),
+	qunatity: 1,
+	action_type: 'B',
+	stopLoss: 0,
+	totalProfit: 0,
+	type: 'spot',
+}
+const defaultFuturePosition: BasketDataProps = {
+	id: generateUniqueId(),
+	qunatity: 1,
+	action_type: 'B',
+	stopLoss: 0,
+	totalProfit: 0,
+	type: 'future',
+}
+
+const defaultOptionsPosition: BasketDataProps = {
+	id: generateUniqueId(),
+	qunatity: 1,
+	action_type: 'B',
+	stopLoss: 0,
+	totalProfit: 0,
+	option_type: 'CE',
+	type: 'options',
 }
 
 const EditBasketModal = () => {
@@ -65,7 +88,14 @@ const EditBasketModal = () => {
 	}
 
 	const handleAddBasket = (value: string) => {
-		setBasket((prev) => [...prev, { type: value, id: generateUniqueId() }])
+		setBasket((prev) => [
+			...prev,
+			value === 'spot'
+				? defaultSpotPosition
+				: value === 'future'
+					? defaultFuturePosition
+					: defaultOptionsPosition,
+		])
 	}
 
 	const handleDeleteBasket = (id: string) => {
@@ -82,6 +112,9 @@ const EditBasketModal = () => {
 		}
 	}
 
+	useEffect(() => {
+		console.log(basket)
+	}, [basket])
 	return (
 		<Modal
 			className="select-none no-scrollbar"
@@ -199,6 +232,8 @@ const EditBasketModal = () => {
 							<SpotBasketDetail
 								key={bask.id}
 								id={bask.id}
+								basket={basket}
+								handleEditBasket={setBasket}
 								baseQuanity={quantityValue}
 								baseActionValue={actionValue}
 								handleDeleteBasket={handleDeleteBasket}
@@ -212,6 +247,8 @@ const EditBasketModal = () => {
 								baseActionValue={actionValue}
 								futureExpiryBaseValue={futureExpiryBaseValue}
 								futureExpiryList={futureExpiryList}
+								basket={basket}
+								handleEditBasket={setBasket}
 								handleDeleteBasket={handleDeleteBasket}
 								handleCopyBasket={handleCopyBasket}
 							/>
@@ -228,6 +265,8 @@ const EditBasketModal = () => {
 								baseTradeOption={tradeOption}
 								baseSubTradeOptionList={subTradeOptionList}
 								baseTradeValue={tradeValue}
+								basket={basket}
+								handleEditBasket={setBasket}
 								handleDeleteBasket={handleDeleteBasket}
 								handleCopyBasket={handleCopyBasket}
 							/>

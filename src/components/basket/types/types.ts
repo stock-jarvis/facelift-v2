@@ -12,3 +12,12 @@ export interface TradeOptions {
 	label: string
 	value: string
 }
+export interface BasketDataProps {
+	qunatity: number
+	type: string
+	id: string
+	stopLoss: number
+	totalProfit: number
+	action_type: string
+	option_type?: string
+}

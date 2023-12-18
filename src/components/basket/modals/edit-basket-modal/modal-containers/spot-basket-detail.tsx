@@ -5,14 +5,19 @@ import ActionSelector from '../modal-components/action-selector'
 import YeildButton from '../modal-components/yeild-button'
 import { Flex } from 'antd'
 import { useState } from 'react'
+import { BasketDataProps } from 'src/components/basket/types/types'
 import {
 	spotLossOptions,
 	totalProfitOptions,
 } from 'src/components/basket/constants/data'
+import { useQuantityChange } from '../modal-hooks/useQuantityChange'
+import { useActionChange } from '../modal-hooks/useActionChange'
 interface SpotDetailsProps {
 	handleDeleteBasket: (val: string) => void
 	handleCopyBasket: (val: string) => void
+	handleEditBasket: (basket: BasketDataProps[]) => void
 	id: string
+	basket: BasketDataProps[]
 	baseQuanity: number
 	baseActionValue: string
 }
@@ -20,7 +25,9 @@ interface SpotDetailsProps {
 const SpotBasketDetail = ({
 	handleDeleteBasket,
 	handleCopyBasket,
+	handleEditBasket,
 	id,
+	basket,
 	baseQuanity,
 	baseActionValue,
 }: SpotDetailsProps) => {
@@ -34,6 +41,8 @@ const SpotBasketDetail = ({
 	)
 	const [totalProfitValue, setTotalProfitValue] = useState<number>(1)
 	const [spotLossValue, setSpotLossValue] = useState<number>(1)
+	useQuantityChange(quantityValue, id, basket, handleEditBasket)
+	useActionChange(actionValue, id, basket, handleEditBasket, 'action_type')
 	return (
 		<DetailBasketHolder
 			id={id}

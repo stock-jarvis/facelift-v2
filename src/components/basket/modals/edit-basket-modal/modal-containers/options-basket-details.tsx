@@ -6,8 +6,14 @@ import QuantityInput from '../modal-components/quantity-input'
 import YeildButton from '../modal-components/yeild-button'
 import ExpirySelector from '../modal-components/expiry-selector'
 import StrikeSelector from '../modal-components/strike-selector'
+import { useQuantityChange } from '../modal-hooks/useQuantityChange'
+import { useActionChange } from '../modal-hooks/useActionChange'
 import { useState } from 'react'
-import { OptionObject, TradeOptions } from 'src/components/basket/types/types'
+import {
+	OptionObject,
+	TradeOptions,
+	BasketDataProps,
+} from 'src/components/basket/types/types'
 import {
 	spotLossOptions,
 	totalProfitOptions,
@@ -17,17 +23,21 @@ interface OptionDetailsProps {
 	baseQuanity: number
 	baseActionValue: string
 	baseOptionValue: string
+	basket: BasketDataProps[]
 	optionExpiryBaseValue: string
 	optionExpiryList: OptionObject[]
 	baseTradeValue: number
 	baseTradeOption: string
 	baseSubTradeOption: string
 	baseSubTradeOptionList: TradeOptions[]
+
 	handleDeleteBasket: (val: string) => void
 	handleCopyBasket: (val: string) => void
+	handleEditBasket: (basket: BasketDataProps[]) => void
 }
 const OptionBasketDetail = ({
 	id,
+	basket,
 	baseQuanity,
 	baseActionValue,
 	baseOptionValue,
@@ -39,6 +49,7 @@ const OptionBasketDetail = ({
 	baseTradeValue,
 	handleDeleteBasket,
 	handleCopyBasket,
+	handleEditBasket,
 }: OptionDetailsProps) => {
 	const [quantityValue, setQuantityValue] = useState<number>(baseQuanity)
 	const [actionValue, setActionValue] = useState<string>(baseActionValue)
@@ -61,6 +72,10 @@ const OptionBasketDetail = ({
 	)
 	const [totalProfitValue, setTotalProfitValue] = useState<number>(1)
 	const [spotLossValue, setSpotLossValue] = useState<number>(1)
+
+	useQuantityChange(quantityValue, id, basket, handleEditBasket)
+	useActionChange(actionValue, id, basket, handleEditBasket, 'action_type')
+	useActionChange(optionType, id, basket, handleEditBasket, 'option_type')
 
 	return (
 		<DetailBasketHolder

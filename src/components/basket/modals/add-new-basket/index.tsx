@@ -1,41 +1,107 @@
-import Modal from 'antd/es/modal/Modal'
+import { Modal } from 'antd'
 import ExhchangeSelector from '../../common/basket-exchange/exchange-selector'
 import { Flex, Select, Input } from 'antd'
 import { useBasketStore } from '../../store/basket-store'
+import { useState, ChangeEvent } from 'react'
+import { SelectProps, InputProps } from 'antd'
+
+import { generateUniqueId } from '../../common/utils/randomizer'
 interface ModalProps {
 	open: boolean
 }
+interface BasketProps {
+	id: string
+	intrument: string
+	name: string
+	exchange: string
+}
 
 const Index = ({ open }: ModalProps) => {
-	const { toggleSetBasketModalOpen } = useBasketStore()
-	// TODO: Add the functionality here
+	//const modal = Modal.info().destroy();
+	//Modal.destroyAll()
+	const { toggleSetBasketModalOpen, exchange } = useBasketStore()
+	const [basketName, setBasketName] = useState<string>()
+	const [instrument, setInstrument] = useState<string>()
+	const [basketNameError, setBasketNameError] = useState<boolean>(false)
+	const [basketInstrumentError, setBasketInstrumentError] =
+		useState<boolean>(false)
+	const [basketData, setBasketData] = useState<BasketProps>({
+		id: '',
+		intrument: '',
+		name: '',
+		exchange: '',
+	})
 	const onModalClose = () => {
 		toggleSetBasketModalOpen(false)
 	}
 
-	// TODO: Add the functionality here
 	const onOkSelect = () => {
-		toggleSetBasketModalOpen(false)
+		if (basketName && instrument) {
+			setBasketData({
+				id: generateUniqueId(),
+				name: basketName,
+				intrument: instrument,
+				exchange: exchange.type,
+			})
+
+			toggleSetBasketModalOpen(false)
+		} else {
+			if (!basketName) {
+				setBasketNameError(true)
+				if (!instrument) {
+					console.log('hello world')
+					setBasketInstrumentError(true)
+				}
+			} else {
+				setBasketInstrumentError(true)
+			}
+		}
 	}
 
+	const handleInputChange: InputProps['onChange'] = (
+		event: ChangeEvent<HTMLInputElement>
+	) => {
+		setBasketNameError(false)
+		setBasketName(event.target.value)
+	}
+	const handleInstrumentChange: SelectProps['onChange'] = (value: string) => {
+		setBasketInstrumentError(false)
+		setInstrument(value)
+	}
 	return (
 		<Modal
 			title="Add New Basket"
 			open={open}
 			width={700}
-			//styles={{header:}}
 			okButtonProps={{ type: 'default' }}
 			onCancel={onModalClose}
+			destroyOnClose
 			onOk={onOkSelect}
+			styles={{
+				content: { marginTop: '80px' },
+			}}
 		>
 			<Flex vertical gap="large">
 				<Flex className="w-[40%] shadow-sm">
 					<ExhchangeSelector />
 				</Flex>
 				<Flex flex={1} vertical gap="middle">
-					<Input size="large" placeholder="Enter Basket Name" />
+					<Input
+						style={{
+							borderColor: basketNameError ? 'red' : 'black',
+						}}
+						size="large"
+						placeholder="Enter Basket Name"
+						value={basketName}
+						onChange={handleInputChange}
+					/>
 
 					<Select
+						style={{
+							outline: basketInstrumentError ? 'red' : 'black',
+						}}
+						value={instrument}
+						onChange={handleInstrumentChange}
 						size="large"
 						className="w-full"
 						placeholder="Select an intument"

@@ -6,7 +6,12 @@ import ActionSelector from '../modal-components/action-selector'
 import QuantityInput from '../modal-components/quantity-input'
 import YeildButton from '../modal-components/yeild-button'
 import ExpirySelector from '../modal-components/expiry-selector'
-import { OptionObject } from 'src/components/basket/types/types'
+import { useQuantityChange } from '../modal-hooks/useQuantityChange'
+import { useActionChange } from '../modal-hooks/useActionChange'
+import {
+	OptionObject,
+	BasketDataProps,
+} from 'src/components/basket/types/types'
 import {
 	spotLossOptions,
 	totalProfitOptions,
@@ -18,16 +23,20 @@ interface FututreDetailsProps {
 	baseActionValue: string
 	futureExpiryList: OptionObject[]
 	futureExpiryBaseValue: string
+	basket: BasketDataProps[]
 	handleDeleteBasket: (val: string) => void
 	handleCopyBasket: (val: string) => void
+	handleEditBasket: (basket: BasketDataProps[]) => void
 }
 const FututeBasketDetails = ({
 	id,
+	basket,
 	baseQuanity,
 	baseActionValue,
 	futureExpiryList,
 	futureExpiryBaseValue,
 	handleCopyBasket,
+	handleEditBasket,
 	handleDeleteBasket,
 }: FututreDetailsProps) => {
 	const [quantityValue, setQuantityValue] = useState<number>(baseQuanity)
@@ -41,6 +50,10 @@ const FututeBasketDetails = ({
 	)
 	const [totalProfitValue, setTotalProfitValue] = useState<number>(1)
 	const [spotLossValue, setSpotLossValue] = useState<number>(1)
+
+	useQuantityChange(quantityValue, id, basket, handleEditBasket)
+	useActionChange(actionValue, id, basket, handleEditBasket, 'action_type')
+
 	return (
 		<DetailBasketHolder
 			handleCopyBasket={handleCopyBasket}
