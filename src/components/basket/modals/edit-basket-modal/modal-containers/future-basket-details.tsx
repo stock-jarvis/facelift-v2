@@ -25,6 +25,7 @@ interface FututreDetailsProps {
 	baseActionValue: string
 	futureExpiryList: OptionObject[]
 	futureExpiryBaseValue: string
+	baseInstrumentValue: string
 	basket: BasketDataProps[]
 	handleDeleteBasket: (val: string) => void
 	handleCopyBasket: (val: string) => void
@@ -36,6 +37,7 @@ const FututeBasketDetails = ({
 	baseQuanity,
 	baseActionValue,
 	futureExpiryList,
+	baseInstrumentValue,
 	futureExpiryBaseValue,
 	handleCopyBasket,
 	handleEditBasket,
@@ -82,7 +84,7 @@ const FututeBasketDetails = ({
 		>
 			<Flex flex="1" justify="space-around">
 				<Flex flex={1} justify="center">
-					<Instrument />
+					<Instrument instrument={baseInstrumentValue} />
 				</Flex>
 				<Flex flex={1} justify="center">
 					<ActionSelector

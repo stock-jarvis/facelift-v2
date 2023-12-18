@@ -13,7 +13,7 @@ import SpotBasketSelector from './modal-containers/spot-basket-selector'
 import FutureBasketSelector from './modal-containers/future-basket-selector'
 import PositionSelector from './modal-containers/position-selector'
 import { generateUniqueId } from '../../common/utils/randomizer'
-
+import { useBasketStore } from '../../store/basket-store'
 import {
 	futureExpiry,
 	optionExpiry,
@@ -21,12 +21,8 @@ import {
 	totalProfitOptions,
 	spotLossOptions,
 } from '../../constants/data'
-import {
-	OptionObject,
-	TradeOptions,
-	BasketDataProps,
-	//OptionsBasket,
-} from '../../types/types'
+
+import { OptionObject, TradeOptions, BasketDataProps } from '../../types/types'
 import { basketOptions } from '../../constants/data'
 
 const initialSubTrade = tradeTypeData[0].children[0].value
@@ -71,8 +67,17 @@ const defaultOptionsPosition: BasketDataProps = {
 	trade_type_value: 1,
 }
 
-const EditBasketModal = () => {
+interface EditModalProps {
+	open: boolean
+}
+
+const EditBasketModal = ({ open }: EditModalProps) => {
+	const { editableBasketData } = useBasketStore()
+
 	const { token } = theme.useToken()
+
+	const [basketTrade, setBasketTrade] = useState<string>()
+	const [instrument, setInstrument] = useState<string>()
 	const [basket, setBasket] = useState<Array<BasketDataProps>>([])
 	const [basketOption, setBasketOption] = useState<string>('spot')
 
@@ -91,6 +96,16 @@ const EditBasketModal = () => {
 	const [optionExpiryBaseValue, setOptionExpiryBaseValue] =
 		useState<string>('Monthly')
 
+	useEffect(() => {
+		if (!basketTrade) {
+			setBasketTrade(editableBasketData.exchange)
+		}
+	}, [editableBasketData, basketTrade])
+	useEffect(() => {
+		if (!instrument) {
+			setInstrument(editableBasketData.instrument)
+		}
+	}, [editableBasketData, instrument])
 	const setToogleValue = (value: string) => {
 		value
 	}
@@ -138,9 +153,16 @@ const EditBasketModal = () => {
 	return (
 		<Modal
 			className="select-none no-scrollbar"
-			open={false}
+			open={open}
 			width={1200}
-			title={<Header />}
+			title={
+				<Header
+					trade={basketTrade}
+					handleTradeChange={setBasketTrade}
+					instrument={instrument}
+					handleInstrumentChange={setInstrument}
+				/>
+			}
 			footer={<Footer />}
 			styles={{
 				content: {
@@ -208,6 +230,7 @@ const EditBasketModal = () => {
 							<SpotBasketSelector
 								baseQuantityValue={quantityValue}
 								baseActionValue={actionValue}
+								baseInstrumentValue={instrument || ''}
 								handleBaseActionChange={setActionValue}
 								handleAddBasket={handleAddBasket}
 								handleBaseQuantityChange={setQuantityValue}
@@ -218,6 +241,7 @@ const EditBasketModal = () => {
 								futureExpiryList={futureExpiryList}
 								baseQuantityValue={quantityValue}
 								baseActionValue={actionValue}
+								baseInstrumentValue={instrument || ''}
 								handleBaseActionChange={setActionValue}
 								handleBaseExpiryChange={setFutureExpiryBaseValue}
 								handleAddBasket={handleAddBasket}
@@ -231,6 +255,7 @@ const EditBasketModal = () => {
 								baseActionValue={actionValue}
 								baseOptionValue={optionType}
 								baseSubTradeOption={subTradeOption}
+								baseInstrumentValue={instrument || ''}
 								baseTradeValue={tradeValue}
 								baseTradeOption={tradeOption}
 								baseSubTradeOptionList={subTradeOptionList}
@@ -255,6 +280,7 @@ const EditBasketModal = () => {
 								basket={basket}
 								handleEditBasket={setBasket}
 								baseQuanity={quantityValue}
+								baseInstrumentValue={instrument || ''}
 								baseActionValue={actionValue}
 								handleDeleteBasket={handleDeleteBasket}
 								handleCopyBasket={handleCopyBasket}
@@ -264,6 +290,7 @@ const EditBasketModal = () => {
 								key={bask.id}
 								id={bask.id}
 								baseQuanity={quantityValue}
+								baseInstrumentValue={instrument || ''}
 								baseActionValue={actionValue}
 								futureExpiryBaseValue={futureExpiryBaseValue}
 								futureExpiryList={futureExpiryList}
@@ -280,6 +307,7 @@ const EditBasketModal = () => {
 								optionExpiryBaseValue={optionExpiryBaseValue}
 								baseActionValue={actionValue}
 								baseOptionValue={optionType}
+								baseInstrumentValue={instrument || ''}
 								optionExpiryList={optionExpiryList}
 								baseSubTradeOption={subTradeOption}
 								baseTradeOption={tradeOption}

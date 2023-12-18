@@ -2,12 +2,13 @@ import { Flex, Tooltip, theme } from 'antd'
 import { IconActions } from '../../types/types'
 interface ActionProps {
 	actions: IconActions[]
+	handleActionClicked: (val: string) => void
 }
-const ActionSection = ({ actions }: ActionProps) => {
+const ActionSection = ({ actions, handleActionClicked }: ActionProps) => {
 	const { token } = theme.useToken()
 
 	const handleOnClick = (icon: IconActions) => {
-		console.log(icon)
+		handleActionClicked(icon.actionName)
 	}
 
 	return (

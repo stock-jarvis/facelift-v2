@@ -1,5 +1,8 @@
 import { Flex, Typography, theme } from 'antd'
-const Instrument = () => {
+interface instrumentProps {
+	instrument: string
+}
+const Instrument = ({ instrument }: instrumentProps) => {
 	const { token } = theme.useToken()
 
 	return (
@@ -22,7 +25,7 @@ const Instrument = () => {
 				<Typography.Text
 					style={{ paddingTop: token.paddingSM, fontWeight: 'bold' }}
 				>
-					BANK NIFTY
+					{instrument}
 				</Typography.Text>
 			</Flex>
 		</Flex>

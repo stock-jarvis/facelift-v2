@@ -1,29 +1,27 @@
-import { Flex, theme, Tooltip, Button } from 'antd'
+import { Flex, theme, Button, DatePicker } from 'antd'
 import { PlayCircleOutlined, PlusOutlined } from '@ant-design/icons'
-//import { IoCalendarOutline } from 'react-icons/io5'
-//import { TbSeparator } from 'react-icons/tb'
+import { IoCalendarOutline } from 'react-icons/io5'
+import { TbSeparator } from 'react-icons/tb'
 
 import { useBasketStore } from '../../store/basket-store'
-//const { RangePicker } = DatePicker
+const { RangePicker } = DatePicker
 const Index = () => {
 	const { toggleSetBasketModalOpen } = useBasketStore()
 	const { token } = theme.useToken()
 	return (
 		<Flex flex="1" className="p-[10px]">
 			<Flex flex="1">
-				<Tooltip title="Select Date Range">
-					{/* <RangePicker
-						separator={<TbSeparator style={{ color: token.colorPrimary }} />}
-						format={'DD-MM-YYYY'}
-						suffixIcon={
-							<IoCalendarOutline style={{ color: token.colorPrimary }} />
-						}
-						style={{
-							borderColor: token.colorPrimary,
-							color: token.colorText,
-						}}
-					/> */}
-				</Tooltip>
+				<RangePicker
+					separator={<TbSeparator style={{ color: token.colorPrimary }} />}
+					format={'DD-MM-YYYY'}
+					suffixIcon={
+						<IoCalendarOutline style={{ color: token.colorPrimary }} />
+					}
+					style={{
+						borderColor: token.colorPrimary,
+						color: token.colorText,
+					}}
+				/>
 			</Flex>
 			<Flex flex={'1'} gap="middle" justify="flex-end">
 				<Button

@@ -19,6 +19,8 @@ interface SpotDetailsProps {
 	handleEditBasket: (basket: BasketDataProps[]) => void
 	id: string
 	basket: BasketDataProps[]
+
+	baseInstrumentValue: string
 	baseQuanity: number
 	baseActionValue: string
 }
@@ -31,6 +33,7 @@ const SpotBasketDetail = ({
 	basket,
 	baseQuanity,
 	baseActionValue,
+	baseInstrumentValue,
 }: SpotDetailsProps) => {
 	const [quantityValue, setQuantityValue] = useState<number>(baseQuanity)
 	const [actionValue, setActionValue] = useState<string>(baseActionValue)
@@ -69,7 +72,7 @@ const SpotBasketDetail = ({
 		>
 			<Flex flex="1" justify="space-around">
 				<Flex flex={1} justify="center">
-					<Instrument />
+					<Instrument instrument={baseInstrumentValue} />
 				</Flex>
 				<Flex flex={1} justify="center">
 					<ActionSelector

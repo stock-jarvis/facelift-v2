@@ -7,6 +7,7 @@ interface BasketProps {
 	handleAddBasket: (val: string) => void
 	handleBaseQuantityChange: (value: number) => void
 	handleBaseActionChange: (val: string) => void
+	baseInstrumentValue: string
 	baseQuantityValue: number
 	baseActionValue: string
 }
@@ -14,6 +15,7 @@ const SpotBasketSelector = ({
 	handleAddBasket,
 	handleBaseQuantityChange,
 	handleBaseActionChange,
+	baseInstrumentValue,
 	baseQuantityValue,
 	baseActionValue,
 }: BasketProps) => {
@@ -21,7 +23,7 @@ const SpotBasketSelector = ({
 		<PositionHolder heading="Spot" onClick={handleAddBasket} basketType="spot">
 			<Flex flex={1} align="center">
 				<Flex flex={1} justify="center">
-					<Instrument />
+					<Instrument instrument={baseInstrumentValue} />
 				</Flex>
 				<Flex flex={1} justify="center">
 					<ActionSelector

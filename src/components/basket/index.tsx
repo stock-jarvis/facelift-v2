@@ -11,6 +11,7 @@ const Basket = () => {
 		isAddBasketModalOpen,
 		runtimeBasketList,
 		duplicateError,
+		isEditModalOpen,
 		setDuplicateError,
 	} = useBasketStore()
 	useEffect(() => {
@@ -18,14 +19,6 @@ const Basket = () => {
 	}, [runtimeBasketList])
 	return (
 		<>
-			<EditBasketModal />
-			{<AddBasketModal open={isAddBasketModalOpen} />}
-			<ConfirmModal
-				open={duplicateError}
-				handleOpen={setDuplicateError}
-				header={'Duplicate Alert'}
-				message="Basket with this name already exists"
-			/>
 			<Flex className="h-[100vh] overflow-y-hidden overflow-x-hidden">
 				<Flex flex={'1'}>
 					<SaveBasket />
@@ -34,6 +27,14 @@ const Basket = () => {
 					<BasketContainer />
 				</Flex>
 			</Flex>
+			<EditBasketModal open={isEditModalOpen} />
+			{<AddBasketModal open={isAddBasketModalOpen} />}
+			<ConfirmModal
+				open={duplicateError}
+				handleOpen={setDuplicateError}
+				header={'Duplicate Alert'}
+				message="Basket with this name already exists"
+			/>
 		</>
 	)
 }

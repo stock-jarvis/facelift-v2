@@ -10,6 +10,7 @@ interface BasketProps {
 	futureExpiryBaseValue: string
 	baseQuantityValue: number
 	baseActionValue: string
+	baseInstrumentValue: string
 	handleAddBasket: (val: string) => void
 	handleBaseQuantityChange: (value: number) => void
 	handleBaseExpiryChange: (val: string) => void
@@ -18,6 +19,7 @@ interface BasketProps {
 const FutureBasketSelector = ({
 	baseActionValue,
 	baseQuantityValue,
+	baseInstrumentValue,
 	futureExpiryBaseValue,
 	futureExpiryList,
 	handleAddBasket,
@@ -32,7 +34,7 @@ const FutureBasketSelector = ({
 			onClick={handleAddBasket}
 		>
 			<Flex flex={1} justify="space-around" align="center">
-				<Instrument />
+				<Instrument instrument={baseInstrumentValue} />
 				<ActionSelector
 					label="Action Type"
 					action1="B"

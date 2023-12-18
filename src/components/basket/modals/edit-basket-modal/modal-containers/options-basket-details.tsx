@@ -31,7 +31,7 @@ interface OptionDetailsProps {
 	baseTradeOption: string
 	baseSubTradeOption: string
 	baseSubTradeOptionList: TradeOptions[]
-
+	baseInstrumentValue: string
 	handleDeleteBasket: (val: string) => void
 	handleCopyBasket: (val: string) => void
 	handleEditBasket: (basket: BasketDataProps[]) => void
@@ -48,6 +48,7 @@ const OptionBasketDetail = ({
 	baseSubTradeOption,
 	baseSubTradeOptionList,
 	baseTradeValue,
+	baseInstrumentValue,
 	handleDeleteBasket,
 	handleCopyBasket,
 	handleEditBasket,
@@ -112,7 +113,7 @@ const OptionBasketDetail = ({
 		>
 			<Flex className="h-fit">
 				<Flex className="p-10">
-					<Instrument />
+					<Instrument instrument={baseInstrumentValue} />
 				</Flex>
 
 				<Flex vertical flex={1}>

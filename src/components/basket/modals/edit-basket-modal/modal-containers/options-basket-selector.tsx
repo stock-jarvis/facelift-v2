@@ -18,6 +18,7 @@ interface BasketProps {
 	handleBaseQuantityChange: (value: number) => void
 	handleBaseTradeValueChange: (val: number) => void
 	handleBaseSubTradeListChange: (val: TradeOptions[]) => void
+	baseInstrumentValue: string
 	baseTradeValue: number
 	baseActionValue: string
 	baseOptionValue: string
@@ -40,6 +41,7 @@ const OptionsBasketSelector = ({
 	handleBaseTradeValueChange,
 	baseTradeValue,
 	optionExpiryBaseValue,
+	baseInstrumentValue,
 	baseQuantityValue,
 	baseActionValue,
 	optionExpiryList,
@@ -64,7 +66,7 @@ const OptionsBasketSelector = ({
 					/>
 				</Flex>
 				<Flex flex={1} justify="space-around" align="center">
-					<Instrument />
+					<Instrument instrument={baseInstrumentValue} />
 					<ActionSelector
 						label="Action Type"
 						action1="B"
