@@ -22,7 +22,15 @@ import {
 	spotLossOptions,
 } from '../../constants/data'
 
-import { OptionObject, TradeOptions, BasketDataProps } from '../../types/types'
+import { nseTimes, mxcTimes, curTimes } from '../../constants/entry-exit-time'
+
+import {
+	OptionObject,
+	TradeOptions,
+	BasketDataProps,
+	TimeHours,
+	Time,
+} from '../../types/types'
 import { basketOptions } from '../../constants/data'
 
 const initialSubTrade = tradeTypeData[0].children[0].value
@@ -98,6 +106,16 @@ const EditBasketModal = ({ open }: EditModalProps) => {
 	const [optionExpiryBaseValue, setOptionExpiryBaseValue] =
 		useState<string>('Monthly')
 
+	const [entryHourList, setEntryHourList] = useState<TimeHours[]>()
+	const [entryMinuteList, setEntryMinuteList] = useState<Time[]>()
+	const [currentEntryHour, setCurrentEntryHour] = useState<number>()
+	const [currentEntryMinute, setCurrentEntryMinute] = useState<number>()
+
+	const [exitHourList, setExitHourList] = useState<TimeHours[]>()
+	const [exitMinuteList, setExitMinuteList] = useState<Time[]>()
+	const [currentExitHour, setCurrentExitHour] = useState<number>()
+	const [currentExitMinute, setCurrentExitMinute] = useState<number>()
+
 	const handleAfterClose = () => {
 		setBasket([])
 		setBasketTrade('')
@@ -111,7 +129,67 @@ const EditBasketModal = ({ open }: EditModalProps) => {
 		setSubTradeOptionList(initialSubTradeList)
 		setFutureExpiryBaseValue('Monthly')
 		setOptionExpiryBaseValue('Monthly')
+		setCurrentExitHour(-1)
+		setCurrentExitMinute(-1)
+		setCurrentEntryHour(-1)
+		setCurrentEntryMinute(-1)
+		setExitMinuteList([])
+		setEntryHourList([])
+		setExitHourList([])
+		setEntryMinuteList([])
 	}
+
+	useEffect(() => {
+		if (!entryHourList || entryHourList.length === 0) {
+			if (editableBasketData.exchange) {
+				if (editableBasketData.exchange === 'NSE') {
+					setEntryHourList(nseTimes)
+					setEntryMinuteList(nseTimes[0].minutes)
+					setCurrentEntryHour(nseTimes[0].value)
+					setCurrentEntryMinute(nseTimes[0].minutes[0].value)
+				} else if (editableBasketData.exchange === 'MCX') {
+					setEntryHourList(mxcTimes)
+					setEntryMinuteList(mxcTimes[0].minutes)
+					setCurrentEntryHour(mxcTimes[0].value)
+					setCurrentEntryMinute(mxcTimes[0].minutes[0].value)
+				} else {
+					setEntryHourList(curTimes)
+					setEntryMinuteList(curTimes[0].minutes)
+					setCurrentEntryHour(curTimes[0].value)
+					setCurrentEntryMinute(curTimes[0].minutes[0].value)
+				}
+			}
+		}
+	}, [editableBasketData, entryHourList])
+
+	useEffect(() => {
+		if (!exitHourList || exitHourList.length === 0) {
+			if (editableBasketData.exchange) {
+				if (editableBasketData.exchange === 'NSE') {
+					setExitHourList(nseTimes)
+					setExitMinuteList(nseTimes[nseTimes.length - 1].minutes)
+					setCurrentExitHour(nseTimes[nseTimes.length - 1].value)
+					const minutes = nseTimes[nseTimes.length - 1].minutes
+					const finalMiutes = minutes[minutes.length - 1]
+					setCurrentExitMinute(finalMiutes.value)
+				} else if (editableBasketData.exchange === 'MCX') {
+					setExitHourList(mxcTimes)
+					setExitMinuteList(mxcTimes[mxcTimes.length - 1].minutes)
+					setCurrentExitHour(mxcTimes[mxcTimes.length - 1].value)
+					const minutes = mxcTimes[mxcTimes.length - 1].minutes
+					const finalMiutes = minutes[minutes.length - 1]
+					setCurrentExitMinute(finalMiutes.value)
+				} else {
+					setExitHourList(curTimes)
+					setExitMinuteList(curTimes[curTimes.length - 1].minutes)
+					setCurrentExitHour(curTimes[curTimes.length - 1].value)
+					const minutes = curTimes[curTimes.length - 1].minutes
+					const finalMiutes = minutes[minutes.length - 1]
+					setCurrentExitMinute(finalMiutes.value)
+				}
+			}
+		}
+	}, [editableBasketData, exitHourList])
 
 	useEffect(() => {
 		if (!basketTrade) {
@@ -354,7 +432,24 @@ const EditBasketModal = ({ open }: EditModalProps) => {
 								/>
 							)
 						)}
-						{basket.length > 0 && <ExitCondition />}
+						{basket.length > 0 && (
+							<ExitCondition
+								entryHoursData={entryHourList}
+								entryMinutesData={entryMinuteList}
+								entryHourValue={currentEntryHour}
+								handleChangeEntryHour={setCurrentEntryHour}
+								entryMinuteValue={currentEntryMinute}
+								handleChangeEntryMinute={setCurrentEntryMinute}
+								handleEntryMinuteListChange={setEntryMinuteList}
+								handleExitMinuteListChange={setExitMinuteList}
+								exitHoursData={exitHourList}
+								exitMinutesData={exitMinuteList}
+								exitHourValue={currentExitHour}
+								exitMinuteValue={currentExitMinute}
+								handleChangeExitHour={setCurrentExitHour}
+								handleChangeExitMinute={setCurrentExitMinute}
+							/>
+						)}
 					</Flex>
 				</Flex>
 			</Form>

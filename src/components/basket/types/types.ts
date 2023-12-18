@@ -58,3 +58,14 @@ export interface RunTimeBasketData {
 	identifier: number
 	error: boolean
 }
+
+export interface Time {
+	label: string
+	value: number
+}
+
+export interface TimeHours {
+	label: string
+	value: number
+	minutes: Time[]
+}

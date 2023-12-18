@@ -1,6 +1,38 @@
 import TimeSelector from '../modal-components/time-selector'
 import { Flex, theme } from 'antd'
-const EntryExit = () => {
+import { TimeHours, Time } from 'src/components/basket/types/types'
+interface EntryExitProps {
+	entryHoursData: TimeHours[] | undefined
+	entryMinutesData: Time[] | undefined
+	entryHourValue: number | undefined
+	entryMinuteValue: number | undefined
+	exitHoursData: TimeHours[] | undefined
+	exitMinutesData: Time[] | undefined
+	exitHourValue: number | undefined
+	exitMinuteValue: number | undefined
+	handleExitMinuteListChange: (val: Time[]) => void
+	handleEntryMinuteListChange: (val: Time[]) => void
+	handleChangeExitHour: (val: number) => void
+	handleChangeExitMinute: (val: number) => void
+	handleChangeEntryMinute: (val: number) => void
+	handleChangeEntryHour: (val: number) => void
+}
+const EntryExit = ({
+	entryHoursData,
+	entryMinutesData,
+	entryHourValue,
+	entryMinuteValue,
+	exitHoursData,
+	exitMinutesData,
+	exitHourValue,
+	exitMinuteValue,
+	handleChangeExitHour,
+	handleChangeExitMinute,
+	handleChangeEntryMinute,
+	handleChangeEntryHour,
+	handleEntryMinuteListChange,
+	handleExitMinuteListChange,
+}: EntryExitProps) => {
 	const { token } = theme.useToken()
 	return (
 		<Flex flex={1} justify="center">
@@ -14,10 +46,28 @@ const EntryExit = () => {
 				}}
 			>
 				<Flex flex={1} justify="center" align="center">
-					<TimeSelector label={'Entry Time'} />
+					<TimeSelector
+						label={'Entry Time'}
+						hours={entryHoursData}
+						minutes={entryMinutesData}
+						currentHour={entryHourValue}
+						currentMinute={entryMinuteValue}
+						handleChangeCurrentHour={handleChangeEntryHour}
+						handleChangeCurrentMinute={handleChangeEntryMinute}
+						handleMinuteListChange={handleEntryMinuteListChange}
+					/>
 				</Flex>
 				<Flex flex={1} justify="center" align="center">
-					<TimeSelector label={'Exit Time'} />
+					<TimeSelector
+						label={'Exit Time'}
+						hours={exitHoursData}
+						minutes={exitMinutesData}
+						currentHour={exitHourValue}
+						currentMinute={exitMinuteValue}
+						handleMinuteListChange={handleExitMinuteListChange}
+						handleChangeCurrentHour={handleChangeExitHour}
+						handleChangeCurrentMinute={handleChangeExitMinute}
+					/>
 				</Flex>
 			</Flex>
 		</Flex>

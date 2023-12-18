@@ -2,8 +2,39 @@ import { Flex } from 'antd'
 import ProfitLoss from './profit-loss-section'
 import EntryExit from './entry-exit-container'
 import TradeSection from './trade-section'
-
-const ExitCondition = () => {
+import { TimeHours, Time } from 'src/components/basket/types/types'
+interface ExitConditionProps {
+	entryHoursData: TimeHours[] | undefined
+	entryMinutesData: Time[] | undefined
+	entryHourValue: number | undefined
+	entryMinuteValue: number | undefined
+	exitHoursData: TimeHours[] | undefined
+	exitMinutesData: Time[] | undefined
+	exitHourValue: number | undefined
+	exitMinuteValue: number | undefined
+	handleExitMinuteListChange: (list: Time[]) => void
+	handleEntryMinuteListChange: (list: Time[]) => void
+	handleChangeExitHour: (val: number) => void
+	handleChangeExitMinute: (val: number) => void
+	handleChangeEntryMinute: (val: number) => void
+	handleChangeEntryHour: (val: number) => void
+}
+const ExitCondition = ({
+	entryHoursData,
+	entryMinutesData,
+	entryHourValue,
+	entryMinuteValue,
+	exitHoursData,
+	exitMinutesData,
+	exitHourValue,
+	exitMinuteValue,
+	handleEntryMinuteListChange,
+	handleExitMinuteListChange,
+	handleChangeExitHour,
+	handleChangeExitMinute,
+	handleChangeEntryMinute,
+	handleChangeEntryHour,
+}: ExitConditionProps) => {
 	return (
 		<Flex flex={1} vertical gap="middle">
 			<Flex flex={1}>
@@ -22,7 +53,22 @@ const ExitCondition = () => {
 				</Flex>
 			</Flex>
 			<Flex flex={1}>
-				<EntryExit />
+				<EntryExit
+					entryHoursData={entryHoursData}
+					entryMinutesData={entryMinutesData}
+					entryHourValue={entryHourValue}
+					exitHoursData={exitHoursData}
+					exitMinutesData={exitMinutesData}
+					exitHourValue={exitHourValue}
+					exitMinuteValue={exitMinuteValue}
+					handleChangeExitHour={handleChangeExitHour}
+					handleExitMinuteListChange={handleExitMinuteListChange}
+					handleEntryMinuteListChange={handleEntryMinuteListChange}
+					handleChangeExitMinute={handleChangeExitMinute}
+					handleChangeEntryHour={handleChangeEntryHour}
+					entryMinuteValue={entryMinuteValue}
+					handleChangeEntryMinute={handleChangeEntryMinute}
+				/>
 			</Flex>
 		</Flex>
 	)
