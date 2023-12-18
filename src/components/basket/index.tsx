@@ -13,10 +13,23 @@ const Basket = () => {
 		duplicateError,
 		isEditModalOpen,
 		setDuplicateError,
+		closeModalConfirmation,
+		closeEditConfirmation,
+		toogleEditModal,
 	} = useBasketStore()
+
 	useEffect(() => {
 		console.log(runtimeBasketList)
 	}, [runtimeBasketList])
+
+	const handleCloseConfirmModal = (val: boolean) => {
+		toogleEditModal(false)
+		closeEditConfirmation(val)
+	}
+	const handleCancelConfirmModal = (val: boolean) => {
+		closeEditConfirmation(val)
+	}
+
 	return (
 		<>
 			<Flex className="h-[100vh] overflow-y-hidden overflow-x-hidden">
@@ -32,8 +45,16 @@ const Basket = () => {
 			<ConfirmModal
 				open={duplicateError}
 				handleOpen={setDuplicateError}
+				handleCancel={setDuplicateError}
 				header={'Duplicate Alert'}
 				message="Basket with this name already exists"
+			/>
+			<ConfirmModal
+				open={closeModalConfirmation}
+				handleOpen={handleCloseConfirmModal}
+				handleCancel={handleCancelConfirmModal}
+				header={'Alert!'}
+				message="Are you sure you want to close modal? All unsaved data will be lost!"
 			/>
 		</>
 	)

@@ -15,12 +15,18 @@ const NameSection = ({ exchange, name, identifier }: NameProps) => {
 					backgroundColor: token.colorPrimary,
 					padding: token.paddingXS,
 					border: `1px solid ${token.colorPrimary}`,
-					color: '#fff',
 				}}
 				flex="1"
 				className="select-none"
 			>
-				<Typography.Text className="text-inherit select-none" color="primary">
+				<Typography.Text
+					style={{
+						fontSize: token.fontSizeLG,
+						color: token.colorBgBase,
+						fontWeight: token.fontWeightStrong,
+					}}
+					color="primary"
+				>
 					{exchange.toUpperCase()}
 				</Typography.Text>
 			</Flex>
@@ -31,7 +37,14 @@ const NameSection = ({ exchange, name, identifier }: NameProps) => {
 				}}
 				className="border-y-[1px]"
 			>
-				<Typography.Text className="select-none" style={{ color: 'black' }}>
+				<Typography.Text
+					className="select-none"
+					style={{
+						color: 'black',
+						fontSize: token.fontSizeLG,
+						fontWeight: token.fontWeightStrong,
+					}}
+				>
 					{name}
 					{identifier > 0 ? ` - ${identifier}` : ''}
 				</Typography.Text>

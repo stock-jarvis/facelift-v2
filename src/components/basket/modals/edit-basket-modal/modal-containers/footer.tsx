@@ -1,6 +1,9 @@
 import { Flex, Button, theme, Typography, Input, Space, Tooltip } from 'antd'
-
-const Footer = () => {
+interface FooterPorps {
+	basketName: string | undefined
+	identifier: number | undefined
+}
+const Footer = ({ basketName, identifier }: FooterPorps) => {
 	const { token } = theme.useToken()
 	return (
 		<Flex
@@ -51,7 +54,8 @@ const Footer = () => {
 							fontWeight: token.fontWeightStrong,
 						}}
 					>
-						Apple
+						{basketName}
+						{identifier ? (identifier > 0 ? ` - ${identifier}` : '') : ''}
 					</Typography.Text>
 				</Space>
 				<Tooltip title="Click to save basket">

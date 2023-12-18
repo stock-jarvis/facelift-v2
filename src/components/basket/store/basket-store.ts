@@ -10,6 +10,7 @@ type BasketState = {
 	duplicateError: boolean
 	editableBasketData: RunTimeBasketData
 	savedBaskets: RunTimeBasketData[]
+	closeModalConfirmation: boolean
 }
 
 type BasketStateActions = {
@@ -18,6 +19,8 @@ type BasketStateActions = {
 	toggleSetBasketModalOpen: (
 		isAddBasketModalOpen: BasketState['isAddBasketModalOpen']
 	) => void
+
+	closeEditConfirmation: (value: boolean) => void
 	addNewRuntimeBasket: (basket: RunTimeBasketData) => void
 	deleteRuntimeBasket: (id: string) => void
 	setDuplicateError: (error: BasketState['duplicateError']) => void
@@ -33,6 +36,7 @@ const defaultState: BasketState = {
 	exchange: { type: 'NSE', id: 1 },
 	createBasketExhange: { type: 'NSE', id: 1 },
 	isAddBasketModalOpen: false,
+	closeModalConfirmation: false,
 	editableBasketData: {
 		id: '',
 		name: '',
@@ -93,6 +97,11 @@ export const useBasketStore = create<BasketState & BasketStateActions>()(
 					identifier: 0,
 					error: false,
 				}
+			}),
+
+		closeEditConfirmation: (value: boolean) =>
+			set((state) => {
+				state.closeModalConfirmation = value
 			}),
 	}))
 )

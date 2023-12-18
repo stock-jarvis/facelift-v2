@@ -39,6 +39,7 @@ const defaultSpotPosition: BasketDataProps = {
 	stop_loss_type: spotLossOptions[0].value,
 	total_profit_type: totalProfitOptions[0].value,
 }
+
 const defaultFuturePosition: BasketDataProps = {
 	id: generateUniqueId(),
 	qunatity: 1,
@@ -77,10 +78,11 @@ const EditBasketModal = ({ open }: EditModalProps) => {
 	const { token } = theme.useToken()
 
 	const [basketTrade, setBasketTrade] = useState<string>()
+	const [basketName, setBasketName] = useState<string>()
 	const [instrument, setInstrument] = useState<string>()
-	const [basket, setBasket] = useState<Array<BasketDataProps>>([])
+	const [basket, setBasket] = useState<BasketDataProps[]>([])
 	const [basketOption, setBasketOption] = useState<string>('spot')
-
+	const [basketIdentifier, setBasketIdentifier] = useState<number>()
 	const [quantityValue, setQuantityValue] = useState<number>(1)
 	const [actionValue, setActionValue] = useState<string>('B')
 	const [optionType, setOptionType] = useState<string>('CE')
@@ -116,6 +118,18 @@ const EditBasketModal = ({ open }: EditModalProps) => {
 			setBasketTrade(editableBasketData.exchange)
 		}
 	}, [editableBasketData, basketTrade])
+
+	useEffect(() => {
+		if (!basketIdentifier) {
+			setBasketIdentifier(editableBasketData.identifier)
+		}
+	}, [editableBasketData, basketIdentifier])
+
+	useEffect(() => {
+		if (!basketName) {
+			setBasketName(editableBasketData.name)
+		}
+	}, [editableBasketData, basketName])
 	useEffect(() => {
 		if (!instrument) {
 			setInstrument(editableBasketData.instrument)
@@ -167,11 +181,11 @@ const EditBasketModal = ({ open }: EditModalProps) => {
 	}, [basket])
 	return (
 		<Modal
-			className="select-none no-scrollbar"
-			afterClose={handleAfterClose}
 			open={open}
 			width={1200}
+			closeIcon={null}
 			destroyOnClose={true}
+			afterClose={handleAfterClose}
 			title={
 				<Header
 					trade={basketTrade}
@@ -180,7 +194,7 @@ const EditBasketModal = ({ open }: EditModalProps) => {
 					handleInstrumentChange={setInstrument}
 				/>
 			}
-			footer={<Footer />}
+			footer={<Footer identifier={basketIdentifier} basketName={basketName} />}
 			styles={{
 				content: {
 					margin: -60,
@@ -198,7 +212,6 @@ const EditBasketModal = ({ open }: EditModalProps) => {
 					scrollBehavior: 'smooth',
 				},
 			}}
-			closeIcon={null}
 		>
 			<Form preserve={false}>
 				<Flex vertical gap="middle">
@@ -218,8 +231,11 @@ const EditBasketModal = ({ open }: EditModalProps) => {
 							justify="space-between"
 							align="center"
 							flex={1}
-							className="p-[10px] gap-10 pt-10 pb-10"
 							style={{
+								padding: token.paddingXS,
+								paddingTop: 30,
+								paddingBottom: 30,
+								gap: '20px',
 								backgroundColor: '#F1F8FF',
 								borderRadius: token.borderRadiusLG,
 							}}

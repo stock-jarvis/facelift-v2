@@ -65,12 +65,23 @@ const Index = ({ open }: ModalProps) => {
 		setBasketNameError(false)
 		setBasketName(event.target.value)
 	}
+
 	const handleInstrumentChange: SelectProps['onChange'] = (value: string) => {
 		setBasketInstrumentError(false)
 		setInstrument(value)
 	}
+
+	const handleAfterClose = () => {
+		setBasketName('')
+		setInstrument(undefined)
+		setBasketNameError(false)
+		setBasketInstrumentError(false)
+		setExchange('NSE')
+	}
+
 	return (
 		<Modal
+			afterClose={handleAfterClose}
 			title={
 				<Flex
 					flex="1"
@@ -159,10 +170,10 @@ const Index = ({ open }: ModalProps) => {
 						className="w-full"
 						placeholder="Select an intument"
 						options={[
-							{ value: 'Ticter-1', label: 'Ticker-1' },
-							{ value: 'Ticter-2', label: 'Ticker-2' },
-							{ value: 'Ticter-3', label: 'Ticker-3' },
-							{ value: 'Ticter-4', label: 'Ticker-4' },
+							{ value: 'Ticker-1', label: 'Ticker-1' },
+							{ value: 'Ticker-2', label: 'Ticker-2' },
+							{ value: 'Ticker-3', label: 'Ticker-3' },
+							{ value: 'Ticker-4', label: 'Ticker-4' },
 						]}
 					/>
 				</Flex>

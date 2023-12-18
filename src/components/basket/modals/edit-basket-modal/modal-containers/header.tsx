@@ -14,8 +14,11 @@ const Header = ({
 	handleInstrumentChange,
 }: HeaderProps) => {
 	const { token } = theme.useToken()
-	const { toogleEditModal } = useBasketStore()
-	console.log(trade)
+	const { closeEditConfirmation } = useBasketStore()
+
+	const handleCloseEditModal = () => {
+		closeEditConfirmation(true)
+	}
 	return (
 		<Flex align="center" flex="1">
 			<Flex flex={1} gap={'middle'} justify="center">
@@ -38,10 +41,10 @@ const Header = ({
 						onChange={handleInstrumentChange}
 						style={{ width: '100px' }}
 						options={[
-							{ id: 1, value: 'Ticter-1', label: 'Ticker-1' },
-							{ id: 2, value: 'Ticter-2', label: 'Ticker-2' },
-							{ id: 3, value: 'Ticter-3', label: 'Ticker-3' },
-							{ id: 4, value: 'Ticter-4', label: 'Ticker-4' },
+							{ id: 1, value: 'Ticker-1', label: 'Ticker-1' },
+							{ id: 2, value: 'Ticker-2', label: 'Ticker-2' },
+							{ id: 3, value: 'Ticker-3', label: 'Ticker-3' },
+							{ id: 4, value: 'Ticker-4', label: 'Ticker-4' },
 						]}
 					/>
 				</Space>
@@ -53,7 +56,7 @@ const Header = ({
 			>
 				<CloseOutlined
 					style={{ color: '#ffffff' }}
-					onClick={() => toogleEditModal(false)}
+					onClick={handleCloseEditModal}
 				/>
 			</Flex>
 		</Flex>

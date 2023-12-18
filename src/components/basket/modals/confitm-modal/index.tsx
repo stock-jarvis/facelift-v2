@@ -4,14 +4,24 @@ import { Typography, Flex } from 'antd'
 interface ModalProps {
 	open: boolean
 	handleOpen: (val: boolean) => void
+	handleCancel: (val: boolean) => void
 	message: string
 	header: string
 }
 
-const Index = ({ open, handleOpen, message, header }: ModalProps) => {
+const Index = ({
+	open,
+	handleOpen,
+	handleCancel,
+	message,
+	header,
+}: ModalProps) => {
 	const { token } = theme.useToken()
 	const handleOkSelect = () => {
 		handleOpen(false)
+	}
+	const handleCancelSelect = () => {
+		handleCancel(false)
 	}
 	return (
 		<Modal
@@ -33,7 +43,7 @@ const Index = ({ open, handleOpen, message, header }: ModalProps) => {
 						{header}
 					</Typography.Text>
 					<CloseOutlined
-						onClick={handleOkSelect}
+						onClick={handleCancelSelect}
 						style={{ color: token.colorBgBase, paddingInline: token.paddingSM }}
 					/>
 				</Flex>
@@ -52,7 +62,6 @@ const Index = ({ open, handleOpen, message, header }: ModalProps) => {
 				</Flex>
 			}
 			open={open}
-			width={700}
 			okButtonProps={{ type: 'default' }}
 			closeIcon={null}
 			destroyOnClose
