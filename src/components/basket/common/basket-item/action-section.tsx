@@ -1,10 +1,15 @@
 import { Flex, Tooltip, theme } from 'antd'
-
+import { IconActions } from '../../types/types'
 interface ActionProps {
-	actions: Array<{ key: string; icon: React.ReactNode; toolTipLabel: string }>
+	actions: IconActions[]
 }
 const ActionSection = ({ actions }: ActionProps) => {
 	const { token } = theme.useToken()
+
+	const handleOnClick = (icon: IconActions) => {
+		console.log(icon)
+	}
+
 	return (
 		<Flex
 			align="center"
@@ -25,6 +30,7 @@ const ActionSection = ({ actions }: ActionProps) => {
 								? `1px solid ${token.colorPrimaryBorder}`
 								: '',
 					}}
+					onClick={() => handleOnClick(icon)}
 				>
 					<Tooltip title={icon.toolTipLabel}>{icon.icon}</Tooltip>
 				</Flex>

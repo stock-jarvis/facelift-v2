@@ -1,10 +1,11 @@
 import { Flex, Typography, theme } from 'antd'
 
 interface NameProps {
+	exchange: string
 	name: string
 }
 
-const NameSection = ({ name }: NameProps) => {
+const NameSection = ({ exchange, name }: NameProps) => {
 	const { token } = theme.useToken()
 	return (
 		<Flex flex="1" align="center">
@@ -16,9 +17,10 @@ const NameSection = ({ name }: NameProps) => {
 					color: '#fff',
 				}}
 				flex="1"
+				className="select-none"
 			>
-				<Typography.Text className="text-inherit" color="primary">
-					{name.toUpperCase()}
+				<Typography.Text className="text-inherit select-none" color="primary">
+					{exchange.toUpperCase()}
 				</Typography.Text>
 			</Flex>
 			<Flex
@@ -28,7 +30,9 @@ const NameSection = ({ name }: NameProps) => {
 				}}
 				className="border-y-[1px]"
 			>
-				<Typography.Text style={{ color: 'black' }}>Apple</Typography.Text>
+				<Typography.Text className="select-none" style={{ color: 'black' }}>
+					{name}
+				</Typography.Text>
 			</Flex>
 		</Flex>
 	)

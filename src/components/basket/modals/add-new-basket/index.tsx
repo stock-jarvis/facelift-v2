@@ -1,16 +1,16 @@
-import { Modal } from 'antd'
+import { Modal, Flex, Button, Select, Input, Typography, theme } from 'antd'
 import ExhchangeSelector from '../../common/basket-exchange/exchange-selector'
-import { Flex, Select, Input } from 'antd'
+import { CloseOutlined } from '@ant-design/icons'
 import { useBasketStore } from '../../store/basket-store'
-import { useState, ChangeEvent, useEffect } from 'react'
+import { useState, ChangeEvent } from 'react'
 import { SelectProps, InputProps } from 'antd'
-import { RunTimeBasketData } from '../../types/types'
 import { generateUniqueId } from '../../common/utils/randomizer'
 interface ModalProps {
 	open: boolean
 }
 
 const Index = ({ open }: ModalProps) => {
+	const { token } = theme.useToken()
 	const [exhange, setExchange] = useState<string>('NSE')
 	const { toggleSetBasketModalOpen, addNewRuntimeBasket } = useBasketStore()
 	const [basketName, setBasketName] = useState<string>()
@@ -18,28 +18,13 @@ const Index = ({ open }: ModalProps) => {
 	const [basketNameError, setBasketNameError] = useState<boolean>(false)
 	const [basketInstrumentError, setBasketInstrumentError] =
 		useState<boolean>(false)
-	const [basketData, setBasketData] = useState<RunTimeBasketData>({
-		id: '',
-		instrument: '',
-		name: '',
-		exchange: '',
-	})
+
 	const onModalClose = () => {
 		toggleSetBasketModalOpen(false)
 	}
 
-	useEffect(() => {
-		//	console.log(basketData)
-	}, [basketData])
-
 	const onOkSelect = () => {
 		if (basketName && instrument) {
-			setBasketData({
-				id: generateUniqueId(),
-				name: basketName,
-				instrument: instrument,
-				exchange: exhange,
-			})
 			addNewRuntimeBasket({
 				id: generateUniqueId(),
 				name: basketName,
@@ -51,7 +36,6 @@ const Index = ({ open }: ModalProps) => {
 			if (!basketName) {
 				setBasketNameError(true)
 				if (!instrument) {
-					console.log('hello world')
 					setBasketInstrumentError(true)
 				}
 			} else {
@@ -72,15 +56,64 @@ const Index = ({ open }: ModalProps) => {
 	}
 	return (
 		<Modal
-			title="Add New Basket"
+			title={
+				<Flex
+					flex="1"
+					justify="space-between"
+					style={{
+						padding: token.paddingXS,
+					}}
+				>
+					<Typography.Text
+						style={{
+							color: token.colorBgBase,
+							fontWeight: token.fontWeightStrong,
+							fontSize: token.fontSizeLG,
+						}}
+					>
+						Add New Basket
+					</Typography.Text>
+					<CloseOutlined
+						onClick={onModalClose}
+						style={{ color: token.colorBgBase, paddingInline: token.paddingSM }}
+					/>
+				</Flex>
+			}
+			footer={
+				<Flex
+					style={{ padding: token.paddingSM }}
+					justify="flex-end"
+					gap="middle"
+				>
+					<Button
+						onClick={onModalClose}
+						style={{
+							backgroundColor: token.colorBgBase,
+							color: token.colorPrimary,
+						}}
+					>
+						Cancel
+					</Button>
+					<Button
+						onClick={onOkSelect}
+						style={{
+							backgroundColor: token.colorPrimary,
+							color: token.colorBgBase,
+						}}
+					>
+						Ok
+					</Button>
+				</Flex>
+			}
 			open={open}
 			width={700}
 			okButtonProps={{ type: 'default' }}
-			onCancel={onModalClose}
+			closeIcon={null}
 			destroyOnClose
-			onOk={onOkSelect}
 			styles={{
-				content: { marginTop: '80px' },
+				content: { marginTop: '80px', padding: 0 },
+				header: { backgroundColor: token.colorPrimary },
+				body: { padding: token.paddingSM },
 			}}
 		>
 			<Flex vertical gap="large">
@@ -93,7 +126,7 @@ const Index = ({ open }: ModalProps) => {
 				<Flex flex={1} vertical gap="middle">
 					<Input
 						style={{
-							borderColor: basketNameError ? 'red' : 'black',
+							borderColor: basketNameError ? 'red' : '',
 						}}
 						size="large"
 						placeholder="Enter Basket Name"

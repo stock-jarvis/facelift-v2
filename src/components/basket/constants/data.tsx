@@ -101,21 +101,25 @@ export const iconsSections = [
 		key: 'edit',
 		icon: <FormOutlined />,
 		toolTipLabel: 'Edit Basket',
+		actionName: 'edit',
 	},
 	{
 		key: 'duplicate',
 		icon: <CopyOutlined />,
 		toolTipLabel: 'Make duplicate',
+		actionName: 'duplicate',
 	},
 	{
 		key: 'save',
 		icon: <SnippetsOutlined />,
 		toolTipLabel: 'Save basket',
+		actionName: 'save',
 	},
 	{
 		key: 'delete',
 		icon: <DeleteOutlined />,
 		toolTipLabel: 'Delete basket',
+		actionName: 'delete',
 	},
 ]
 

@@ -7,6 +7,12 @@ export interface OptionObject {
 	label: string
 }
 
+export interface IconActions {
+	key: string
+	icon: React.ReactNode
+	toolTipLabel: string
+	actionName: string
+}
 export interface TradeOptions {
 	id: number
 	label: string
