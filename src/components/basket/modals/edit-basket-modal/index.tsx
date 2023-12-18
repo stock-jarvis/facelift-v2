@@ -37,6 +37,7 @@ const defaultFuturePosition: BasketDataProps = {
 	stopLoss: 0,
 	totalProfit: 0,
 	type: 'future',
+	expiry: 'Monthly',
 }
 
 const defaultOptionsPosition: BasketDataProps = {
@@ -47,6 +48,7 @@ const defaultOptionsPosition: BasketDataProps = {
 	totalProfit: 0,
 	option_type: 'CE',
 	type: 'options',
+	expiry: 'Monthly',
 }
 
 const EditBasketModal = () => {

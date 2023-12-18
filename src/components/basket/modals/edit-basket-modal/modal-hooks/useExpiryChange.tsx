@@ -1,24 +1,21 @@
 import { useEffect } from 'react'
 import { BasketDataProps } from 'src/components/basket/types/types'
 
-type key = 'action_type' | 'option_type'
-
-export const useActionChange = (
-	actionValue: string,
+export const useExpiryChange = (
+	expiryValue: string,
 	id: string,
 	basket: BasketDataProps[],
-	editBasket: (data: BasketDataProps[]) => void,
-	keyValue: key
+	editBasket: (data: BasketDataProps[]) => void
 ) => {
 	useEffect(() => {
 		const basketItem = basket.findIndex((b) => b.id === id)
 
 		if (basketItem !== -1) {
-			if (basket[basketItem][keyValue] !== actionValue) {
+			if (basket[basketItem].expiry !== expiryValue) {
 				editBasket(
 					basket.map((bask) => {
 						if (bask.id === id) {
-							bask[keyValue] = actionValue
+							bask.expiry = expiryValue
 							return bask
 						} else {
 							return bask
@@ -27,5 +24,5 @@ export const useActionChange = (
 				)
 			}
 		}
-	}, [id, basket, actionValue, editBasket, keyValue])
+	}, [id, basket, expiryValue, editBasket])
 }

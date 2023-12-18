@@ -8,6 +8,7 @@ import ExpirySelector from '../modal-components/expiry-selector'
 import StrikeSelector from '../modal-components/strike-selector'
 import { useQuantityChange } from '../modal-hooks/useQuantityChange'
 import { useActionChange } from '../modal-hooks/useActionChange'
+import { useExpiryChange } from '../modal-hooks/useExpiryChange'
 import { useState } from 'react'
 import {
 	OptionObject,
@@ -76,6 +77,7 @@ const OptionBasketDetail = ({
 	useQuantityChange(quantityValue, id, basket, handleEditBasket)
 	useActionChange(actionValue, id, basket, handleEditBasket, 'action_type')
 	useActionChange(optionType, id, basket, handleEditBasket, 'option_type')
+	useExpiryChange(expiryValue, id, basket, handleEditBasket)
 
 	return (
 		<DetailBasketHolder

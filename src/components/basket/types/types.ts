@@ -20,4 +20,5 @@ export interface BasketDataProps {
 	totalProfit: number
 	action_type: string
 	option_type?: string
+	expiry?: string
 }

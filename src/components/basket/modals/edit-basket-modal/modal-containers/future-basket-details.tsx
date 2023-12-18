@@ -8,6 +8,8 @@ import YeildButton from '../modal-components/yeild-button'
 import ExpirySelector from '../modal-components/expiry-selector'
 import { useQuantityChange } from '../modal-hooks/useQuantityChange'
 import { useActionChange } from '../modal-hooks/useActionChange'
+import { useExpiryChange } from '../modal-hooks/useExpiryChange'
+
 import {
 	OptionObject,
 	BasketDataProps,
@@ -53,6 +55,7 @@ const FututeBasketDetails = ({
 
 	useQuantityChange(quantityValue, id, basket, handleEditBasket)
 	useActionChange(actionValue, id, basket, handleEditBasket, 'action_type')
+	useExpiryChange(expirtyValue, id, basket, handleEditBasket)
 
 	return (
 		<DetailBasketHolder
