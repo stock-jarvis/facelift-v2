@@ -271,10 +271,10 @@ const EditBasketModal = ({ open }: EditModalProps) => {
 		setBasket((prev) => [
 			...prev,
 			value === 'spot'
-				? defaultSpotPosition
+				? { ...defaultSpotPosition, id: generateUniqueId() }
 				: value === 'future'
-					? defaultFuturePosition
-					: defaultOptionsPosition,
+					? { ...defaultFuturePosition, id: generateUniqueId() }
+					: { ...defaultOptionsPosition, id: generateUniqueId() },
 		])
 	}
 
