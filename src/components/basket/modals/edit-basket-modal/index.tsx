@@ -140,14 +140,51 @@ const EditBasketModal = ({ open }: EditModalProps) => {
 	}
 
 	useEffect(() => {
+		if (basketTrade === 'NSE') {
+			setEntryHourList(nseTimes)
+			setEntryMinuteList(nseTimes[0].minutes)
+			setCurrentEntryHour(nseTimes[0].value)
+			setCurrentEntryMinute(nseTimes[0].minutes[0].value)
+			setExitHourList(nseTimes)
+			setExitMinuteList(nseTimes[nseTimes.length - 1].minutes)
+			setCurrentExitHour(nseTimes[nseTimes.length - 1].value)
+			const minutes = nseTimes[nseTimes.length - 1].minutes
+			const finalMiutes = minutes[minutes.length - 1]
+			setCurrentExitMinute(finalMiutes.value)
+		} else if (basketTrade === 'MCX') {
+			setEntryHourList(mxcTimes)
+			setEntryMinuteList(mxcTimes[0].minutes)
+			setCurrentEntryHour(mxcTimes[0].value)
+			setCurrentEntryMinute(mxcTimes[0].minutes[0].value)
+			setExitHourList(mxcTimes)
+			setExitMinuteList(mxcTimes[mxcTimes.length - 1].minutes)
+			setCurrentExitHour(mxcTimes[mxcTimes.length - 1].value)
+			const minutes = mxcTimes[mxcTimes.length - 1].minutes
+			const finalMiutes = minutes[minutes.length - 1]
+			setCurrentExitMinute(finalMiutes.value)
+		} else if (basketTrade === 'CUR') {
+			setEntryHourList(curTimes)
+			setEntryMinuteList(curTimes[0].minutes)
+			setCurrentEntryHour(curTimes[0].value)
+			setCurrentEntryMinute(curTimes[0].minutes[0].value)
+			setExitHourList(curTimes)
+			setExitMinuteList(curTimes[curTimes.length - 1].minutes)
+			setCurrentExitHour(curTimes[curTimes.length - 1].value)
+			const minutes = curTimes[curTimes.length - 1].minutes
+			const finalMiutes = minutes[minutes.length - 1]
+			setCurrentExitMinute(finalMiutes.value)
+		}
+	}, [basketTrade])
+
+	useEffect(() => {
 		if (!entryHourList || entryHourList.length === 0) {
-			if (editableBasketData.exchange) {
-				if (editableBasketData.exchange === 'NSE') {
+			if (basketTrade) {
+				if (basketTrade === 'NSE') {
 					setEntryHourList(nseTimes)
 					setEntryMinuteList(nseTimes[0].minutes)
 					setCurrentEntryHour(nseTimes[0].value)
 					setCurrentEntryMinute(nseTimes[0].minutes[0].value)
-				} else if (editableBasketData.exchange === 'MCX') {
+				} else if (basketTrade === 'MCX') {
 					setEntryHourList(mxcTimes)
 					setEntryMinuteList(mxcTimes[0].minutes)
 					setCurrentEntryHour(mxcTimes[0].value)
@@ -160,19 +197,19 @@ const EditBasketModal = ({ open }: EditModalProps) => {
 				}
 			}
 		}
-	}, [editableBasketData, entryHourList])
+	}, [basketTrade, entryHourList])
 
 	useEffect(() => {
 		if (!exitHourList || exitHourList.length === 0) {
-			if (editableBasketData.exchange) {
-				if (editableBasketData.exchange === 'NSE') {
+			if (basketTrade) {
+				if (basketTrade === 'NSE') {
 					setExitHourList(nseTimes)
 					setExitMinuteList(nseTimes[nseTimes.length - 1].minutes)
 					setCurrentExitHour(nseTimes[nseTimes.length - 1].value)
 					const minutes = nseTimes[nseTimes.length - 1].minutes
 					const finalMiutes = minutes[minutes.length - 1]
 					setCurrentExitMinute(finalMiutes.value)
-				} else if (editableBasketData.exchange === 'MCX') {
+				} else if (basketTrade === 'MCX') {
 					setExitHourList(mxcTimes)
 					setExitMinuteList(mxcTimes[mxcTimes.length - 1].minutes)
 					setCurrentExitHour(mxcTimes[mxcTimes.length - 1].value)
@@ -189,7 +226,7 @@ const EditBasketModal = ({ open }: EditModalProps) => {
 				}
 			}
 		}
-	}, [editableBasketData, exitHourList])
+	}, [basketTrade, exitHourList])
 
 	useEffect(() => {
 		if (!basketTrade) {
@@ -213,6 +250,7 @@ const EditBasketModal = ({ open }: EditModalProps) => {
 			setInstrument(editableBasketData.instrument)
 		}
 	}, [editableBasketData, instrument])
+
 	const setToogleValue = (value: string) => {
 		value
 	}
@@ -434,6 +472,7 @@ const EditBasketModal = ({ open }: EditModalProps) => {
 						)}
 						{basket.length > 0 && (
 							<ExitCondition
+								exchange={basketTrade}
 								entryHoursData={entryHourList}
 								entryMinutesData={entryMinuteList}
 								entryHourValue={currentEntryHour}

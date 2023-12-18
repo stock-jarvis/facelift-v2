@@ -10,6 +10,7 @@ interface EntryExitProps {
 	exitMinutesData: Time[] | undefined
 	exitHourValue: number | undefined
 	exitMinuteValue: number | undefined
+	exchange: string | undefined
 	handleExitMinuteListChange: (val: Time[]) => void
 	handleEntryMinuteListChange: (val: Time[]) => void
 	handleChangeExitHour: (val: number) => void
@@ -26,6 +27,7 @@ const EntryExit = ({
 	exitMinutesData,
 	exitHourValue,
 	exitMinuteValue,
+	exchange,
 	handleChangeExitHour,
 	handleChangeExitMinute,
 	handleChangeEntryMinute,
@@ -48,6 +50,7 @@ const EntryExit = ({
 				<Flex flex={1} justify="center" align="center">
 					<TimeSelector
 						label={'Entry Time'}
+						exchange={exchange}
 						hours={entryHoursData}
 						minutes={entryMinutesData}
 						currentHour={entryHourValue}
@@ -60,6 +63,7 @@ const EntryExit = ({
 				<Flex flex={1} justify="center" align="center">
 					<TimeSelector
 						label={'Exit Time'}
+						exchange={exchange}
 						hours={exitHoursData}
 						minutes={exitMinutesData}
 						currentHour={exitHourValue}

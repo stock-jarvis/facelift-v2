@@ -12,6 +12,7 @@ interface ExitConditionProps {
 	exitMinutesData: Time[] | undefined
 	exitHourValue: number | undefined
 	exitMinuteValue: number | undefined
+	exchange: string | undefined
 	handleExitMinuteListChange: (list: Time[]) => void
 	handleEntryMinuteListChange: (list: Time[]) => void
 	handleChangeExitHour: (val: number) => void
@@ -20,6 +21,7 @@ interface ExitConditionProps {
 	handleChangeEntryHour: (val: number) => void
 }
 const ExitCondition = ({
+	exchange,
 	entryHoursData,
 	entryMinutesData,
 	entryHourValue,
@@ -54,6 +56,7 @@ const ExitCondition = ({
 			</Flex>
 			<Flex flex={1}>
 				<EntryExit
+					exchange={exchange}
 					entryHoursData={entryHoursData}
 					entryMinutesData={entryMinutesData}
 					entryHourValue={entryHourValue}
