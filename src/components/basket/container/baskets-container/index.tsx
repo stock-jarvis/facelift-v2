@@ -5,6 +5,7 @@ import BasketNav from '../basket-nav'
 import { useBasketStore } from '../../store/basket-store'
 import EmptyBasket from '../../common/empty-basket'
 import { generateUniqueId } from '../../common/utils/randomizer'
+
 const Index = () => {
 	const {
 		runtimeBasketList,
@@ -12,6 +13,8 @@ const Index = () => {
 		toogleEditModal,
 		setEditableBasket,
 		addNewRuntimeBasket,
+		savedBaskets,
+		toogleSaveError,
 	} = useBasketStore()
 
 	const onHandleBasketEdit = (id: string) => {
@@ -30,9 +33,16 @@ const Index = () => {
 			})
 		}
 	}
+
 	const onHandleBaskeSave = (id: string) => {
-		console.log('save', id)
+		const isBasketSaved = savedBaskets.find((basket) => basket.id === id)
+		if (isBasketSaved) {
+			console.log('hello world')
+		} else {
+			toogleSaveError(id)
+		}
 	}
+
 	const onHandleBaskeDelete = (id: string) => {
 		deleteRuntimeBasket(id)
 	}

@@ -56,4 +56,5 @@ export interface RunTimeBasketData {
 	exchange: string
 	instrument: string
 	identifier: number
+	error: boolean
 }

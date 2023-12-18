@@ -9,6 +9,7 @@ type BasketState = {
 	runtimeBasketList: RunTimeBasketData[]
 	duplicateError: boolean
 	editableBasketData: RunTimeBasketData
+	savedBaskets: RunTimeBasketData[]
 }
 
 type BasketStateActions = {
@@ -22,6 +23,7 @@ type BasketStateActions = {
 	setDuplicateError: (error: BasketState['duplicateError']) => void
 	toogleEditModal: (open: boolean) => void
 	setEditableBasket: (id: string) => void
+	toogleSaveError: (id: string) => void
 }
 
 const defaultState: BasketState = {
@@ -37,7 +39,9 @@ const defaultState: BasketState = {
 		exchange: '',
 		instrument: '',
 		identifier: 0,
+		error: false,
 	},
+	savedBaskets: [],
 }
 
 export const useBasketStore = create<BasketState & BasketStateActions>()(
@@ -47,6 +51,13 @@ export const useBasketStore = create<BasketState & BasketStateActions>()(
 		toggleSetBasketModalOpen: (isAddBasketModalOpen) =>
 			set({ isAddBasketModalOpen }),
 		toogleEditModal: (isEditModalOpen) => set({ isEditModalOpen }),
+
+		toogleSaveError: (id: string) =>
+			set((state) => {
+				state.runtimeBasketList = state.runtimeBasketList.map((basket) =>
+					basket.id === id ? { ...basket, error: true } : { ...basket }
+				)
+			}),
 
 		setExchange: (exchange) => set({ exchange }),
 
@@ -80,6 +91,7 @@ export const useBasketStore = create<BasketState & BasketStateActions>()(
 					exchange: '',
 					instrument: '',
 					identifier: 0,
+					error: false,
 				}
 			}),
 	}))

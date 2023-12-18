@@ -40,6 +40,7 @@ const Index = ({ open }: ModalProps) => {
 					instrument: instrument,
 					exchange: exhange,
 					identifier: 0,
+					error: false,
 				})
 			} else {
 				setDuplicateError(true)
