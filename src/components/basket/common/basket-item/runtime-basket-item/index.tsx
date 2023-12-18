@@ -3,12 +3,14 @@ import NameSection from './name-section'
 import ActionSection from '../action-section'
 import { iconsSections } from '../../../constants/data'
 interface RuntimeBasketItemProps {
-	handleOnClickAction: (id: string, actionType: string) => void
+	handleOnClickAction: (id: string, actionType: string, name: string) => void
+	identifier: number
 	exchange: string
 	name: string
 	id: string
 }
 const BasketItem = ({
+	identifier,
 	exchange,
 	name,
 	id,
@@ -17,7 +19,7 @@ const BasketItem = ({
 	const { token } = theme.useToken()
 
 	const handleActionClicked = (actionType: string) => {
-		handleOnClickAction(id, actionType)
+		handleOnClickAction(id, actionType, name)
 	}
 
 	return (
@@ -33,7 +35,7 @@ const BasketItem = ({
 			>
 				<Checkbox />
 			</Flex>
-			<NameSection exchange={exchange} name={name} />
+			<NameSection exchange={exchange} name={name} identifier={identifier} />
 			<ActionSection
 				actions={iconsSections}
 				handleActionClicked={handleActionClicked}

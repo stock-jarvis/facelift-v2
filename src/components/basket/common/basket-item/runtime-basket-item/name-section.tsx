@@ -1,11 +1,12 @@
 import { Flex, Typography, theme } from 'antd'
 
 interface NameProps {
+	identifier: number
 	exchange: string
 	name: string
 }
 
-const NameSection = ({ exchange, name }: NameProps) => {
+const NameSection = ({ exchange, name, identifier }: NameProps) => {
 	const { token } = theme.useToken()
 	return (
 		<Flex flex="1" align="center">
@@ -32,6 +33,7 @@ const NameSection = ({ exchange, name }: NameProps) => {
 			>
 				<Typography.Text className="select-none" style={{ color: 'black' }}>
 					{name}
+					{identifier > 0 ? ` - ${identifier}` : ''}
 				</Typography.Text>
 			</Flex>
 		</Flex>

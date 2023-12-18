@@ -31,7 +31,13 @@ const defaultState: BasketState = {
 	exchange: { type: 'NSE', id: 1 },
 	createBasketExhange: { type: 'NSE', id: 1 },
 	isAddBasketModalOpen: false,
-	editableBasketData: { id: '', name: '', exchange: '', instrument: '' },
+	editableBasketData: {
+		id: '',
+		name: '',
+		exchange: '',
+		instrument: '',
+		identifier: 0,
+	},
 }
 
 export const useBasketStore = create<BasketState & BasketStateActions>()(
@@ -48,15 +54,8 @@ export const useBasketStore = create<BasketState & BasketStateActions>()(
 
 		addNewRuntimeBasket: (newBasket: RunTimeBasketData) =>
 			set((state) => {
-				const checkIfExists = state.runtimeBasketList.find(
-					(basket) => basket.name === newBasket.name
-				)
-				if (!checkIfExists) {
-					void state.runtimeBasketList.push(newBasket)
-					state.duplicateError = false
-				} else {
-					state.duplicateError = true
-				}
+				void state.runtimeBasketList.push(newBasket)
+				state.duplicateError = false
 			}),
 
 		deleteRuntimeBasket: (id: string) =>
@@ -75,7 +74,13 @@ export const useBasketStore = create<BasketState & BasketStateActions>()(
 			set((state) => {
 				state.editableBasketData = state.runtimeBasketList.find(
 					(basket) => basket.id === id
-				) || { id: '', name: '', exchange: '', instrument: '' }
+				) || {
+					id: '',
+					name: '',
+					exchange: '',
+					instrument: '',
+					identifier: 0,
+				}
 			}),
 	}))
 )

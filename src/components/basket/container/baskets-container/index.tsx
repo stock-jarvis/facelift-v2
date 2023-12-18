@@ -4,20 +4,31 @@ import ListItem from '../../common/basket-item/runtime-basket-item'
 import BasketNav from '../basket-nav'
 import { useBasketStore } from '../../store/basket-store'
 import EmptyBasket from '../../common/empty-basket'
+import { generateUniqueId } from '../../common/utils/randomizer'
 const Index = () => {
 	const {
 		runtimeBasketList,
 		deleteRuntimeBasket,
 		toogleEditModal,
 		setEditableBasket,
+		addNewRuntimeBasket,
 	} = useBasketStore()
 
 	const onHandleBasketEdit = (id: string) => {
 		setEditableBasket(id)
 		toogleEditModal(true)
 	}
-	const onHandleBasketDuplicate = (id: string) => {
-		console.log('duplicate', id)
+	const onHandleBasketDuplicate = (name: string) => {
+		const duplicateBasket = runtimeBasketList.filter(
+			(basket) => basket.name === name
+		)
+		if (duplicateBasket[duplicateBasket.length - 1]) {
+			addNewRuntimeBasket({
+				...duplicateBasket[duplicateBasket.length - 1],
+				id: generateUniqueId(),
+				identifier: duplicateBasket[duplicateBasket.length - 1].identifier + 1,
+			})
+		}
 	}
 	const onHandleBaskeSave = (id: string) => {
 		console.log('save', id)
@@ -26,11 +37,11 @@ const Index = () => {
 		deleteRuntimeBasket(id)
 	}
 
-	const handleActionClick = (id: string, actionType: string) => {
+	const handleActionClick = (id: string, actionType: string, name: string) => {
 		actionType === 'edit'
 			? onHandleBasketEdit(id)
 			: actionType === 'duplicate'
-				? onHandleBasketDuplicate(id)
+				? onHandleBasketDuplicate(name)
 				: actionType === 'save'
 					? onHandleBaskeSave(id)
 					: onHandleBaskeDelete(id)
@@ -63,6 +74,7 @@ const Index = () => {
 											id={basket.id}
 											name={basket.name}
 											exchange={basket.exchange}
+											identifier={basket.identifier}
 										/>
 									))}
 							</div>

@@ -12,7 +12,12 @@ interface ModalProps {
 const Index = ({ open }: ModalProps) => {
 	const { token } = theme.useToken()
 	const [exhange, setExchange] = useState<string>('NSE')
-	const { toggleSetBasketModalOpen, addNewRuntimeBasket } = useBasketStore()
+	const {
+		toggleSetBasketModalOpen,
+		addNewRuntimeBasket,
+		runtimeBasketList,
+		setDuplicateError,
+	} = useBasketStore()
 	const [basketName, setBasketName] = useState<string>()
 	const [instrument, setInstrument] = useState<string>()
 	const [basketNameError, setBasketNameError] = useState<boolean>(false)
@@ -25,12 +30,21 @@ const Index = ({ open }: ModalProps) => {
 
 	const onOkSelect = () => {
 		if (basketName && instrument) {
-			addNewRuntimeBasket({
-				id: generateUniqueId(),
-				name: basketName,
-				instrument: instrument,
-				exchange: exhange,
-			})
+			const checkDuplicateBasketName = runtimeBasketList.find(
+				(basket) => basket.name === basketName
+			)
+			if (!checkDuplicateBasketName) {
+				addNewRuntimeBasket({
+					id: generateUniqueId(),
+					name: basketName,
+					instrument: instrument,
+					exchange: exhange,
+					identifier: 0,
+				})
+			} else {
+				setDuplicateError(true)
+			}
+
 			toggleSetBasketModalOpen(false)
 		} else {
 			if (!basketName) {

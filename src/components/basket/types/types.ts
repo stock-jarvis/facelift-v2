@@ -55,4 +55,5 @@ export interface RunTimeBasketData {
 	name: string
 	exchange: string
 	instrument: string
+	identifier: number
 }
