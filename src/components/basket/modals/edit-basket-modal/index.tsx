@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { Modal, theme, Flex } from 'antd'
+import { Modal, theme, Flex, Form } from 'antd'
 
 import Header from './modal-containers/header'
 import Footer from './modal-containers/footer'
@@ -96,6 +96,21 @@ const EditBasketModal = ({ open }: EditModalProps) => {
 	const [optionExpiryBaseValue, setOptionExpiryBaseValue] =
 		useState<string>('Monthly')
 
+	const handleAfterClose = () => {
+		setBasket([])
+		setBasketTrade('')
+		setInstrument('')
+		setBasketOption('spot')
+		setQuantityValue(1)
+		setActionValue('B')
+		setOptionType('CE')
+		setTradeOption(initialTrade)
+		setSubTradeOption(initialSubTrade)
+		setSubTradeOptionList(initialSubTradeList)
+		setFutureExpiryBaseValue('Monthly')
+		setOptionExpiryBaseValue('Monthly')
+	}
+
 	useEffect(() => {
 		if (!basketTrade) {
 			setBasketTrade(editableBasketData.exchange)
@@ -153,8 +168,10 @@ const EditBasketModal = ({ open }: EditModalProps) => {
 	return (
 		<Modal
 			className="select-none no-scrollbar"
+			afterClose={handleAfterClose}
 			open={open}
 			width={1200}
+			destroyOnClose={true}
 			title={
 				<Header
 					trade={basketTrade}
@@ -183,146 +200,148 @@ const EditBasketModal = ({ open }: EditModalProps) => {
 			}}
 			closeIcon={null}
 		>
-			<Flex vertical gap="middle">
-				<Flex
-					vertical
-					gap={'middle'}
-					style={{
-						padding: token.paddingMD,
-						height: '500px',
-						overflow: 'scroll',
-						scrollBehavior: 'smooth',
-					}}
-					className="no-scrollbar"
-				>
+			<Form preserve={false}>
+				<Flex vertical gap="middle">
 					<Flex
 						vertical
-						justify="space-between"
-						align="center"
-						flex={1}
-						className="p-[10px] gap-10 pt-10 pb-10"
+						gap={'middle'}
 						style={{
-							backgroundColor: '#F1F8FF',
-							borderRadius: token.borderRadiusLG,
+							padding: token.paddingMD,
+							height: '500px',
+							overflow: 'scroll',
+							scrollBehavior: 'smooth',
 						}}
+						className="no-scrollbar"
 					>
-						<div className="w-[50%]">
-							<Toggle
-								toogle1="INTRADAY"
-								toogle2="POSITIONAL"
-								setToogleValue={setToogleValue}
+						<Flex
+							vertical
+							justify="space-between"
+							align="center"
+							flex={1}
+							className="p-[10px] gap-10 pt-10 pb-10"
+							style={{
+								backgroundColor: '#F1F8FF',
+								borderRadius: token.borderRadiusLG,
+							}}
+						>
+							<div className="w-[50%]">
+								<Toggle
+									toogle1="INTRADAY"
+									toogle2="POSITIONAL"
+									setToogleValue={setToogleValue}
+								/>
+							</div>
+							<PositionSelector
+								options={basketOptions}
+								onOptionChange={setOptionValue}
 							/>
-						</div>
-						<PositionSelector
-							options={basketOptions}
-							onOptionChange={setOptionValue}
-						/>
-						<div className="w-[50%]">
-							<Toggle
-								toogle1="Spot as ATM"
-								toogle2="Future as ATM"
-								setToogleValue={setToogleValue}
-							/>
-						</div>
-					</Flex>
-					<Flex className="w-[95%] self-center">
-						{basketOption === 'spot' ? (
-							<SpotBasketSelector
-								baseQuantityValue={quantityValue}
-								baseActionValue={actionValue}
-								baseInstrumentValue={instrument || ''}
-								handleBaseActionChange={setActionValue}
-								handleAddBasket={handleAddBasket}
-								handleBaseQuantityChange={setQuantityValue}
-							/>
-						) : basketOption === 'future' ? (
-							<FutureBasketSelector
-								futureExpiryBaseValue={futureExpiryBaseValue}
-								futureExpiryList={futureExpiryList}
-								baseQuantityValue={quantityValue}
-								baseActionValue={actionValue}
-								baseInstrumentValue={instrument || ''}
-								handleBaseActionChange={setActionValue}
-								handleBaseExpiryChange={setFutureExpiryBaseValue}
-								handleAddBasket={handleAddBasket}
-								handleBaseQuantityChange={setQuantityValue}
-							/>
-						) : (
-							<OptionsBasketSelector
-								optionExpiryBaseValue={optionExpiryBaseValue}
-								optionExpiryList={optionExpiryList}
-								baseQuantityValue={quantityValue}
-								baseActionValue={actionValue}
-								baseOptionValue={optionType}
-								baseSubTradeOption={subTradeOption}
-								baseInstrumentValue={instrument || ''}
-								baseTradeValue={tradeValue}
-								baseTradeOption={tradeOption}
-								baseSubTradeOptionList={subTradeOptionList}
-								handleBaseExpiryChange={setOptionExpiryBaseValue}
-								handleAddBasket={handleAddBasket}
-								handleBaseQuantityChange={setQuantityValue}
-								handleBaseActionChange={setActionValue}
-								handleBaseOptionChange={setOptionType}
-								handleBaseTradeValueChange={setTradeValue}
-								handleBaseTradeChange={setTradeOption}
-								handleBaseSubTradeChange={setSubTradeOption}
-								handleBaseSubTradeListChange={setSubTradeOptionList}
-							/>
-						)}
-					</Flex>
+							<div className="w-[50%]">
+								<Toggle
+									toogle1="Spot as ATM"
+									toogle2="Future as ATM"
+									setToogleValue={setToogleValue}
+								/>
+							</div>
+						</Flex>
+						<Flex className="w-[95%] self-center">
+							{basketOption === 'spot' ? (
+								<SpotBasketSelector
+									baseQuantityValue={quantityValue}
+									baseActionValue={actionValue}
+									baseInstrumentValue={instrument || ''}
+									handleBaseActionChange={setActionValue}
+									handleAddBasket={handleAddBasket}
+									handleBaseQuantityChange={setQuantityValue}
+								/>
+							) : basketOption === 'future' ? (
+								<FutureBasketSelector
+									futureExpiryBaseValue={futureExpiryBaseValue}
+									futureExpiryList={futureExpiryList}
+									baseQuantityValue={quantityValue}
+									baseActionValue={actionValue}
+									baseInstrumentValue={instrument || ''}
+									handleBaseActionChange={setActionValue}
+									handleBaseExpiryChange={setFutureExpiryBaseValue}
+									handleAddBasket={handleAddBasket}
+									handleBaseQuantityChange={setQuantityValue}
+								/>
+							) : (
+								<OptionsBasketSelector
+									optionExpiryBaseValue={optionExpiryBaseValue}
+									optionExpiryList={optionExpiryList}
+									baseQuantityValue={quantityValue}
+									baseActionValue={actionValue}
+									baseOptionValue={optionType}
+									baseSubTradeOption={subTradeOption}
+									baseInstrumentValue={instrument || ''}
+									baseTradeValue={tradeValue}
+									baseTradeOption={tradeOption}
+									baseSubTradeOptionList={subTradeOptionList}
+									handleBaseExpiryChange={setOptionExpiryBaseValue}
+									handleAddBasket={handleAddBasket}
+									handleBaseQuantityChange={setQuantityValue}
+									handleBaseActionChange={setActionValue}
+									handleBaseOptionChange={setOptionType}
+									handleBaseTradeValueChange={setTradeValue}
+									handleBaseTradeChange={setTradeOption}
+									handleBaseSubTradeChange={setSubTradeOption}
+									handleBaseSubTradeListChange={setSubTradeOptionList}
+								/>
+							)}
+						</Flex>
 
-					{basket?.map((bask) =>
-						bask.type === 'spot' ? (
-							<SpotBasketDetail
-								key={bask.id}
-								id={bask.id}
-								basket={basket}
-								handleEditBasket={setBasket}
-								baseQuanity={quantityValue}
-								baseInstrumentValue={instrument || ''}
-								baseActionValue={actionValue}
-								handleDeleteBasket={handleDeleteBasket}
-								handleCopyBasket={handleCopyBasket}
-							/>
-						) : bask.type === 'future' ? (
-							<FututeBasketDetails
-								key={bask.id}
-								id={bask.id}
-								baseQuanity={quantityValue}
-								baseInstrumentValue={instrument || ''}
-								baseActionValue={actionValue}
-								futureExpiryBaseValue={futureExpiryBaseValue}
-								futureExpiryList={futureExpiryList}
-								basket={basket}
-								handleEditBasket={setBasket}
-								handleDeleteBasket={handleDeleteBasket}
-								handleCopyBasket={handleCopyBasket}
-							/>
-						) : (
-							<OptionBasketDetail
-								key={bask.id}
-								id={bask.id}
-								baseQuanity={quantityValue}
-								optionExpiryBaseValue={optionExpiryBaseValue}
-								baseActionValue={actionValue}
-								baseOptionValue={optionType}
-								baseInstrumentValue={instrument || ''}
-								optionExpiryList={optionExpiryList}
-								baseSubTradeOption={subTradeOption}
-								baseTradeOption={tradeOption}
-								baseSubTradeOptionList={subTradeOptionList}
-								baseTradeValue={tradeValue}
-								basket={basket}
-								handleEditBasket={setBasket}
-								handleDeleteBasket={handleDeleteBasket}
-								handleCopyBasket={handleCopyBasket}
-							/>
-						)
-					)}
-					{basket.length > 0 && <ExitCondition />}
+						{basket?.map((bask) =>
+							bask.type === 'spot' ? (
+								<SpotBasketDetail
+									key={bask.id}
+									id={bask.id}
+									basket={basket}
+									handleEditBasket={setBasket}
+									baseQuanity={quantityValue}
+									baseInstrumentValue={instrument || ''}
+									baseActionValue={actionValue}
+									handleDeleteBasket={handleDeleteBasket}
+									handleCopyBasket={handleCopyBasket}
+								/>
+							) : bask.type === 'future' ? (
+								<FututeBasketDetails
+									key={bask.id}
+									id={bask.id}
+									baseQuanity={quantityValue}
+									baseInstrumentValue={instrument || ''}
+									baseActionValue={actionValue}
+									futureExpiryBaseValue={futureExpiryBaseValue}
+									futureExpiryList={futureExpiryList}
+									basket={basket}
+									handleEditBasket={setBasket}
+									handleDeleteBasket={handleDeleteBasket}
+									handleCopyBasket={handleCopyBasket}
+								/>
+							) : (
+								<OptionBasketDetail
+									key={bask.id}
+									id={bask.id}
+									baseQuanity={quantityValue}
+									optionExpiryBaseValue={optionExpiryBaseValue}
+									baseActionValue={actionValue}
+									baseOptionValue={optionType}
+									baseInstrumentValue={instrument || ''}
+									optionExpiryList={optionExpiryList}
+									baseSubTradeOption={subTradeOption}
+									baseTradeOption={tradeOption}
+									baseSubTradeOptionList={subTradeOptionList}
+									baseTradeValue={tradeValue}
+									basket={basket}
+									handleEditBasket={setBasket}
+									handleDeleteBasket={handleDeleteBasket}
+									handleCopyBasket={handleCopyBasket}
+								/>
+							)
+						)}
+						{basket.length > 0 && <ExitCondition />}
+					</Flex>
 				</Flex>
-			</Flex>
+			</Form>
 		</Modal>
 	)
 }

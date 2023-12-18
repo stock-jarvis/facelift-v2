@@ -18,9 +18,14 @@ const Index = () => {
 	} = useBasketStore()
 
 	const onHandleBasketEdit = (id: string) => {
+		const basket = runtimeBasketList.find((basket) => basket.id === id)
+		if (basket) {
+			toogleSaveError(id, false)
+		}
 		setEditableBasket(id)
 		toogleEditModal(true)
 	}
+
 	const onHandleBasketDuplicate = (name: string) => {
 		const duplicateBasket = runtimeBasketList.filter(
 			(basket) => basket.name === name
@@ -37,9 +42,10 @@ const Index = () => {
 	const onHandleBaskeSave = (id: string) => {
 		const isBasketSaved = savedBaskets.find((basket) => basket.id === id)
 		if (isBasketSaved) {
-			console.log('hello world')
+			//TODO: Tie this up with the api
+			console.log('Tie this up with the api')
 		} else {
-			toogleSaveError(id)
+			toogleSaveError(id, true)
 		}
 	}
 

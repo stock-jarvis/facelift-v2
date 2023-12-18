@@ -23,7 +23,7 @@ type BasketStateActions = {
 	setDuplicateError: (error: BasketState['duplicateError']) => void
 	toogleEditModal: (open: boolean) => void
 	setEditableBasket: (id: string) => void
-	toogleSaveError: (id: string) => void
+	toogleSaveError: (id: string, error: boolean) => void
 }
 
 const defaultState: BasketState = {
@@ -52,10 +52,10 @@ export const useBasketStore = create<BasketState & BasketStateActions>()(
 			set({ isAddBasketModalOpen }),
 		toogleEditModal: (isEditModalOpen) => set({ isEditModalOpen }),
 
-		toogleSaveError: (id: string) =>
+		toogleSaveError: (id: string, error: boolean) =>
 			set((state) => {
 				state.runtimeBasketList = state.runtimeBasketList.map((basket) =>
-					basket.id === id ? { ...basket, error: true } : { ...basket }
+					basket.id === id ? { ...basket, error: error } : { ...basket }
 				)
 			}),
 
