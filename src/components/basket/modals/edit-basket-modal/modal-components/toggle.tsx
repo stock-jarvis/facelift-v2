@@ -34,6 +34,7 @@ const Toggle = ({ toogle1, toogle2, setToogleValue }: ToggleProps) => {
 				cursor: 'pointer',
 			}}
 			gap="middle"
+			className="select-none"
 		>
 			<Flex
 				onClick={() => onToogleChange(toogle1)}

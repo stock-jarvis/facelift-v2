@@ -26,6 +26,7 @@ const CappedButton = ({ label, value, setValue }: CappedButtonProps) => {
 
 	return (
 		<Flex
+			className="select-none"
 			style={{
 				width: '340px',
 				borderRadius: token.borderRadiusLG,
@@ -57,6 +58,7 @@ const CappedButton = ({ label, value, setValue }: CappedButtonProps) => {
 				</Tooltip>
 			) : (
 				<Flex
+					className="select-none"
 					style={{
 						padding: token.paddingMD,
 						borderRadius: token.borderRadiusLG,
@@ -90,6 +92,7 @@ const CappedButton = ({ label, value, setValue }: CappedButtonProps) => {
 							₹
 						</Typography.Text>
 						<Input
+							className="select-none"
 							value={currentValue}
 							onChange={handleInputChange}
 							type="number"
