@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react'
 import { Modal, theme, Flex, Form } from 'antd'
-
 import Header from './modal-containers/header'
 import Footer from './modal-containers/footer'
 import Toggle from './modal-components/toggle'
@@ -12,6 +11,9 @@ import OptionsBasketSelector from './modal-containers/options-basket-selector'
 import SpotBasketSelector from './modal-containers/spot-basket-selector'
 import FutureBasketSelector from './modal-containers/future-basket-selector'
 import PositionSelector from './modal-containers/position-selector'
+import { basketOptions } from '../../constants/data'
+import { useUndefinedSet } from './modal-hooks/useUndefinedSet'
+import { useUndefinedNumberedSet } from './modal-hooks/useUndefinedNumberSet'
 import { generateUniqueId } from '../../common/utils/randomizer'
 import { useBasketStore } from '../../store/basket-store'
 import { usePersistState } from './modal-hooks/usePersistState'
@@ -24,9 +26,6 @@ import {
 	totalProfitOptions,
 	spotLossOptions,
 } from '../../constants/data'
-
-//import { nseTimes, mxcTimes, curTimes } from '../../constants/entry-exit-time'
-
 import {
 	OptionObject,
 	TradeOptions,
@@ -35,9 +34,6 @@ import {
 	TimeHours,
 	Time,
 } from '../../types/types'
-import { basketOptions } from '../../constants/data'
-import { useUndefinedSet } from './modal-hooks/useUndefinedSet'
-import { useUndefinedNumberedSet } from './modal-hooks/useUndefinedNumberSet'
 
 const initialSubTrade = tradeTypeData[0].children[0].value
 const initialSubTradeList = tradeTypeData[0].children
@@ -92,6 +88,7 @@ const EditBasketModal = ({ open }: EditModalProps) => {
 
 	const { token } = theme.useToken()
 
+	const [atm, setAtm] = useState<string>('spot')
 	const [basket, setBasket] = useState<BasketDataProps[]>([])
 	const [moveSl, setMoveSl] = useState<boolean>(false)
 	const [repeatSl, setRepeatSl] = useState<string>('NA')
@@ -121,9 +118,9 @@ const EditBasketModal = ({ open }: EditModalProps) => {
 	const [finalTradeType, setFinalTradeType] = useState<string>('SQAL')
 	const [persistedValues, setPersistedValues] = useState<PersistedValues>()
 	const [subTradeOption, setSubTradeOption] = useState<string>(initialSubTrade)
+	const [basketPositions, setBasketPositions] = useState<string>('INTRA')
 	const [basketTradeType, setBasketTradeType] =
 		useState<string>('Square off one Leg')
-
 	const [subTradeOptionList, setSubTradeOptionList] =
 		useState<TradeOptions[]>(initialSubTradeList)
 	const [futureExpiryBaseValue, setFutureExpiryBaseValue] =
@@ -138,6 +135,7 @@ const EditBasketModal = ({ open }: EditModalProps) => {
 		currentExitMinute,
 		setTimeError
 	)
+
 	useEffect(() => {
 		if (basketTradeType === 'Square of All Legs') {
 			setFinalTradeType('SQAL')
@@ -189,8 +187,19 @@ const EditBasketModal = ({ open }: EditModalProps) => {
 		setInstrument
 	)
 
-	const setToogleValue = (value: string) => {
-		value
+	const handleAtmChange = (value: string) => {
+		if (value === 'Future as ATM') {
+			setAtm('future')
+		} else {
+			setAtm('spot')
+		}
+	}
+	const handleBasketPositionsChange = (value: string) => {
+		if (value === 'POSITIONAL') {
+			setBasketPositions('POS')
+		} else {
+			setBasketPositions('INTRA')
+		}
 	}
 
 	const handleAfterClose = () => {
@@ -318,10 +327,13 @@ const EditBasketModal = ({ open }: EditModalProps) => {
 			}
 			footer={
 				<Footer
+					basket={basket}
 					basketRepeat={repeatSl}
 					basketTrade={finalTradeType}
 					identifier={basketIdentifier}
 					basketName={basketName}
+					atm={atm}
+					posType={basketPositions}
 				/>
 			}
 			styles={{
@@ -373,7 +385,7 @@ const EditBasketModal = ({ open }: EditModalProps) => {
 								<Toggle
 									toogle1="INTRADAY"
 									toogle2="POSITIONAL"
-									setToogleValue={setToogleValue}
+									setToogleValue={handleBasketPositionsChange}
 								/>
 							</div>
 							<PositionSelector
@@ -384,7 +396,7 @@ const EditBasketModal = ({ open }: EditModalProps) => {
 								<Toggle
 									toogle1="Spot as ATM"
 									toogle2="Future as ATM"
-									setToogleValue={setToogleValue}
+									setToogleValue={handleAtmChange}
 								/>
 							</div>
 						</Flex>

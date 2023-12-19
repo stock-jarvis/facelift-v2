@@ -42,6 +42,7 @@ const Index = ({
 					>
 						{header}
 					</Typography.Text>
+
 					<CloseOutlined
 						onClick={handleCancelSelect}
 						style={{ color: token.colorBgBase, paddingInline: token.paddingSM }}
@@ -72,7 +73,17 @@ const Index = ({
 				body: { padding: token.paddingSM },
 			}}
 		>
-			<Typography.Text>{message}</Typography.Text>
+			<Flex flex="1" justify="center" align="center">
+				<Typography.Text
+					style={{
+						fontSize: token.fontSizeLG,
+						fontWeight: token.fontWeightStrong,
+						textAlign: 'center',
+					}}
+				>
+					{message}
+				</Typography.Text>
+			</Flex>
 		</Modal>
 	)
 }

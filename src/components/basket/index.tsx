@@ -16,6 +16,10 @@ const Basket = () => {
 		closeModalConfirmation,
 		closeEditConfirmation,
 		toogleEditModal,
+		timeErrorModalOpen,
+		toggleTimeErrorModalOpen,
+		setEmptyBasketError,
+		emptyBasketError,
 	} = useBasketStore()
 
 	useEffect(() => {
@@ -28,6 +32,14 @@ const Basket = () => {
 	}
 	const handleCancelConfirmModal = (val: boolean) => {
 		closeEditConfirmation(val)
+	}
+
+	const handleTimeErrorModalClose = () => {
+		toggleTimeErrorModalOpen(false)
+	}
+
+	const handleEmptyBasketErrorModalClose = () => {
+		setEmptyBasketError(false)
 	}
 
 	return (
@@ -55,6 +67,20 @@ const Basket = () => {
 				handleCancel={handleCancelConfirmModal}
 				header={'Alert!'}
 				message="Are you sure you want to close modal? All unsaved data will be lost!"
+			/>
+			<ConfirmModal
+				open={timeErrorModalOpen}
+				handleOpen={handleTimeErrorModalClose}
+				handleCancel={handleTimeErrorModalClose}
+				header={'Time Error!'}
+				message="Exit Time Should be after Entry Time!"
+			/>
+			<ConfirmModal
+				open={emptyBasketError}
+				handleOpen={handleEmptyBasketErrorModalClose}
+				handleCancel={handleEmptyBasketErrorModalClose}
+				header={'Cannot Save Basket'}
+				message="Basket should have atleast on position element to save."
 			/>
 		</>
 	)

@@ -63,17 +63,20 @@ const TradeSecion = ({
 	}
 
 	return (
-		<Flex flex={1} justify="center" align="center" vertical className="gap-10">
-			<div className="w-[80%] ">
+		<Flex flex={1} justify="center" align="center" vertical gap="large">
+			<Flex style={{ width: '80%' }}>
 				<Toggle
 					toogle1="Square off one Leg"
 					toogle2="Square of All Legs"
 					setToogleValue={(value: string) => {
 						setMove(false)
+						setRepeat('NA')
+						setRepeatTrade(false)
+						setRepeatCondition(false)
 						setToggleValue(value)
 					}}
 				/>
-			</div>
+			</Flex>
 			{!trade ? (
 				<Flex gap="middle">
 					<Switch
@@ -109,7 +112,6 @@ const TradeSecion = ({
 								borderColor: token.colorPrimary,
 								boxShadow: '3px 3px 3px 3px rgba(0, 0, 0, 0.25)',
 								fill: 'black',
-								colorInterpolation: 'linearRGB',
 							}}
 							autoFocus={true}
 							checkedChildren={<CheckOutlined />}
@@ -134,7 +136,6 @@ const TradeSecion = ({
 								borderColor: token.colorPrimary,
 								boxShadow: '3px 3px 3px 3px rgba(0, 0, 0, 0.25)',
 								fill: 'black',
-								colorInterpolation: 'linearRGB',
 							}}
 							autoFocus={true}
 							checkedChildren={<CheckOutlined />}

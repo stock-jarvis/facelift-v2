@@ -6,6 +6,7 @@ type BasketState = {
 	createBasketExhange: ExchangeType
 	isAddBasketModalOpen: boolean
 	isEditModalOpen: boolean
+	timeErrorModalOpen: boolean
 	runtimeBasketList: RunTimeBasketData[]
 	duplicateError: boolean
 	editableBasketData: RunTimeBasketData
@@ -13,6 +14,7 @@ type BasketState = {
 	closeModalConfirmation: boolean
 	timeError: boolean
 	positionCopy: boolean
+	emptyBasketError: boolean
 }
 
 type BasketStateActions = {
@@ -22,6 +24,8 @@ type BasketStateActions = {
 	toggleSetBasketModalOpen: (
 		isAddBasketModalOpen: BasketState['isAddBasketModalOpen']
 	) => void
+	setEmptyBasketError: (error: boolean) => void
+	toggleTimeErrorModalOpen: (timeErrorModalOpen: boolean) => void
 
 	closeEditConfirmation: (value: boolean) => void
 	addNewRuntimeBasket: (basket: RunTimeBasketData) => void
@@ -41,6 +45,7 @@ const defaultState: BasketState = {
 	exchange: { type: 'NSE', id: 1 },
 	createBasketExhange: { type: 'NSE', id: 1 },
 	isAddBasketModalOpen: false,
+	timeErrorModalOpen: false,
 	closeModalConfirmation: false,
 	editableBasketData: {
 		id: '',
@@ -52,17 +57,20 @@ const defaultState: BasketState = {
 	},
 	savedBaskets: [],
 	timeError: false,
+	emptyBasketError: false,
 }
 
 export const useBasketStore = create<BasketState & BasketStateActions>()(
 	immer((set) => ({
 		...defaultState,
 		setTimeError: (timeError) => set({ timeError }),
+		setEmptyBasketError: (emptyBasketError) => set({ emptyBasketError }),
 		setPositionCopy: (positionCopy) => set({ positionCopy }),
 		toggleSetBasketModalOpen: (isAddBasketModalOpen) =>
 			set({ isAddBasketModalOpen }),
 		toogleEditModal: (isEditModalOpen) => set({ isEditModalOpen }),
-
+		toggleTimeErrorModalOpen: (timeErrorModalOpen) =>
+			set({ timeErrorModalOpen }),
 		toogleSaveError: (id: string, error: boolean) =>
 			set((state) => {
 				state.runtimeBasketList = state.runtimeBasketList.map((basket) =>
