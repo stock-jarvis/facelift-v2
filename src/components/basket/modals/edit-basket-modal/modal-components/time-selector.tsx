@@ -12,7 +12,7 @@ interface TimeSelectorProps {
 	label: string
 	hours: TimeHours[] | undefined
 	minutes: Time[] | undefined
-	currentHour: number | undefined
+	currentHour: number
 	currentMinute: number | undefined
 	exchange: string | undefined
 	handleMinuteListChange: (val: Time[]) => void

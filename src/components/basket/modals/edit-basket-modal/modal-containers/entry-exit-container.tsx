@@ -4,12 +4,12 @@ import { TimeHours, Time } from 'src/components/basket/types/types'
 interface EntryExitProps {
 	entryHoursData: TimeHours[] | undefined
 	entryMinutesData: Time[] | undefined
-	entryHourValue: number | undefined
-	entryMinuteValue: number | undefined
+	entryHourValue: number
+	entryMinuteValue: number
 	exitHoursData: TimeHours[] | undefined
 	exitMinutesData: Time[] | undefined
-	exitHourValue: number | undefined
-	exitMinuteValue: number | undefined
+	exitHourValue: number
+	exitMinuteValue: number
 	exchange: string | undefined
 	handleExitMinuteListChange: (val: Time[]) => void
 	handleEntryMinuteListChange: (val: Time[]) => void

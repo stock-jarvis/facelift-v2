@@ -4,7 +4,7 @@ import QuantityInput from '../modal-components/quantity-input'
 import ActionSelector from '../modal-components/action-selector'
 import YeildButton from '../modal-components/yeild-button'
 import { Flex } from 'antd'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { BasketDataProps } from 'src/components/basket/types/types'
 import {
 	spotLossOptions,
@@ -45,6 +45,11 @@ const SpotBasketDetail = ({
 	)
 	const [totalProfitValue, setTotalProfitValue] = useState<number>(1)
 	const [spotLossValue, setSpotLossValue] = useState<number>(1)
+
+	useEffect(() => {
+		console.log(quantityValue)
+	}, [quantityValue])
+
 	useValueChange(quantityValue, id, basket, handleEditBasket, 'qunatity')
 	useActionChange(actionValue, id, basket, handleEditBasket, 'action_type')
 	useValueChange(

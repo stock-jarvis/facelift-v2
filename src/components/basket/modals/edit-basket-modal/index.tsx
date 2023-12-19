@@ -84,7 +84,7 @@ interface EditModalProps {
 }
 
 const EditBasketModal = ({ open }: EditModalProps) => {
-	const { editableBasketData, setTimeError } = useBasketStore()
+	const { editableBasketData, setTimeError, positionCopy } = useBasketStore()
 
 	const { token } = theme.useToken()
 
@@ -116,7 +116,6 @@ const EditBasketModal = ({ open }: EditModalProps) => {
 		useState<string>('Monthly')
 	const [optionExpiryBaseValue, setOptionExpiryBaseValue] =
 		useState<string>('Monthly')
-
 	useValidateTimes(
 		currentEntryHour,
 		currentExitHour,
@@ -146,6 +145,15 @@ const EditBasketModal = ({ open }: EditModalProps) => {
 		setExitHourList([])
 		setEntryMinuteList([])
 	}
+
+	useEffect(() => {
+		console.log(positionCopy)
+		if (!positionCopy) {
+			setActionValue('B')
+			setQuantityValue(1)
+			setFutureExpiryBaseValue('Monthly')
+		}
+	}, [positionCopy])
 
 	useEffect(() => {
 		if (basketTrade === 'NSE') {
@@ -269,13 +277,14 @@ const EditBasketModal = ({ open }: EditModalProps) => {
 	}
 
 	const handleAddBasket = (value: string) => {
+		const uniqueId = generateUniqueId()
 		setBasket((prev) => [
 			...prev,
 			value === 'spot'
-				? { ...defaultSpotPosition, id: generateUniqueId() }
+				? { ...defaultSpotPosition, id: uniqueId }
 				: value === 'future'
-					? { ...defaultFuturePosition, id: generateUniqueId() }
-					: { ...defaultOptionsPosition, id: generateUniqueId() },
+					? { ...defaultFuturePosition, id: uniqueId }
+					: { ...defaultOptionsPosition, id: uniqueId },
 		])
 	}
 
@@ -285,16 +294,55 @@ const EditBasketModal = ({ open }: EditModalProps) => {
 
 	const handleCopyBasket = (id: string) => {
 		const basketToBeCopied = basket.find((basket) => basket.id === id)
+
 		if (basketToBeCopied) {
+			//setPositionCopy(true)
+			if (basketToBeCopied.type === 'spot') {
+				setActionValue(basketToBeCopied.action_type)
+				setQuantityValue(basketToBeCopied.qunatity)
+				//setPositionCopy(false)
+			} else if (basketToBeCopied.type === 'future') {
+				setActionValue(basketToBeCopied.action_type)
+				setQuantityValue(basketToBeCopied.qunatity)
+				setFutureExpiryBaseValue(
+					basketToBeCopied.expiry ? basketToBeCopied.expiry : 'Monthly'
+				)
+				//setPositionCopy(false)
+			} else if (basketToBeCopied.type === 'options') {
+				setActionValue(basketToBeCopied.action_type)
+				setOptionType(
+					basketToBeCopied.option_type ? basketToBeCopied.option_type : 'CE'
+				)
+				setTradeOption(
+					basketToBeCopied.trade_type
+						? basketToBeCopied.trade_type
+						: tradeTypeData[0].value
+				)
+				setSubTradeOption(
+					basketToBeCopied.trade_type_params
+						? basketToBeCopied.trade_type_params
+						: tradeTypeData[0].children[0].value
+				)
+				setTradeValue(
+					basketToBeCopied.trade_type_value
+						? basketToBeCopied.trade_type_value
+						: 1
+				)
+				setQuantityValue(basketToBeCopied.qunatity)
+				setOptionExpiryBaseValue(
+					basketToBeCopied.expiry ? basketToBeCopied.expiry : 'Monthly'
+				)
+				//setPositionCopy(false)
+			}
+
 			setBasket((prev) => [
 				...prev,
 				{ ...basketToBeCopied, id: generateUniqueId() },
 			])
 		}
 	}
-
 	useEffect(() => {
-		//console.log(basket)
+		console.log(basket)
 	}, [basket])
 	return (
 		<Modal
