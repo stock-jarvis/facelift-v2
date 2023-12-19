@@ -107,6 +107,8 @@ const EditBasketModal = ({ open }: EditModalProps) => {
 	const [basketOption, setBasketOption] = useState<string>('spot')
 	const [basketIdentifier, setBasketIdentifier] = useState<number>(0)
 	const [quantityValue, setQuantityValue] = useState<number>(1)
+	const [basketTradeType, setBasketTradeType] =
+		useState<string>('Square off one Leg')
 	const [actionValue, setActionValue] = useState<string>('B')
 	const [optionType, setOptionType] = useState<string>('CE')
 	const [futureExpiryList] = useState<OptionObject[]>(futureExpiry)
@@ -121,14 +123,24 @@ const EditBasketModal = ({ open }: EditModalProps) => {
 	const [currentExitMinute, setCurrentExitMinute] = useState<number>(0)
 	const [tradeOption, setTradeOption] = useState<string>(initialTrade)
 	const [tradeValue, setTradeValue] = useState<number>(1)
+	const [profitValue, setProfitValue] = useState<number>(0)
+	const [lossValue, setLossValue] = useState<number>(0)
 	const [subTradeOption, setSubTradeOption] = useState<string>(initialSubTrade)
 	const [persistedValues, setPersistedValues] = useState<PersistedValues>()
+	const [finalTradeType, setFinalTradeType] = useState<string>('SQAL')
+	const [repeatSl, setRepeatSl] = useState<string>('NA')
+	const [moveSl, setMoveSl] = useState<boolean>(false)
 	const [subTradeOptionList, setSubTradeOptionList] =
 		useState<TradeOptions[]>(initialSubTradeList)
 	const [futureExpiryBaseValue, setFutureExpiryBaseValue] =
 		useState<string>('Monthly')
 	const [optionExpiryBaseValue, setOptionExpiryBaseValue] =
 		useState<string>('Monthly')
+
+	useEffect(() => {
+		console.log(repeatSl)
+	}, [repeatSl])
+
 	useValidateTimes(
 		currentEntryHour,
 		currentExitHour,
@@ -136,6 +148,7 @@ const EditBasketModal = ({ open }: EditModalProps) => {
 		currentExitMinute,
 		setTimeError
 	)
+
 	const handleAfterClose = () => {
 		setBasket([])
 		setBasketTrade('')
@@ -158,6 +171,14 @@ const EditBasketModal = ({ open }: EditModalProps) => {
 		setExitHourList([])
 		setEntryMinuteList([])
 	}
+
+	useEffect(() => {
+		if (basketTradeType === 'Square of All Legs') {
+			setFinalTradeType('SQAL')
+		} else {
+			setFinalTradeType('SQOL')
+		}
+	}, [basketTradeType])
 
 	useEffect(() => {
 		if (positionCopy) {
@@ -389,7 +410,13 @@ const EditBasketModal = ({ open }: EditModalProps) => {
 					handleInstrumentChange={setInstrument}
 				/>
 			}
-			footer={<Footer identifier={basketIdentifier} basketName={basketName} />}
+			footer={
+				<Footer
+					basketTrade={finalTradeType}
+					identifier={basketIdentifier}
+					basketName={basketName}
+				/>
+			}
 			styles={{
 				content: {
 					margin: -60,
@@ -507,12 +534,12 @@ const EditBasketModal = ({ open }: EditModalProps) => {
 									key={bask.id}
 									id={bask.id}
 									basket={basket}
-									handleEditBasket={setBasket}
 									baseQuanity={quantityValue}
 									baseInstrumentValue={instrument || ''}
 									baseActionValue={actionValue}
-									handleDeleteBasket={handleDeleteBasket}
+									handleEditBasket={setBasket}
 									handleCopyBasket={handleCopyBasket}
+									handleDeleteBasket={handleDeleteBasket}
 								/>
 							) : bask.type === 'future' ? (
 								<FututeBasketDetails
@@ -525,8 +552,8 @@ const EditBasketModal = ({ open }: EditModalProps) => {
 									futureExpiryList={futureExpiryList}
 									basket={basket}
 									handleEditBasket={setBasket}
-									handleDeleteBasket={handleDeleteBasket}
 									handleCopyBasket={handleCopyBasket}
+									handleDeleteBasket={handleDeleteBasket}
 								/>
 							) : (
 								<OptionBasketDetail
@@ -544,26 +571,35 @@ const EditBasketModal = ({ open }: EditModalProps) => {
 									baseTradeValue={tradeValue}
 									basket={basket}
 									handleEditBasket={setBasket}
-									handleDeleteBasket={handleDeleteBasket}
 									handleCopyBasket={handleCopyBasket}
+									handleDeleteBasket={handleDeleteBasket}
 								/>
 							)
 						)}
 						{basket.length > 0 && (
 							<ExitCondition
+								moveSl={moveSl}
 								exchange={basketTrade}
 								entryHoursData={entryHourList}
 								entryMinutesData={entryMinuteList}
 								entryHourValue={currentEntryHour}
-								handleChangeEntryHour={setCurrentEntryHour}
+								lossValue={lossValue}
+								profitValue={profitValue}
+								basketTradeType={basketTradeType}
 								entryMinuteValue={currentEntryMinute}
-								handleChangeEntryMinute={setCurrentEntryMinute}
-								handleEntryMinuteListChange={setEntryMinuteList}
-								handleExitMinuteListChange={setExitMinuteList}
 								exitHoursData={exitHourList}
 								exitMinutesData={exitMinuteList}
 								exitHourValue={currentExitHour}
 								exitMinuteValue={currentExitMinute}
+								handleBasketTradeTypeChange={setBasketTradeType}
+								handleLossValueChange={setLossValue}
+								setRepeatSl={setRepeatSl}
+								handleProfitValueChange={setProfitValue}
+								handleChangeEntryHour={setCurrentEntryHour}
+								setMoveSl={setMoveSl}
+								handleChangeEntryMinute={setCurrentEntryMinute}
+								handleEntryMinuteListChange={setEntryMinuteList}
+								handleExitMinuteListChange={setExitMinuteList}
 								handleChangeExitHour={setCurrentExitHour}
 								handleChangeExitMinute={setCurrentExitMinute}
 							/>

@@ -20,8 +20,13 @@ const CappedButton = ({ label, value, setValue }: CappedButtonProps) => {
 	}, [currentValue, value])
 
 	const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
-		setCurrentValue(+event.target.value)
-		setValue(+event.target.value)
+		if (+event.target.value < 0) {
+			setCurrentValue(1)
+			setValue(1)
+		} else {
+			setCurrentValue(+event.target.value)
+			setValue(+event.target.value)
+		}
 	}
 
 	return (

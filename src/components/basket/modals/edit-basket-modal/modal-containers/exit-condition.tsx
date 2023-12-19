@@ -13,6 +13,15 @@ interface ExitConditionProps {
 	exitHourValue: number
 	exitMinuteValue: number
 	exchange: string | undefined
+	profitValue: number
+	lossValue: number
+	basketTradeType: string
+	moveSl: boolean
+	setRepeatSl: (val: string) => void
+	setMoveSl: (val: boolean) => void
+	handleBasketTradeTypeChange: (val: string) => void
+	handleLossValueChange: (val: number) => void
+	handleProfitValueChange: (val: number) => void
 	handleExitMinuteListChange: (list: Time[]) => void
 	handleEntryMinuteListChange: (list: Time[]) => void
 	handleChangeExitHour: (val: number) => void
@@ -30,6 +39,15 @@ const ExitCondition = ({
 	exitMinutesData,
 	exitHourValue,
 	exitMinuteValue,
+	profitValue,
+	lossValue,
+	basketTradeType,
+	moveSl,
+	setRepeatSl,
+	setMoveSl,
+	handleBasketTradeTypeChange,
+	handleLossValueChange,
+	handleProfitValueChange,
 	handleEntryMinuteListChange,
 	handleExitMinuteListChange,
 	handleChangeExitHour,
@@ -41,14 +59,20 @@ const ExitCondition = ({
 		<Flex flex={1} vertical gap="middle">
 			<Flex flex={1}>
 				<Flex flex={1}>
-					<TradeSection />
+					<TradeSection
+						move={moveSl}
+						setRepeat={setRepeatSl}
+						setMove={setMoveSl}
+						toggleValue={basketTradeType}
+						setToggleValue={handleBasketTradeTypeChange}
+					/>
 				</Flex>
 				<Flex flex={1}>
 					<ProfitLoss
-						profitValue={1}
-						lossValue={1}
-						setLossValue={() => {}}
-						setProfitValue={() => {}}
+						profitValue={profitValue}
+						lossValue={lossValue}
+						setLossValue={handleLossValueChange}
+						setProfitValue={handleProfitValueChange}
 						profitLabel="Total Profit"
 						lossLabel="Total Loss"
 					/>
