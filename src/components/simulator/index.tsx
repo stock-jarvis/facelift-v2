@@ -6,7 +6,6 @@ import RightContent from './components/right-content'
 
 const Simulator = () => {
 	const { token } = theme.useToken()
-
 	return (
 		<Flex
 			vertical

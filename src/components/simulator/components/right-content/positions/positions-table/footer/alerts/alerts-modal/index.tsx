@@ -1,4 +1,4 @@
-import { Flex, Modal, ModalProps, Select } from 'antd'
+import { Flex, Form, Input, Modal, ModalProps, Select, Typography } from 'antd'
 
 import AlertsTable from './alerts-table'
 
@@ -14,7 +14,23 @@ const AlertsModal: React.FC<AlertsModalProps> = ({ onCancel }) => {
 			onCancel={onCancel}
 		>
 			<Flex vertical>
-				<Flex style={{ width: '100%' }} align="center" justify="space-between">
+				<Flex
+					style={{ width: '100%' }}
+					align="flex-start"
+					justify="space-between"
+				>
+					<Form.Item
+						label={<Typography.Text type="danger">Total Loss</Typography.Text>}
+					>
+						<Input />
+					</Form.Item>
+					<Form.Item
+						label={
+							<Typography.Text type="success">Total Profit</Typography.Text>
+						}
+					>
+						<Input />
+					</Form.Item>
 					<Select placeholder="Select instrument" />
 				</Flex>
 				<AlertsTable />

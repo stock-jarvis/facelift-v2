@@ -1,8 +1,10 @@
 import { Flex } from 'antd'
+import { useState } from 'react'
 
 import DerivativesTable from './derivatives-table'
 import InstrumentDayDetail from './instrument-day-detail'
 import DerivatiesParamSelection from './derivatives-param-selection'
+import { DerivativesMetric } from 'src/common/enums'
 
 type TabContentProps = {
 	instrument: string
@@ -10,27 +12,17 @@ type TabContentProps = {
 
 // TODO: use instrument prop and display data based on it.
 const TabContent: React.FC<TabContentProps> = () => {
+	const [selectedDerivativeMetric, setSelectedDerivativeMetric] =
+		useState<DerivativesMetric>()
+
 	return (
 		<Flex className="w-full" gap="large" vertical>
-			{/* <Radio.Group
-				value={activeInstrument}
-				className="flex flex-row"
-				buttonStyle="solid"
-				onChange={handleChangeExchange}
-			>
-				{selectedInstruments.map((instrument) => (
-					<Radio.Button
-						className="w-full text-center"
-						key={instrument}
-						value={instrument}
-					>
-						{instrument}
-					</Radio.Button>
-				))}
-			</Radio.Group> */}
 			<InstrumentDayDetail />
-			<DerivatiesParamSelection />
-			<DerivativesTable />
+			<DerivatiesParamSelection
+				selectedDerivativeMetric={selectedDerivativeMetric}
+				setSelectedDerivativeMetric={setSelectedDerivativeMetric}
+			/>
+			<DerivativesTable selectedDerivativeMetric={selectedDerivativeMetric} />
 		</Flex>
 	)
 }

@@ -1,15 +1,7 @@
-import {
-	Button,
-	Flex,
-	Select,
-	SelectProps,
-	Space,
-	Typography,
-	theme,
-} from 'antd'
+import { Flex, Select, SelectProps, Space, Typography, theme } from 'antd'
 import { PlusOutlined } from '@ant-design/icons'
 import Link from 'antd/es/typography/Link'
-import { useMemo, useState } from 'react'
+import { useMemo } from 'react'
 import { convertValuesToDefaultOptions } from 'src/common/utils/conversion-utils'
 import { DerivativesMetric } from '../../../../common/enums'
 
@@ -32,14 +24,19 @@ const TitleLinkValue: React.FC<TitleLinkValueProps> = ({ title, value }) => (
 	</Space>
 )
 
-const DerivatiesParamSelection = () => {
+type DerivatiesParamSelectionProps = {
+	selectedDerivativeMetric?: DerivativesMetric
+	setSelectedDerivativeMetric: (
+		selectedDerivativeMetric: DerivativesMetric
+	) => void
+}
+
+const DerivatiesParamSelection: React.FC<DerivatiesParamSelectionProps> = ({
+	selectedDerivativeMetric,
+	setSelectedDerivativeMetric,
+}) => {
 	const { token } = theme.useToken()
 
-	// TODO: Change variable name
-	const [selectedDerivativeMetric, setSelectedDerivativeMetric] =
-		useState<DerivativesMetric>(DerivativesMetric.OpenInterest)
-
-	// TODO: Change variable name
 	const derivativeMetricOptions = useMemo(
 		() => convertValuesToDefaultOptions(Object.values(DerivativesMetric)),
 		[]
@@ -54,14 +51,16 @@ const DerivatiesParamSelection = () => {
 			<TitleLinkValue title="Spot Price" value="38750" />
 
 			<Select
-				style={{
-					width: 78,
-					borderBottom: `${token.lineWidthBold}px solid ${token.colorPrimary}`,
-				}}
+				allowClear
 				value={selectedDerivativeMetric}
 				options={derivativeMetricOptions}
 				bordered={false}
+				placeholder="Select Metric"
 				onChange={handleChangeOption}
+				style={{
+					width: 130,
+					borderBottom: `${token.lineWidthBold}px solid ${token.colorPrimary}`,
+				}}
 			/>
 
 			{/* // TODO: Wire up value and futures link */}

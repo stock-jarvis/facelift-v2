@@ -9,7 +9,8 @@ import { MAX_INSTRUMENTS_ALLOWED } from '../../constants'
 type Tab = NonNullable<TabsProps['items']>[number]
 
 const LeftContent = () => {
-	const [api, contextHolder] = notification.useNotification()
+	const [notificationAPI, notificationContextHolder] =
+		notification.useNotification()
 
 	const {
 		selectedInstruments,
@@ -46,7 +47,7 @@ const LeftContent = () => {
 			if (selectedInstruments.length < MAX_INSTRUMENTS_ALLOWED) {
 				handleAddTab()
 			} else {
-				api.info({
+				notificationAPI.info({
 					message: 'Cannot select more instruments',
 					description: `Only ${MAX_INSTRUMENTS_ALLOWED} instruments are supported. Please remove an instrument to add more.`,
 				})
@@ -58,7 +59,7 @@ const LeftContent = () => {
 
 	return (
 		<>
-			{contextHolder}
+			{notificationContextHolder}
 
 			<Tabs
 				type="editable-card"

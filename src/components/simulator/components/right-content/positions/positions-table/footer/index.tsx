@@ -7,7 +7,7 @@ import Alerts from './alerts'
 
 const renderFooter: PositionsAntdTableProps['footer'] = () => {
 	return (
-		<Flex justify="space-between">
+		<Flex justify="space-between" align="center">
 			<Button type="primary" icon={<SaveOutlined />}>
 				Saved Simulations
 			</Button>
