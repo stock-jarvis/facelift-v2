@@ -69,3 +69,14 @@ export interface TimeHours {
 	value: number
 	minutes: Time[]
 }
+
+export interface PersistedValues {
+	quantityValue: number
+	actionValue: string
+	optionType: string
+	tradeOption: string
+	subTradeOption: string
+	tradeValue: number
+	futureExpiryBaseValue: string
+	optionExpiryBaseValue: string
+}

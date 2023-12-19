@@ -14,7 +14,9 @@ import FutureBasketSelector from './modal-containers/future-basket-selector'
 import PositionSelector from './modal-containers/position-selector'
 import { generateUniqueId } from '../../common/utils/randomizer'
 import { useBasketStore } from '../../store/basket-store'
+import { usePersistState } from './modal-hooks/usePersistState'
 import { useValidateTimes } from './modal-hooks/useValidateTimes'
+import { useMarketTimes } from './modal-hooks/useMarketTime'
 import {
 	futureExpiry,
 	optionExpiry,
@@ -23,12 +25,13 @@ import {
 	spotLossOptions,
 } from '../../constants/data'
 
-import { nseTimes, mxcTimes, curTimes } from '../../constants/entry-exit-time'
+//import { nseTimes, mxcTimes, curTimes } from '../../constants/entry-exit-time'
 
 import {
 	OptionObject,
 	TradeOptions,
 	BasketDataProps,
+	PersistedValues,
 	TimeHours,
 	Time,
 } from '../../types/types'
@@ -39,17 +42,6 @@ import { useUndefinedNumberedSet } from './modal-hooks/useUndefinedNumberSet'
 const initialSubTrade = tradeTypeData[0].children[0].value
 const initialSubTradeList = tradeTypeData[0].children
 const initialTrade = tradeTypeData[0].value
-
-interface PersistedValues {
-	quantityValue: number
-	actionValue: string
-	optionType: string
-	tradeOption: string
-	subTradeOption: string
-	tradeValue: number
-	futureExpiryBaseValue: string
-	optionExpiryBaseValue: string
-}
 
 const defaultSpotPosition: BasketDataProps = {
 	id: generateUniqueId(),
@@ -154,114 +146,32 @@ const EditBasketModal = ({ open }: EditModalProps) => {
 		}
 	}, [basketTradeType])
 
-	useEffect(() => {
-		if (positionCopy) {
-			setQuantityValue(persistedValues?.quantityValue || 1)
-			setActionValue(persistedValues?.actionValue || 'B')
-			setOptionType(persistedValues?.optionType || 'CE')
-			setOptionExpiryBaseValue(
-				persistedValues?.optionExpiryBaseValue || 'Monthly'
-			)
-			setFutureExpiryBaseValue(
-				persistedValues?.futureExpiryBaseValue || 'Monthly'
-			)
-			setTradeOption(persistedValues?.tradeOption || tradeTypeData[0].value)
-			setSubTradeOption(
-				persistedValues?.subTradeOption || tradeTypeData[0].children[0].value
-			)
-			setTradeValue(persistedValues?.tradeValue || 1)
-			setPositionCopy(false)
-		}
-	}, [positionCopy, setPositionCopy, persistedValues])
-
-	useEffect(() => {
-		if (basketTrade === 'NSE') {
-			setEntryHourList(nseTimes)
-			setEntryMinuteList(nseTimes[0].minutes)
-			setCurrentEntryHour(nseTimes[0].value)
-			setCurrentEntryMinute(nseTimes[0].minutes[0].value)
-			setExitHourList(nseTimes)
-			setExitMinuteList(nseTimes[nseTimes.length - 1].minutes)
-			setCurrentExitHour(nseTimes[nseTimes.length - 1].value)
-			const minutes = nseTimes[nseTimes.length - 1].minutes
-			const finalMiutes = minutes[minutes.length - 1]
-			setCurrentExitMinute(finalMiutes.value)
-		} else if (basketTrade === 'MCX') {
-			setEntryHourList(mxcTimes)
-			setEntryMinuteList(mxcTimes[0].minutes)
-			setCurrentEntryHour(mxcTimes[0].value)
-			setCurrentEntryMinute(mxcTimes[0].minutes[0].value)
-			setExitHourList(mxcTimes)
-			setExitMinuteList(mxcTimes[mxcTimes.length - 1].minutes)
-			setCurrentExitHour(mxcTimes[mxcTimes.length - 1].value)
-			const minutes = mxcTimes[mxcTimes.length - 1].minutes
-			const finalMiutes = minutes[minutes.length - 1]
-			setCurrentExitMinute(finalMiutes.value)
-		} else if (basketTrade === 'CUR') {
-			setEntryHourList(curTimes)
-			setEntryMinuteList(curTimes[0].minutes)
-			setCurrentEntryHour(curTimes[0].value)
-			setCurrentEntryMinute(curTimes[0].minutes[0].value)
-			setExitHourList(curTimes)
-			setExitMinuteList(curTimes[curTimes.length - 1].minutes)
-			setCurrentExitHour(curTimes[curTimes.length - 1].value)
-			const minutes = curTimes[curTimes.length - 1].minutes
-			const finalMiutes = minutes[minutes.length - 1]
-			setCurrentExitMinute(finalMiutes.value)
-		}
-	}, [basketTrade])
-
-	useEffect(() => {
-		if (!entryHourList || entryHourList.length === 0) {
-			if (basketTrade) {
-				if (basketTrade === 'NSE') {
-					setEntryHourList(nseTimes)
-					setEntryMinuteList(nseTimes[0].minutes)
-					setCurrentEntryHour(nseTimes[0].value)
-					setCurrentEntryMinute(nseTimes[0].minutes[0].value)
-				} else if (basketTrade === 'MCX') {
-					setEntryHourList(mxcTimes)
-					setEntryMinuteList(mxcTimes[0].minutes)
-					setCurrentEntryHour(mxcTimes[0].value)
-					setCurrentEntryMinute(mxcTimes[0].minutes[0].value)
-				} else {
-					setEntryHourList(curTimes)
-					setEntryMinuteList(curTimes[0].minutes)
-					setCurrentEntryHour(curTimes[0].value)
-					setCurrentEntryMinute(curTimes[0].minutes[0].value)
-				}
-			}
-		}
-	}, [basketTrade, entryHourList])
-
-	useEffect(() => {
-		if (!exitHourList || exitHourList.length === 0) {
-			if (basketTrade) {
-				if (basketTrade === 'NSE') {
-					setExitHourList(nseTimes)
-					setExitMinuteList(nseTimes[nseTimes.length - 1].minutes)
-					setCurrentExitHour(nseTimes[nseTimes.length - 1].value)
-					const minutes = nseTimes[nseTimes.length - 1].minutes
-					const finalMiutes = minutes[minutes.length - 1]
-					setCurrentExitMinute(finalMiutes.value)
-				} else if (basketTrade === 'MCX') {
-					setExitHourList(mxcTimes)
-					setExitMinuteList(mxcTimes[mxcTimes.length - 1].minutes)
-					setCurrentExitHour(mxcTimes[mxcTimes.length - 1].value)
-					const minutes = mxcTimes[mxcTimes.length - 1].minutes
-					const finalMiutes = minutes[minutes.length - 1]
-					setCurrentExitMinute(finalMiutes.value)
-				} else {
-					setExitHourList(curTimes)
-					setExitMinuteList(curTimes[curTimes.length - 1].minutes)
-					setCurrentExitHour(curTimes[curTimes.length - 1].value)
-					const minutes = curTimes[curTimes.length - 1].minutes
-					const finalMiutes = minutes[minutes.length - 1]
-					setCurrentExitMinute(finalMiutes.value)
-				}
-			}
-		}
-	}, [basketTrade, exitHourList])
+	usePersistState(
+		positionCopy,
+		setPositionCopy,
+		persistedValues,
+		setQuantityValue,
+		setActionValue,
+		setOptionType,
+		setOptionExpiryBaseValue,
+		setFutureExpiryBaseValue,
+		setTradeOption,
+		setSubTradeOption,
+		setTradeValue
+	)
+	useMarketTimes(
+		basketTrade,
+		entryHourList,
+		exitHourList,
+		setEntryHourList,
+		setExitHourList,
+		setEntryMinuteList,
+		setExitMinuteList,
+		setCurrentEntryHour,
+		setCurrentEntryMinute,
+		setCurrentExitHour,
+		setCurrentExitMinute
+	)
 
 	useUndefinedNumberedSet(
 		basketIdentifier,
