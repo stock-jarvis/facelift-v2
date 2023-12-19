@@ -80,3 +80,49 @@ export interface PersistedValues {
 	futureExpiryBaseValue: string
 	optionExpiryBaseValue: string
 }
+
+export interface SavedBasketsEntryCondition {
+	entry_time: string
+	exit_time: string
+}
+export interface SavedBasketsExitCondition {
+	type: string
+	move?: boolean
+	repeat?: string
+	total_profit: number
+	total_loss: number
+}
+
+export interface ProfitLossObject {
+	value: number
+	type: string
+}
+export interface PositionEntryCondition {
+	quantity: number
+	position_type: string
+	action_type: string
+	expiry: string
+	option_type: string
+	trade_type: string
+	trade_type_params: string
+	trade_type_value: ProfitLossObject
+}
+export interface PositionExitCondition {
+	total_profit: ProfitLossObject
+	stop_loss: ProfitLossObject
+}
+export interface PositionsOpbject {
+	id: string
+	entry_condition: PositionEntryCondition
+	exit_condition: PositionExitCondition
+}
+export interface SavedBasketsObject {
+	id: string
+	exchange: string
+	ticker: string
+	type: string
+	atm: string
+	positions?: PositionsOpbject[]
+	entry_condition: SavedBasketsEntryCondition | undefined
+	exit_condition: SavedBasketsExitCondition | undefined
+}

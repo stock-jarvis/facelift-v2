@@ -96,11 +96,11 @@ const EditBasketModal = ({ open }: EditModalProps) => {
 	const [tradeValue, setTradeValue] = useState<number>(1)
 	const [optionType, setOptionType] = useState<string>('CE')
 	const [basketName, setBasketName] = useState<string>()
-	const [instrument, setInstrument] = useState<string>()
+	const [instrument, setInstrument] = useState<string>('')
 	const [profitValue, setProfitValue] = useState<number>(0)
 	const [tradeOption, setTradeOption] = useState<string>(initialTrade)
 	const [actionValue, setActionValue] = useState<string>('B')
-	const [basketTrade, setBasketTrade] = useState<string>()
+	const [basketTrade, setBasketTrade] = useState<string>('')
 	const [exitHourList, setExitHourList] = useState<TimeHours[]>()
 	const [basketOption, setBasketOption] = useState<string>('spot')
 	const [entryHourList, setEntryHourList] = useState<TimeHours[]>()
@@ -135,7 +135,9 @@ const EditBasketModal = ({ open }: EditModalProps) => {
 		currentExitMinute,
 		setTimeError
 	)
-
+	useEffect(() => {
+		console.log(basket)
+	}, [basket])
 	useEffect(() => {
 		if (basketTradeType === 'Square of All Legs') {
 			setFinalTradeType('SQAL')
@@ -177,6 +179,7 @@ const EditBasketModal = ({ open }: EditModalProps) => {
 		'identifier',
 		setBasketIdentifier
 	)
+
 	useUndefinedSet(basketTrade, editableBasketData, 'exchange', setBasketTrade)
 	useUndefinedSet(basketName, editableBasketData, 'name', setBasketName)
 	useUndefinedSet(instrument, editableBasketData, 'instrument', setInstrument)
@@ -327,13 +330,23 @@ const EditBasketModal = ({ open }: EditModalProps) => {
 			}
 			footer={
 				<Footer
+					profitValue={profitValue}
+					lossValue={lossValue}
+					currentEntryHour={currentEntryHour}
+					currentEntryMinute={currentEntryMinute}
+					currentExitHour={currentExitHour}
+					currentExitMinute={currentExitMinute}
+					id={editableBasketData.id}
+					exchange={basketTrade}
+					instrument={instrument}
 					basket={basket}
+					basketMove={moveSl}
 					basketRepeat={repeatSl}
 					basketTrade={finalTradeType}
 					identifier={basketIdentifier}
 					basketName={basketName}
 					atm={atm}
-					posType={basketPositions}
+					simpleType={basketPositions}
 				/>
 			}
 			styles={{
@@ -405,7 +418,7 @@ const EditBasketModal = ({ open }: EditModalProps) => {
 								<SpotBasketSelector
 									baseQuantityValue={quantityValue}
 									baseActionValue={actionValue}
-									baseInstrumentValue={instrument || ''}
+									baseInstrumentValue={instrument}
 									handleBaseActionChange={setActionValue}
 									handleAddBasket={handleAddBasket}
 									handleBaseQuantityChange={setQuantityValue}
@@ -416,7 +429,7 @@ const EditBasketModal = ({ open }: EditModalProps) => {
 									futureExpiryList={futureExpiryList}
 									baseQuantityValue={quantityValue}
 									baseActionValue={actionValue}
-									baseInstrumentValue={instrument || ''}
+									baseInstrumentValue={instrument}
 									handleBaseActionChange={setActionValue}
 									handleBaseExpiryChange={setFutureExpiryBaseValue}
 									handleAddBasket={handleAddBasket}
@@ -430,7 +443,7 @@ const EditBasketModal = ({ open }: EditModalProps) => {
 									baseActionValue={actionValue}
 									baseOptionValue={optionType}
 									baseSubTradeOption={subTradeOption}
-									baseInstrumentValue={instrument || ''}
+									baseInstrumentValue={instrument}
 									baseTradeValue={tradeValue}
 									baseTradeOption={tradeOption}
 									baseSubTradeOptionList={subTradeOptionList}
@@ -454,7 +467,7 @@ const EditBasketModal = ({ open }: EditModalProps) => {
 									id={bask.id}
 									basket={basket}
 									baseQuanity={quantityValue}
-									baseInstrumentValue={instrument || ''}
+									baseInstrumentValue={instrument}
 									baseActionValue={actionValue}
 									handleEditBasket={setBasket}
 									handleCopyBasket={handleCopyBasket}
@@ -465,7 +478,7 @@ const EditBasketModal = ({ open }: EditModalProps) => {
 									key={bask.id}
 									id={bask.id}
 									baseQuanity={quantityValue}
-									baseInstrumentValue={instrument || ''}
+									baseInstrumentValue={instrument}
 									baseActionValue={actionValue}
 									futureExpiryBaseValue={futureExpiryBaseValue}
 									futureExpiryList={futureExpiryList}
@@ -482,7 +495,7 @@ const EditBasketModal = ({ open }: EditModalProps) => {
 									optionExpiryBaseValue={optionExpiryBaseValue}
 									baseActionValue={actionValue}
 									baseOptionValue={optionType}
-									baseInstrumentValue={instrument || ''}
+									baseInstrumentValue={instrument}
 									optionExpiryList={optionExpiryList}
 									baseSubTradeOption={subTradeOption}
 									baseTradeOption={tradeOption}
