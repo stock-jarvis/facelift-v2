@@ -2,6 +2,7 @@ import { Flex, Select, theme, Typography } from 'antd'
 const { Text } = Typography
 import { TimeHours, Time } from 'src/components/basket/types/types'
 import { SelectProps } from 'antd'
+import { useBasketStore } from 'src/components/basket/store/basket-store'
 import {
 	mxcTimes,
 	nseTimes,
@@ -30,7 +31,7 @@ const TimeSelector = ({
 	handleMinuteListChange,
 }: TimeSelectorProps) => {
 	const { token } = theme.useToken()
-
+	const { timeError } = useBasketStore()
 	const handleHourChange: SelectProps['onChange'] = (value: number) => {
 		handleChangeCurrentHour(value)
 		if (exchange === 'MCX') {
@@ -63,6 +64,7 @@ const TimeSelector = ({
 				style={{
 					fontSize: token.fontSizeLG,
 					fontWeight: token.fontWeightStrong,
+					color: timeError ? 'red' : '',
 				}}
 			>
 				{label}

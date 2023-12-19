@@ -14,6 +14,7 @@ import FutureBasketSelector from './modal-containers/future-basket-selector'
 import PositionSelector from './modal-containers/position-selector'
 import { generateUniqueId } from '../../common/utils/randomizer'
 import { useBasketStore } from '../../store/basket-store'
+import { timeValidator } from 'src/components/basket/common/utils/validate-time'
 import {
 	futureExpiry,
 	optionExpiry,
@@ -81,7 +82,7 @@ interface EditModalProps {
 }
 
 const EditBasketModal = ({ open }: EditModalProps) => {
-	const { editableBasketData } = useBasketStore()
+	const { editableBasketData, setTimeError } = useBasketStore()
 
 	const { token } = theme.useToken()
 
@@ -96,6 +97,14 @@ const EditBasketModal = ({ open }: EditModalProps) => {
 	const [optionType, setOptionType] = useState<string>('CE')
 	const [futureExpiryList] = useState<OptionObject[]>(futureExpiry)
 	const [optionExpiryList] = useState<OptionObject[]>(optionExpiry)
+	const [entryHourList, setEntryHourList] = useState<TimeHours[]>()
+	const [entryMinuteList, setEntryMinuteList] = useState<Time[]>()
+	const [currentEntryHour, setCurrentEntryHour] = useState<number>(0)
+	const [currentEntryMinute, setCurrentEntryMinute] = useState<number>(0)
+	const [exitHourList, setExitHourList] = useState<TimeHours[]>()
+	const [exitMinuteList, setExitMinuteList] = useState<Time[]>()
+	const [currentExitHour, setCurrentExitHour] = useState<number>(0)
+	const [currentExitMinute, setCurrentExitMinute] = useState<number>(0)
 	const [tradeOption, setTradeOption] = useState<string>(initialTrade)
 	const [tradeValue, setTradeValue] = useState<number>(1)
 	const [subTradeOption, setSubTradeOption] = useState<string>(initialSubTrade)
@@ -105,17 +114,26 @@ const EditBasketModal = ({ open }: EditModalProps) => {
 		useState<string>('Monthly')
 	const [optionExpiryBaseValue, setOptionExpiryBaseValue] =
 		useState<string>('Monthly')
-
-	const [entryHourList, setEntryHourList] = useState<TimeHours[]>()
-	const [entryMinuteList, setEntryMinuteList] = useState<Time[]>()
-	const [currentEntryHour, setCurrentEntryHour] = useState<number>()
-	const [currentEntryMinute, setCurrentEntryMinute] = useState<number>()
-
-	const [exitHourList, setExitHourList] = useState<TimeHours[]>()
-	const [exitMinuteList, setExitMinuteList] = useState<Time[]>()
-	const [currentExitHour, setCurrentExitHour] = useState<number>()
-	const [currentExitMinute, setCurrentExitMinute] = useState<number>()
-
+	//useEffect(()=>{},)
+	useEffect(() => {
+		const validate = timeValidator(
+			currentEntryHour,
+			currentExitHour,
+			currentEntryMinute,
+			currentExitMinute
+		)
+		if (validate) {
+			setTimeError(false)
+		} else {
+			setTimeError(true)
+		}
+	}, [
+		currentEntryHour,
+		currentExitHour,
+		currentEntryMinute,
+		currentExitMinute,
+		setTimeError,
+	])
 	const handleAfterClose = () => {
 		setBasket([])
 		setBasketTrade('')

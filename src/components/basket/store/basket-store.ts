@@ -11,10 +11,12 @@ type BasketState = {
 	editableBasketData: RunTimeBasketData
 	savedBaskets: RunTimeBasketData[]
 	closeModalConfirmation: boolean
+	timeError: boolean
 }
 
 type BasketStateActions = {
 	setExchange: (exchange: BasketState['exchange']) => void
+	setTimeError: (error: boolean) => void
 	setCreateBasketExchange: (exchange: BasketState['exchange']) => void
 	toggleSetBasketModalOpen: (
 		isAddBasketModalOpen: BasketState['isAddBasketModalOpen']
@@ -46,12 +48,13 @@ const defaultState: BasketState = {
 		error: false,
 	},
 	savedBaskets: [],
+	timeError: false,
 }
 
 export const useBasketStore = create<BasketState & BasketStateActions>()(
 	immer((set) => ({
 		...defaultState,
-
+		setTimeError: (timeError) => set({ timeError }),
 		toggleSetBasketModalOpen: (isAddBasketModalOpen) =>
 			set({ isAddBasketModalOpen }),
 		toogleEditModal: (isEditModalOpen) => set({ isEditModalOpen }),
