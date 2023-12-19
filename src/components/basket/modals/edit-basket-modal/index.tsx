@@ -40,6 +40,17 @@ const initialSubTrade = tradeTypeData[0].children[0].value
 const initialSubTradeList = tradeTypeData[0].children
 const initialTrade = tradeTypeData[0].value
 
+interface PersistedValues {
+	quantityValue: number
+	actionValue: string
+	optionType: string
+	tradeOption: string
+	subTradeOption: string
+	tradeValue: number
+	futureExpiryBaseValue: string
+	optionExpiryBaseValue: string
+}
+
 const defaultSpotPosition: BasketDataProps = {
 	id: generateUniqueId(),
 	qunatity: 1,
@@ -84,7 +95,8 @@ interface EditModalProps {
 }
 
 const EditBasketModal = ({ open }: EditModalProps) => {
-	const { editableBasketData, setTimeError, positionCopy } = useBasketStore()
+	const { editableBasketData, setTimeError, positionCopy, setPositionCopy } =
+		useBasketStore()
 
 	const { token } = theme.useToken()
 
@@ -110,6 +122,7 @@ const EditBasketModal = ({ open }: EditModalProps) => {
 	const [tradeOption, setTradeOption] = useState<string>(initialTrade)
 	const [tradeValue, setTradeValue] = useState<number>(1)
 	const [subTradeOption, setSubTradeOption] = useState<string>(initialSubTrade)
+	const [persistedValues, setPersistedValues] = useState<PersistedValues>()
 	const [subTradeOptionList, setSubTradeOptionList] =
 		useState<TradeOptions[]>(initialSubTradeList)
 	const [futureExpiryBaseValue, setFutureExpiryBaseValue] =
@@ -147,13 +160,20 @@ const EditBasketModal = ({ open }: EditModalProps) => {
 	}
 
 	useEffect(() => {
-		console.log(positionCopy)
-		if (!positionCopy) {
-			setActionValue('B')
-			setQuantityValue(1)
-			setFutureExpiryBaseValue('Monthly')
+		if (positionCopy) {
+			setQuantityValue(persistedValues?.quantityValue || 1)
+			setActionValue(persistedValues?.actionValue || 'B')
+			setOptionType(persistedValues?.optionType || 'CE')
+			setOptionExpiryBaseValue(
+				persistedValues?.optionExpiryBaseValue || 'Monthly'
+			)
+			setFutureExpiryBaseValue(
+				persistedValues?.futureExpiryBaseValue || 'Monthly'
+			)
+			setTradeValue(persistedValues?.tradeValue || 1)
+			setPositionCopy(false)
 		}
-	}, [positionCopy])
+	}, [positionCopy, setPositionCopy, persistedValues])
 
 	useEffect(() => {
 		if (basketTrade === 'NSE') {
@@ -293,21 +313,28 @@ const EditBasketModal = ({ open }: EditModalProps) => {
 	}
 
 	const handleCopyBasket = (id: string) => {
+		setPersistedValues({
+			quantityValue,
+			actionValue,
+			tradeOption,
+			subTradeOption,
+			tradeValue,
+			optionType,
+			optionExpiryBaseValue,
+			futureExpiryBaseValue,
+		})
 		const basketToBeCopied = basket.find((basket) => basket.id === id)
-
+		setPositionCopy(true)
 		if (basketToBeCopied) {
-			//setPositionCopy(true)
 			if (basketToBeCopied.type === 'spot') {
 				setActionValue(basketToBeCopied.action_type)
 				setQuantityValue(basketToBeCopied.qunatity)
-				//setPositionCopy(false)
 			} else if (basketToBeCopied.type === 'future') {
 				setActionValue(basketToBeCopied.action_type)
 				setQuantityValue(basketToBeCopied.qunatity)
 				setFutureExpiryBaseValue(
 					basketToBeCopied.expiry ? basketToBeCopied.expiry : 'Monthly'
 				)
-				//setPositionCopy(false)
 			} else if (basketToBeCopied.type === 'options') {
 				setActionValue(basketToBeCopied.action_type)
 				setOptionType(
@@ -332,7 +359,6 @@ const EditBasketModal = ({ open }: EditModalProps) => {
 				setOptionExpiryBaseValue(
 					basketToBeCopied.expiry ? basketToBeCopied.expiry : 'Monthly'
 				)
-				//setPositionCopy(false)
 			}
 
 			setBasket((prev) => [
