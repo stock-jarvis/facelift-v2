@@ -4,6 +4,7 @@ import {
 	DatePicker,
 	DatePickerProps,
 	TimePickerProps,
+	Button,
 } from 'antd'
 
 import Jump from './jump'
@@ -24,33 +25,40 @@ const ParamSelection = () => {
 	return (
 		<>
 			<Flex justify="space-between" align="center">
-				<ExchangeSelection />
+				<Flex flex={2} justify="space-between">
+					<ExchangeSelection />
 
-				<DatePicker
-					value={date}
-					format={DATE_TEMPLATE_WITH_DAY}
-					allowClear={false}
-					onChange={handleDateChange}
-					style={{
-						width: '150px',
-					}}
-				/>
+					<DatePicker
+						value={date}
+						format={DATE_TEMPLATE_WITH_DAY}
+						allowClear={false}
+						onChange={handleDateChange}
+						style={{
+							width: '150px',
+						}}
+					/>
 
-				<TimePicker
-					value={time}
-					allowClear={false}
-					onChange={handleTimeChange}
-					style={{
-						width: '110px',
-					}}
-				/>
+					<TimePicker
+						value={time}
+						allowClear={false}
+						onChange={handleTimeChange}
+						style={{
+							width: '110px',
+						}}
+					/>
+				</Flex>
 
-				<TimeMachine />
-				{/* Dummy Div to center time machine. Remove after adding new option */}
-				<div></div>
-				<Jump />
+				<Flex flex={2} justify="center">
+					<TimeMachine />
+				</Flex>
 
-				<Randomize />
+				<Flex flex={2} justify="space-between">
+					<Button type="primary">Quarterly Results</Button>
+
+					<Jump />
+
+					<Randomize />
+				</Flex>
 			</Flex>
 		</>
 	)

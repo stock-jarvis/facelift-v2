@@ -8,10 +8,10 @@ import {
 } from 'src/common/utils/date-time-utils'
 
 import { TradeAction } from 'src/common/enums'
-import { positionsMockData } from './mock-data'
+import { positionsMockData } from '../mock-data'
 
 import renderFooter from './footer'
-import ExitLots from './exit-lots'
+import ExitLots from '../exit-lots'
 import { renderTradeAction } from 'src/common/utils/render-utils'
 
 export type Position = {
