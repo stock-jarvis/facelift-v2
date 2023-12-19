@@ -1,10 +1,17 @@
 import { Flex, Button, theme, Typography, Input, Space, Tooltip } from 'antd'
 interface FooterPorps {
 	basketTrade: string
+	basketRepeat: string
 	basketName: string | undefined
 	identifier: number | undefined
 }
-const Footer = ({ basketName, identifier, basketTrade }: FooterPorps) => {
+const Footer = ({
+	basketName,
+	identifier,
+	basketTrade,
+	basketRepeat,
+}: FooterPorps) => {
+	console.log(basketTrade, basketRepeat)
 	const { token } = theme.useToken()
 	return (
 		<Flex
