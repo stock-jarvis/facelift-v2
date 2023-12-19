@@ -6,6 +6,7 @@ import {
 	SavedBasketsExitCondition,
 	SavedBasketsEntryCondition,
 	SavedBasketsObject,
+	PositionsObject,
 } from 'src/components/basket/types/types'
 import { useEffect, useState } from 'react'
 
@@ -94,21 +95,6 @@ const Footer = ({
 	currentExitHour,
 	currentExitMinute,
 }: FooterPorps) => {
-	// console.log(
-	// 	basketTrade,
-	// 	basketRepeat,
-	// 	atm,
-	// 	simpleType,
-	// 	id,
-	// 	instrument,
-	// 	basketMove,
-	// 	profitValue,
-	// 	lossValue,
-	// 	currentEntryHour,
-	// 	currentEntryMinute,
-	// 	currentExitHour,
-	// 	currentExitMinute
-	// )
 	const { token } = theme.useToken()
 	const { timeError, toggleTimeErrorModalOpen, setEmptyBasketError } =
 		useBasketStore()
@@ -119,6 +105,8 @@ const Footer = ({
 	const [basketExitConditions, setBasketExitConditions] =
 		useState<SavedBasketsExitCondition>()
 	const [savedBasket, setSavedBasket] = useState<SavedBasketsObject>()
+	// const[(basketPositionsList, setBasketPositionsList)] =
+	// 	useState<PositionsObject>()
 	useEffect(() => {
 		let entryHour: string
 		let entryMinute: string
@@ -198,7 +186,8 @@ const Footer = ({
 			savedBasket.exchange !== exchange ||
 			savedBasket.atm !== atm ||
 			savedBasket.entry_condition !== basketEntryConditions ||
-			savedBasket.exit_condition !== basketExitConditions
+			savedBasket.exit_condition !== basketExitConditions ||
+			savedBasket.positions !== basket
 		) {
 			setSavedBasket({
 				ticker: instrument,
@@ -206,6 +195,7 @@ const Footer = ({
 				exchange: exchange,
 				type: simpleType,
 				atm: atm,
+				positions: basket,
 				entry_condition: basketEntryConditions,
 				exit_condition: basketExitConditions,
 			})
@@ -215,28 +205,26 @@ const Footer = ({
 		atm,
 		exchange,
 		simpleType,
+		basket,
 		basketExitConditions,
 		savedBasket,
 		instrument,
 		id,
 	])
 
-	useEffect(() => {
-		console.log(savedBasket)
-	}, [savedBasket])
+	useEffect(() => {}, [basket])
+
+	// useEffect(() => {
+	// 	console.log(savedBasket)
+	// }, [savedBasket])
+
 	const handleSaveBasketClick = () => {
 		if (basket.length > 0) {
 			if (timeError) {
 				toggleTimeErrorModalOpen(true)
 			} else {
-				console.log('hello world!')
-				// setBasketEntryConditions(
-				// 	{
-				// 		type:basketTrade,
-				// 		total_loss:lossValue,
-				// 		total_profit:profitValue
-				// 	}
-				// )
+				console.log(savedBasket)
+				//console.log('hello world!')
 			}
 		} else {
 			setEmptyBasketError(true)

@@ -41,41 +41,54 @@ const initialTrade = tradeTypeData[0].value
 
 const defaultSpotPosition: BasketDataProps = {
 	id: generateUniqueId(),
-	qunatity: 1,
-	action_type: 'B',
-	stop_loss_value: 0,
-	total_profit_value: 0,
-	type: 'spot',
-	stop_loss_type: spotLossOptions[0].value,
-	total_profit_type: totalProfitOptions[0].value,
+	entry_condition: {
+		quantity: 1,
+		action_type: 'B',
+		position_type: 'spot',
+	},
+	exit_condition: {
+		total_profit: {
+			type: totalProfitOptions[0].value,
+			value: 0,
+		},
+		stop_loss: {
+			type: spotLossOptions[0].value,
+			value: 0,
+		},
+	},
 }
 
 const defaultFuturePosition: BasketDataProps = {
 	id: generateUniqueId(),
-	qunatity: 1,
-	action_type: 'B',
-	stop_loss_value: 0,
-	total_profit_value: 0,
-	type: 'future',
-	expiry: 'Monthly',
-	stop_loss_type: spotLossOptions[0].value,
-	total_profit_type: totalProfitOptions[0].value,
+	entry_condition: {
+		quantity: 1,
+		action_type: 'B',
+		position_type: 'future',
+		expiry: 'Monthly',
+	},
+	exit_condition: {
+		stop_loss: { value: 0, type: spotLossOptions[0].value },
+		total_profit: { value: 0, type: totalProfitOptions[0].value },
+	},
 }
 
 const defaultOptionsPosition: BasketDataProps = {
 	id: generateUniqueId(),
-	qunatity: 1,
-	action_type: 'B',
-	stop_loss_value: 0,
-	total_profit_value: 0,
-	stop_loss_type: spotLossOptions[0].value,
-	total_profit_type: totalProfitOptions[0].value,
-	option_type: 'CE',
-	type: 'options',
-	expiry: 'Monthly',
-	trade_type: tradeTypeData[0].value,
-	trade_type_params: tradeTypeData[0].children[0].value,
-	trade_type_value: 1,
+	entry_condition: {
+		quantity: 1,
+		action_type: 'B',
+		option_type: 'CE',
+		expiry: 'Monthly',
+		position_type: 'options',
+		trade_type: tradeTypeData[0].value,
+		trade_type_params: tradeTypeData[0].children[0].value,
+		trade_type_value: 0,
+	},
+
+	exit_condition: {
+		total_profit: { type: totalProfitOptions[0].value, value: 0 },
+		stop_loss: { type: spotLossOptions[0].value, value: 0 },
+	},
 }
 
 interface EditModalProps {
@@ -116,7 +129,7 @@ const EditBasketModal = ({ open }: EditModalProps) => {
 	const [currentEntryMinute, setCurrentEntryMinute] = useState<number>(0)
 
 	const [finalTradeType, setFinalTradeType] = useState<string>('SQAL')
-	const [persistedValues, setPersistedValues] = useState<PersistedValues>()
+	//const [persistedValues, setPersistedValues] = useState<PersistedValues>()
 	const [subTradeOption, setSubTradeOption] = useState<string>(initialSubTrade)
 	const [basketPositions, setBasketPositions] = useState<string>('INTRA')
 	const [basketTradeType, setBasketTradeType] =
@@ -136,7 +149,7 @@ const EditBasketModal = ({ open }: EditModalProps) => {
 		setTimeError
 	)
 	useEffect(() => {
-		console.log(basket)
+		//console.log(basket)
 	}, [basket])
 	useEffect(() => {
 		if (basketTradeType === 'Square of All Legs') {
@@ -146,19 +159,19 @@ const EditBasketModal = ({ open }: EditModalProps) => {
 		}
 	}, [basketTradeType])
 
-	usePersistState(
-		positionCopy,
-		setPositionCopy,
-		persistedValues,
-		setQuantityValue,
-		setActionValue,
-		setOptionType,
-		setOptionExpiryBaseValue,
-		setFutureExpiryBaseValue,
-		setTradeOption,
-		setSubTradeOption,
-		setTradeValue
-	)
+	// usePersistState(
+	// 	positionCopy,
+	// 	setPositionCopy,
+	// 	persistedValues,
+	// 	setQuantityValue,
+	// 	setActionValue,
+	// 	setOptionType,
+	// 	setOptionExpiryBaseValue,
+	// 	setFutureExpiryBaseValue,
+	// 	setTradeOption,
+	// 	setSubTradeOption,
+	// 	setTradeValue
+	// )
 	useMarketTimes(
 		basketTrade,
 		entryHourList,
@@ -258,51 +271,57 @@ const EditBasketModal = ({ open }: EditModalProps) => {
 	}
 
 	const handleCopyBasket = (id: string) => {
-		setPersistedValues({
-			quantityValue,
-			actionValue,
-			tradeOption,
-			subTradeOption,
-			tradeValue,
-			optionType,
-			optionExpiryBaseValue,
-			futureExpiryBaseValue,
-		})
+		// setPersistedValues({
+		// 	quantityValue,
+		// 	actionValue,
+		// 	tradeOption,
+		// 	subTradeOption,
+		// 	tradeValue,
+		// 	optionType,
+		// 	optionExpiryBaseValue,
+		// 	futureExpiryBaseValue,
+		// })
 		const basketToBeCopied = basket.find((basket) => basket.id === id)
 		setPositionCopy(true)
 		if (basketToBeCopied) {
-			if (basketToBeCopied.type === 'spot') {
-				setActionValue(basketToBeCopied.action_type)
-				setQuantityValue(basketToBeCopied.qunatity)
-			} else if (basketToBeCopied.type === 'future') {
-				setActionValue(basketToBeCopied.action_type)
-				setQuantityValue(basketToBeCopied.qunatity)
+			if (basketToBeCopied.entry_condition.position_type === 'spot') {
+				setActionValue(basketToBeCopied.entry_condition.action_type)
+				setQuantityValue(basketToBeCopied.entry_condition.quantity)
+			} else if (basketToBeCopied.entry_condition.position_type === 'future') {
+				setActionValue(basketToBeCopied.entry_condition.action_type)
+				setQuantityValue(basketToBeCopied.entry_condition.quantity)
 				setFutureExpiryBaseValue(
-					basketToBeCopied.expiry ? basketToBeCopied.expiry : 'Monthly'
+					basketToBeCopied.entry_condition.expiry
+						? basketToBeCopied.entry_condition.expiry
+						: 'Monthly'
 				)
-			} else if (basketToBeCopied.type === 'options') {
-				setActionValue(basketToBeCopied.action_type)
+			} else if (basketToBeCopied.entry_condition.position_type === 'options') {
+				setActionValue(basketToBeCopied.entry_condition.action_type)
 				setOptionType(
-					basketToBeCopied.option_type ? basketToBeCopied.option_type : 'CE'
+					basketToBeCopied.entry_condition.option_type
+						? basketToBeCopied.entry_condition.option_type
+						: 'CE'
 				)
 				setTradeOption(
-					basketToBeCopied.trade_type
-						? basketToBeCopied.trade_type
+					basketToBeCopied.entry_condition.trade_type
+						? basketToBeCopied.entry_condition.trade_type
 						: tradeTypeData[0].value
 				)
 				setSubTradeOption(
-					basketToBeCopied.trade_type_params
-						? basketToBeCopied.trade_type_params
+					basketToBeCopied.entry_condition.trade_type_params
+						? basketToBeCopied.entry_condition.trade_type_params
 						: tradeTypeData[0].children[0].value
 				)
 				setTradeValue(
-					basketToBeCopied.trade_type_value
-						? basketToBeCopied.trade_type_value
+					basketToBeCopied.entry_condition.trade_type_value
+						? basketToBeCopied.entry_condition.trade_type_value
 						: 1
 				)
-				setQuantityValue(basketToBeCopied.qunatity)
+				setQuantityValue(basketToBeCopied.entry_condition.quantity)
 				setOptionExpiryBaseValue(
-					basketToBeCopied.expiry ? basketToBeCopied.expiry : 'Monthly'
+					basketToBeCopied.entry_condition.expiry
+						? basketToBeCopied.entry_condition.expiry
+						: 'Monthly'
 				)
 			}
 
@@ -461,7 +480,7 @@ const EditBasketModal = ({ open }: EditModalProps) => {
 						</Flex>
 
 						{basket?.map((bask) =>
-							bask.type === 'spot' ? (
+							bask.entry_condition.position_type === 'spot' ? (
 								<SpotBasketDetail
 									key={bask.id}
 									id={bask.id}
@@ -473,7 +492,7 @@ const EditBasketModal = ({ open }: EditModalProps) => {
 									handleCopyBasket={handleCopyBasket}
 									handleDeleteBasket={handleDeleteBasket}
 								/>
-							) : bask.type === 'future' ? (
+							) : bask.entry_condition.position_type === 'future' ? (
 								<FututeBasketDetails
 									key={bask.id}
 									id={bask.id}
