@@ -14,7 +14,7 @@ import FutureBasketSelector from './modal-containers/future-basket-selector'
 import PositionSelector from './modal-containers/position-selector'
 import { generateUniqueId } from '../../common/utils/randomizer'
 import { useBasketStore } from '../../store/basket-store'
-import { timeValidator } from 'src/components/basket/common/utils/validate-time'
+import { useValidateTimes } from './modal-hooks/useValidateTimes'
 import {
 	futureExpiry,
 	optionExpiry,
@@ -33,6 +33,8 @@ import {
 	Time,
 } from '../../types/types'
 import { basketOptions } from '../../constants/data'
+import { useUndefinedSet } from './modal-hooks/useUndefinedSet'
+import { useUndefinedNumberedSet } from './modal-hooks/useUndefinedNumberSet'
 
 const initialSubTrade = tradeTypeData[0].children[0].value
 const initialSubTradeList = tradeTypeData[0].children
@@ -91,7 +93,7 @@ const EditBasketModal = ({ open }: EditModalProps) => {
 	const [instrument, setInstrument] = useState<string>()
 	const [basket, setBasket] = useState<BasketDataProps[]>([])
 	const [basketOption, setBasketOption] = useState<string>('spot')
-	const [basketIdentifier, setBasketIdentifier] = useState<number>()
+	const [basketIdentifier, setBasketIdentifier] = useState<number>(0)
 	const [quantityValue, setQuantityValue] = useState<number>(1)
 	const [actionValue, setActionValue] = useState<string>('B')
 	const [optionType, setOptionType] = useState<string>('CE')
@@ -114,26 +116,14 @@ const EditBasketModal = ({ open }: EditModalProps) => {
 		useState<string>('Monthly')
 	const [optionExpiryBaseValue, setOptionExpiryBaseValue] =
 		useState<string>('Monthly')
-	//useEffect(()=>{},)
-	useEffect(() => {
-		const validate = timeValidator(
-			currentEntryHour,
-			currentExitHour,
-			currentEntryMinute,
-			currentExitMinute
-		)
-		if (validate) {
-			setTimeError(false)
-		} else {
-			setTimeError(true)
-		}
-	}, [
+
+	useValidateTimes(
 		currentEntryHour,
 		currentExitHour,
 		currentEntryMinute,
 		currentExitMinute,
-		setTimeError,
-	])
+		setTimeError
+	)
 	const handleAfterClose = () => {
 		setBasket([])
 		setBasketTrade('')
@@ -246,28 +236,21 @@ const EditBasketModal = ({ open }: EditModalProps) => {
 		}
 	}, [basketTrade, exitHourList])
 
-	useEffect(() => {
-		if (!basketTrade) {
-			setBasketTrade(editableBasketData.exchange)
-		}
-	}, [editableBasketData, basketTrade])
-
-	useEffect(() => {
-		if (!basketIdentifier) {
-			setBasketIdentifier(editableBasketData.identifier)
-		}
-	}, [editableBasketData, basketIdentifier])
-
-	useEffect(() => {
-		if (!basketName) {
-			setBasketName(editableBasketData.name)
-		}
-	}, [editableBasketData, basketName])
-	useEffect(() => {
-		if (!instrument) {
-			setInstrument(editableBasketData.instrument)
-		}
-	}, [editableBasketData, instrument])
+	useUndefinedNumberedSet(
+		basketIdentifier,
+		editableBasketData,
+		'identifier',
+		setBasketIdentifier
+	)
+	useUndefinedSet(basketTrade, editableBasketData, 'exchange', setBasketTrade)
+	useUndefinedSet(basketName, editableBasketData, 'name', setBasketName)
+	useUndefinedSet(instrument, editableBasketData, 'instrument', setInstrument)
+	useUndefinedSet(
+		basketIdentifier,
+		editableBasketData,
+		'instrument',
+		setInstrument
+	)
 
 	const setToogleValue = (value: string) => {
 		value

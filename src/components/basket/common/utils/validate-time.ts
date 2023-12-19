@@ -4,9 +4,6 @@ export const timeValidator = (
 	entryMinute: number,
 	exitMinute: number
 ) => {
-	console.log('entry HOURS:', entryHour, entryMinute)
-	console.log('exit HOURS:', exitHour, exitMinute)
-
 	if (entryHour < exitHour) {
 		return true
 	}
