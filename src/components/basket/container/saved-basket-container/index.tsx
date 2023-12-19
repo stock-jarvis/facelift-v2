@@ -1,9 +1,11 @@
 import { Flex, theme, Typography } from 'antd'
 import ListItem from '../../common/basket-item/saved-basket-tem'
 import BasketExchange from '../../common/basket-exchange/exchange-selector'
-const index = () => {
+import { useState } from 'react'
+const Index = () => {
 	const { Text } = Typography
 	const { token } = theme.useToken()
+	const [exhange, setExchange] = useState<string>('NSE')
 	return (
 		<Flex
 			flex="1"
@@ -24,7 +26,10 @@ const index = () => {
 				</Text>
 			</Flex>
 			<div className="border-[2px] ">
-				<BasketExchange />
+				<BasketExchange
+					exchangeValue={exhange}
+					handleTradeChange={setExchange}
+				/>
 			</div>
 			<div className="overflow-hidden h-full shadow-xl p-[10px] border-[2px] border-solid">
 				<Flex
@@ -63,4 +68,4 @@ const index = () => {
 	)
 }
 
-export default index
+export default Index

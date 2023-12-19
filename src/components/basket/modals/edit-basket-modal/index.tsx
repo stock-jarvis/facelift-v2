@@ -170,6 +170,10 @@ const EditBasketModal = ({ open }: EditModalProps) => {
 			setFutureExpiryBaseValue(
 				persistedValues?.futureExpiryBaseValue || 'Monthly'
 			)
+			setTradeOption(persistedValues?.tradeOption || tradeTypeData[0].value)
+			setSubTradeOption(
+				persistedValues?.subTradeOption || tradeTypeData[0].children[0].value
+			)
 			setTradeValue(persistedValues?.tradeValue || 1)
 			setPositionCopy(false)
 		}
