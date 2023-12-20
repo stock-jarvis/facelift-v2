@@ -15,8 +15,9 @@ const TradeTypeItem = ({
 	const { token } = theme.useToken()
 	return (
 		<div
-			className={`p-[10px] flex flex-1 cursor-pointer justify-center items-center first:border-r-[2px] last:border-l-[2px]`}
+			className={` flex flex-1 cursor-pointer justify-center items-center first:border-r-[2px] last:border-l-[2px]`}
 			style={{
+				padding: token.paddingXS,
 				backgroundColor: type === exchangeValue ? token.colorPrimary : '#ffff',
 				color: type === exchangeValue ? '#ffff' : '#000000',
 			}}

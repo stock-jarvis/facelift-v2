@@ -70,7 +70,7 @@ const Index = () => {
 				/>
 			</Flex>
 			<Flex
-				className="border-[2px] border-solid"
+				//className="border-[2px] border-solid"
 				style={{
 					overflow: 'hidden',
 					height: '100%',
