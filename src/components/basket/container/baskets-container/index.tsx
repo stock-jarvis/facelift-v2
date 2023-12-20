@@ -36,6 +36,7 @@ const Index = () => {
 			addNewRuntimeBasket({
 				...duplicateBasket[duplicateBasket.length - 1],
 				id: generateUniqueId(),
+				error: false,
 				identifier: duplicateBasket[duplicateBasket.length - 1].identifier + 1,
 			})
 		}
