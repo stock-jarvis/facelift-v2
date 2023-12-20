@@ -1,6 +1,9 @@
 import { Spin } from 'antd'
 import { Suspense, lazy } from 'react'
 import { RouteObject } from 'react-router-dom'
+
+const App = lazy(() => import('src/app'))
+
 const HomePage = lazy(() => import('src/components/home/views/home-page'))
 const Pricing = lazy(() => import('src/components/home/views/pricing'))
 const Contact = lazy(() => import('src/components/home/views/contact'))
@@ -9,7 +12,7 @@ const Terms = lazy(() => import('src/components/home/views/terms-conditions'))
 const RefundPolicy = lazy(
 	() => import('src/components/home/views/refund-policy')
 )
-const Home = lazy(() => import('src/components/home'))
+// const Home = lazy(() => import('src/components/home'))
 const Simulator = lazy(() => import('src/components/simulator'))
 
 const FullscreenSpinner = () => <Spin tip="Loading..." fullscreen />
@@ -19,7 +22,7 @@ const routes: RouteObject[] = [
 		path: '/',
 		element: (
 			<Suspense fallback={<FullscreenSpinner />}>
-				<Home />
+				<App />
 			</Suspense>
 		),
 		children: [
@@ -71,15 +74,15 @@ const routes: RouteObject[] = [
 					</Suspense>
 				),
 			},
+			{
+				path: '/simulator',
+				element: (
+					<Suspense fallback={<FullscreenSpinner />}>
+						<Simulator />
+					</Suspense>
+				),
+			},
 		],
-	},
-	{
-		path: '/simulator',
-		element: (
-			<Suspense fallback={<FullscreenSpinner />}>
-				<Simulator />
-			</Suspense>
-		),
 	},
 ]
 

@@ -9,7 +9,7 @@ const TradeActionIndicator: React.FC<TradeActionIndicatorProps> = ({
 	tradeAction,
 }) => (
 	<Typography.Text
-		type={tradeAction === TradeAction.Buy ? 'success' : 'warning'}
+		type={tradeAction === TradeAction.Buy ? 'success' : 'danger'}
 	>
 		{tradeAction}
 	</Typography.Text>

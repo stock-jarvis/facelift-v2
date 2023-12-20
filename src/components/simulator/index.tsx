@@ -1,15 +1,15 @@
 import { Flex, theme } from 'antd'
 
 import LeftContent from './components/left-content'
-import ParamSelection from './components/param-selection'
 import RightContent from './components/right-content'
+import ParamSelection from './components/param-selection'
 
 const Simulator = () => {
 	const { token } = theme.useToken()
 	return (
 		<Flex
 			vertical
-			className="h-full"
+			className="w-full h-full"
 			style={{
 				padding: `${token.paddingContentVertical}px ${token.paddingContentHorizontalLG}px`,
 			}}

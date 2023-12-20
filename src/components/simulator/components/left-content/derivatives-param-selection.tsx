@@ -55,10 +55,11 @@ const DerivatiesParamSelection: React.FC<DerivatiesParamSelectionProps> = ({
 				value={selectedDerivativeMetric}
 				options={derivativeMetricOptions}
 				bordered={false}
-				placeholder="Select Metric"
+				// TODO: Triangle instead of Delta
+				placeholder="IV, OI, Δ"
 				onChange={handleChangeOption}
 				style={{
-					width: 130,
+					width: 100,
 					borderBottom: `${token.lineWidthBold}px solid ${token.colorPrimary}`,
 				}}
 			/>

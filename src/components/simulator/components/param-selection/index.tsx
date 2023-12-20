@@ -25,7 +25,7 @@ const ParamSelection = () => {
 	return (
 		<>
 			<Flex justify="space-between" align="center">
-				<Flex flex={2} justify="space-between">
+				<Flex flex={1} justify="space-between">
 					<ExchangeSelection />
 
 					<DatePicker
@@ -48,14 +48,14 @@ const ParamSelection = () => {
 					/>
 				</Flex>
 
-				<Flex flex={2} justify="center">
+				<Flex flex={1} justify="center">
 					<TimeMachine />
 				</Flex>
 
-				<Flex flex={2} justify="space-between">
-					<Button type="primary">Quarterly Results</Button>
-
+				<Flex flex={1} justify="space-between">
 					<Jump />
+
+					<Button type="primary">Quarterly Results</Button>
 
 					<Randomize />
 				</Flex>

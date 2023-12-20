@@ -5,8 +5,7 @@ import { useToggle } from 'src/common/utils/state-utils'
 import AlertsModal from './alerts-modal'
 
 const Alerts = () => {
-	// Dev
-	const [isAlertsModalOpen, toggleIsAlertsModalOpen] = useToggle(true)
+	const [isAlertsModalOpen, toggleIsAlertsModalOpen] = useToggle()
 
 	return (
 		<>
