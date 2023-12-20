@@ -20,10 +20,15 @@ type BasketState = {
 	closeModalConfirmation: boolean
 	createBasketExhange: ExchangeType
 	exchange: ExchangeType
-	savedBaskets: SavedBasketsObject[]
+
 	selectedBaskets: RunTimeBasketData[]
 	runtimeBasketList: RunTimeBasketData[]
 	editableBasketData: RunTimeBasketData
+
+	/* complete json of runtime genetrated baskets */
+	savedBaskets: SavedBasketsObject[]
+	//****this is for the pre load baskets rom backend */
+	storedBaskets: SavedBasketsObject[]
 }
 
 type BasketStateActions = {
@@ -34,6 +39,7 @@ type BasketStateActions = {
 	toggleSetBasketModalOpen: (
 		isAddBasketModalOpen: BasketState['isAddBasketModalOpen']
 	) => void
+	addToStoredBaskets: (basket: SavedBasketsObject) => void
 	addToSavedBasket: (basket: SavedBasketsObject) => void
 	toggleTimeErrorModalOpen: (timeErrorModalOpen: boolean) => void
 	handleDateChange: (startDate: string, endDate: string) => void
@@ -57,6 +63,7 @@ type BasketStateActions = {
 
 const defaultState: BasketState = {
 	runtimeBasketList: [],
+	storedBaskets: [],
 	startDate: '',
 	endDate: '',
 	selectedBaskets: [],
@@ -76,29 +83,7 @@ const defaultState: BasketState = {
 		identifier: 0,
 		error: false,
 	},
-	savedBaskets: [
-		// {
-		// 	id: '1',
-		// 	exchange: 'NSE',
-		// 	ticker: 'Ticker 1',
-		// 	type: 'INTRA',
-		// 	atm: 'Spot',
-		// },
-		// {
-		// 	id: '2',
-		// 	exchange: 'CUR',
-		// 	ticker: 'Ticker 1',
-		// 	type: 'INTRA',
-		// 	atm: 'Spot',
-		// },
-		// {
-		// 	id: '1',
-		// 	exchange: 'MCX',
-		// 	ticker: 'Ticker 1',
-		// 	type: 'INTRA',
-		// 	atm: 'Spot',
-		// },
-	],
+	savedBaskets: [],
 	timeError: false,
 	emptyBasketError: false,
 }
@@ -114,7 +99,23 @@ export const useBasketStore = create<BasketState & BasketStateActions>()(
 						void state.selectedBaskets.push(data)
 					}
 				}),
-
+			addToStoredBaskets: (basket: SavedBasketsObject) =>
+				set((state) => {
+					const checkIfExists = state.storedBaskets.find(
+						(b) => b.id === basket.id
+					)
+					if (checkIfExists) {
+						state.storedBaskets = state.storedBaskets.map((b) => {
+							if (b.id === basket.id) {
+								return basket
+							} else {
+								return b
+							}
+						})
+					} else {
+						void state.storedBaskets.push(basket)
+					}
+				}),
 			updateRuntimeBasketData: (
 				id: string,
 				exchange: string,

@@ -15,6 +15,7 @@ const Index = () => {
 		addNewRuntimeBasket,
 		savedBaskets,
 		toogleSaveError,
+		addToStoredBaskets,
 	} = useBasketStore()
 
 	const onHandleBasketEdit = (id: string) => {
@@ -42,6 +43,7 @@ const Index = () => {
 	const onHandleBaskeSave = (id: string) => {
 		const isBasketSaved = savedBaskets.find((basket) => basket.id === id)
 		if (isBasketSaved) {
+			addToStoredBaskets(isBasketSaved)
 			//TODO: Tie this up with the api
 			console.log('Tie this up with the api')
 		} else {

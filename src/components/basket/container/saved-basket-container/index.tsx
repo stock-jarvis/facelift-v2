@@ -14,7 +14,7 @@ type key = 'NSE' | 'CUR' | 'MCX'
 const Index = () => {
 	const { Text } = Typography
 	const { token } = theme.useToken()
-	const { savedBaskets } = useBasketStore()
+	const { storedBaskets } = useBasketStore()
 	const [exchange, setExchange] = useState<string>('NSE')
 	const [val, setVal] = useState<key>('NSE')
 	const [emptyBasketsCheck, setEmptyBasketChecks] = useState<EmptyBaskeyProps>({
@@ -22,17 +22,26 @@ const Index = () => {
 		CUR: true,
 		MCX: true,
 	})
-	useEffect(() => {
-		if (savedBaskets) {
-			const baskets = savedBaskets.find((b) => b.exchange === exchange)
 
-			if (!baskets) {
-				setEmptyBasketChecks((prev) => {
-					return { ...prev, [exchange]: false }
-				})
-			}
+	useEffect(() => {
+		const baskets = storedBaskets.find((b) => b.exchange === exchange)
+		console.log(baskets)
+		if (!baskets) {
+			setEmptyBasketChecks((prev) => {
+				return {
+					...prev,
+					[exchange]: false,
+				}
+			})
+		} else {
+			setEmptyBasketChecks((prev) => {
+				return {
+					...prev,
+					[exchange]: true,
+				}
+			})
 		}
-	}, [savedBaskets, exchange])
+	}, [storedBaskets, exchange])
 	useEffect(() => {
 		exchange === 'NSE'
 			? setVal('NSE')
@@ -40,8 +49,6 @@ const Index = () => {
 				? setVal('MCX')
 				: setVal('CUR')
 	}, [exchange])
-
-	//const [nseBaskets,setNseBaskets] = useState<string>('NSE') ||
 	return (
 		<Flex flex="1" vertical gap="middle" style={{ padding: token.paddingSM }}>
 			<Flex justify="center" style={{ padding: token.paddingXS }}>
@@ -81,14 +88,13 @@ const Index = () => {
 					}}
 					vertical
 				>
-					{savedBaskets.length === 0 ? (
+					{storedBaskets.length === 0 ? (
 						<EmptySavedBasket />
 					) : emptyBasketsCheck[val] ? (
 						<Flex vertical style={{ gap: token.paddingXS }}>
-							{savedBaskets.map(
+							{storedBaskets.map(
 								(basket) =>
-									basket.exchange === exchange &&
-									emptyBasketsCheck[val] && <ListItem key={basket.id} />
+									basket.exchange === exchange && <ListItem key={basket.id} />
 							)}
 						</Flex>
 					) : (

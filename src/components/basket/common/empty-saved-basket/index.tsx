@@ -6,7 +6,14 @@ const EmptyBasket = () => {
 	const { token } = theme.useToken()
 
 	return (
-		<Flex vertical gap={'middle'} justify="center" align="center" flex="1">
+		<Flex
+			vertical
+			gap={'middle'}
+			justify="center"
+			align="center"
+			flex="1"
+			className="select-none"
+		>
 			<Typography.Text
 				style={{
 					fontSize: token.fontSizeHeading4,
