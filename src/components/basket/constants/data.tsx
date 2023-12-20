@@ -128,21 +128,25 @@ export const savedIconsSections = [
 		key: 'edit',
 		icon: <FormOutlined />,
 		toolTipLabel: 'Edit Basket',
+		actionName: 'edit',
 	},
 	{
 		key: 'duplicate',
 		icon: <CopyOutlined />,
 		toolTipLabel: 'Make duplicate',
+		actionName: 'duplicate',
 	},
 	{
 		key: 'delete',
 		icon: <DeleteOutlined />,
 		toolTipLabel: 'Delete basket',
+		actionName: 'delete',
 	},
 	{
 		key: 'move',
 		icon: <ArrowRightOutlined />,
 		toolTipLabel: 'Move to runtime',
+		actionName: 'move',
 	},
 ]
 

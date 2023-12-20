@@ -74,8 +74,8 @@ const OptionBasketDetail = ({
 	const [totalProfitType, setTotalProfitType] = useState<string>(
 		totalProfitOptions[0].value
 	)
-	const [totalProfitValue, setTotalProfitValue] = useState<number>(1)
-	const [spotLossValue, setSpotLossValue] = useState<number>(1)
+	const [totalProfitValue, setTotalProfitValue] = useState<number>(0)
+	const [spotLossValue, setSpotLossValue] = useState<number>(0)
 
 	useValueChange(quantityValue, id, basket, handleEditBasket, 'quantity')
 	useValueChange(tradeValue, id, basket, handleEditBasket, 'trade_type_value')

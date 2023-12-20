@@ -108,6 +108,8 @@ export interface PositionsObject {
 }
 export interface SavedBasketsObject {
 	id: string
+	name?: string
+	identifier?: number
 	exchange: string
 	ticker: string
 	type: string

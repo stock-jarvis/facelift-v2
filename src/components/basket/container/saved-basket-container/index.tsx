@@ -25,7 +25,6 @@ const Index = () => {
 
 	useEffect(() => {
 		const baskets = storedBaskets.find((b) => b.exchange === exchange)
-		console.log(baskets)
 		if (!baskets) {
 			setEmptyBasketChecks((prev) => {
 				return {
@@ -94,7 +93,13 @@ const Index = () => {
 						<Flex vertical style={{ gap: token.paddingXS }}>
 							{storedBaskets.map(
 								(basket) =>
-									basket.exchange === exchange && <ListItem key={basket.id} />
+									basket.exchange === exchange && (
+										<ListItem
+											key={basket.id}
+											name={basket.name || ''}
+											identifier={basket.identifier || 0}
+										/>
+									)
 							)}
 						</Flex>
 					) : (

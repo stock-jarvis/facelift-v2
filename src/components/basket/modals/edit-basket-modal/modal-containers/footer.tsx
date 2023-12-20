@@ -142,12 +142,16 @@ const Footer = ({
 			savedBasket.exchange !== exchange ||
 			savedBasket.atm !== atm ||
 			savedBasket.entry_condition !== basketEntryConditions ||
+			savedBasket.name !== basketName ||
+			savedBasket.identifier !== identifier ||
 			savedBasket.exit_condition !== basketExitConditions ||
 			savedBasket.positions !== basket
 		) {
 			setSavedBasket({
 				ticker: instrument,
 				id: id,
+				name: basketName || '',
+				identifier: identifier || 0,
 				exchange: exchange,
 				type: simpleType,
 				atm: atm,
@@ -157,6 +161,8 @@ const Footer = ({
 			})
 		}
 	}, [
+		identifier,
+		basketName,
 		basketEntryConditions,
 		atm,
 		exchange,

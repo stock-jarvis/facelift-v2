@@ -23,14 +23,14 @@ const YeildButton = ({
 	const [buttonOpened, setButtonOpened] = useState(false)
 
 	const handleTypeChange: SelectProps['onChange'] = (value: string) => {
-		handleTargetValueChange(1)
+		handleTargetValueChange(0)
 		handleTargetTypeChange(value)
 	}
 	const handleInputChange: InputProps['onChange'] = (
 		e: ChangeEvent<HTMLInputElement>
 	) => {
 		if (+e.target.value <= 0) {
-			handleTargetValueChange(1)
+			handleTargetValueChange(0)
 		} else {
 			if (targetType === 'percent') {
 				if (+e.target.value > 100) {

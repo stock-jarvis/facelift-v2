@@ -20,11 +20,9 @@ type BasketState = {
 	closeModalConfirmation: boolean
 	createBasketExhange: ExchangeType
 	exchange: ExchangeType
-
 	selectedBaskets: RunTimeBasketData[]
 	runtimeBasketList: RunTimeBasketData[]
 	editableBasketData: RunTimeBasketData
-
 	/* complete json of runtime genetrated baskets */
 	savedBaskets: SavedBasketsObject[]
 	//****this is for the pre load baskets rom backend */
@@ -92,6 +90,7 @@ export const useBasketStore = create<BasketState & BasketStateActions>()(
 	immer(
 		devtools((set) => ({
 			...defaultState,
+
 			addToSelectedBaskets: (id: string) =>
 				set((state) => {
 					const data = state.runtimeBasketList.find((b) => b.id === id)
@@ -99,6 +98,7 @@ export const useBasketStore = create<BasketState & BasketStateActions>()(
 						void state.selectedBaskets.push(data)
 					}
 				}),
+
 			addToStoredBaskets: (basket: SavedBasketsObject) =>
 				set((state) => {
 					const checkIfExists = state.storedBaskets.find(
@@ -116,6 +116,7 @@ export const useBasketStore = create<BasketState & BasketStateActions>()(
 						void state.storedBaskets.push(basket)
 					}
 				}),
+
 			updateRuntimeBasketData: (
 				id: string,
 				exchange: string,
