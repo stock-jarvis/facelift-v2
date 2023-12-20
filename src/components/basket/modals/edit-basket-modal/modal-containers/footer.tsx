@@ -189,7 +189,7 @@ const Footer = ({
 		basketRepeat,
 		basketExitConditions,
 	])
-
+	//console.log()
 	useEffect(() => {
 		if (
 			!savedBasket ||
@@ -198,7 +198,8 @@ const Footer = ({
 			savedBasket.exchange !== exchange ||
 			savedBasket.atm !== atm ||
 			savedBasket.entry_condition !== basketEntryConditions ||
-			savedBasket.exit_condition !== basketExitConditions
+			savedBasket.exit_condition !== basketExitConditions ||
+			savedBasket.positions !== basket
 		) {
 			setSavedBasket({
 				ticker: instrument,
@@ -208,6 +209,7 @@ const Footer = ({
 				atm: atm,
 				entry_condition: basketEntryConditions,
 				exit_condition: basketExitConditions,
+				positions: basket,
 			})
 		}
 	}, [
@@ -215,6 +217,7 @@ const Footer = ({
 		atm,
 		exchange,
 		simpleType,
+		basket,
 		basketExitConditions,
 		savedBasket,
 		instrument,

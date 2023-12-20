@@ -140,9 +140,7 @@ const EditBasketModal = ({ open }: EditModalProps) => {
 		currentExitMinute,
 		setTimeError
 	)
-	useEffect(() => {
-		console.log(basket)
-	}, [basket])
+
 	useEffect(() => {
 		if (basketTradeType === 'Square of All Legs') {
 			setFinalTradeType('SQAL')

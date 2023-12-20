@@ -101,7 +101,7 @@ export interface PositionExitCondition {
 	total_profit: ProfitLossObject
 	stop_loss: ProfitLossObject
 }
-export interface PositionsOpbject {
+export interface PositionsObject {
 	id: string
 	entry_condition: PositionEntryCondition
 	exit_condition: PositionExitCondition
@@ -112,7 +112,7 @@ export interface SavedBasketsObject {
 	ticker: string
 	type: string
 	atm: string
-	positions?: PositionsOpbject[]
+	positions: BasketDataProps[]
 	entry_condition: SavedBasketsEntryCondition | undefined
 	exit_condition: SavedBasketsExitCondition | undefined
 }
