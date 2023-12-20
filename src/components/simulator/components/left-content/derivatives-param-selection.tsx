@@ -48,7 +48,7 @@ const DerivatiesParamSelection: React.FC<DerivatiesParamSelectionProps> = ({
 	return (
 		<Flex className="w-full" justify="space-between">
 			{/* // TODO: Wire up value and spot price link */}
-			<TitleLinkValue title="Spot Price" value="38750" />
+			<TitleLinkValue title="Spot Price" value="38725" />
 
 			<Select
 				allowClear
@@ -56,7 +56,7 @@ const DerivatiesParamSelection: React.FC<DerivatiesParamSelectionProps> = ({
 				options={derivativeMetricOptions}
 				bordered={false}
 				// TODO: Triangle instead of Delta
-				placeholder="IV, OI, Δ"
+				placeholder="IV, Δ, OI"
 				onChange={handleChangeOption}
 				style={{
 					width: 100,

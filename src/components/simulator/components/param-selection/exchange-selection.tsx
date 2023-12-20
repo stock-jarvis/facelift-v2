@@ -1,4 +1,4 @@
-import { Select, SelectProps } from 'antd'
+import { Select, SelectProps, theme } from 'antd'
 
 import { Exchange } from 'src/common/enums'
 import { useSimulatorParamsStore } from '../../store/simulator-params-store'
@@ -9,6 +9,8 @@ import { DefaultOptionType } from 'antd/es/select'
 type ExchangeSelectProps = SelectProps<Exchange, DefaultOptionType>
 
 const ExchangeSelection = () => {
+	const { token } = theme.useToken()
+
 	const { exchange, setExchange } = useSimulatorParamsStore()
 
 	const exchangeOptions = useMemo(
@@ -22,6 +24,10 @@ const ExchangeSelection = () => {
 
 	return (
 		<Select
+			style={{
+				border: `2px solid ${token.colorPrimaryHover}`,
+				borderRadius: token.borderRadiusLG,
+			}}
 			value={exchange}
 			options={exchangeOptions}
 			onChange={handleChangeExchange}

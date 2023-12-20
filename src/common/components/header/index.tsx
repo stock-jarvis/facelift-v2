@@ -10,10 +10,10 @@ const Header = () => {
 			justify="space-between"
 			align="center"
 			style={{
-				fontSize: `${token.fontSizeHeading2}px`,
 				height: `${token.sizeXXL}px`,
-				backgroundColor: '#043949',
-				padding: `0px ${token.paddingContentHorizontalLG}px`,
+				backgroundColor: token.colorWhite, //'#043949',
+				padding: `16px ${token.paddingContentHorizontalLG}px`,
+				boxShadow: 'rgba(149, 157, 165, 0.6) 0px 0px 18px',
 			}}
 		>
 			<Flex flex={2} align="center" justify="space-between">
@@ -27,7 +27,7 @@ const Header = () => {
 				<Flex gap={8}>
 					<Flex
 						style={{
-							color: token.colorWhite,
+							color: 'black',
 							fontSize: token.fontSizeHeading4,
 							fontWeight: token.fontWeightStrong,
 						}}

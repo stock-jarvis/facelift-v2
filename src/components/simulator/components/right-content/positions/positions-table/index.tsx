@@ -118,7 +118,7 @@ const PositionsTable = () => {
 			columns={columns}
 			pagination={false}
 			dataSource={positionsMockData}
-			scroll={{ y: 'calc(100vh - 330px)' }}
+			scroll={{ y: 'calc(100vh - 350px)' }}
 			footer={renderFooter}
 		/>
 	)

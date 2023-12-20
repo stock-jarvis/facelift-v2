@@ -25,8 +25,9 @@ const ParamSelection = () => {
 	return (
 		<>
 			<Flex justify="space-between" align="center">
-				<Flex flex={1} justify="space-between">
+				<Flex flex={1.3} justify="space-between">
 					<ExchangeSelection />
+					<Flex align="center">Bank Nifty ATM CE | PE IV : 29.56</Flex>
 
 					<DatePicker
 						value={date}
@@ -52,10 +53,12 @@ const ParamSelection = () => {
 					<TimeMachine />
 				</Flex>
 
-				<Flex flex={1} justify="space-between">
+				<Flex flex={1.3} justify="space-between">
 					<Jump />
 
-					<Button type="primary">Quarterly Results</Button>
+					<Flex align="center">India VIX : 22.56</Flex>
+
+					<Button type="default">Quarterly Results</Button>
 
 					<Randomize />
 				</Flex>
