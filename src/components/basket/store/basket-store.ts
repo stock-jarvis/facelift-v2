@@ -17,6 +17,9 @@ type BasketState = {
 	timeError: boolean
 	positionCopy: boolean
 	emptyBasketError: boolean
+	selectedBaskets: RunTimeBasketData[]
+	startDate: string
+	endDate: string
 }
 
 type BasketStateActions = {
@@ -28,7 +31,7 @@ type BasketStateActions = {
 	) => void
 	setEmptyBasketError: (error: boolean) => void
 	toggleTimeErrorModalOpen: (timeErrorModalOpen: boolean) => void
-
+	handleDateChange: (startDate: string, endDate: string) => void
 	resetEditablebasket: () => void
 	closeEditConfirmation: (value: boolean) => void
 	addNewRuntimeBasket: (basket: RunTimeBasketData) => void
@@ -38,10 +41,15 @@ type BasketStateActions = {
 	setEditableBasket: (id: string) => void
 	toogleSaveError: (id: string, error: boolean) => void
 	setPositionCopy: (val: boolean) => void
+	addToSelectedBaskets: (id: string) => void
+	filterSelectedBaskets: (id: string) => void
 }
 
 const defaultState: BasketState = {
 	runtimeBasketList: [],
+	startDate: '',
+	endDate: '',
+	selectedBaskets: [],
 	duplicateError: false,
 	isEditModalOpen: false,
 	positionCopy: false,
@@ -50,6 +58,7 @@ const defaultState: BasketState = {
 	isAddBasketModalOpen: false,
 	timeErrorModalOpen: false,
 	closeModalConfirmation: false,
+
 	editableBasketData: {
 		id: '',
 		name: '',
@@ -67,6 +76,19 @@ export const useBasketStore = create<BasketState & BasketStateActions>()(
 	immer(
 		devtools((set) => ({
 			...defaultState,
+			addToSelectedBaskets: (id: string) =>
+				set((state) => {
+					const data = state.runtimeBasketList.find((b) => b.id === id)
+					if (data) {
+						void state.selectedBaskets.push(data)
+					}
+				}),
+			filterSelectedBaskets: (id: string) =>
+				set((state) => {
+					state.selectedBaskets = state.selectedBaskets.filter(
+						(b) => b.id !== id
+					)
+				}),
 			setTimeError: (timeError) => set({ timeError }),
 			setEmptyBasketError: (emptyBasketError) => set({ emptyBasketError }),
 			resetEditablebasket: () =>
@@ -133,6 +155,11 @@ export const useBasketStore = create<BasketState & BasketStateActions>()(
 			closeEditConfirmation: (value: boolean) =>
 				set((state) => {
 					state.closeModalConfirmation = value
+				}),
+			handleDateChange: (startDate: string, endDate: string) =>
+				set((state) => {
+					state.startDate = startDate
+					state.endDate = endDate
 				}),
 		}))
 	)

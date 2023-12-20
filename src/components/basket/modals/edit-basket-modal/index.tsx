@@ -213,7 +213,6 @@ const EditBasketModal = ({ open }: EditModalProps) => {
 	const handleAfterClose = () => {
 		resetEditablebasket()
 		setBasket([])
-		setBasketTrade('')
 		setInstrument('')
 		setBasketOption('spot')
 		setQuantityValue(1)

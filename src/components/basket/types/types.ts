@@ -58,6 +58,11 @@ export interface RunTimeBasketData {
 	identifier: number
 	error: boolean
 }
+export interface Date {
+	day: string
+	month: string
+	string: string
+}
 
 export interface Time {
 	label: string

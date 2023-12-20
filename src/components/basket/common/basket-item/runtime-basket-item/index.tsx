@@ -19,11 +19,20 @@ const BasketItem = ({
 	handleOnClickAction,
 }: RuntimeBasketItemProps) => {
 	const { token } = theme.useToken()
-	const { runtimeBasketList } = useBasketStore()
+	const [itemSelected, setItemSelected] = useState(false)
+	const { runtimeBasketList, addToSelectedBaskets, filterSelectedBaskets } =
+		useBasketStore()
 	const [error, setError] = useState<boolean>(false)
 	const handleActionClicked = (actionType: string) => {
 		handleOnClickAction(id, actionType, name)
 	}
+	useEffect(() => {
+		if (itemSelected) {
+			addToSelectedBaskets(id)
+		} else if (!itemSelected) {
+			filterSelectedBaskets(id)
+		}
+	}, [itemSelected, addToSelectedBaskets, filterSelectedBaskets, id])
 
 	useEffect(() => {
 		const basketIndex = runtimeBasketList.findIndex(
@@ -48,7 +57,12 @@ const BasketItem = ({
 				}}
 				className={`border-[1px] select-none}`}
 			>
-				<Checkbox />
+				<Checkbox
+					checked={itemSelected}
+					onChange={() => {
+						setItemSelected(!itemSelected)
+					}}
+				/>
 			</Flex>
 			<NameSection exchange={exchange} name={name} identifier={identifier} />
 			<ActionSection
