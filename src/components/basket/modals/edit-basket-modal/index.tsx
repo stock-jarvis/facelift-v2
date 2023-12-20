@@ -83,8 +83,13 @@ interface EditModalProps {
 }
 
 const EditBasketModal = ({ open }: EditModalProps) => {
-	const { editableBasketData, setTimeError, positionCopy, setPositionCopy } =
-		useBasketStore()
+	const {
+		editableBasketData,
+		setTimeError,
+		positionCopy,
+		setPositionCopy,
+		resetEditablebasket,
+	} = useBasketStore()
 
 	const { token } = theme.useToken()
 
@@ -136,7 +141,7 @@ const EditBasketModal = ({ open }: EditModalProps) => {
 		setTimeError
 	)
 	useEffect(() => {
-		console.log(basket)
+		//	console.log(basket)
 	}, [basket])
 	useEffect(() => {
 		if (basketTradeType === 'Square of All Legs') {
@@ -206,6 +211,7 @@ const EditBasketModal = ({ open }: EditModalProps) => {
 	}
 
 	const handleAfterClose = () => {
+		resetEditablebasket()
 		setBasket([])
 		setBasketTrade('')
 		setInstrument('')
@@ -213,6 +219,9 @@ const EditBasketModal = ({ open }: EditModalProps) => {
 		setQuantityValue(1)
 		setActionValue('B')
 		setOptionType('CE')
+		setBasketTrade('')
+		setBasketName('')
+		setBasketIdentifier(0)
 		setTradeOption(initialTrade)
 		setSubTradeOption(initialSubTrade)
 		setSubTradeOptionList(initialSubTradeList)

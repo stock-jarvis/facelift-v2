@@ -23,7 +23,7 @@ const Basket = () => {
 	} = useBasketStore()
 
 	useEffect(() => {
-		console.log(runtimeBasketList)
+		//		console.log(runtimeBasketList)
 	}, [runtimeBasketList])
 
 	const handleCloseConfirmModal = (val: boolean) => {
