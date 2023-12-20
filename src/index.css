@@ -7,3 +7,13 @@
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
 }
+
+#root {
+	height: 100vh;
+}
+
+body {
+	padding: 0;
+	margin: 0;
+	height: 100vh;
+}
