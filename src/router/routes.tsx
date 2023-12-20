@@ -83,23 +83,15 @@ const routes: RouteObject[] = [
 					</Suspense>
 				),
 			},
+			{
+				path: '/basket',
+				element: (
+					<Suspense fallback={<FullscreenSpinner />}>
+						<Basket />
+					</Suspense>
+				),
+			},
 		],
-	},
-	{
-		path: '/simulator',
-		element: (
-			<Suspense fallback={<div>Loader</div>}>
-				<Simulator />
-			</Suspense>
-		),
-	},
-	{
-		path: '/basket',
-		element: (
-			<Suspense fallback={<div>Loader</div>}>
-				<Basket />
-			</Suspense>
-		),
 	},
 ]
 

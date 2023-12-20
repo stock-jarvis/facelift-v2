@@ -19,7 +19,7 @@ const Header = () => {
 			<Flex flex={2} align="center" justify="space-between">
 				<StockJarvisNavLink to="/simulator">Simulation</StockJarvisNavLink>
 
-				<StockJarvisNavLink to="/not-found">Basket</StockJarvisNavLink>
+				<StockJarvisNavLink to="/basket">Basket</StockJarvisNavLink>
 
 				<StockJarvisNavLink to="/not-found">AI Strategies</StockJarvisNavLink>
 			</Flex>
