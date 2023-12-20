@@ -1,11 +1,7 @@
 import { useEffect } from 'react'
 import { BasketDataProps } from 'src/components/basket/types/types'
 
-type keyValue =
-	| 'qunatity'
-	| 'trade_type_value'
-	| 'stop_loss_value'
-	| 'total_profit_value'
+type keyValue = 'quantity' | 'trade_type_value'
 
 export const useValueChange = (
 	value: number,
@@ -18,11 +14,20 @@ export const useValueChange = (
 		const basketItem = basket.findIndex((b) => b.id === id)
 
 		if (basketItem !== -1) {
-			if (basket[basketItem][key] !== value) {
+			if (basket[basketItem].entry_condition[key] !== value) {
 				editBasket(
 					basket.map((bask) => {
 						if (bask.id === id) {
-							bask[key] = value
+							if (bask.entry_condition[key] !== value) {
+								const updatedBasket: BasketDataProps = {
+									...bask,
+									entry_condition: {
+										...bask.entry_condition,
+										[key]: value,
+									},
+								}
+								return updatedBasket
+							}
 							return bask
 						} else {
 							return bask

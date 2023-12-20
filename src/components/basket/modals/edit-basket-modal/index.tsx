@@ -19,13 +19,7 @@ import { useBasketStore } from '../../store/basket-store'
 import { usePersistState } from './modal-hooks/usePersistState'
 import { useValidateTimes } from './modal-hooks/useValidateTimes'
 import { useMarketTimes } from './modal-hooks/useMarketTime'
-import {
-	futureExpiry,
-	optionExpiry,
-	tradeTypeData,
-	totalProfitOptions,
-	spotLossOptions,
-} from '../../constants/data'
+import { futureExpiry, optionExpiry, tradeTypeData } from '../../constants/data'
 import {
 	OptionObject,
 	TradeOptions,
@@ -41,41 +35,47 @@ const initialTrade = tradeTypeData[0].value
 
 const defaultSpotPosition: BasketDataProps = {
 	id: generateUniqueId(),
-	qunatity: 1,
-	action_type: 'B',
-	stop_loss_value: 0,
-	total_profit_value: 0,
 	type: 'spot',
-	stop_loss_type: spotLossOptions[0].value,
-	total_profit_type: totalProfitOptions[0].value,
+	entry_condition: {
+		quantity: 1,
+		action_type: 'B',
+	},
+	exit_condition: {
+		stop_loss: { type: 'percent', value: 0 },
+		total_profit: { type: 'percent', value: 0 },
+	},
 }
 
 const defaultFuturePosition: BasketDataProps = {
 	id: generateUniqueId(),
-	qunatity: 1,
-	action_type: 'B',
-	stop_loss_value: 0,
-	total_profit_value: 0,
 	type: 'future',
-	expiry: 'Monthly',
-	stop_loss_type: spotLossOptions[0].value,
-	total_profit_type: totalProfitOptions[0].value,
+	entry_condition: {
+		quantity: 1,
+		action_type: 'B',
+		expiry: 'Monthly',
+	},
+	exit_condition: {
+		stop_loss: { type: 'percent', value: 0 },
+		total_profit: { type: 'percent', value: 0 },
+	},
 }
 
 const defaultOptionsPosition: BasketDataProps = {
 	id: generateUniqueId(),
-	qunatity: 1,
-	action_type: 'B',
-	stop_loss_value: 0,
-	total_profit_value: 0,
-	stop_loss_type: spotLossOptions[0].value,
-	total_profit_type: totalProfitOptions[0].value,
-	option_type: 'CE',
 	type: 'options',
-	expiry: 'Monthly',
-	trade_type: tradeTypeData[0].value,
-	trade_type_params: tradeTypeData[0].children[0].value,
-	trade_type_value: 1,
+	entry_condition: {
+		quantity: 1,
+		action_type: 'B',
+		expiry: 'Monthly',
+		option_type: 'CE',
+		trade_type: tradeTypeData[0].value,
+		trade_type_params: tradeTypeData[0].children[0].value,
+		trade_type_value: 1,
+	},
+	exit_condition: {
+		stop_loss: { type: 'percent', value: 0 },
+		total_profit: { type: 'percent', value: 0 },
+	},
 }
 
 interface EditModalProps {
@@ -141,7 +141,7 @@ const EditBasketModal = ({ open }: EditModalProps) => {
 		setTimeError
 	)
 	useEffect(() => {
-		//	console.log(basket)
+		console.log(basket)
 	}, [basket])
 	useEffect(() => {
 		if (basketTradeType === 'Square of All Legs') {
@@ -280,37 +280,43 @@ const EditBasketModal = ({ open }: EditModalProps) => {
 		setPositionCopy(true)
 		if (basketToBeCopied) {
 			if (basketToBeCopied.type === 'spot') {
-				setActionValue(basketToBeCopied.action_type)
-				setQuantityValue(basketToBeCopied.qunatity)
+				setActionValue(basketToBeCopied.entry_condition.action_type)
+				setQuantityValue(basketToBeCopied.entry_condition.quantity)
 			} else if (basketToBeCopied.type === 'future') {
-				setActionValue(basketToBeCopied.action_type)
-				setQuantityValue(basketToBeCopied.qunatity)
+				setActionValue(basketToBeCopied.entry_condition.action_type)
+				setQuantityValue(basketToBeCopied.entry_condition.quantity)
 				setFutureExpiryBaseValue(
-					basketToBeCopied.expiry ? basketToBeCopied.expiry : 'Monthly'
+					basketToBeCopied.entry_condition.expiry
+						? basketToBeCopied.entry_condition.expiry
+						: 'Monthly'
 				)
 			} else if (basketToBeCopied.type === 'options') {
-				setActionValue(basketToBeCopied.action_type)
+				setActionValue(basketToBeCopied.entry_condition.action_type)
 				setOptionType(
-					basketToBeCopied.option_type ? basketToBeCopied.option_type : 'CE'
+					basketToBeCopied.entry_condition.option_type
+						? basketToBeCopied.entry_condition.option_type
+						: 'CE'
 				)
 				setTradeOption(
-					basketToBeCopied.trade_type
-						? basketToBeCopied.trade_type
+					basketToBeCopied.entry_condition.trade_type
+						? basketToBeCopied.entry_condition.trade_type
 						: tradeTypeData[0].value
 				)
 				setSubTradeOption(
-					basketToBeCopied.trade_type_params
-						? basketToBeCopied.trade_type_params
+					basketToBeCopied.entry_condition.trade_type_params
+						? basketToBeCopied.entry_condition.trade_type_params
 						: tradeTypeData[0].children[0].value
 				)
 				setTradeValue(
-					basketToBeCopied.trade_type_value
-						? basketToBeCopied.trade_type_value
+					basketToBeCopied.entry_condition.trade_type_value
+						? basketToBeCopied.entry_condition.trade_type_value
 						: 1
 				)
-				setQuantityValue(basketToBeCopied.qunatity)
+				setQuantityValue(basketToBeCopied.entry_condition.quantity)
 				setOptionExpiryBaseValue(
-					basketToBeCopied.expiry ? basketToBeCopied.expiry : 'Monthly'
+					basketToBeCopied.entry_condition.expiry
+						? basketToBeCopied.entry_condition.expiry
+						: 'Monthly'
 				)
 			}
 

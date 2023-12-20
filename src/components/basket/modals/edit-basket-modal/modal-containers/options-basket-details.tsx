@@ -9,6 +9,8 @@ import StrikeSelector from '../modal-components/strike-selector'
 import { useValueChange } from '../modal-hooks/useValueChange'
 import { useActionChange } from '../modal-hooks/useActionChange'
 import { useTypeChange } from '../modal-hooks/useTypeChange'
+import { useExitTypeChange } from '../modal-hooks/useExitTypeChange'
+import { useExitValueChange } from '../modal-hooks/useExitValueChange'
 import { useState } from 'react'
 import {
 	OptionObject,
@@ -75,34 +77,35 @@ const OptionBasketDetail = ({
 	const [totalProfitValue, setTotalProfitValue] = useState<number>(1)
 	const [spotLossValue, setSpotLossValue] = useState<number>(1)
 
-	useValueChange(quantityValue, id, basket, handleEditBasket, 'qunatity')
+	useValueChange(quantityValue, id, basket, handleEditBasket, 'quantity')
 	useValueChange(tradeValue, id, basket, handleEditBasket, 'trade_type_value')
-	useValueChange(
-		totalProfitValue,
-		id,
-		basket,
-		handleEditBasket,
-		'total_profit_value'
-	)
-	useValueChange(spotLossValue, id, basket, handleEditBasket, 'stop_loss_value')
 	useActionChange(actionValue, id, basket, handleEditBasket, 'action_type')
 	useActionChange(optionType, id, basket, handleEditBasket, 'option_type')
 	useTypeChange(tradeOption, id, basket, handleEditBasket, 'trade_type')
 	useTypeChange(expiryValue, id, basket, handleEditBasket, 'expiry')
-	useTypeChange(spotLossType, id, basket, handleEditBasket, 'stop_loss_type')
-	useTypeChange(
-		totalProfitType,
-		id,
-		basket,
-		handleEditBasket,
-		'total_profit_type'
-	)
 	useTypeChange(
 		subTradeOption,
 		id,
 		basket,
 		handleEditBasket,
 		'trade_type_params'
+	)
+
+	useExitValueChange(
+		totalProfitValue,
+		id,
+		basket,
+		handleEditBasket,
+		'total_profit'
+	)
+	useExitValueChange(spotLossValue, id, basket, handleEditBasket, 'stop_loss')
+	useExitTypeChange(spotLossType, id, basket, handleEditBasket, 'stop_loss')
+	useExitTypeChange(
+		totalProfitType,
+		id,
+		basket,
+		handleEditBasket,
+		'total_profit'
 	)
 
 	return (
