@@ -9,8 +9,6 @@ import StrikeSelector from '../modal-components/strike-selector'
 import { useValueChange } from '../modal-hooks/useValueChange'
 import { useActionChange } from '../modal-hooks/useActionChange'
 import { useTypeChange } from '../modal-hooks/useTypeChange'
-import { useEntryTypeChange } from '../modal-hooks/useEntryTypeChange'
-
 import { useState } from 'react'
 import {
 	OptionObject,
@@ -21,7 +19,6 @@ import {
 	spotLossOptions,
 	totalProfitOptions,
 } from 'src/components/basket/constants/data'
-import { useExitValueChange } from '../modal-hooks/useExitValueChange'
 interface OptionDetailsProps {
 	id: string
 	baseQuanity: number
@@ -78,24 +75,29 @@ const OptionBasketDetail = ({
 	const [totalProfitValue, setTotalProfitValue] = useState<number>(1)
 	const [spotLossValue, setSpotLossValue] = useState<number>(1)
 
-	useValueChange(quantityValue, id, basket, handleEditBasket, 'quantity')
+	useValueChange(quantityValue, id, basket, handleEditBasket, 'qunatity')
 	useValueChange(tradeValue, id, basket, handleEditBasket, 'trade_type_value')
-
-	useExitValueChange(
+	useValueChange(
 		totalProfitValue,
 		id,
 		basket,
 		handleEditBasket,
-		'total_profit'
+		'total_profit_value'
 	)
-	useExitValueChange(spotLossValue, id, basket, handleEditBasket, 'stop_loss')
+	useValueChange(spotLossValue, id, basket, handleEditBasket, 'stop_loss_value')
 	useActionChange(actionValue, id, basket, handleEditBasket, 'action_type')
 	useActionChange(optionType, id, basket, handleEditBasket, 'option_type')
-	useTypeChange(spotLossType, id, basket, handleEditBasket, 'stop_loss')
-	useTypeChange(totalProfitType, id, basket, handleEditBasket, 'total_profit')
-	useEntryTypeChange(tradeOption, id, basket, handleEditBasket, 'trade_type')
-	useEntryTypeChange(expiryValue, id, basket, handleEditBasket, 'expiry')
-	useEntryTypeChange(
+	useTypeChange(tradeOption, id, basket, handleEditBasket, 'trade_type')
+	useTypeChange(expiryValue, id, basket, handleEditBasket, 'expiry')
+	useTypeChange(spotLossType, id, basket, handleEditBasket, 'stop_loss_type')
+	useTypeChange(
+		totalProfitType,
+		id,
+		basket,
+		handleEditBasket,
+		'total_profit_type'
+	)
+	useTypeChange(
 		subTradeOption,
 		id,
 		basket,

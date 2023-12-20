@@ -4,7 +4,7 @@ import QuantityInput from '../modal-components/quantity-input'
 import ActionSelector from '../modal-components/action-selector'
 import YeildButton from '../modal-components/yeild-button'
 import { Flex } from 'antd'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { BasketDataProps } from 'src/components/basket/types/types'
 import {
 	spotLossOptions,
@@ -12,7 +12,6 @@ import {
 } from 'src/components/basket/constants/data'
 import { useValueChange } from '../modal-hooks/useValueChange'
 import { useActionChange } from '../modal-hooks/useActionChange'
-import { useExitValueChange } from '../modal-hooks/useExitValueChange'
 import { useTypeChange } from '../modal-hooks/useTypeChange'
 interface SpotDetailsProps {
 	handleDeleteBasket: (val: string) => void
@@ -47,18 +46,28 @@ const SpotBasketDetail = ({
 	const [totalProfitValue, setTotalProfitValue] = useState<number>(1)
 	const [spotLossValue, setSpotLossValue] = useState<number>(1)
 
-	useValueChange(quantityValue, id, basket, handleEditBasket, 'quantity')
+	useEffect(() => {
+		console.log(quantityValue)
+	}, [quantityValue])
+
+	useValueChange(quantityValue, id, basket, handleEditBasket, 'qunatity')
 	useActionChange(actionValue, id, basket, handleEditBasket, 'action_type')
-	useExitValueChange(
+	useValueChange(
 		totalProfitValue,
 		id,
 		basket,
 		handleEditBasket,
-		'total_profit'
+		'total_profit_value'
 	)
-	useExitValueChange(spotLossValue, id, basket, handleEditBasket, 'stop_loss')
-	useTypeChange(spotLossType, id, basket, handleEditBasket, 'stop_loss')
-	useTypeChange(totalProfitType, id, basket, handleEditBasket, 'total_profit')
+	useValueChange(spotLossValue, id, basket, handleEditBasket, 'stop_loss_value')
+	useTypeChange(spotLossType, id, basket, handleEditBasket, 'stop_loss_type')
+	useTypeChange(
+		totalProfitType,
+		id,
+		basket,
+		handleEditBasket,
+		'total_profit_type'
+	)
 
 	return (
 		<DetailBasketHolder

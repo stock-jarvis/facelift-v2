@@ -9,8 +9,7 @@ import ExpirySelector from '../modal-components/expiry-selector'
 import { useValueChange } from '../modal-hooks/useValueChange'
 import { useActionChange } from '../modal-hooks/useActionChange'
 import { useTypeChange } from '../modal-hooks/useTypeChange'
-import { useExitValueChange } from '../modal-hooks/useExitValueChange'
-import { useEntryTypeChange } from '../modal-hooks/useEntryTypeChange'
+
 import {
 	OptionObject,
 	BasketDataProps,
@@ -56,19 +55,26 @@ const FututeBasketDetails = ({
 	const [totalProfitValue, setTotalProfitValue] = useState<number>(1)
 	const [spotLossValue, setSpotLossValue] = useState<number>(1)
 
-	useValueChange(quantityValue, id, basket, handleEditBasket, 'quantity')
+	useValueChange(quantityValue, id, basket, handleEditBasket, 'qunatity')
 	useActionChange(actionValue, id, basket, handleEditBasket, 'action_type')
-	useEntryTypeChange(expirtyValue, id, basket, handleEditBasket, 'expiry')
-	useTypeChange(spotLossType, id, basket, handleEditBasket, 'stop_loss')
-	useTypeChange(totalProfitType, id, basket, handleEditBasket, 'total_profit')
-	useExitValueChange(
+	useTypeChange(expirtyValue, id, basket, handleEditBasket, 'expiry')
+	useTypeChange(spotLossType, id, basket, handleEditBasket, 'stop_loss_type')
+	useTypeChange(
+		totalProfitType,
+		id,
+		basket,
+		handleEditBasket,
+		'total_profit_type'
+	)
+
+	useValueChange(
 		totalProfitValue,
 		id,
 		basket,
 		handleEditBasket,
-		'total_profit'
+		'total_profit_value'
 	)
-	useExitValueChange(spotLossValue, id, basket, handleEditBasket, 'stop_loss')
+	useValueChange(spotLossValue, id, basket, handleEditBasket, 'stop_loss_value')
 
 	return (
 		<DetailBasketHolder

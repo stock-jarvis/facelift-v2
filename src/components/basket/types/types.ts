@@ -18,6 +18,21 @@ export interface TradeOptions {
 	label: string
 	value: string
 }
+export interface BasketDataProps {
+	qunatity: number
+	type: string
+	id: string
+	stop_loss_value: number
+	total_profit_value: number
+	stop_loss_type: string
+	total_profit_type: string
+	action_type: string
+	option_type?: string
+	expiry?: string
+	trade_type?: string
+	trade_type_params?: string
+	trade_type_value?: number
+}
 
 export interface OptionsBasket {
 	qunatity: number
@@ -86,23 +101,17 @@ export interface PositionEntryCondition {
 	quantity: number
 	position_type: string
 	action_type: string
-	expiry?: string
-	option_type?: string
-	trade_type?: string
-	trade_type_params?: string
-	trade_type_value?: number
+	expiry: string
+	option_type: string
+	trade_type: string
+	trade_type_params: string
+	trade_type_value: ProfitLossObject
 }
-
 export interface PositionExitCondition {
 	total_profit: ProfitLossObject
 	stop_loss: ProfitLossObject
 }
-export interface BasketDataProps {
-	id: string
-	entry_condition: PositionEntryCondition
-	exit_condition: PositionExitCondition
-}
-export interface PositionsObject {
+export interface PositionsOpbject {
 	id: string
 	entry_condition: PositionEntryCondition
 	exit_condition: PositionExitCondition
@@ -113,7 +122,7 @@ export interface SavedBasketsObject {
 	ticker: string
 	type: string
 	atm: string
-	positions?: PositionsObject[]
+	positions?: PositionsOpbject[]
 	entry_condition: SavedBasketsEntryCondition | undefined
 	exit_condition: SavedBasketsExitCondition | undefined
 }
