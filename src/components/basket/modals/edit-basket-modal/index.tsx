@@ -36,45 +36,45 @@ const initialTrade = tradeTypeData[0].value
 const defaultSpotPosition: BasketDataProps = {
 	id: generateUniqueId(),
 	type: 'spot',
-	entry_condition: {
+	entryCondition: {
 		quantity: 1,
-		action_type: 'B',
+		actionType: 'B',
 	},
-	exit_condition: {
-		stop_loss: { type: 'percent', value: 0 },
-		total_profit: { type: 'percent', value: 0 },
+	exitCondition: {
+		stopLoss: { type: 'percent', value: 0 },
+		totalProfit: { type: 'percent', value: 0 },
 	},
 }
 
 const defaultFuturePosition: BasketDataProps = {
 	id: generateUniqueId(),
 	type: 'future',
-	entry_condition: {
+	entryCondition: {
 		quantity: 1,
-		action_type: 'B',
+		actionType: 'B',
 		expiry: 'Monthly',
 	},
-	exit_condition: {
-		stop_loss: { type: 'percent', value: 0 },
-		total_profit: { type: 'percent', value: 0 },
+	exitCondition: {
+		stopLoss: { type: 'percent', value: 0 },
+		totalProfit: { type: 'percent', value: 0 },
 	},
 }
 
 const defaultOptionsPosition: BasketDataProps = {
 	id: generateUniqueId(),
 	type: 'options',
-	entry_condition: {
+	entryCondition: {
 		quantity: 1,
-		action_type: 'B',
+		actionType: 'B',
 		expiry: 'Monthly',
-		option_type: 'CE',
-		trade_type: tradeTypeData[0].value,
-		trade_type_params: tradeTypeData[0].children[0].value,
-		trade_type_value: 1,
+		optionType: 'CE',
+		tradeType: tradeTypeData[0].value,
+		tradeTypeParams: tradeTypeData[0].children[0].value,
+		tradeTypeValue: 1,
 	},
-	exit_condition: {
-		stop_loss: { type: 'percent', value: 0 },
-		total_profit: { type: 'percent', value: 0 },
+	exitCondition: {
+		stopLoss: { type: 'percent', value: 0 },
+		totalProfit: { type: 'percent', value: 0 },
 	},
 }
 
@@ -278,42 +278,42 @@ const EditBasketModal = ({ open }: EditModalProps) => {
 		setPositionCopy(true)
 		if (basketToBeCopied) {
 			if (basketToBeCopied.type === 'spot') {
-				setActionValue(basketToBeCopied.entry_condition.action_type)
-				setQuantityValue(basketToBeCopied.entry_condition.quantity)
+				setActionValue(basketToBeCopied.entryCondition.actionType)
+				setQuantityValue(basketToBeCopied.entryCondition.quantity)
 			} else if (basketToBeCopied.type === 'future') {
-				setActionValue(basketToBeCopied.entry_condition.action_type)
-				setQuantityValue(basketToBeCopied.entry_condition.quantity)
+				setActionValue(basketToBeCopied.entryCondition.actionType)
+				setQuantityValue(basketToBeCopied.entryCondition.quantity)
 				setFutureExpiryBaseValue(
-					basketToBeCopied.entry_condition.expiry
-						? basketToBeCopied.entry_condition.expiry
+					basketToBeCopied.entryCondition.expiry
+						? basketToBeCopied.entryCondition.expiry
 						: 'Monthly'
 				)
 			} else if (basketToBeCopied.type === 'options') {
-				setActionValue(basketToBeCopied.entry_condition.action_type)
+				setActionValue(basketToBeCopied.entryCondition.actionType)
 				setOptionType(
-					basketToBeCopied.entry_condition.option_type
-						? basketToBeCopied.entry_condition.option_type
+					basketToBeCopied.entryCondition.optionType
+						? basketToBeCopied.entryCondition.optionType
 						: 'CE'
 				)
 				setTradeOption(
-					basketToBeCopied.entry_condition.trade_type
-						? basketToBeCopied.entry_condition.trade_type
+					basketToBeCopied.entryCondition.tradeType
+						? basketToBeCopied.entryCondition.tradeType
 						: tradeTypeData[0].value
 				)
 				setSubTradeOption(
-					basketToBeCopied.entry_condition.trade_type_params
-						? basketToBeCopied.entry_condition.trade_type_params
+					basketToBeCopied.entryCondition.tradeTypeParams
+						? basketToBeCopied.entryCondition.tradeTypeParams
 						: tradeTypeData[0].children[0].value
 				)
 				setTradeValue(
-					basketToBeCopied.entry_condition.trade_type_value
-						? basketToBeCopied.entry_condition.trade_type_value
+					basketToBeCopied.entryCondition.tradeTypeValue
+						? basketToBeCopied.entryCondition.tradeTypeValue
 						: 1
 				)
-				setQuantityValue(basketToBeCopied.entry_condition.quantity)
+				setQuantityValue(basketToBeCopied.entryCondition.quantity)
 				setOptionExpiryBaseValue(
-					basketToBeCopied.entry_condition.expiry
-						? basketToBeCopied.entry_condition.expiry
+					basketToBeCopied.entryCondition.expiry
+						? basketToBeCopied.entryCondition.expiry
 						: 'Monthly'
 				)
 			}
@@ -363,7 +363,7 @@ const EditBasketModal = ({ open }: EditModalProps) => {
 			}
 			styles={{
 				content: {
-					margin: -60,
+					margin: -30,
 					padding: 0,
 				},
 				header: {

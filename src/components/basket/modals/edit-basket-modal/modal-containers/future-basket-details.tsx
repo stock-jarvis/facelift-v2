@@ -58,23 +58,23 @@ const FututeBasketDetails = ({
 	const [spotLossValue, setSpotLossValue] = useState<number>(0)
 
 	useValueChange(quantityValue, id, basket, handleEditBasket, 'quantity')
-	useActionChange(actionValue, id, basket, handleEditBasket, 'action_type')
+	useActionChange(actionValue, id, basket, handleEditBasket, 'actionType')
 	useTypeChange(expirtyValue, id, basket, handleEditBasket, 'expiry')
 	useExitValueChange(
 		totalProfitValue,
 		id,
 		basket,
 		handleEditBasket,
-		'total_profit'
+		'totalProfit'
 	)
-	useExitValueChange(spotLossValue, id, basket, handleEditBasket, 'stop_loss')
-	useExitTypeChange(spotLossType, id, basket, handleEditBasket, 'stop_loss')
+	useExitValueChange(spotLossValue, id, basket, handleEditBasket, 'stopLoss')
+	useExitTypeChange(spotLossType, id, basket, handleEditBasket, 'stopLoss')
 	useExitTypeChange(
 		totalProfitType,
 		id,
 		basket,
 		handleEditBasket,
-		'total_profit'
+		'totalProfit'
 	)
 
 	return (

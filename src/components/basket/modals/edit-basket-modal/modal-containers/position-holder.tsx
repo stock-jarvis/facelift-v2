@@ -46,16 +46,7 @@ const PositionHolder = ({
 			</Flex>
 			<Flex justify="center">
 				<Tooltip title="Click to Add Position">
-					<Button
-						size="large"
-						style={{
-							backgroundColor: token.colorPrimary,
-							fontSize: token.fontSizeLG,
-							fontWeight: token.fontWeightStrong,
-							color: token.colorBgBase,
-						}}
-						onClick={handleClick}
-					>
+					<Button size="large" type="primary" onClick={handleClick}>
 						Add Position
 					</Button>
 				</Tooltip>

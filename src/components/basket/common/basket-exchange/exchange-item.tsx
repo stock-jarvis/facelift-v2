@@ -1,4 +1,4 @@
-import { theme } from 'antd'
+import { Flex, Typography, theme } from 'antd'
 interface TradeTypeItemProps {
 	type: string
 	id: number
@@ -14,18 +14,30 @@ const TradeTypeItem = ({
 }: TradeTypeItemProps) => {
 	const { token } = theme.useToken()
 	return (
-		<div
-			className={` flex flex-1 cursor-pointer justify-center items-center`}
+		<Flex
+			flex="1"
+			justify="center"
+			align="center"
 			style={{
+				cursor: 'pointer',
 				border: '0.5px solid #D3D3D3',
-				//padding: token.paddingXS,
+
 				backgroundColor: type === exchangeValue ? token.colorPrimary : '#ffff',
-				color: type === exchangeValue ? '#ffff' : '#000000',
 			}}
 			onClick={() => onClick(id)}
 		>
-			<p className="text-md font-semibold">{type}</p>
-		</div>
+			<Typography.Text
+				style={{
+					fontSize: token.fontSizeLG,
+					padding: '1px',
+					fontWeight: token.fontWeightStrong,
+
+					color: type === exchangeValue ? '#ffff' : '#000000',
+				}}
+			>
+				{type}
+			</Typography.Text>
+		</Flex>
 	)
 }
 

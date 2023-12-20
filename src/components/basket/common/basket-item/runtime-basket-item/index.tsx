@@ -45,6 +45,7 @@ const BasketItem = ({
 
 	return (
 		<Flex
+			className="hover:bg-transparent/5"
 			flex="1"
 			style={{ border: !error ? '0.5px solid #D3D3D3' : '.5px solid red' }}
 		>

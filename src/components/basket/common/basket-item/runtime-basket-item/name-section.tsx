@@ -21,7 +21,7 @@ const NameSection = ({ exchange, name, identifier }: NameProps) => {
 			>
 				<Typography.Text
 					style={{
-						fontSize: token.fontSizeLG,
+						fontSize: token.fontSizeSM,
 						color: token.colorBgBase,
 						fontWeight: token.fontWeightStrong,
 					}}
@@ -41,7 +41,7 @@ const NameSection = ({ exchange, name, identifier }: NameProps) => {
 					className="select-none"
 					style={{
 						color: 'black',
-						fontSize: token.fontSizeLG,
+						fontSize: token.fontSizeSM,
 						fontWeight: token.fontWeightStrong,
 					}}
 				>

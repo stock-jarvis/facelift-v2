@@ -19,22 +19,6 @@ export interface TradeOptions {
 	value: string
 }
 
-export interface OptionsBasket {
-	qunatity: number
-	type: string
-	id: string
-	stop_loss_value: number
-	total_profit_value: number
-	stop_loss_type: string
-	total_profit_type: string
-	action_type: string
-	option_type: string
-	expiry: string
-	trade_type: string
-	trade_type_params: string
-	trade_type_value: number
-}
-
 export interface RunTimeBasketData {
 	id: string
 	name: string
@@ -72,40 +56,27 @@ export interface PersistedValues {
 }
 
 export interface SavedBasketsEntryCondition {
-	entry_time: string
-	exit_time: string
+	entryTime: string
+	exitTime: string
 }
 export interface SavedBasketsExitCondition {
 	type: string
 	move?: boolean
 	repeat?: string
-	total_profit: number
-	total_loss: number
+	totalProfit: number
+	totalLoss: number
 }
 
 export interface ProfitLossObject {
 	value: number
 	type: string
 }
-export interface PositionEntryCondition {
-	quantity: number
-	position_type: string
-	action_type: string
-	expiry: string
-	option_type: string
-	trade_type: string
-	trade_type_params: string
-	trade_type_value: number
-}
+
 export interface PositionExitCondition {
-	total_profit: ProfitLossObject
-	stop_loss: ProfitLossObject
+	totalProfit: ProfitLossObject
+	stopLoss: ProfitLossObject
 }
-export interface PositionsObject {
-	id: string
-	entry_condition: PositionEntryCondition
-	exit_condition: PositionExitCondition
-}
+
 export interface SavedBasketsObject {
 	id: string
 	name?: string
@@ -115,20 +86,20 @@ export interface SavedBasketsObject {
 	type: string
 	atm: string
 	positions?: BasketDataProps[]
-	entry_condition?: SavedBasketsEntryCondition
-	exit_condition?: SavedBasketsExitCondition
+	entryCondition?: SavedBasketsEntryCondition
+	exitCondition?: SavedBasketsExitCondition
 }
 export interface BasketDataProps {
 	type: string
 	id: string
-	entry_condition: {
+	entryCondition: {
 		quantity: number
-		action_type: string
-		option_type?: string
+		actionType: string
+		optionType?: string
 		expiry?: string
-		trade_type?: string
-		trade_type_params?: string
-		trade_type_value?: number
+		tradeType?: string
+		tradeTypeParams?: string
+		tradeTypeValue?: number
 	}
-	exit_condition: PositionExitCondition
+	exitCondition: PositionExitCondition
 }

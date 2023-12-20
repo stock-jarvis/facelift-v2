@@ -97,10 +97,10 @@ const Footer = ({
 	useEffect(() => {
 		if (
 			!basketEntryConditions ||
-			basketEntryConditions.entry_time !== entryTimes ||
-			basketEntryConditions.exit_time !== exitTimes
+			basketEntryConditions.entryTime !== entryTimes ||
+			basketEntryConditions.exitTime !== exitTimes
 		) {
-			setBasketEntryConditions({ entry_time: entryTimes, exit_time: exitTimes })
+			setBasketEntryConditions({ entryTime: entryTimes, exitTime: exitTimes })
 		}
 	}, [basketEntryConditions, entryTimes, exitTimes])
 
@@ -108,15 +108,15 @@ const Footer = ({
 		if (
 			!basketExitConditions ||
 			basketExitConditions.type !== basketTrade ||
-			basketExitConditions.total_profit !== profitValue ||
-			basketExitConditions.total_loss !== lossValue ||
+			basketExitConditions.totalProfit !== profitValue ||
+			basketExitConditions.totalLoss !== lossValue ||
 			(basketTrade === 'SQOL' && basketExitConditions.move !== basketMove) ||
 			(basketTrade === 'SQAL' && basketExitConditions.repeat !== basketRepeat)
 		) {
 			const obj: SavedBasketsExitCondition = {
 				type: basketTrade,
-				total_loss: lossValue,
-				total_profit: profitValue,
+				totalLoss: lossValue,
+				totalProfit: profitValue,
 			}
 			if (obj.type === 'SQOL') {
 				obj.move = basketMove
@@ -133,7 +133,9 @@ const Footer = ({
 		basketRepeat,
 		basketExitConditions,
 	])
-	//console.log()
+	useEffect(() => {
+		console.log(savedBasket)
+	}, [savedBasket])
 	useEffect(() => {
 		if (
 			!savedBasket ||
@@ -141,10 +143,10 @@ const Footer = ({
 			savedBasket.id !== id ||
 			savedBasket.exchange !== exchange ||
 			savedBasket.atm !== atm ||
-			savedBasket.entry_condition !== basketEntryConditions ||
+			savedBasket.entryCondition !== basketEntryConditions ||
 			savedBasket.name !== basketName ||
 			savedBasket.identifier !== identifier ||
-			savedBasket.exit_condition !== basketExitConditions ||
+			savedBasket.exitCondition !== basketExitConditions ||
 			savedBasket.positions !== basket
 		) {
 			setSavedBasket({
@@ -155,8 +157,8 @@ const Footer = ({
 				exchange: exchange,
 				type: simpleType,
 				atm: atm,
-				entry_condition: basketEntryConditions,
-				exit_condition: basketExitConditions,
+				entryCondition: basketEntryConditions,
+				exitCondition: basketExitConditions,
 				positions: basket,
 			})
 		}
@@ -254,10 +256,6 @@ const Footer = ({
 				<Tooltip title="Click to save basket">
 					<Button
 						className="max-md:w-[100%]"
-						style={{
-							backgroundColor: token.colorPrimary,
-							fontWeight: token.fontWeightStrong,
-						}}
 						type="primary"
 						size="large"
 						onClick={handleSaveBasketClick}

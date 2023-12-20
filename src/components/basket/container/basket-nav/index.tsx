@@ -18,15 +18,6 @@ const Index = () => {
 	} = useBasketStore()
 	const { token } = theme.useToken()
 	const [disabledButton, setDisabledButton] = useState<boolean>(true)
-	const disabledStyles = {
-		backgroundColor: token.colorBgBase,
-		color: token.colorPrimary,
-		borderColor: token.colorPrimary,
-	}
-	const enabledStyles = {
-		color: token.colorBgBase,
-		backgroundColor: token.colorPrimary,
-	}
 	const handleDateChanged: TimeRangePickerProps['onChange'] = (e) => {
 		const startDate = e?.[0]?.format('DD-MM-YYYY') || ''
 		const endDate = e?.[1]?.format('DD-MM-YYYY') || ''
@@ -58,22 +49,15 @@ const Index = () => {
 			</Flex>
 			<Flex flex={'1'} gap="middle" justify="flex-end">
 				<Button
-					type="default"
-					size="large"
+					type="primary"
 					icon={<PlusOutlined />}
-					style={{
-						backgroundColor: token.colorPrimary,
-						color: token.colorTextLightSolid,
-					}}
 					onClick={() => toggleSetBasketModalOpen(true)}
 				>
 					Add New Basket
 				</Button>
 				<Button
-					type="default"
-					size="large"
+					type="primary"
 					disabled={disabledButton}
-					style={!disabledButton ? enabledStyles : disabledStyles}
 					icon={<PlayCircleOutlined />}
 				>
 					Start Back Testing

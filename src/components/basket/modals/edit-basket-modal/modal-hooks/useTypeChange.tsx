@@ -1,7 +1,7 @@
 import { useEffect } from 'react'
 import { BasketDataProps } from 'src/components/basket/types/types'
 
-type keyValue = 'trade_type' | 'trade_type_params' | 'expiry'
+type keyValue = 'tradeType' | 'tradeTypeParams' | 'expiry'
 //| 'stop_loss_type'
 //| 'total_profit_type'
 export const useTypeChange = (
@@ -15,15 +15,15 @@ export const useTypeChange = (
 		const basketItem = basket.findIndex((b) => b.id === id)
 
 		if (basketItem !== -1) {
-			if (basket[basketItem].entry_condition[key] !== tradeType) {
+			if (basket[basketItem].entryCondition[key] !== tradeType) {
 				editBasket(
 					basket.map((bask) => {
 						if (bask.id === id) {
-							if (bask.entry_condition[key] !== tradeType) {
+							if (bask.entryCondition[key] !== tradeType) {
 								const updatedBasket: BasketDataProps = {
 									...bask,
-									entry_condition: {
-										...bask.entry_condition,
+									entryCondition: {
+										...bask.entryCondition,
 										[key]: tradeType,
 									},
 								}

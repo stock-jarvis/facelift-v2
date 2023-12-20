@@ -1,7 +1,7 @@
 import { useEffect } from 'react'
 import { BasketDataProps } from 'src/components/basket/types/types'
 
-type key = 'action_type' | 'option_type'
+type key = 'actionType' | 'optionType'
 
 export const useActionChange = (
 	actionValue: string,
@@ -14,15 +14,15 @@ export const useActionChange = (
 		const basketItem = basket.findIndex((b) => b.id === id)
 
 		if (basketItem !== -1) {
-			if (basket[basketItem].entry_condition[keyValue] !== actionValue) {
+			if (basket[basketItem].entryCondition[keyValue] !== actionValue) {
 				editBasket(
 					basket.map((bask) => {
 						if (bask.id === id) {
-							if (bask.entry_condition[keyValue] !== actionValue) {
+							if (bask.entryCondition[keyValue] !== actionValue) {
 								const updatedBasket: BasketDataProps = {
 									...bask,
-									entry_condition: {
-										...bask.entry_condition,
+									entryCondition: {
+										...bask.entryCondition,
 										[keyValue]: actionValue,
 									},
 								}

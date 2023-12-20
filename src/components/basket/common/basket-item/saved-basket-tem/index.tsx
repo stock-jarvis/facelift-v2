@@ -1,4 +1,4 @@
-import { Flex } from 'antd'
+import { Flex, Typography, theme } from 'antd'
 import ActionSection from '../action-section'
 import { savedIconsSections } from '../../../constants/data'
 interface BasketItemProps {
@@ -6,7 +6,9 @@ interface BasketItemProps {
 	identifier: number
 }
 const BasketItem = ({ name, identifier }: BasketItemProps) => {
+	const { token } = theme.useToken()
 	const onActionClicked = (val: string) => {
+		// TODO: bind it with action handlers
 		console.log(name, identifier)
 		console.log(val)
 	}
@@ -15,11 +17,21 @@ const BasketItem = ({ name, identifier }: BasketItemProps) => {
 			<Flex
 				flex="1"
 				align="center"
-				className="p-[10px] border-y-[1px] border-l-[1px] border-solid "
+				style={{
+					borderTop: '0.5px solid #D3D3D3',
+					borderBottom: '0.5px solid #D3D3D3',
+					borderLeft: '0.5px solid #D3D3D3',
+				}}
+				className="hover:bg-transparent/5"
 			>
-				<p className="font-bold">
+				<Typography.Text
+					style={{
+						fontWeight: token.fontWeightStrong,
+						paddingLeft: token.paddingXS,
+					}}
+				>
 					{name} {identifier > 0 ? `- ${identifier}` : ''}
-				</p>
+				</Typography.Text>
 			</Flex>
 			<ActionSection
 				handleActionClicked={onActionClicked}
