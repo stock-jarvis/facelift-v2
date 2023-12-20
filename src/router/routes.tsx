@@ -1,5 +1,9 @@
+import { Spin } from 'antd'
 import { Suspense, lazy } from 'react'
 import { RouteObject } from 'react-router-dom'
+
+const App = lazy(() => import('src/app'))
+
 const HomePage = lazy(() => import('src/components/home/views/home-page'))
 const Pricing = lazy(() => import('src/components/home/views/pricing'))
 const Contact = lazy(() => import('src/components/home/views/contact'))
@@ -8,24 +12,25 @@ const Terms = lazy(() => import('src/components/home/views/terms-conditions'))
 const RefundPolicy = lazy(
 	() => import('src/components/home/views/refund-policy')
 )
-const Home = lazy(() => import('src/components/home'))
+// const Home = lazy(() => import('src/components/home'))
 const Simulator = lazy(() => import('src/components/simulator'))
 const Basket = lazy(() => import('src/components/basket'))
 
-// TODO: Add loading spinners
+const FullscreenSpinner = () => <Spin tip="Loading..." fullscreen />
+
 const routes: RouteObject[] = [
 	{
 		path: '/',
 		element: (
-			<Suspense fallback={<div>Loader</div>}>
-				<Home />
+			<Suspense fallback={<FullscreenSpinner />}>
+				<App />
 			</Suspense>
 		),
 		children: [
 			{
 				path: '/',
 				element: (
-					<Suspense fallback={<div>Loader</div>}>
+					<Suspense fallback={<FullscreenSpinner />}>
 						<HomePage />
 					</Suspense>
 				),
@@ -33,7 +38,7 @@ const routes: RouteObject[] = [
 			{
 				path: '/pricing',
 				element: (
-					<Suspense fallback={<div>Loader</div>}>
+					<Suspense fallback={<FullscreenSpinner />}>
 						<Pricing />
 					</Suspense>
 				),
@@ -41,7 +46,7 @@ const routes: RouteObject[] = [
 			{
 				path: '/contact',
 				element: (
-					<Suspense fallback={<div>Loader</div>}>
+					<Suspense fallback={<FullscreenSpinner />}>
 						<Contact />
 					</Suspense>
 				),
@@ -49,7 +54,7 @@ const routes: RouteObject[] = [
 			{
 				path: '/privacy-policy',
 				element: (
-					<Suspense fallback={<div>Loader</div>}>
+					<Suspense fallback={<FullscreenSpinner />}>
 						<Privacy />
 					</Suspense>
 				),
@@ -57,7 +62,7 @@ const routes: RouteObject[] = [
 			{
 				path: '/terms',
 				element: (
-					<Suspense fallback={<div>Loader</div>}>
+					<Suspense fallback={<FullscreenSpinner />}>
 						<Terms />
 					</Suspense>
 				),
@@ -65,8 +70,16 @@ const routes: RouteObject[] = [
 			{
 				path: '/refund-policy',
 				element: (
-					<Suspense fallback={<div>Loader</div>}>
+					<Suspense fallback={<FullscreenSpinner />}>
 						<RefundPolicy />
+					</Suspense>
+				),
+			},
+			{
+				path: '/simulator',
+				element: (
+					<Suspense fallback={<FullscreenSpinner />}>
+						<Simulator />
 					</Suspense>
 				),
 			},
