@@ -70,11 +70,11 @@ const Index = () => {
 				/>
 			</Flex>
 			<Flex
-				//className="border-[2px] border-solid"
 				style={{
 					overflow: 'hidden',
 					height: '100%',
 					padding: token.paddingXS,
+					border: '0.5px solid #D3D3D3',
 				}}
 			>
 				<Flex

@@ -143,7 +143,7 @@ const Index = ({ open }: ModalProps) => {
 			}}
 		>
 			<Flex vertical gap="large">
-				<Flex className="w-[40%] shadow-sm">
+				<Flex className="w-[40%] h-[35px] shadow-sm">
 					<ExhchangeSelector
 						exchangeValue={exhange}
 						handleTradeChange={setExchange}

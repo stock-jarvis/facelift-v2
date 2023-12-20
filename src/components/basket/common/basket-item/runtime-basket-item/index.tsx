@@ -46,12 +46,12 @@ const BasketItem = ({
 	return (
 		<Flex
 			flex="1"
-			className={`border-[1px] select-none ${error ? 'border-[red]' : ''}`}
+			style={{ border: !error ? '0.5px solid #D3D3D3' : '.5px solid red' }}
 		>
 			<Flex
 				align="center"
 				style={{
-					padding: token.paddingXS,
+					padding: `${token.paddingXS}px`,
 					borderRight: '0',
 					boxSizing: 'content-box',
 				}}

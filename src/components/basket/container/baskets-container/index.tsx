@@ -1,4 +1,4 @@
-import { Flex } from 'antd'
+import { Flex, theme } from 'antd'
 import ListItem from '../../common/basket-item/runtime-basket-item'
 
 import BasketNav from '../basket-nav'
@@ -7,6 +7,7 @@ import EmptyBasket from '../../common/empty-basket'
 import { generateUniqueId } from '../../common/utils/randomizer'
 
 const Index = () => {
+	const { token } = theme.useToken()
 	const {
 		runtimeBasketList,
 		deleteRuntimeBasket,
@@ -78,7 +79,14 @@ const Index = () => {
 						<BasketNav />
 					</Flex>
 
-					<div className="overflow-hidden  h-full p-[10px] border-[2px] border-solid">
+					<div
+						style={{
+							overflow: 'hidden',
+							padding: token.paddingXS,
+							border: '0.5px solid #D3D3D3',
+						}}
+						className="h-full"
+					>
 						<Flex
 							className="w-full  overflow-y-scroll no-scrollbar   scroll-smooth  h-full"
 							vertical
