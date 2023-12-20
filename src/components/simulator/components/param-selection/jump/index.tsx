@@ -1,5 +1,5 @@
 import { Button } from 'antd'
-import { CaretRightOutlined } from '@ant-design/icons'
+import { RiShareForwardFill } from 'react-icons/ri'
 
 import JumpModal from './jump-modal'
 import { useToggle } from 'src/common/utils/state-utils'
@@ -16,7 +16,7 @@ const Jump = () => {
 			<Button.Group>
 				<Button onClick={toggleIsJumpModalOpen}>Jump</Button>
 				<Button
-					icon={<CaretRightOutlined />}
+					icon={<RiShareForwardFill />}
 					type="primary"
 					onClick={handleJumpIconClick}
 				/>

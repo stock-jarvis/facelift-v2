@@ -97,7 +97,7 @@ const DerivativesTable: React.FC<DerivativesTableProps> = ({
 			columns={columns}
 			pagination={false}
 			scroll={{
-				y: 'calc(100vh - 350px)',
+				y: 'calc(100vh - 380px)',
 			}}
 		/>
 	)

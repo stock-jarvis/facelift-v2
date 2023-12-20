@@ -10,7 +10,7 @@ const StockJarvisNavLink: React.FC<StockJarvisNavLinkProps> = (props) => {
 	const { token } = theme.useToken()
 
 	const getNavLinkStyle: NavLinkProps['style'] = (navLinkRenderProps) => ({
-		color: token.colorWhite,
+		color: 'black', //token.colorWhite,
 		fontWeight: navLinkRenderProps.isActive
 			? token.fontWeightStrong
 			: undefined,
