@@ -7,8 +7,14 @@ const EmptyBasket = () => {
 
 	return (
 		<Flex vertical gap={'middle'} justify="center" align="center" flex="1">
-			<Typography.Text style={{ fontSize: token.fontSizeLG }}>
-				No Basket Saved
+			<Typography.Text
+				style={{
+					fontSize: token.fontSizeHeading4,
+					opacity: '0.5',
+					fontWeight: token.fontWeightStrong,
+				}}
+			>
+				Baskets not available
 			</Typography.Text>
 		</Flex>
 	)

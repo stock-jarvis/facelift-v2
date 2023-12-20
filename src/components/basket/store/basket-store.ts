@@ -39,6 +39,11 @@ type BasketStateActions = {
 	handleDateChange: (startDate: string, endDate: string) => void
 	resetEditablebasket: () => void
 	closeEditConfirmation: (value: boolean) => void
+	updateRuntimeBasketData: (
+		id: string,
+		exchange: string,
+		instrument: string
+	) => void
 	addNewRuntimeBasket: (basket: RunTimeBasketData) => void
 	deleteRuntimeBasket: (id: string) => void
 	setDuplicateError: (error: BasketState['duplicateError']) => void
@@ -72,27 +77,27 @@ const defaultState: BasketState = {
 		error: false,
 	},
 	savedBaskets: [
-		{
-			id: '1',
-			exchange: 'NSE',
-			ticker: 'Ticker 1',
-			type: 'INTRA',
-			atm: 'Spot',
-		},
-		{
-			id: '2',
-			exchange: 'CUR',
-			ticker: 'Ticker 1',
-			type: 'INTRA',
-			atm: 'Spot',
-		},
-		{
-			id: '1',
-			exchange: 'MCX',
-			ticker: 'Ticker 1',
-			type: 'INTRA',
-			atm: 'Spot',
-		},
+		// {
+		// 	id: '1',
+		// 	exchange: 'NSE',
+		// 	ticker: 'Ticker 1',
+		// 	type: 'INTRA',
+		// 	atm: 'Spot',
+		// },
+		// {
+		// 	id: '2',
+		// 	exchange: 'CUR',
+		// 	ticker: 'Ticker 1',
+		// 	type: 'INTRA',
+		// 	atm: 'Spot',
+		// },
+		// {
+		// 	id: '1',
+		// 	exchange: 'MCX',
+		// 	ticker: 'Ticker 1',
+		// 	type: 'INTRA',
+		// 	atm: 'Spot',
+		// },
 	],
 	timeError: false,
 	emptyBasketError: false,
@@ -108,6 +113,21 @@ export const useBasketStore = create<BasketState & BasketStateActions>()(
 					if (data) {
 						void state.selectedBaskets.push(data)
 					}
+				}),
+
+			updateRuntimeBasketData: (
+				id: string,
+				exchange: string,
+				instrument: string
+			) =>
+				set((state) => {
+					state.runtimeBasketList = state.runtimeBasketList.map((b) => {
+						if (b.id === id) {
+							return { ...b, exchange: exchange, instrument: instrument }
+						} else {
+							return b
+						}
+					})
 				}),
 			addToSavedBasket: (basket: SavedBasketsObject) =>
 				set((state) => {

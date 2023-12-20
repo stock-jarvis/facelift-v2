@@ -1,14 +1,46 @@
 import { Flex, theme, Typography } from 'antd'
 import ListItem from '../../common/basket-item/saved-basket-tem'
 import BasketExchange from '../../common/basket-exchange/exchange-selector'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useBasketStore } from '../../store/basket-store'
 import EmptySavedBasket from '../../common/empty-saved-basket'
+interface EmptyBaskeyProps {
+	NSE: boolean
+	CUR: boolean
+	MCX: boolean
+}
+type key = 'NSE' | 'CUR' | 'MCX'
+
 const Index = () => {
 	const { Text } = Typography
 	const { token } = theme.useToken()
 	const { savedBaskets } = useBasketStore()
 	const [exchange, setExchange] = useState<string>('NSE')
+	const [val, setVal] = useState<key>('NSE')
+	const [emptyBasketsCheck, setEmptyBasketChecks] = useState<EmptyBaskeyProps>({
+		NSE: true,
+		CUR: true,
+		MCX: true,
+	})
+	useEffect(() => {
+		if (savedBaskets) {
+			const baskets = savedBaskets.find((b) => b.exchange === exchange)
+
+			if (!baskets) {
+				setEmptyBasketChecks((prev) => {
+					return { ...prev, [exchange]: false }
+				})
+			}
+		}
+	}, [savedBaskets, exchange])
+	useEffect(() => {
+		exchange === 'NSE'
+			? setVal('NSE')
+			: exchange === 'MCX'
+				? setVal('MCX')
+				: setVal('CUR')
+	}, [exchange])
+
 	//const [nseBaskets,setNseBaskets] = useState<string>('NSE') ||
 	return (
 		<Flex flex="1" vertical gap="middle" style={{ padding: token.paddingSM }}>
@@ -16,8 +48,10 @@ const Index = () => {
 				<Text
 					style={{
 						padding: token.paddingXS,
-						fontSize: token.fontSizeLG,
+						fontSize: token.fontSizeHeading5,
 						fontWeight: token.fontWeightStrong,
+						color: token.colorPrimary,
+						opacity: '0.8',
 					}}
 				>
 					Saved Baskets
@@ -49,13 +83,16 @@ const Index = () => {
 				>
 					{savedBaskets.length === 0 ? (
 						<EmptySavedBasket />
-					) : (
+					) : emptyBasketsCheck[val] ? (
 						<Flex vertical style={{ gap: token.paddingXS }}>
 							{savedBaskets.map(
 								(basket) =>
-									basket.exchange === exchange && <ListItem key={basket.id} />
+									basket.exchange === exchange &&
+									emptyBasketsCheck[val] && <ListItem key={basket.id} />
 							)}
 						</Flex>
+					) : (
+						<EmptySavedBasket />
 					)}
 				</Flex>
 			</Flex>

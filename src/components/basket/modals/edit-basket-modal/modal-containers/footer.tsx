@@ -47,27 +47,14 @@ const Footer = ({
 	currentExitHour,
 	currentExitMinute,
 }: FooterPorps) => {
-	// console.log(
-	// 	basketTrade,
-	// 	basketRepeat,
-	// 	atm,
-	// 	simpleType,
-	// 	id,
-	// 	instrument,
-	// 	basketMove,
-	// 	profitValue,
-	// 	lossValue,
-	// 	currentEntryHour,
-	// 	currentEntryMinute,
-	// 	currentExitHour,
-	// 	currentExitMinute
-	// )
 	const { token } = theme.useToken()
 	const {
 		timeError,
 		toggleTimeErrorModalOpen,
 		setEmptyBasketError,
+		updateRuntimeBasketData,
 		addToSavedBasket,
+		toogleEditModal,
 	} = useBasketStore()
 	const [entryTimes, setEntryTimes] = useState<string>('')
 	const [exitTimes, setExitTimes] = useState<string>('')
@@ -188,6 +175,8 @@ const Footer = ({
 			} else {
 				if (savedBasket) {
 					addToSavedBasket(savedBasket)
+					updateRuntimeBasketData(id, exchange, instrument)
+					toogleEditModal(false)
 				}
 			}
 		} else {

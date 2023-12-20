@@ -51,7 +51,7 @@ const Index = () => {
 					}
 					style={{
 						borderColor: token.colorPrimary,
-						color: token.colorText,
+						color: token.colorPrimary,
 					}}
 					onChange={handleDateChanged}
 				/>
