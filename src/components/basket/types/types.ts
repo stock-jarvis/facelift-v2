@@ -112,9 +112,9 @@ export interface SavedBasketsObject {
 	ticker: string
 	type: string
 	atm: string
-	positions: BasketDataProps[]
-	entry_condition: SavedBasketsEntryCondition | undefined
-	exit_condition: SavedBasketsExitCondition | undefined
+	positions?: BasketDataProps[]
+	entry_condition?: SavedBasketsEntryCondition
+	exit_condition?: SavedBasketsExitCondition
 }
 export interface BasketDataProps {
 	type: string

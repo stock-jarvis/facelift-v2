@@ -2,18 +2,16 @@ import { Flex, theme, Typography } from 'antd'
 import ListItem from '../../common/basket-item/saved-basket-tem'
 import BasketExchange from '../../common/basket-exchange/exchange-selector'
 import { useState } from 'react'
+import { useBasketStore } from '../../store/basket-store'
+import EmptySavedBasket from '../../common/empty-saved-basket'
 const Index = () => {
 	const { Text } = Typography
 	const { token } = theme.useToken()
-	const [exhange, setExchange] = useState<string>('NSE')
+	const { savedBaskets } = useBasketStore()
+	const [exchange, setExchange] = useState<string>('NSE')
+	//const [nseBaskets,setNseBaskets] = useState<string>('NSE') ||
 	return (
-		<Flex
-			flex="1"
-			vertical
-			gap="middle"
-			className="h-full"
-			style={{ padding: token.paddingSM }}
-		>
+		<Flex flex="1" vertical gap="middle" style={{ padding: token.paddingSM }}>
 			<Flex justify="center" style={{ padding: token.paddingXS }}>
 				<Text
 					style={{
@@ -25,45 +23,42 @@ const Index = () => {
 					Saved Baskets
 				</Text>
 			</Flex>
-			<div className="border-[2px] ">
+			<Flex className="border-[2px] ">
 				<BasketExchange
-					exchangeValue={exhange}
+					exchangeValue={exchange}
 					handleTradeChange={setExchange}
 				/>
-			</div>
-			<div className="overflow-hidden h-full shadow-xl p-[10px] border-[2px] border-solid">
+			</Flex>
+			<Flex
+				className="border-[2px] border-solid"
+				style={{
+					overflow: 'hidden',
+					height: '100%',
+					padding: token.paddingXS,
+				}}
+			>
 				<Flex
-					className="w-full  overflow-y-scroll no-scrollbar   scroll-smooth shadow-md h-full"
+					className="no-scrollbar"
+					flex="1"
+					style={{
+						overflowY: 'auto',
+						height: '100%',
+						scrollBehavior: 'smooth',
+					}}
 					vertical
 				>
-					<div className="flex flex-col gap-[5px] ">
-						{/*TODO: Lazy Load the baskets here */}
-						<ListItem />
-						<ListItem />
-						<ListItem />
-						<ListItem />
-						<ListItem />
-						<ListItem />
-						<ListItem />
-						<ListItem />
-						<ListItem />
-						<ListItem />
-						<ListItem />
-						<ListItem />
-						<ListItem />
-						<ListItem />
-						<ListItem />
-						<ListItem />
-						<ListItem />
-						<ListItem />
-						<ListItem />
-						<ListItem />
-						<ListItem />
-						<ListItem />
-						<ListItem />
-					</div>
+					{savedBaskets.length === 0 ? (
+						<EmptySavedBasket />
+					) : (
+						<Flex vertical style={{ gap: token.paddingXS }}>
+							{savedBaskets.map(
+								(basket) =>
+									basket.exchange === exchange && <ListItem key={basket.id} />
+							)}
+						</Flex>
+					)}
 				</Flex>
-			</div>
+			</Flex>
 		</Flex>
 	)
 }

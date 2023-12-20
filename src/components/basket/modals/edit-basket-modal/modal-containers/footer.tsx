@@ -8,53 +8,6 @@ import {
 	SavedBasketsObject,
 } from 'src/components/basket/types/types'
 import { useEffect, useState } from 'react'
-
-/**
- * 
- * 
- * export interface ProfitLossObject {
-	value: number
-	type: string
-}
-export interface PositionEntryCondition {
-	quantity: number
-	position_type: string
-	action_type: string
-	expiry: string
-	option_type: string
-	trade_type: string
-	trade_type_params: string
-	trade_type_value: ProfitLossObject
-}
-export interface PositionExitCondition {
-	total_profit: ProfitLossObject
-	stop_loss: ProfitLossObject
-}
-export interface PositionsOpbject {
-	id: string
-	entry_condition: PositionEntryCondition
-	exit_condition: PositionExitCondition
-}
-
-
-export interface SavedBasketsExitCondition {
-	type: string
-	move?: string
-	repeat?: string
-	total_profit: number
-	total_loss: number
-}
-export interface SavedBasketsObject {
-	id: string
-	exchange: string
-	ticker: string
-	type: string
-	positions: PositionsOpbject[]
-	entry_condition: SavedBasketsEntryCondition
-	exit_condition: SavedBasketsExitCondition
-}
-
- */
 interface FooterPorps {
 	id: string
 	atm: string
@@ -110,8 +63,12 @@ const Footer = ({
 	// 	currentExitMinute
 	// )
 	const { token } = theme.useToken()
-	const { timeError, toggleTimeErrorModalOpen, setEmptyBasketError } =
-		useBasketStore()
+	const {
+		timeError,
+		toggleTimeErrorModalOpen,
+		setEmptyBasketError,
+		addToSavedBasket,
+	} = useBasketStore()
 	const [entryTimes, setEntryTimes] = useState<string>('')
 	const [exitTimes, setExitTimes] = useState<string>('')
 	const [basketEntryConditions, setBasketEntryConditions] =
@@ -224,22 +181,14 @@ const Footer = ({
 		id,
 	])
 
-	useEffect(() => {
-		console.log(savedBasket)
-	}, [savedBasket])
 	const handleSaveBasketClick = () => {
 		if (basket.length > 0) {
 			if (timeError) {
 				toggleTimeErrorModalOpen(true)
 			} else {
-				console.log('hello world!')
-				// setBasketEntryConditions(
-				// 	{
-				// 		type:basketTrade,
-				// 		total_loss:lossValue,
-				// 		total_profit:profitValue
-				// 	}
-				// )
+				if (savedBasket) {
+					addToSavedBasket(savedBasket)
+				}
 			}
 		} else {
 			setEmptyBasketError(true)

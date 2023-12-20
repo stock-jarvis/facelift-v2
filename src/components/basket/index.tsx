@@ -1,15 +1,14 @@
 import { Flex } from 'antd'
-import { useEffect } from 'react'
 import AddBasketModal from './modals/add-new-basket'
 import SaveBasket from './container/saved-basket-container'
-import BasketContainer from './container/baskets-container'
-import { useBasketStore } from './store/basket-store'
 import ConfirmModal from './modals/confitm-modal'
+import BasketContainer from './container/baskets-container'
 import EditBasketModal from './modals/edit-basket-modal'
+import { useBasketStore } from './store/basket-store'
+
 const Basket = () => {
 	const {
 		isAddBasketModalOpen,
-		runtimeBasketList,
 		duplicateError,
 		isEditModalOpen,
 		setDuplicateError,
@@ -21,10 +20,6 @@ const Basket = () => {
 		setEmptyBasketError,
 		emptyBasketError,
 	} = useBasketStore()
-
-	useEffect(() => {
-		//		console.log(runtimeBasketList)
-	}, [runtimeBasketList])
 
 	const handleCloseConfirmModal = (val: boolean) => {
 		toogleEditModal(false)

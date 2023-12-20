@@ -76,9 +76,9 @@ const Index = () => {
 						<BasketNav />
 					</Flex>
 
-					<div className="overflow-hidden shadow-xl h-full p-[10px] border-[2px] border-solid">
+					<div className="overflow-hidden  h-full p-[10px] border-[2px] border-solid">
 						<Flex
-							className="w-full  overflow-y-scroll no-scrollbar   scroll-smooth shadow-md h-full"
+							className="w-full  overflow-y-scroll no-scrollbar   scroll-smooth  h-full"
 							vertical
 						>
 							<div className="flex flex-col gap-[5px] ">
@@ -103,7 +103,7 @@ const Index = () => {
 						flex="1"
 						justify="center"
 						gap="middle"
-						className="h-full  p-[10px] overflow-y-hidden shadow-xl"
+						className="h-full  p-[10px] overflow-y-hidden "
 					>
 						<EmptyBasket />
 					</Flex>

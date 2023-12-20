@@ -1,35 +1,40 @@
 import { create } from 'zustand'
-import { ExchangeType, RunTimeBasketData } from '../types/types'
+import {
+	ExchangeType,
+	RunTimeBasketData,
+	SavedBasketsObject,
+} from '../types/types'
 import { devtools } from 'zustand/middleware'
 import { immer } from 'zustand/middleware/immer'
 
 type BasketState = {
-	exchange: ExchangeType
-	createBasketExhange: ExchangeType
-	isAddBasketModalOpen: boolean
-	isEditModalOpen: boolean
-	timeErrorModalOpen: boolean
-	runtimeBasketList: RunTimeBasketData[]
-	duplicateError: boolean
-	editableBasketData: RunTimeBasketData
-	savedBaskets: RunTimeBasketData[]
-	closeModalConfirmation: boolean
+	endDate: string
+	startDate: string
 	timeError: boolean
 	positionCopy: boolean
+	duplicateError: boolean
+	isEditModalOpen: boolean
 	emptyBasketError: boolean
+	timeErrorModalOpen: boolean
+	isAddBasketModalOpen: boolean
+	closeModalConfirmation: boolean
+	createBasketExhange: ExchangeType
+	exchange: ExchangeType
+	savedBaskets: SavedBasketsObject[]
 	selectedBaskets: RunTimeBasketData[]
-	startDate: string
-	endDate: string
+	runtimeBasketList: RunTimeBasketData[]
+	editableBasketData: RunTimeBasketData
 }
 
 type BasketStateActions = {
-	setExchange: (exchange: BasketState['exchange']) => void
 	setTimeError: (error: boolean) => void
+	setEmptyBasketError: (error: boolean) => void
+	setExchange: (exchange: BasketState['exchange']) => void
 	setCreateBasketExchange: (exchange: BasketState['exchange']) => void
 	toggleSetBasketModalOpen: (
 		isAddBasketModalOpen: BasketState['isAddBasketModalOpen']
 	) => void
-	setEmptyBasketError: (error: boolean) => void
+	addToSavedBasket: (basket: SavedBasketsObject) => void
 	toggleTimeErrorModalOpen: (timeErrorModalOpen: boolean) => void
 	handleDateChange: (startDate: string, endDate: string) => void
 	resetEditablebasket: () => void
@@ -58,7 +63,6 @@ const defaultState: BasketState = {
 	isAddBasketModalOpen: false,
 	timeErrorModalOpen: false,
 	closeModalConfirmation: false,
-
 	editableBasketData: {
 		id: '',
 		name: '',
@@ -67,11 +71,33 @@ const defaultState: BasketState = {
 		identifier: 0,
 		error: false,
 	},
-	savedBaskets: [],
+	savedBaskets: [
+		{
+			id: '1',
+			exchange: 'NSE',
+			ticker: 'Ticker 1',
+			type: 'INTRA',
+			atm: 'Spot',
+		},
+		{
+			id: '2',
+			exchange: 'CUR',
+			ticker: 'Ticker 1',
+			type: 'INTRA',
+			atm: 'Spot',
+		},
+		{
+			id: '1',
+			exchange: 'MCX',
+			ticker: 'Ticker 1',
+			type: 'INTRA',
+			atm: 'Spot',
+		},
+	],
 	timeError: false,
 	emptyBasketError: false,
 }
-//const myMiddlewares = (f) => devtools(persist(f, { name: 'bearStore' }))
+
 export const useBasketStore = create<BasketState & BasketStateActions>()(
 	immer(
 		devtools((set) => ({
@@ -81,6 +107,23 @@ export const useBasketStore = create<BasketState & BasketStateActions>()(
 					const data = state.runtimeBasketList.find((b) => b.id === id)
 					if (data) {
 						void state.selectedBaskets.push(data)
+					}
+				}),
+			addToSavedBasket: (basket: SavedBasketsObject) =>
+				set((state) => {
+					const checkIfExists = state.savedBaskets.find(
+						(b) => b.id === basket.id
+					)
+					if (checkIfExists) {
+						state.savedBaskets = state.savedBaskets.map((b) => {
+							if (b.id === basket.id) {
+								return basket
+							} else {
+								return b
+							}
+						})
+					} else {
+						void state.savedBaskets.push(basket)
 					}
 				}),
 			filterSelectedBaskets: (id: string) =>
