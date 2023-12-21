@@ -80,7 +80,7 @@ export interface PositionExitCondition {
 export interface SavedBasketsObject {
 	id: string
 	name?: string
-	identifier?: number
+	identifier: number
 	exchange: string
 	ticker: string
 	type: string

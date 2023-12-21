@@ -294,7 +294,22 @@ export const useBasketStore = create<BasketState & BasketStateActions>()(
 							}
 						})
 					} else {
-						void state.storedBaskets.push(basket)
+						const checkNames = state.storedBaskets.filter(
+							(b) => b.name === basket.name
+						)
+
+						if (checkNames && checkNames.length > 0) {
+							const maxIdentifier = Math.max(
+								...checkNames.map((b) => b.identifier)
+							)
+
+							void state.storedBaskets.push({
+								...basket,
+								identifier: maxIdentifier + 1,
+							})
+						} else {
+							void state.storedBaskets.push(basket)
+						}
 					}
 				}),
 
