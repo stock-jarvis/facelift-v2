@@ -37,7 +37,7 @@ const Index = ({
 						style={{
 							color: token.colorBgBase,
 							fontWeight: token.fontWeightStrong,
-							fontSize: token.fontSizeLG,
+							fontSize: token.fontSize,
 						}}
 					>
 						{header}
@@ -51,13 +51,7 @@ const Index = ({
 			}
 			footer={
 				<Flex style={{ padding: token.paddingSM }} justify="flex-end">
-					<Button
-						onClick={handleOkSelect}
-						style={{
-							backgroundColor: token.colorPrimary,
-							color: token.colorBgBase,
-						}}
-					>
+					<Button onClick={handleOkSelect} type="primary">
 						Ok
 					</Button>
 				</Flex>

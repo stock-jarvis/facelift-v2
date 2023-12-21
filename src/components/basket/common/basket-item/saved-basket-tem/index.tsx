@@ -25,9 +25,12 @@ const BasketItem = ({ name, identifier }: BasketItemProps) => {
 				className="hover:bg-transparent/5"
 			>
 				<Typography.Text
+					className="select-none"
 					style={{
+						paddingLeft: '5px',
+						color: 'black',
+						fontSize: token.fontSizeSM,
 						fontWeight: token.fontWeightStrong,
-						paddingLeft: token.paddingXS,
 					}}
 				>
 					{name} {identifier > 0 ? `- ${identifier}` : ''}

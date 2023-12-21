@@ -11,7 +11,12 @@ const EmptyBasket = () => {
 
 	return (
 		<Flex vertical gap={'middle'} justify="center" align="center">
-			<Image src={StockJarvis} alt="Image" preview={false} />
+			<Image
+				src={StockJarvis}
+				alt="Image"
+				preview={false}
+				style={{ height: 300, opacity: 0.7 }}
+			/>
 			<Tooltip title="Create New Basket">
 				<Button
 					type="primary"

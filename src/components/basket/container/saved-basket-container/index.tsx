@@ -63,7 +63,7 @@ const Index = () => {
 					Saved Baskets
 				</Text>
 			</Flex>
-			<Flex className="border-[2px] ">
+			<Flex>
 				<BasketExchange
 					exchangeValue={exchange}
 					handleTradeChange={setExchange}
@@ -73,16 +73,16 @@ const Index = () => {
 				style={{
 					overflow: 'hidden',
 					height: '100%',
-					padding: token.paddingXS,
+					paddingBottom: token.paddingXS,
 					border: '0.5px solid #D3D3D3',
 				}}
 			>
 				<Flex
-					className="no-scrollbar"
 					flex="1"
 					style={{
 						overflowY: 'auto',
 						height: '100%',
+						padding: token.paddingXS,
 						scrollBehavior: 'smooth',
 					}}
 					vertical
@@ -92,13 +92,14 @@ const Index = () => {
 					) : emptyBasketsCheck[val] ? (
 						<Flex vertical style={{ gap: token.paddingXS }}>
 							{storedBaskets.map(
-								(basket) =>
+								(basket, i) =>
 									basket.exchange === exchange && (
-										<ListItem
-											key={basket.id}
-											name={basket.name || ''}
-											identifier={basket.identifier || 0}
-										/>
+										<Flex key={i}>
+											<ListItem
+												name={basket.name || ''}
+												identifier={basket.identifier || 0}
+											/>
+										</Flex>
 									)
 							)}
 						</Flex>

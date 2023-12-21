@@ -83,13 +83,17 @@ const Index = () => {
 					<div
 						style={{
 							overflow: 'hidden',
-							padding: token.paddingXS,
+							paddingBottom: token.paddingXS,
 							border: '0.5px solid #D3D3D3',
+							height: '100%',
 						}}
-						className="h-full"
 					>
 						<Flex
-							className="w-full  overflow-y-scroll no-scrollbar   scroll-smooth  h-full"
+							style={{
+								overflowY: 'scroll',
+								height: '100%',
+								padding: token.paddingXS,
+							}}
 							vertical
 						>
 							<div className="flex flex-col gap-[5px] ">
@@ -109,12 +113,16 @@ const Index = () => {
 					</div>
 				</Flex>
 			) : (
-				<Flex className="p-[10px] flex-1">
+				<Flex flex="1" style={{ padding: token.paddingXS }}>
 					<Flex
 						flex="1"
 						justify="center"
 						gap="middle"
-						className="h-full  p-[10px] overflow-y-hidden "
+						style={{
+							height: '100%',
+							padding: token.paddingXS,
+							overflowY: 'hidden',
+						}}
 					>
 						<EmptyBasket />
 					</Flex>

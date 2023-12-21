@@ -94,7 +94,7 @@ const Index = ({ open }: ModalProps) => {
 						style={{
 							color: token.colorBgBase,
 							fontWeight: token.fontWeightStrong,
-							fontSize: token.fontSizeLG,
+							fontSize: token.fontSize,
 						}}
 					>
 						Add New Basket
@@ -106,40 +106,24 @@ const Index = ({ open }: ModalProps) => {
 				</Flex>
 			}
 			footer={
-				<Flex
-					style={{ padding: token.paddingSM }}
-					justify="flex-end"
-					gap="middle"
-				>
-					<Button
-						onClick={onModalClose}
-						style={{
-							backgroundColor: token.colorBgBase,
-							color: token.colorPrimary,
-						}}
-					>
+				<Flex style={{ padding: token.paddingSM }} justify="flex-end">
+					<Button onClick={onModalClose} type="primary">
 						Cancel
 					</Button>
-					<Button
-						onClick={onOkSelect}
-						style={{
-							backgroundColor: token.colorPrimary,
-							color: token.colorBgBase,
-						}}
-					>
+					<Button onClick={onOkSelect} type="primary">
 						Ok
 					</Button>
 				</Flex>
 			}
 			open={open}
-			width={700}
+			width={500}
 			okButtonProps={{ type: 'default' }}
 			closeIcon={null}
 			destroyOnClose
 			styles={{
 				content: { marginTop: '80px', padding: 0 },
 				header: { backgroundColor: token.colorPrimary },
-				body: { padding: token.paddingSM },
+				body: { padding: token.paddingSM, paddingTop: 0, paddingBottom: 0 },
 			}}
 		>
 			<Flex vertical gap="large">
@@ -154,7 +138,6 @@ const Index = ({ open }: ModalProps) => {
 						style={{
 							borderColor: basketNameError ? 'red' : '',
 						}}
-						size="large"
 						placeholder="Enter Basket Name"
 						value={basketName}
 						onChange={handleInputChange}
@@ -166,7 +149,6 @@ const Index = ({ open }: ModalProps) => {
 						}}
 						value={instrument}
 						onChange={handleInstrumentChange}
-						size="large"
 						className="w-full"
 						placeholder="Select an intument"
 						options={[
