@@ -59,9 +59,8 @@ const Index = () => {
 	}
 	const onHandleBasketDuplicate = (id: string) => {
 		const existingBasket = storedBaskets.find((basket) => basket.id === id)
-		if (existingBasket) {
+		existingBasket &&
 			addToStoredBaskets({ ...existingBasket, id: generateUniqueId() })
-		}
 	}
 	const onHandleBaskeMove = (id: string) => {
 		console.log(id)

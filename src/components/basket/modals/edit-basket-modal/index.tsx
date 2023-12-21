@@ -85,6 +85,7 @@ interface EditModalProps {
 const EditBasketModal = ({ open }: EditModalProps) => {
 	const {
 		editableBasketData,
+		savedBaskets,
 		setTimeError,
 		positionCopy,
 		setPositionCopy,
@@ -119,7 +120,6 @@ const EditBasketModal = ({ open }: EditModalProps) => {
 	const [optionExpiryList] = useState<OptionObject[]>(optionExpiry)
 	const [currentExitMinute, setCurrentExitMinute] = useState<number>(0)
 	const [currentEntryMinute, setCurrentEntryMinute] = useState<number>(0)
-
 	const [finalTradeType, setFinalTradeType] = useState<string>('SQAL')
 	const [persistedValues, setPersistedValues] = useState<PersistedValues>()
 	const [subTradeOption, setSubTradeOption] = useState<string>(initialSubTrade)
@@ -132,6 +132,34 @@ const EditBasketModal = ({ open }: EditModalProps) => {
 		useState<string>('Monthly')
 	const [optionExpiryBaseValue, setOptionExpiryBaseValue] =
 		useState<string>('Monthly')
+
+	useEffect(() => {
+		if (editableBasketData) {
+			const isSaved = savedBaskets.find(
+				(basket) => basket.id === editableBasketData.id
+			)
+			if (isSaved) {
+				setBasket(isSaved.positions || [])
+				setInstrument(isSaved.ticker)
+				setBasketTrade(isSaved.exchange)
+				// setFinalTradeType('SQAL')
+				// setMoveSl(isSaved.exitCondition?.move || false)
+				// setRepeatSl(
+				// 	isSaved.exitCondition?.repeat ? isSaved.exitCondition?.repeat : 'NA'
+				// )
+				// const entryHour = isSaved.entryCondition?.entryTime.substring(0, 2)
+				// const entryMinute = isSaved.entryCondition?.entryTime.substring(3, 5)
+				// const exitHour = isSaved.entryCondition?.exitTime.substring(0, 2)
+				// const exitMinute = isSaved.entryCondition?.exitTime.substring(3, 5)
+				// if (entryHour && entryMinute && exitHour && exitMinute) {
+				// 	setSavedCurrentHour(+entryHour)
+				// 	setCurrentEntryMinute(+entryMinute)
+				// 	setCurrentExitHour(+entryHour)
+				// 	setCurrentExitMinute(+exitMinute)
+				// }
+			}
+		}
+	}, [editableBasketData, savedBaskets])
 
 	useValidateTimes(
 		currentEntryHour,
@@ -224,10 +252,10 @@ const EditBasketModal = ({ open }: EditModalProps) => {
 		setSubTradeOptionList(initialSubTradeList)
 		setFutureExpiryBaseValue('Monthly')
 		setOptionExpiryBaseValue('Monthly')
-		setCurrentExitHour(-1)
-		setCurrentExitMinute(-1)
-		setCurrentEntryHour(-1)
-		setCurrentEntryMinute(-1)
+		setCurrentExitHour(0)
+		setCurrentExitMinute(0)
+		setCurrentEntryHour(0)
+		setCurrentEntryMinute(0)
 		setExitMinuteList([])
 		setEntryHourList([])
 		setExitHourList([])
@@ -252,10 +280,36 @@ const EditBasketModal = ({ open }: EditModalProps) => {
 		setBasket((prev) => [
 			...prev,
 			value === 'spot'
-				? { ...defaultSpotPosition, id: uniqueId }
+				? {
+						...defaultSpotPosition,
+						id: uniqueId,
+						entryCondition: {
+							quantity: quantityValue,
+							actionType: actionValue,
+						},
+					}
 				: value === 'future'
-					? { ...defaultFuturePosition, id: uniqueId }
-					: { ...defaultOptionsPosition, id: uniqueId },
+					? {
+							...defaultFuturePosition,
+							id: uniqueId,
+							entryCondition: {
+								quantity: quantityValue,
+								actionType: actionValue,
+								expiry: futureExpiryBaseValue,
+							},
+						}
+					: {
+							...defaultOptionsPosition,
+							id: uniqueId,
+							entryCondition: {
+								quantity: quantityValue,
+								actionType: actionValue,
+								expiry: optionExpiryBaseValue,
+								tradeType: tradeOption,
+								tradeTypeParams: subTradeOption,
+								tradeTypeValue: tradeValue,
+							},
+						},
 		])
 	}
 
@@ -328,7 +382,7 @@ const EditBasketModal = ({ open }: EditModalProps) => {
 	return (
 		<Modal
 			open={open}
-			width={1200}
+			width={1250}
 			closeIcon={null}
 			destroyOnClose={true}
 			afterClose={handleAfterClose}
@@ -478,9 +532,9 @@ const EditBasketModal = ({ open }: EditModalProps) => {
 									key={bask.id}
 									id={bask.id}
 									basket={basket}
-									baseQuanity={quantityValue}
+									baseQuanity={bask.entryCondition.quantity}
 									baseInstrumentValue={instrument}
-									baseActionValue={actionValue}
+									baseActionValue={bask.entryCondition.actionType}
 									handleEditBasket={setBasket}
 									handleCopyBasket={handleCopyBasket}
 									handleDeleteBasket={handleDeleteBasket}
@@ -489,10 +543,12 @@ const EditBasketModal = ({ open }: EditModalProps) => {
 								<FututeBasketDetails
 									key={bask.id}
 									id={bask.id}
-									baseQuanity={quantityValue}
+									baseQuanity={bask.entryCondition.quantity}
 									baseInstrumentValue={instrument}
-									baseActionValue={actionValue}
-									futureExpiryBaseValue={futureExpiryBaseValue}
+									baseActionValue={bask.entryCondition.actionType}
+									futureExpiryBaseValue={
+										bask.entryCondition.expiry || 'Monthly'
+									}
 									futureExpiryList={futureExpiryList}
 									basket={basket}
 									handleEditBasket={setBasket}
@@ -503,16 +559,24 @@ const EditBasketModal = ({ open }: EditModalProps) => {
 								<OptionBasketDetail
 									key={bask.id}
 									id={bask.id}
-									baseQuanity={quantityValue}
-									optionExpiryBaseValue={optionExpiryBaseValue}
-									baseActionValue={actionValue}
-									baseOptionValue={optionType}
+									baseQuanity={bask.entryCondition.quantity}
+									optionExpiryBaseValue={
+										bask.entryCondition.expiry || 'Monthly'
+									}
+									baseActionValue={bask.entryCondition.actionType}
+									baseOptionValue={bask.entryCondition.optionType || optionType}
 									baseInstrumentValue={instrument}
 									optionExpiryList={optionExpiryList}
-									baseSubTradeOption={subTradeOption}
-									baseTradeOption={tradeOption}
-									baseSubTradeOptionList={subTradeOptionList}
-									baseTradeValue={tradeValue}
+									baseSubTradeOption={
+										bask.entryCondition.tradeTypeParams || subTradeOption
+									}
+									baseTradeOption={bask.entryCondition.tradeType || tradeOption}
+									baseSubTradeOptionList={
+										tradeTypeData.find(
+											(trade) => trade.value === bask.entryCondition.tradeType
+										)?.children || subTradeOptionList
+									}
+									baseTradeValue={bask.entryCondition.tradeTypeValue || 0}
 									basket={basket}
 									handleEditBasket={setBasket}
 									handleCopyBasket={handleCopyBasket}

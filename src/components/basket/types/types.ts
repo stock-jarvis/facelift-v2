@@ -26,6 +26,7 @@ export interface RunTimeBasketData {
 	instrument: string
 	identifier: number
 	error: boolean
+	positions?: BasketDataProps[]
 }
 export interface Date {
 	day: string

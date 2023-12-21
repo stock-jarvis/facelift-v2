@@ -90,7 +90,7 @@ const StrikeSelector = ({
 					onChange={handleSubTradeChange}
 				/>
 				{tradeOption !== 'ATMPt' && tradeOption !== 'HIGHOI' && (
-					<Flex style={{ width: '90px' }}>
+					<Flex style={{ width: '90px', height: '40px' }}>
 						<Input
 							style={{ width: '80px' }}
 							type="number"
