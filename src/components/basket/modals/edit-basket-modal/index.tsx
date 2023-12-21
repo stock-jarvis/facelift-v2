@@ -146,14 +146,6 @@ const EditBasketModal = ({ open }: EditModalProps) => {
 				setBasketTrade(isSaved.exchange)
 				setProfitValue(isSaved.exitCondition?.totalProfit || 0)
 				setLossValue(isSaved.exitCondition?.totalLoss || 0)
-				if (isSaved.entryCondition) {
-					if (isSaved.entryCondition.entryTime) {
-						const entryHour = isSaved.entryCondition.entryTime.substring(0, 2)
-						const entryMinute = isSaved.entryCondition.entryTime.substring(3, 5)
-						setCurrentEntryHour(+entryHour)
-						setCurrentEntryMinute(+entryMinute)
-					}
-				}
 			}
 		}
 	}, [editableBasketData, savedBaskets])
