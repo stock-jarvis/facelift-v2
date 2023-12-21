@@ -59,7 +59,7 @@ const DerivatiesParamSelection: React.FC<DerivatiesParamSelectionProps> = ({
 				placeholder="IV, Δ, OI"
 				onChange={handleChangeOption}
 				style={{
-					width: 100,
+					width: 95,
 					borderBottom: `${token.lineWidthBold}px solid ${token.colorPrimary}`,
 				}}
 			/>

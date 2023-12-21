@@ -1,8 +1,9 @@
-import { Table, TableProps as AntdTableProps } from 'antd'
+import { Table as AntdTable, TableProps as AntdTableProps } from 'antd'
 import { range } from 'radash'
 import { useMemo } from 'react'
 import { DerivativesMetric } from 'src/common/enums'
 
+// Dev
 const mockData = [...range(0, 2000, (i) => i, 100)].map((value) => ({
 	id: value,
 	call: 100 + value,
@@ -20,6 +21,7 @@ type OptionStrikeTableData = {
 	put: number
 }
 
+const Table = AntdTable<OptionStrikeTableData>
 type TableProps = AntdTableProps<OptionStrikeTableData>
 
 type DerivativesTableProps = {
