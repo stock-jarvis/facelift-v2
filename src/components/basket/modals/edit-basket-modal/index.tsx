@@ -19,7 +19,13 @@ import { useBasketStore } from '../../store/basket-store'
 import { usePersistState } from './modal-hooks/usePersistState'
 import { useValidateTimes } from './modal-hooks/useValidateTimes'
 import { useMarketTimes } from './modal-hooks/useMarketTime'
-import { futureExpiry, optionExpiry, tradeTypeData } from '../../constants/data'
+import {
+	futureExpiry,
+	optionExpiry,
+	tradeTypeData,
+	totalProfitOptions,
+	spotLossOptions,
+} from '../../constants/data'
 import {
 	OptionObject,
 	TradeOptions,
@@ -150,10 +156,6 @@ const EditBasketModal = ({ open }: EditModalProps) => {
 		}
 	}, [editableBasketData, savedBaskets])
 
-	useEffect(() => {
-		console.log(currentEntryHour), console.log(currentEntryMinute)
-	}, [currentEntryHour, currentEntryMinute])
-
 	useValidateTimes(
 		currentEntryHour,
 		currentExitHour,
@@ -183,6 +185,7 @@ const EditBasketModal = ({ open }: EditModalProps) => {
 		setSubTradeOption,
 		setTradeValue
 	)
+
 	useMarketTimes(
 		basketTrade,
 		entryHourList,
@@ -282,6 +285,16 @@ const EditBasketModal = ({ open }: EditModalProps) => {
 							quantity: quantityValue,
 							actionType: actionValue,
 						},
+						exitCondition: {
+							stopLoss: {
+								type: 'percent',
+								value: 0,
+							},
+							totalProfit: {
+								type: 'percent',
+								value: 0,
+							},
+						},
 					}
 				: value === 'future'
 					? {
@@ -291,6 +304,16 @@ const EditBasketModal = ({ open }: EditModalProps) => {
 								quantity: quantityValue,
 								actionType: actionValue,
 								expiry: futureExpiryBaseValue,
+							},
+							exitCondition: {
+								stopLoss: {
+									type: 'percent',
+									value: 0,
+								},
+								totalProfit: {
+									type: 'percent',
+									value: 0,
+								},
 							},
 						}
 					: {
@@ -303,6 +326,16 @@ const EditBasketModal = ({ open }: EditModalProps) => {
 								tradeType: tradeOption,
 								tradeTypeParams: subTradeOption,
 								tradeTypeValue: tradeValue,
+							},
+							exitCondition: {
+								stopLoss: {
+									type: 'percent',
+									value: 0,
+								},
+								totalProfit: {
+									type: 'percent',
+									value: 0,
+								},
 							},
 						},
 		])
@@ -527,6 +560,18 @@ const EditBasketModal = ({ open }: EditModalProps) => {
 									key={bask.id}
 									id={bask.id}
 									basket={basket}
+									baseTotalProfitValue={
+										bask.exitCondition?.totalProfit.value || 0
+									}
+									baseSpotLossOption={
+										bask.exitCondition?.stopLoss.type ||
+										spotLossOptions[0].value
+									}
+									baseTotalProfitOption={
+										bask.exitCondition?.totalProfit.type ||
+										totalProfitOptions[0].value
+									}
+									baseSpotLossValue={bask.exitCondition?.stopLoss.value || 0}
 									baseQuanity={bask.entryCondition.quantity}
 									baseInstrumentValue={instrument}
 									baseActionValue={bask.entryCondition.actionType}
@@ -540,6 +585,18 @@ const EditBasketModal = ({ open }: EditModalProps) => {
 									id={bask.id}
 									baseQuanity={bask.entryCondition.quantity}
 									baseInstrumentValue={instrument}
+									baseTotalProfitValue={
+										bask.exitCondition?.totalProfit.value || 0
+									}
+									baseSpotLossOption={
+										bask.exitCondition?.stopLoss.type ||
+										spotLossOptions[0].value
+									}
+									baseTotalProfitOption={
+										bask.exitCondition?.totalProfit.type ||
+										totalProfitOptions[0].value
+									}
+									baseSpotLossValue={bask.exitCondition?.stopLoss.value || 0}
 									baseActionValue={bask.entryCondition.actionType}
 									futureExpiryBaseValue={
 										bask.entryCondition.expiry || 'Monthly'
@@ -558,6 +615,18 @@ const EditBasketModal = ({ open }: EditModalProps) => {
 									optionExpiryBaseValue={
 										bask.entryCondition.expiry || 'Monthly'
 									}
+									baseTotalProfitValue={
+										bask.exitCondition?.totalProfit.value || 0
+									}
+									baseSpotLossOption={
+										bask.exitCondition?.stopLoss.type ||
+										spotLossOptions[0].value
+									}
+									baseTotalProfitOption={
+										bask.exitCondition?.totalProfit.type ||
+										totalProfitOptions[0].value
+									}
+									baseSpotLossValue={bask.exitCondition?.stopLoss.value || 0}
 									baseActionValue={bask.entryCondition.actionType}
 									baseOptionValue={bask.entryCondition.optionType || optionType}
 									baseInstrumentValue={instrument}

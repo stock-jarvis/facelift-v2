@@ -34,6 +34,10 @@ interface OptionDetailsProps {
 	baseSubTradeOption: string
 	baseSubTradeOptionList: TradeOptions[]
 	baseInstrumentValue: string
+	baseSpotLossValue: number
+	baseTotalProfitValue: number
+	baseSpotLossOption: string
+	baseTotalProfitOption: string
 	handleDeleteBasket: (val: string) => void
 	handleCopyBasket: (val: string) => void
 	handleEditBasket: (basket: BasketDataProps[]) => void
@@ -51,6 +55,10 @@ const OptionBasketDetail = ({
 	baseSubTradeOptionList,
 	baseTradeValue,
 	baseInstrumentValue,
+	baseSpotLossValue,
+	baseTotalProfitValue,
+	baseSpotLossOption,
+	baseTotalProfitOption,
 	handleDeleteBasket,
 	handleCopyBasket,
 	handleEditBasket,
@@ -68,14 +76,13 @@ const OptionBasketDetail = ({
 	)
 	const [expiryValue, setExpiryValue] = useState<string>(optionExpiryBaseValue)
 
-	const [spotLossType, setSpotLossType] = useState<string>(
-		spotLossOptions[0].value
-	)
+	const [spotLossType, setSpotLossType] = useState<string>(baseSpotLossOption)
 	const [totalProfitType, setTotalProfitType] = useState<string>(
-		totalProfitOptions[0].value
+		baseTotalProfitOption
 	)
-	const [totalProfitValue, setTotalProfitValue] = useState<number>(0)
-	const [spotLossValue, setSpotLossValue] = useState<number>(0)
+	const [totalProfitValue, setTotalProfitValue] =
+		useState<number>(baseTotalProfitValue)
+	const [spotLossValue, setSpotLossValue] = useState<number>(baseSpotLossValue)
 
 	useValueChange(quantityValue, id, basket, handleEditBasket, 'quantity')
 	useValueChange(tradeValue, id, basket, handleEditBasket, 'tradeTypeValue')

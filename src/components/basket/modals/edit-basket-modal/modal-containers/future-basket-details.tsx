@@ -29,6 +29,10 @@ interface FututreDetailsProps {
 	futureExpiryBaseValue: string
 	baseInstrumentValue: string
 	basket: BasketDataProps[]
+	baseSpotLossValue: number
+	baseTotalProfitValue: number
+	baseSpotLossOption: string
+	baseTotalProfitOption: string
 	handleDeleteBasket: (val: string) => void
 	handleCopyBasket: (val: string) => void
 	handleEditBasket: (basket: BasketDataProps[]) => void
@@ -39,6 +43,10 @@ const FututeBasketDetails = ({
 	baseQuanity,
 	baseActionValue,
 	futureExpiryList,
+	baseSpotLossValue,
+	baseTotalProfitValue,
+	baseSpotLossOption,
+	baseTotalProfitOption,
 	baseInstrumentValue,
 	futureExpiryBaseValue,
 	handleCopyBasket,
@@ -48,14 +56,13 @@ const FututeBasketDetails = ({
 	const [quantityValue, setQuantityValue] = useState<number>(baseQuanity)
 	const [actionValue, setActionValue] = useState<string>(baseActionValue)
 	const [expirtyValue, setExpiryValue] = useState<string>(futureExpiryBaseValue)
-	const [spotLossType, setSpotLossType] = useState<string>(
-		spotLossOptions[0].value
-	)
+	const [spotLossType, setSpotLossType] = useState<string>(baseSpotLossOption)
 	const [totalProfitType, setTotalProfitType] = useState<string>(
-		totalProfitOptions[0].value
+		baseTotalProfitOption
 	)
-	const [totalProfitValue, setTotalProfitValue] = useState<number>(0)
-	const [spotLossValue, setSpotLossValue] = useState<number>(0)
+	const [totalProfitValue, setTotalProfitValue] =
+		useState<number>(baseTotalProfitValue)
+	const [spotLossValue, setSpotLossValue] = useState<number>(baseSpotLossValue)
 
 	useValueChange(quantityValue, id, basket, handleEditBasket, 'quantity')
 	useActionChange(actionValue, id, basket, handleEditBasket, 'actionType')

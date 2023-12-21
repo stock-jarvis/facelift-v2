@@ -39,6 +39,7 @@ const OptionsBasketSelector = ({
 	handleBaseSubTradeChange,
 	handleBaseSubTradeListChange,
 	handleBaseTradeValueChange,
+
 	baseTradeValue,
 	optionExpiryBaseValue,
 	baseInstrumentValue,

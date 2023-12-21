@@ -21,10 +21,13 @@ interface SpotDetailsProps {
 	handleEditBasket: (basket: BasketDataProps[]) => void
 	id: string
 	basket: BasketDataProps[]
-
+	baseSpotLossValue: number
+	baseTotalProfitValue: number
 	baseInstrumentValue: string
 	baseQuanity: number
 	baseActionValue: string
+	baseSpotLossOption: string
+	baseTotalProfitOption: string
 }
 
 const SpotBasketDetail = ({
@@ -36,17 +39,20 @@ const SpotBasketDetail = ({
 	baseQuanity,
 	baseActionValue,
 	baseInstrumentValue,
+	baseSpotLossValue,
+	baseTotalProfitValue,
+	baseSpotLossOption,
+	baseTotalProfitOption,
 }: SpotDetailsProps) => {
 	const [quantityValue, setQuantityValue] = useState<number>(baseQuanity)
 	const [actionValue, setActionValue] = useState<string>(baseActionValue)
-	const [spotLossType, setSpotLossType] = useState<string>(
-		spotLossOptions[0].value
-	)
+	const [spotLossType, setSpotLossType] = useState<string>(baseSpotLossOption)
 	const [totalProfitType, setTotalProfitType] = useState<string>(
-		totalProfitOptions[0].value
+		baseTotalProfitOption
 	)
-	const [totalProfitValue, setTotalProfitValue] = useState<number>(0)
-	const [spotLossValue, setSpotLossValue] = useState<number>(0)
+	const [totalProfitValue, setTotalProfitValue] =
+		useState<number>(baseTotalProfitValue)
+	const [spotLossValue, setSpotLossValue] = useState<number>(baseSpotLossValue)
 
 	useValueChange(quantityValue, id, basket, handleEditBasket, 'quantity')
 	useActionChange(actionValue, id, basket, handleEditBasket, 'actionType')
