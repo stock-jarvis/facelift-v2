@@ -2,15 +2,22 @@ import { Flex, Typography, theme } from 'antd'
 import ActionSection from '../action-section'
 import { savedIconsSections } from '../../../constants/data'
 interface BasketItemProps {
+	id: string
 	name: string
 	identifier: number
+	handleOnClick: (val: string, id: string) => void
 }
-const BasketItem = ({ name, identifier }: BasketItemProps) => {
+const BasketItem = ({
+	id,
+	name,
+	identifier,
+	handleOnClick,
+}: BasketItemProps) => {
 	const { token } = theme.useToken()
 	const onActionClicked = (val: string) => {
 		// TODO: bind it with action handlers
-		console.log(name, identifier)
-		console.log(val)
+
+		handleOnClick(val, id)
 	}
 	return (
 		<Flex flex="1">

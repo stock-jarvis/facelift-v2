@@ -48,6 +48,12 @@ const Index = () => {
 				? setVal('MCX')
 				: setVal('CUR')
 	}, [exchange])
+
+	const handleActionClicked = (val: string, id: string) => {
+		console.log('action', val)
+		console.log('id', id)
+	}
+
 	return (
 		<Flex flex="1" vertical gap="middle" style={{ padding: token.paddingSM }}>
 			<Flex justify="center" style={{ padding: token.paddingXS }}>
@@ -96,6 +102,8 @@ const Index = () => {
 									basket.exchange === exchange && (
 										<Flex key={i}>
 											<ListItem
+												handleOnClick={handleActionClicked}
+												id={basket.id}
 												name={basket.name || ''}
 												identifier={basket.identifier || 0}
 											/>
