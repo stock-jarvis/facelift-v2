@@ -55,6 +55,7 @@ const ExitCondition = ({
 	handleChangeEntryMinute,
 	handleChangeEntryHour,
 }: ExitConditionProps) => {
+	//console.log('basket Trade Type', basketTradeType)
 	return (
 		<Flex flex={1} vertical gap="middle">
 			<Flex flex={1}>

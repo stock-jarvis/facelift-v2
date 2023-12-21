@@ -6,6 +6,7 @@ import {
 	curTimes,
 } from 'src/components/basket/constants/entry-exit-time'
 export const useMarketTimes = (
+	isSavedState: boolean,
 	basketTrade: string | undefined,
 	entryHourList: TimeHours[] | undefined,
 	exitHourList: TimeHours[] | undefined,
@@ -16,44 +17,55 @@ export const useMarketTimes = (
 	setCurrentEntryHour: (val: number) => void,
 	setCurrentEntryMinute: (val: number) => void,
 	setCurrentExitHour: (val: number) => void,
-	setCurrentExitMinute: (val: number) => void
+	setCurrentExitMinute: (val: number) => void,
+	setIsSavedState: (val: boolean) => void,
+	currentEntryHour: number,
+	currentEntryMinute: number
 ) => {
 	useEffect(() => {
-		if (basketTrade === 'NSE') {
-			setEntryHourList(nseTimes)
-			setEntryMinuteList(nseTimes[0].minutes)
-			setCurrentEntryHour(nseTimes[0].value)
-			setCurrentEntryMinute(nseTimes[0].minutes[0].value)
-			setExitHourList(nseTimes)
-			setExitMinuteList(nseTimes[nseTimes.length - 1].minutes)
-			setCurrentExitHour(nseTimes[nseTimes.length - 1].value)
-			const minutes = nseTimes[nseTimes.length - 1].minutes
-			const finalMiutes = minutes[minutes.length - 1]
-			setCurrentExitMinute(finalMiutes.value)
-		} else if (basketTrade === 'MCX') {
-			setEntryHourList(mxcTimes)
-			setEntryMinuteList(mxcTimes[0].minutes)
-			setCurrentEntryHour(mxcTimes[0].value)
-			setCurrentEntryMinute(mxcTimes[0].minutes[0].value)
-			setExitHourList(mxcTimes)
-			setExitMinuteList(mxcTimes[mxcTimes.length - 1].minutes)
-			setCurrentExitHour(mxcTimes[mxcTimes.length - 1].value)
-			const minutes = mxcTimes[mxcTimes.length - 1].minutes
-			const finalMiutes = minutes[minutes.length - 1]
-			setCurrentExitMinute(finalMiutes.value)
-		} else if (basketTrade === 'CUR') {
-			setEntryHourList(curTimes)
-			setEntryMinuteList(curTimes[0].minutes)
-			setCurrentEntryHour(curTimes[0].value)
-			setCurrentEntryMinute(curTimes[0].minutes[0].value)
-			setExitHourList(curTimes)
-			setExitMinuteList(curTimes[curTimes.length - 1].minutes)
-			setCurrentExitHour(curTimes[curTimes.length - 1].value)
-			const minutes = curTimes[curTimes.length - 1].minutes
-			const finalMiutes = minutes[minutes.length - 1]
-			setCurrentExitMinute(finalMiutes.value)
+		if (!isSavedState) {
+			if (basketTrade === 'NSE') {
+				setEntryHourList(nseTimes)
+				setEntryMinuteList(nseTimes[0].minutes)
+				setCurrentEntryHour(nseTimes[0].value)
+				setCurrentEntryMinute(nseTimes[0].minutes[0].value)
+				setExitHourList(nseTimes)
+				setExitMinuteList(nseTimes[nseTimes.length - 1].minutes)
+				setCurrentExitHour(nseTimes[nseTimes.length - 1].value)
+				const minutes = nseTimes[nseTimes.length - 1].minutes
+				const finalMiutes = minutes[minutes.length - 1]
+				setCurrentExitMinute(finalMiutes.value)
+			} else if (basketTrade === 'MCX') {
+				setEntryHourList(mxcTimes)
+				setEntryMinuteList(mxcTimes[0].minutes)
+				setCurrentEntryHour(mxcTimes[0].value)
+				setCurrentEntryMinute(mxcTimes[0].minutes[0].value)
+				setExitHourList(mxcTimes)
+				setExitMinuteList(mxcTimes[mxcTimes.length - 1].minutes)
+				setCurrentExitHour(mxcTimes[mxcTimes.length - 1].value)
+				const minutes = mxcTimes[mxcTimes.length - 1].minutes
+				const finalMiutes = minutes[minutes.length - 1]
+				setCurrentExitMinute(finalMiutes.value)
+			} else if (basketTrade === 'CUR') {
+				setEntryHourList(curTimes)
+				setEntryMinuteList(curTimes[0].minutes)
+				setCurrentEntryHour(curTimes[0].value)
+				setCurrentEntryMinute(curTimes[0].minutes[0].value)
+				setExitHourList(curTimes)
+				setExitMinuteList(curTimes[curTimes.length - 1].minutes)
+				setCurrentExitHour(curTimes[curTimes.length - 1].value)
+				const minutes = curTimes[curTimes.length - 1].minutes
+				const finalMiutes = minutes[minutes.length - 1]
+				setCurrentExitMinute(finalMiutes.value)
+			}
+		} else {
+			if (basketTrade === 'NSE') {
+				setIsSavedState(true)
+			}
 		}
 	}, [
+		isSavedState,
+		setIsSavedState,
 		basketTrade,
 		setCurrentEntryHour,
 		setCurrentEntryMinute,
@@ -66,7 +78,11 @@ export const useMarketTimes = (
 	])
 
 	useEffect(() => {
-		if (!entryHourList || entryHourList.length === 0) {
+		if (
+			(!entryHourList || entryHourList.length === 0) &&
+			currentEntryHour === 0 &&
+			currentEntryMinute === 0
+		) {
 			if (basketTrade) {
 				if (basketTrade === 'NSE') {
 					setEntryHourList(nseTimes)
@@ -93,6 +109,8 @@ export const useMarketTimes = (
 		setCurrentEntryMinute,
 		setEntryHourList,
 		setEntryMinuteList,
+		currentEntryHour,
+		currentEntryMinute,
 	])
 
 	useEffect(() => {

@@ -81,12 +81,6 @@ const TradeSecion = ({
 				<Flex gap="middle">
 					<Switch
 						onChange={() => setMove(!move)}
-						style={{
-							borderColor: token.colorPrimary,
-							boxShadow: '3px 3px 3px 3px rgba(0, 0, 0, 0.25)',
-							fill: 'black',
-							colorInterpolation: 'linearRGB',
-						}}
 						autoFocus={true}
 						checkedChildren={<CheckOutlined />}
 						unCheckedChildren={
@@ -108,11 +102,6 @@ const TradeSecion = ({
 						<Switch
 							value={repeatTrade}
 							onChange={handleTradeChange}
-							style={{
-								borderColor: token.colorPrimary,
-								boxShadow: '3px 3px 3px 3px rgba(0, 0, 0, 0.25)',
-								fill: 'black',
-							}}
 							autoFocus={true}
 							checkedChildren={<CheckOutlined />}
 							unCheckedChildren={
@@ -132,11 +121,6 @@ const TradeSecion = ({
 						<Switch
 							value={repeatCondition}
 							onChange={handleConditionChange}
-							style={{
-								borderColor: token.colorPrimary,
-								boxShadow: '3px 3px 3px 3px rgba(0, 0, 0, 0.25)',
-								fill: 'black',
-							}}
 							autoFocus={true}
 							checkedChildren={<CheckOutlined />}
 							unCheckedChildren={

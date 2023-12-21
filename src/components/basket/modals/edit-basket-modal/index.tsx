@@ -122,7 +122,9 @@ const EditBasketModal = ({ open }: EditModalProps) => {
 	const [currentEntryMinute, setCurrentEntryMinute] = useState<number>(0)
 	const [finalTradeType, setFinalTradeType] = useState<string>('SQAL')
 	const [persistedValues, setPersistedValues] = useState<PersistedValues>()
+	const [isSavedState, setIsSavedState] = useState<boolean>(false)
 	const [subTradeOption, setSubTradeOption] = useState<string>(initialSubTrade)
+
 	const [basketPositions, setBasketPositions] = useState<string>('INTRA')
 	const [basketTradeType, setBasketTradeType] =
 		useState<string>('Square off one Leg')
@@ -142,24 +144,24 @@ const EditBasketModal = ({ open }: EditModalProps) => {
 				setBasket(isSaved.positions || [])
 				setInstrument(isSaved.ticker)
 				setBasketTrade(isSaved.exchange)
-				// setFinalTradeType('SQAL')
-				// setMoveSl(isSaved.exitCondition?.move || false)
-				// setRepeatSl(
-				// 	isSaved.exitCondition?.repeat ? isSaved.exitCondition?.repeat : 'NA'
-				// )
-				// const entryHour = isSaved.entryCondition?.entryTime.substring(0, 2)
-				// const entryMinute = isSaved.entryCondition?.entryTime.substring(3, 5)
-				// const exitHour = isSaved.entryCondition?.exitTime.substring(0, 2)
-				// const exitMinute = isSaved.entryCondition?.exitTime.substring(3, 5)
-				// if (entryHour && entryMinute && exitHour && exitMinute) {
-				// 	setSavedCurrentHour(+entryHour)
-				// 	setCurrentEntryMinute(+entryMinute)
-				// 	setCurrentExitHour(+entryHour)
-				// 	setCurrentExitMinute(+exitMinute)
-				// }
+				setProfitValue(isSaved.exitCondition?.totalProfit || 0)
+				setLossValue(isSaved.exitCondition?.totalLoss || 0)
+				setIsSavedState(true)
+				if (isSaved.entryCondition) {
+					if (isSaved.entryCondition.entryTime) {
+						const entryHour = isSaved.entryCondition.entryTime.substring(0, 2)
+						const entryMinute = isSaved.entryCondition.entryTime.substring(3, 5)
+						setCurrentEntryHour(+entryHour)
+						setCurrentEntryMinute(+entryMinute)
+					}
+				}
 			}
 		}
 	}, [editableBasketData, savedBaskets])
+
+	useEffect(() => {
+		console.log(currentEntryHour), console.log(currentEntryMinute)
+	}, [currentEntryHour, currentEntryMinute])
 
 	useValidateTimes(
 		currentEntryHour,
@@ -191,6 +193,7 @@ const EditBasketModal = ({ open }: EditModalProps) => {
 		setTradeValue
 	)
 	useMarketTimes(
+		isSavedState,
 		basketTrade,
 		entryHourList,
 		exitHourList,
@@ -201,7 +204,10 @@ const EditBasketModal = ({ open }: EditModalProps) => {
 		setCurrentEntryHour,
 		setCurrentEntryMinute,
 		setCurrentExitHour,
-		setCurrentExitMinute
+		setCurrentExitMinute,
+		setIsSavedState,
+		currentEntryHour,
+		currentEntryMinute
 	)
 
 	useUndefinedNumberedSet(
@@ -244,6 +250,8 @@ const EditBasketModal = ({ open }: EditModalProps) => {
 		setQuantityValue(1)
 		setActionValue('B')
 		setOptionType('CE')
+		setProfitValue(0)
+		setLossValue(0)
 		setBasketTrade('')
 		setBasketName('')
 		setBasketIdentifier(0)
