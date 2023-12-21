@@ -122,7 +122,7 @@ const EditBasketModal = ({ open }: EditModalProps) => {
 	const [currentEntryMinute, setCurrentEntryMinute] = useState<number>(0)
 	const [finalTradeType, setFinalTradeType] = useState<string>('SQAL')
 	const [persistedValues, setPersistedValues] = useState<PersistedValues>()
-	const [isSavedState, setIsSavedState] = useState<boolean>(false)
+	//const [isSavedState, setIsSavedState] = useState<boolean>(false)
 	const [subTradeOption, setSubTradeOption] = useState<string>(initialSubTrade)
 
 	const [basketPositions, setBasketPositions] = useState<string>('INTRA')
@@ -146,7 +146,6 @@ const EditBasketModal = ({ open }: EditModalProps) => {
 				setBasketTrade(isSaved.exchange)
 				setProfitValue(isSaved.exitCondition?.totalProfit || 0)
 				setLossValue(isSaved.exitCondition?.totalLoss || 0)
-				setIsSavedState(true)
 				if (isSaved.entryCondition) {
 					if (isSaved.entryCondition.entryTime) {
 						const entryHour = isSaved.entryCondition.entryTime.substring(0, 2)
@@ -193,7 +192,6 @@ const EditBasketModal = ({ open }: EditModalProps) => {
 		setTradeValue
 	)
 	useMarketTimes(
-		isSavedState,
 		basketTrade,
 		entryHourList,
 		exitHourList,
@@ -204,10 +202,7 @@ const EditBasketModal = ({ open }: EditModalProps) => {
 		setCurrentEntryHour,
 		setCurrentEntryMinute,
 		setCurrentExitHour,
-		setCurrentExitMinute,
-		setIsSavedState,
-		currentEntryHour,
-		currentEntryMinute
+		setCurrentExitMinute
 	)
 
 	useUndefinedNumberedSet(
