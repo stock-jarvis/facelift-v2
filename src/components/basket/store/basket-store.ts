@@ -37,6 +37,7 @@ type BasketStateActions = {
 	toggleSetBasketModalOpen: (
 		isAddBasketModalOpen: BasketState['isAddBasketModalOpen']
 	) => void
+	deleteStoredBasket: (id: string) => void
 	addToStoredBaskets: (basket: SavedBasketsObject) => void
 	addToSavedBasket: (basket: SavedBasketsObject) => void
 	toggleTimeErrorModalOpen: (timeErrorModalOpen: boolean) => void
@@ -224,6 +225,13 @@ export const useBasketStore = create<BasketState & BasketStateActions>()(
 				set((state) => {
 					void state.runtimeBasketList.push(newBasket)
 					state.duplicateError = false
+				}),
+
+			deleteStoredBasket: (id: string) =>
+				set((state) => {
+					state.storedBaskets = state.storedBaskets.filter((basket) => {
+						return basket.id !== id
+					})
 				}),
 
 			deleteRuntimeBasket: (id: string) =>

@@ -4,6 +4,7 @@ import BasketExchange from '../../common/basket-exchange/exchange-selector'
 import { useState, useEffect } from 'react'
 import { useBasketStore } from '../../store/basket-store'
 import EmptySavedBasket from '../../common/empty-saved-basket'
+import { generateUniqueId } from '../../common/utils/randomizer'
 interface EmptyBaskeyProps {
 	NSE: boolean
 	CUR: boolean
@@ -14,7 +15,8 @@ type key = 'NSE' | 'CUR' | 'MCX'
 const Index = () => {
 	const { Text } = Typography
 	const { token } = theme.useToken()
-	const { storedBaskets } = useBasketStore()
+	const { storedBaskets, addToStoredBaskets, deleteStoredBasket } =
+		useBasketStore()
 	const [exchange, setExchange] = useState<string>('NSE')
 	const [val, setVal] = useState<key>('NSE')
 	const [emptyBasketsCheck, setEmptyBasketChecks] = useState<EmptyBaskeyProps>({
@@ -49,9 +51,29 @@ const Index = () => {
 				: setVal('CUR')
 	}, [exchange])
 
-	const handleActionClicked = (val: string, id: string) => {
-		console.log('action', val)
-		console.log('id', id)
+	const onHandleBaskeDelete = (id: string) => {
+		deleteStoredBasket(id)
+	}
+	const onHandleBasketEdit = (id: string) => {
+		console.log(id)
+	}
+	const onHandleBasketDuplicate = (id: string) => {
+		const existingBasket = storedBaskets.find((basket) => basket.id === id)
+		if (existingBasket) {
+			addToStoredBaskets({ ...existingBasket, id: generateUniqueId() })
+		}
+	}
+	const onHandleBaskeMove = (id: string) => {
+		console.log(id)
+	}
+	const handleActionClicked = (actionType: string, id: string) => {
+		actionType === 'edit'
+			? onHandleBasketEdit(id)
+			: actionType === 'duplicate'
+				? onHandleBasketDuplicate(id)
+				: actionType === 'delete'
+					? onHandleBaskeDelete(id)
+					: onHandleBaskeMove(id)
 	}
 
 	return (
