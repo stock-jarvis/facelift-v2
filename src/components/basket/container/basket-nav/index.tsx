@@ -1,8 +1,7 @@
-import { Flex, theme, Button, DatePicker } from 'antd'
+import { Flex, Button, DatePicker } from 'antd'
 import { PlayCircleOutlined, PlusOutlined } from '@ant-design/icons'
 import { IoCalendarOutline } from 'react-icons/io5'
 
-import { TbSeparator } from 'react-icons/tb'
 import { TimeRangePickerProps } from 'antd'
 import { useState, useEffect } from 'react'
 import { useBasketStore } from '../../store/basket-store'
@@ -16,7 +15,7 @@ const Index = () => {
 		startDate,
 		endDate,
 	} = useBasketStore()
-	const { token } = theme.useToken()
+	//const { token } = theme.useToken()
 	const [disabledButton, setDisabledButton] = useState<boolean>(true)
 	const handleDateChanged: TimeRangePickerProps['onChange'] = (e) => {
 		const startDate = e?.[0]?.format('DD-MM-YYYY') || ''
@@ -35,15 +34,9 @@ const Index = () => {
 		<Flex flex="1" className="p-[10px]">
 			<Flex flex="1">
 				<RangePicker
-					separator={<TbSeparator style={{ color: token.colorPrimary }} />}
 					format={'DD-MM-YYYY'}
-					suffixIcon={
-						<IoCalendarOutline style={{ color: token.colorPrimary }} />
-					}
-					style={{
-						borderColor: token.colorPrimary,
-						color: token.colorPrimary,
-					}}
+					suffixIcon={<IoCalendarOutline />}
+					style={{}}
 					onChange={handleDateChanged}
 				/>
 			</Flex>

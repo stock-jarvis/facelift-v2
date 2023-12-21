@@ -208,10 +208,10 @@ const Footer = ({
 				justify="space-between"
 				style={{
 					width: '90%',
-					boxShadow: '1px 2px 3px rgba(0, 0, 0, 0.25)',
+					//boxShadow: '1px 2px 3px rgba(0, 0, 0, 0.25)',
 					padding: token.paddingLG,
 					borderRadius: token.borderRadiusLG,
-					backgroundColor: '#F1F8FF',
+					//backgroundColor: '#F1F8FF',
 				}}
 			>
 				<Space
@@ -228,7 +228,7 @@ const Footer = ({
 						type="primary"
 						placeholder="Spread"
 						style={{
-							backgroundColor: '#F1F8FF',
+							//	backgroundColor: '#F1F8FF',
 							fontSize: token.fontSizeHeading5,
 							outline: 'none',
 							border: 'none',
@@ -257,7 +257,6 @@ const Footer = ({
 					<Button
 						className="max-md:w-[100%]"
 						type="primary"
-						size="large"
 						onClick={handleSaveBasketClick}
 					>
 						Save Basket

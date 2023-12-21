@@ -91,9 +91,9 @@ export const basketOptions: OptionObject[] = [
 	},
 ]
 export const exchangeType = [
-	{ type: 'NSE', id: 1 },
-	{ type: 'MCX', id: 2 },
-	{ type: 'CUR', id: 3 },
+	{ type: 'NSE', id: 1, value: 'NSE', label: 'NSE' },
+	{ type: 'MCX', id: 2, value: 'MCX', label: 'MCX' },
+	{ type: 'CUR', id: 3, value: 'CUR', label: 'CUR' },
 ]
 
 export const iconsSections = [

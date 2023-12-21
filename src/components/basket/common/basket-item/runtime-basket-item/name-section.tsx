@@ -9,20 +9,19 @@ interface NameProps {
 const NameSection: React.FC<NameProps> = ({ exchange, name, identifier }) => {
 	const { token } = theme.useToken()
 	return (
-		<Flex flex="1" align="center">
+		<Flex flex="1" align="center" justify="space-around">
 			<Flex
 				style={{
-					backgroundColor: token.colorPrimary,
+					//backgroundColor: token.colorPrimary,
 					padding: token.paddingXS,
-					border: `1px solid ${token.colorPrimary}`,
+					//border: `1px solid ${token.colorPrimary}`,
 				}}
-				flex="1"
 				className="select-none"
 			>
 				<Typography.Text
 					style={{
 						fontSize: token.fontSizeSM,
-						color: token.colorBgBase,
+						//	color: token.colorBgBase,
 						fontWeight: token.fontWeightStrong,
 					}}
 					color="primary"
@@ -31,7 +30,6 @@ const NameSection: React.FC<NameProps> = ({ exchange, name, identifier }) => {
 				</Typography.Text>
 			</Flex>
 			<Flex
-				flex="3"
 				style={{
 					padding: token.paddingXS,
 				}}

@@ -1,9 +1,5 @@
 import { create } from 'zustand'
-import {
-	ExchangeType,
-	RunTimeBasketData,
-	SavedBasketsObject,
-} from '../types/types'
+import { RunTimeBasketData, SavedBasketsObject } from '../types/types'
 import { devtools } from 'zustand/middleware'
 import { immer } from 'zustand/middleware/immer'
 
@@ -18,8 +14,7 @@ type BasketState = {
 	timeErrorModalOpen: boolean
 	isAddBasketModalOpen: boolean
 	closeModalConfirmation: boolean
-	createBasketExhange: ExchangeType
-	exchange: ExchangeType
+
 	selectedBaskets: RunTimeBasketData[]
 	runtimeBasketList: RunTimeBasketData[]
 	editableBasketData: RunTimeBasketData
@@ -32,8 +27,6 @@ type BasketState = {
 type BasketStateActions = {
 	setTimeError: (error: boolean) => void
 	setEmptyBasketError: (error: boolean) => void
-	setExchange: (exchange: BasketState['exchange']) => void
-	setCreateBasketExchange: (exchange: BasketState['exchange']) => void
 	toggleSetBasketModalOpen: (
 		isAddBasketModalOpen: BasketState['isAddBasketModalOpen']
 	) => void
@@ -88,8 +81,7 @@ const defaultState: BasketState = {
 	duplicateError: false,
 	isEditModalOpen: false,
 	positionCopy: false,
-	exchange: { type: 'NSE', id: 1 },
-	createBasketExhange: { type: 'NSE', id: 1 },
+
 	isAddBasketModalOpen: false,
 	timeErrorModalOpen: false,
 	closeModalConfirmation: false,
@@ -216,10 +208,6 @@ export const useBasketStore = create<BasketState & BasketStateActions>()(
 						basket.id === id ? { ...basket, error: error } : { ...basket }
 					)
 				}),
-
-			setExchange: (exchange) => set({ exchange }),
-
-			setCreateBasketExchange: (exchange) => set({ exchange }),
 
 			addNewRuntimeBasket: (newBasket: RunTimeBasketData) =>
 				set((state) => {

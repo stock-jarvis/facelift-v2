@@ -55,7 +55,7 @@ const Header = ({
 				}}
 			>
 				<CloseOutlined
-					style={{ color: '#ffffff' }}
+					//	style={{ color: '#ffffff' }}
 					onClick={handleCloseEditModal}
 				/>
 			</Flex>

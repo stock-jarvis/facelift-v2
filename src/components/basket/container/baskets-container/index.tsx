@@ -70,12 +70,7 @@ const Index = () => {
 	return (
 		<>
 			{runtimeBasketList.length > 0 ? (
-				<Flex
-					flex="1"
-					vertical
-					gap="middle"
-					className="h-full  p-[10px] overflow-y-hidden"
-				>
+				<Flex flex="1" vertical className="h-full overflow-y-hidden">
 					<Flex className="bg-[white]">
 						<BasketNav />
 					</Flex>
@@ -83,7 +78,7 @@ const Index = () => {
 					<div
 						style={{
 							overflow: 'hidden',
-							paddingBottom: token.paddingXS,
+							//	paddingBottom: token.paddingXS,
 							border: '0.5px solid #D3D3D3',
 							height: '100%',
 						}}

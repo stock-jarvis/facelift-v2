@@ -18,21 +18,16 @@ const ActionSection: React.FC<ActionProps> = ({
 		<Flex
 			align="center"
 			style={{
-				backgroundColor: token.colorPrimary,
-				color: '#ffffff',
 				boxSizing: 'content-box',
+				backgroundColor: 'transparent',
 			}}
 		>
-			{actions.map((icon, i) => (
+			{actions.map((icon) => (
 				<Flex
 					key={icon.key}
 					style={{
 						boxSizing: 'content-box',
 						padding: token.paddingXS,
-						borderRight:
-							i !== actions.length - 1
-								? `1px solid ${token.colorPrimaryBorder}`
-								: '',
 					}}
 					onClick={() => handleOnClick(icon)}
 				>

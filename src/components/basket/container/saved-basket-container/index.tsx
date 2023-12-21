@@ -1,4 +1,4 @@
-import { Flex, theme, Typography } from 'antd'
+import { Flex, theme } from 'antd'
 import ListItem from '../../common/basket-item/saved-basket-tem'
 import BasketExchange from '../../common/basket-exchange/exchange-selector'
 import { useState, useEffect } from 'react'
@@ -13,7 +13,7 @@ interface EmptyBaskeyProps {
 type key = 'NSE' | 'CUR' | 'MCX'
 
 const Index = () => {
-	const { Text } = Typography
+	//const { Text } = Typography
 	const { token } = theme.useToken()
 	const { storedBaskets, addToStoredBaskets, deleteStoredBasket } =
 		useBasketStore()
@@ -76,20 +76,7 @@ const Index = () => {
 	}
 
 	return (
-		<Flex flex="1" vertical gap="middle" style={{ padding: token.paddingSM }}>
-			<Flex justify="center" style={{ padding: token.paddingXS }}>
-				<Text
-					style={{
-						padding: token.paddingXS,
-						fontSize: token.fontSizeHeading5,
-						fontWeight: token.fontWeightStrong,
-						color: token.colorPrimary,
-						opacity: '0.8',
-					}}
-				>
-					Saved Baskets
-				</Text>
-			</Flex>
+		<Flex flex="1" vertical>
 			<Flex>
 				<BasketExchange
 					exchangeValue={exchange}

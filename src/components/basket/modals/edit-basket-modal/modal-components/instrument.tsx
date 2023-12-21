@@ -12,7 +12,7 @@ const Instrument: React.FC<InstrumentProps> = ({ instrument }) => {
 
 				borderRadius: token.borderRadiusLG,
 				padding: token.paddingSM,
-				boxShadow: '2px 2px 2px 2px rgba(0, 0, 0, 0.25) inset',
+				//boxShadow: '2px 2px 2px 2px rgba(0, 0, 0, 0.25) inset',
 			}}
 			vertical
 			align="center"

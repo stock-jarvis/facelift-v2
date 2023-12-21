@@ -19,10 +19,10 @@ const DetailBasketHolder = ({
 			flex={1}
 			gap="middle"
 			style={{
-				boxShadow: '-2px 2px 3px 3px rgba(0, 0, 0, 0.25)',
+				//boxShadow: '-2px 2px 3px 3px rgba(0, 0, 0, 0.25)',
 				padding: token.paddingSM,
 				borderRadius: token.borderRadiusLG,
-				backgroundColor: '#F1F8FF',
+				//	backgroundColor: '#F1F8FF',
 			}}
 		>
 			<Flex justify="center" align="center" flex={1}>

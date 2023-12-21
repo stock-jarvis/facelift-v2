@@ -23,7 +23,7 @@ const PositionHolder = ({
 			flex={1}
 			gap="middle"
 			style={{
-				boxShadow: '-2px 2px 3px 3px rgba(0, 0, 0, 0.25)',
+				//	boxShadow: '-2px 2px 3px 3px rgba(0, 0, 0, 0.25)',
 				padding: token.paddingSM,
 				borderRadius: token.borderRadiusLG,
 			}}
@@ -35,7 +35,7 @@ const PositionHolder = ({
 						fontWeight: token.fontWeightStrong,
 						padding: token.paddingXS,
 						borderRadius: token.borderRadiusLG,
-						boxShadow: '2px 2px 2px 2px rgba(0, 0, 0, 0.25) inset',
+						//			boxShadow: '2px 2px 2px 2px rgba(0, 0, 0, 0.25) inset',
 					}}
 				>
 					{heading}
@@ -46,7 +46,7 @@ const PositionHolder = ({
 			</Flex>
 			<Flex justify="center">
 				<Tooltip title="Click to Add Position">
-					<Button size="large" type="primary" onClick={handleClick}>
+					<Button type="primary" onClick={handleClick}>
 						Add Position
 					</Button>
 				</Tooltip>

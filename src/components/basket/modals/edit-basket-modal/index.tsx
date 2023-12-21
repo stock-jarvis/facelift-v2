@@ -449,7 +449,7 @@ const EditBasketModal = ({ open }: EditModalProps) => {
 					padding: 0,
 				},
 				header: {
-					backgroundColor: token.colorPrimary,
+					//		backgroundColor: token.colorPrimary,
 					padding: token.paddingXS,
 				},
 				footer: {
@@ -484,7 +484,7 @@ const EditBasketModal = ({ open }: EditModalProps) => {
 								paddingTop: 30,
 								paddingBottom: 30,
 								gap: '20px',
-								backgroundColor: '#F1F8FF',
+								//backgroundColor: '#F1F8FF',
 								borderRadius: token.borderRadiusLG,
 							}}
 						>

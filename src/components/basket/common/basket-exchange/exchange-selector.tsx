@@ -1,5 +1,5 @@
-import { Flex } from 'antd'
-import TradeType from './exchange-item'
+import { Flex, Select } from 'antd'
+
 import { exchangeType } from '../../constants/data'
 //import { useBasketStore } from '../../store/basket-store'
 
@@ -16,14 +16,19 @@ const TradeSelector: React.FC<TradeSelectorProps> = ({
 	}
 	return (
 		<Flex flex="1">
-			{exchangeType.map((exchange) => (
+			<Select
+				value={exchangeValue}
+				options={exchangeType}
+				onChange={handleTradeClick}
+			/>
+			{/* {exchangeType.map((exchange) => (
 				<TradeType
 					key={exchange.id}
 					exchangeValue={exchangeValue}
 					{...exchange}
 					onClick={() => handleTradeClick(exchange.type)}
 				/>
-			))}
+			))} */}
 		</Flex>
 	)
 }
