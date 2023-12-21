@@ -4,7 +4,10 @@ interface ActionProps {
 	actions: IconActions[]
 	handleActionClicked: (val: string) => void
 }
-const ActionSection = ({ actions, handleActionClicked }: ActionProps) => {
+const ActionSection: React.FC<ActionProps> = ({
+	actions,
+	handleActionClicked,
+}) => {
 	const { token } = theme.useToken()
 
 	const handleOnClick = (icon: IconActions) => {

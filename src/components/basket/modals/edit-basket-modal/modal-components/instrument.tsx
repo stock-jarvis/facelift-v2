@@ -1,8 +1,8 @@
 import { Flex, Typography, theme } from 'antd'
-interface instrumentProps {
+interface InstrumentProps {
 	instrument: string
 }
-const Instrument = ({ instrument }: instrumentProps) => {
+const Instrument: React.FC<InstrumentProps> = ({ instrument }) => {
 	const { token } = theme.useToken()
 
 	return (

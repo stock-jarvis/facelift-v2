@@ -7,12 +7,12 @@ interface BasketItemProps {
 	identifier: number
 	handleOnClick: (val: string, id: string) => void
 }
-const BasketItem = ({
+const BasketItem: React.FC<BasketItemProps> = ({
 	id,
 	name,
 	identifier,
 	handleOnClick,
-}: BasketItemProps) => {
+}) => {
 	const { token } = theme.useToken()
 	const onActionClicked = (val: string) => {
 		// TODO: bind it with action handlers

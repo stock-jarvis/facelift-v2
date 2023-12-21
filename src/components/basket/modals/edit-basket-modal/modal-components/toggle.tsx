@@ -5,7 +5,11 @@ interface ToggleProps {
 	toogle2: string
 	setToogleValue: (val: string) => void
 }
-const Toggle = ({ toogle1, toogle2, setToogleValue }: ToggleProps) => {
+const Toggle: React.FC<ToggleProps> = ({
+	toogle1,
+	toogle2,
+	setToogleValue,
+}) => {
 	const { token } = theme.useToken()
 	const [toogleValue, setValue] = useState('')
 

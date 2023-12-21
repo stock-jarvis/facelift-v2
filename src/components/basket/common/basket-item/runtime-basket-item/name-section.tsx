@@ -6,7 +6,7 @@ interface NameProps {
 	name: string
 }
 
-const NameSection = ({ exchange, name, identifier }: NameProps) => {
+const NameSection: React.FC<NameProps> = ({ exchange, name, identifier }) => {
 	const { token } = theme.useToken()
 	return (
 		<Flex flex="1" align="center">

@@ -6,11 +6,11 @@ interface ExpirySelectorProps {
 	expiryValue: string
 	handleExpiryChange: (val: string) => void
 }
-const ExpirySelector = ({
+const ExpirySelector: React.FC<ExpirySelectorProps> = ({
 	expiryOptions,
 	expiryValue,
 	handleExpiryChange,
-}: ExpirySelectorProps) => {
+}) => {
 	const { token } = theme.useToken()
 
 	const onHandleExpiryChange: SelectProps['onChange'] = (val: string) => {

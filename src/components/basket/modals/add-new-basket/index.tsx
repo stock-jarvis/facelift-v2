@@ -9,7 +9,7 @@ interface ModalProps {
 	open: boolean
 }
 
-const Index = ({ open }: ModalProps) => {
+const Index: React.FC<ModalProps> = ({ open }) => {
 	const { token } = theme.useToken()
 	const [exhange, setExchange] = useState<string>('NSE')
 	const {

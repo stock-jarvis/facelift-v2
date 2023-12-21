@@ -11,7 +11,7 @@ interface YeildButtonProps {
 	handleTargetValueChange: (val: number) => void
 	handleTargetTypeChange: (val: string) => void
 }
-const YeildButton = ({
+const YeildButton: React.FC<YeildButtonProps> = ({
 	label,
 	options,
 	targetType,

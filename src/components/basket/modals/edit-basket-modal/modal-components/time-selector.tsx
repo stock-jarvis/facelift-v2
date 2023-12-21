@@ -19,7 +19,7 @@ interface TimeSelectorProps {
 	handleChangeCurrentHour: (val: number) => void
 	handleChangeCurrentMinute: (val: number) => void
 }
-const TimeSelector = ({
+const TimeSelector: React.FC<TimeSelectorProps> = ({
 	label,
 	hours,
 	minutes,
@@ -29,7 +29,7 @@ const TimeSelector = ({
 	handleChangeCurrentHour,
 	handleChangeCurrentMinute,
 	handleMinuteListChange,
-}: TimeSelectorProps) => {
+}) => {
 	const { token } = theme.useToken()
 	const { timeError } = useBasketStore()
 	const handleHourChange: SelectProps['onChange'] = (value: number) => {

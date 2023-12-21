@@ -8,7 +8,11 @@ interface CappedButtonProps {
 	setValue: (value: number) => void
 }
 
-const CappedButton = ({ label, value, setValue }: CappedButtonProps) => {
+const CappedButton: React.FC<CappedButtonProps> = ({
+	label,
+	value,
+	setValue,
+}) => {
 	const { token } = theme.useToken()
 	const [isCapped, setIsCapped] = useState(true)
 	const [currentValue, setCurrentValue] = useState<number>()

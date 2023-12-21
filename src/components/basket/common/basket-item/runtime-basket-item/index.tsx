@@ -11,13 +11,13 @@ interface RuntimeBasketItemProps {
 	name: string
 	id: string
 }
-const BasketItem = ({
+const BasketItem: React.FC<RuntimeBasketItemProps> = ({
 	identifier,
 	exchange,
 	name,
 	id,
 	handleOnClickAction,
-}: RuntimeBasketItemProps) => {
+}) => {
 	const { token } = theme.useToken()
 	const [itemSelected, setItemSelected] = useState(false)
 	const { runtimeBasketList, addToSelectedBaskets, filterSelectedBaskets } =

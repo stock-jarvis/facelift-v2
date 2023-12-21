@@ -6,12 +6,12 @@ interface TradeTypeItemProps {
 	onClick: (data: number) => void
 }
 
-const TradeTypeItem = ({
+const TradeTypeItem: React.FC<TradeTypeItemProps> = ({
 	exchangeValue,
 	id,
 	type,
 	onClick,
-}: TradeTypeItemProps) => {
+}) => {
 	const { token } = theme.useToken()
 	return (
 		<Flex

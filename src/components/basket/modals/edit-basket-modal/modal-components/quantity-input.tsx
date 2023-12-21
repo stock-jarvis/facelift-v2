@@ -8,10 +8,10 @@ interface QuantityProps {
 	baseQuantityValue: number
 }
 
-const QuantityInput = ({
+const QuantityInput: React.FC<QuantityProps> = ({
 	baseQuantityValue,
 	handleQantityChange,
-}: QuantityProps) => {
+}) => {
 	const [quantityValue, setQuantityValue] = useState<number>()
 	const { token } = theme.useToken()
 

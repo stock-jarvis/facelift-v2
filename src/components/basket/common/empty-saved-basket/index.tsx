@@ -1,7 +1,5 @@
 import { Flex, Typography, theme } from 'antd'
 
-//import { PlusOutlined } from '@ant-design/icons'
-
 const EmptyBasket = () => {
 	const { token } = theme.useToken()
 

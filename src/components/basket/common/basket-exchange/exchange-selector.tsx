@@ -7,10 +7,10 @@ interface TradeSelectorProps {
 	exchangeValue: string
 	handleTradeChange: (val: string) => void
 }
-const TradeSelector = ({
+const TradeSelector: React.FC<TradeSelectorProps> = ({
 	handleTradeChange,
 	exchangeValue,
-}: TradeSelectorProps) => {
+}) => {
 	const handleTradeClick = (val: string) => {
 		handleTradeChange(val)
 	}

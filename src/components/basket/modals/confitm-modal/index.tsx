@@ -9,13 +9,13 @@ interface ModalProps {
 	header: string
 }
 
-const Index = ({
+const Index: React.FC<ModalProps> = ({
 	open,
 	handleOpen,
 	handleCancel,
 	message,
 	header,
-}: ModalProps) => {
+}) => {
 	const { token } = theme.useToken()
 	const handleOkSelect = () => {
 		handleOpen(false)

@@ -8,12 +8,12 @@ interface StrikeRadioProps {
 	setSubTradeOptionList: (val: TradeOptions[]) => void
 	setSubTradeOption: (val: string) => void
 }
-const StrikeRadioSelector = ({
+const StrikeRadioSelector: React.FC<StrikeRadioProps> = ({
 	tradeOption,
 	setTradeOption,
 	setSubTradeOptionList,
 	setSubTradeOption,
-}: StrikeRadioProps) => {
+}) => {
 	const { token } = theme.useToken()
 
 	const handleRadioChange: RadioProps['onChange'] = (event) => {

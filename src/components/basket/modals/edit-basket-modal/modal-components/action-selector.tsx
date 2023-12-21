@@ -11,7 +11,7 @@ interface ActionSelectorProps {
 	handleBaseActionChange: (val: string) => void
 }
 
-const ActionSelector = ({
+const ActionSelector: React.FC<ActionSelectorProps> = ({
 	handleBaseActionChange,
 	label,
 	action1,
@@ -19,7 +19,7 @@ const ActionSelector = ({
 	color1,
 	color2,
 	baseActionValue,
-}: ActionSelectorProps) => {
+}) => {
 	const [tag, setTag] = useState<string>(baseActionValue)
 	const { token } = theme.useToken()
 

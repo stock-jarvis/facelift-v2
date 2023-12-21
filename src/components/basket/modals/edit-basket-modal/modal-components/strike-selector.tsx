@@ -16,7 +16,7 @@ interface StrikeSelectorProps {
 	setTradeValue: (val: number) => void
 }
 
-const StrikeSelector = ({
+const StrikeSelector: React.FC<StrikeSelectorProps> = ({
 	tradeOption,
 	subTradeOption,
 	subTradeOptionList,
@@ -25,7 +25,7 @@ const StrikeSelector = ({
 	setSubTradeOption,
 	setSubTradeOptionList,
 	setTradeValue,
-}: StrikeSelectorProps) => {
+}) => {
 	const { token } = theme.useToken()
 
 	const handleTradeChange: SelectProps['onChange'] = (value: string) => {
