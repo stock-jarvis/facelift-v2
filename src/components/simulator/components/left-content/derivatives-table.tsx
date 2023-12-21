@@ -1,7 +1,8 @@
-import { Table as AntdTable, TableProps as AntdTableProps } from 'antd'
+import { Table as AntdTable, TableProps as AntdTableProps, theme } from 'antd'
 import { range } from 'radash'
 import { useMemo } from 'react'
 import { DerivativesMetric } from 'src/common/enums'
+import { findClosest } from 'src/common/utils/find-utils'
 
 // Dev
 const mockData = [...range(0, 2000, (i) => i, 100)].map((value) => ({
@@ -13,7 +14,7 @@ const mockData = [...range(0, 2000, (i) => i, 100)].map((value) => ({
 	put: 900 - value,
 }))
 
-type OptionStrikeTableData = {
+type DerivativesTableDataSource = {
 	call: number
 	iv1: string
 	strike: number
@@ -21,8 +22,8 @@ type OptionStrikeTableData = {
 	put: number
 }
 
-const Table = AntdTable<OptionStrikeTableData>
-type TableProps = AntdTableProps<OptionStrikeTableData>
+const Table = AntdTable<DerivativesTableDataSource>
+type TableProps = AntdTableProps<DerivativesTableDataSource>
 
 type DerivativesTableProps = {
 	selectedDerivativeMetric?: DerivativesMetric
@@ -31,6 +32,19 @@ type DerivativesTableProps = {
 const DerivativesTable: React.FC<DerivativesTableProps> = ({
 	selectedDerivativeMetric,
 }) => {
+	const { token } = theme.useToken()
+
+	const spotPrice = 39250
+
+	const strikePriceClosestToSpotPrice = useMemo(
+		() =>
+			findClosest(
+				mockData.map((data) => data.strike),
+				spotPrice
+			),
+		[spotPrice]
+	)
+
 	const dataSource: TableProps['dataSource'] = useMemo(() => mockData, [])
 
 	const columns: TableProps['columns'] = useMemo(() => {
@@ -42,6 +56,15 @@ const DerivativesTable: React.FC<DerivativesTableProps> = ({
 			dataIndex: 'call',
 			width: 24,
 			align: 'center',
+			onCell: (derivativeData) => ({
+				style: {
+					backgroundColor:
+						strikePriceClosestToSpotPrice &&
+						derivativeData.strike < strikePriceClosestToSpotPrice
+							? token.controlItemBgActiveHover
+							: undefined,
+				},
+			}),
 		})
 
 		if (selectedDerivativeMetric) {
@@ -78,10 +101,19 @@ const DerivativesTable: React.FC<DerivativesTableProps> = ({
 			dataIndex: 'put',
 			width: 24,
 			align: 'center',
+			onCell: (derivativeData) => ({
+				style: {
+					backgroundColor:
+						strikePriceClosestToSpotPrice &&
+						derivativeData.strike > strikePriceClosestToSpotPrice
+							? token.controlItemBgActiveHover
+							: undefined,
+				},
+			}),
 		})
 
 		return columnsBuilder
-	}, [selectedDerivativeMetric])
+	}, [selectedDerivativeMetric, strikePriceClosestToSpotPrice])
 
 	return (
 		// TODO: Implement Date selection component
@@ -91,6 +123,7 @@ const DerivativesTable: React.FC<DerivativesTableProps> = ({
 			 * so using it as key destroys and recreates the table.
 			 */
 			key={selectedDerivativeMetric}
+			size="small"
 			rowKey="id"
 			// TODO: Fix virtual
 			// TODO: Handle loading
