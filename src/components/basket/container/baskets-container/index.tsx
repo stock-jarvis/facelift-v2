@@ -58,7 +58,6 @@ const Index = () => {
 		if (isBasketSaved) {
 			addToStoredBaskets(isBasketSaved)
 			//TODO: Tie this up with the api
-			console.log('Tie this up with the api')
 		} else {
 			toogleSaveError(id, true)
 		}
@@ -78,7 +77,6 @@ const Index = () => {
 						checked={record.selected}
 						onChange={() => {
 							updateSelection(record.id)
-							//		setItemSelected(!itemSelected)
 						}}
 					/>
 				</Flex>
@@ -86,13 +84,12 @@ const Index = () => {
 		},
 		{
 			title: (
-				<Flex flex={1} justify="flex-end">
+				<Flex flex={1} justify="flex-start">
 					Name
 				</Flex>
 			),
-			dataIndex: '',
 			render: (record: RunTimeBasketData) => (
-				<Flex flex="1" justify="flex-end">
+				<Flex flex="1" justify="flex-start">
 					<Typography.Text>
 						{record.name}
 						{record.identifier > 0 ? ` - ${record.identifier}` : ''}
@@ -109,7 +106,9 @@ const Index = () => {
 			),
 			render: (record: RunTimeBasketData) => (
 				<Flex flex="1" justify="flex-end">
-					<Typography.Text>{record.exchange}</Typography.Text>
+					<Typography.Text style={{ color: token.colorPrimary }}>
+						{record.exchange}
+					</Typography.Text>
 				</Flex>
 			),
 			dataIndex: '',
@@ -168,31 +167,20 @@ const Index = () => {
 	]
 
 	return (
-		<Flex vertical flex={1}>
-			<Flex flex="1" vertical className="h-full w-full overflow-y-hidden">
-				<div
-					style={{
-						overflow: 'hidden',
-						height: '100%',
-					}}
-				>
-					<Flex
-						style={{
-							overflowY: 'scroll',
-							height: '100%',
-							padding: token.paddingXS,
-						}}
-						vertical
-					>
-						<Table
-							scroll={{ y: 'calc(100vh - 165px)' }}
-							columns={columns}
-							dataSource={runtimeBasketList}
-							pagination={false}
-						/>
-					</Flex>
-				</div>
-			</Flex>
+		<Flex
+			style={{
+				overflowY: 'scroll',
+				height: '100%',
+				padding: token.paddingXS,
+			}}
+			vertical
+		>
+			<Table
+				scroll={{ y: 'calc(100vh - 165px)' }}
+				columns={columns}
+				dataSource={runtimeBasketList}
+				pagination={false}
+			/>
 		</Flex>
 	)
 }
