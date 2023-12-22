@@ -93,7 +93,7 @@ const Index = () => {
 				dataSource={storedBaskets.filter((b) => b.exchange === exchange)}
 				columns={columns}
 				pagination={false}
-				scroll={{ y: 'calc(100vh - 275px)' }}
+				scroll={{ y: 'calc(100vh - 305px)' }}
 			/>
 		</Flex>
 	)

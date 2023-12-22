@@ -1,4 +1,4 @@
-import { Flex, Button, DatePicker, theme } from 'antd'
+import { Flex, Button, DatePicker, theme, Typography, Divider } from 'antd'
 import { PlayCircleOutlined, PlusOutlined } from '@ant-design/icons'
 import { IoCalendarOutline } from 'react-icons/io5'
 
@@ -33,7 +33,12 @@ const Index = () => {
 	}, [startDate, endDate, selectedBaskets, setDisabledButton])
 
 	return (
-		<Flex flex="1" style={{ padding: token.paddingSM }} justify="space-between">
+		<Flex
+			flex="1"
+			style={{ padding: token.paddingSM }}
+			justify="space-between"
+			align="center"
+		>
 			<Flex>
 				<RangePicker
 					format={'DD-MM-YYYY'}
@@ -41,6 +46,23 @@ const Index = () => {
 					style={{}}
 					onChange={handleDateChanged}
 				/>
+			</Flex>
+			<Flex
+				flex="1"
+				justify="center"
+				style={{ paddingInline: token.paddingXS }}
+			>
+				<Divider>
+					<Typography.Text
+						style={{
+							fontSize: token.fontSizeXL,
+							color: token.colorPrimary,
+							fontWeight: token.fontWeightStrong,
+						}}
+					>
+						Baskets
+					</Typography.Text>
+				</Divider>
 			</Flex>
 			<Flex gap="middle" justify="flex-end">
 				<Button
