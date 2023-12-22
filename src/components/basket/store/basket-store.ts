@@ -14,7 +14,7 @@ type BasketState = {
 	timeErrorModalOpen: boolean
 	isAddBasketModalOpen: boolean
 	closeModalConfirmation: boolean
-
+	exchange: string
 	selectedBaskets: RunTimeBasketData[]
 	runtimeBasketList: RunTimeBasketData[]
 	editableBasketData: RunTimeBasketData
@@ -30,6 +30,7 @@ type BasketStateActions = {
 	toggleSetBasketModalOpen: (
 		isAddBasketModalOpen: BasketState['isAddBasketModalOpen']
 	) => void
+	setExchange: (val: string) => void
 	deleteStoredBasket: (id: string) => void
 	addToStoredBaskets: (basket: SavedBasketsObject) => void
 	addToSavedBasket: (basket: SavedBasketsObject) => void
@@ -43,14 +44,14 @@ type BasketStateActions = {
 		instrument: string
 	) => void
 	addNewRuntimeBasket: (basket: RunTimeBasketData) => void
+	updateSelection: (id: string) => void
 	deleteRuntimeBasket: (id: string) => void
 	setDuplicateError: (error: BasketState['duplicateError']) => void
 	toogleEditModal: (open: boolean) => void
 	setEditableBasket: (id: string) => void
 	toogleSaveError: (id: string, error: boolean) => void
 	setPositionCopy: (val: boolean) => void
-	addToSelectedBaskets: (id: string) => void
-	filterSelectedBaskets: (id: string) => void
+	updateSelectedBasket: () => void
 }
 
 const defaultState: BasketState = {
@@ -75,6 +76,7 @@ const defaultState: BasketState = {
 			type: 'INTRA',
 		},
 	],
+	exchange: 'NSE',
 	startDate: '',
 	endDate: '',
 	selectedBaskets: [],
@@ -102,15 +104,12 @@ export const useBasketStore = create<BasketState & BasketStateActions>()(
 	immer(
 		devtools((set) => ({
 			...defaultState,
-
-			addToSelectedBaskets: (id: string) =>
+			updateSelectedBasket: () =>
 				set((state) => {
-					const data = state.runtimeBasketList.find((b) => b.id === id)
-					if (data) {
-						void state.selectedBaskets.push(data)
-					}
+					state.selectedBaskets = state.runtimeBasketList.filter(
+						(b) => b.selected === true
+					)
 				}),
-
 			addToStoredBaskets: (basket: SavedBasketsObject) =>
 				set((state) => {
 					const checkIfExists = state.storedBaskets.find(
@@ -144,7 +143,7 @@ export const useBasketStore = create<BasketState & BasketStateActions>()(
 						}
 					}
 				}),
-
+			setExchange: (exchange) => set({ exchange }),
 			updateRuntimeBasketData: (
 				id: string,
 				exchange: string,
@@ -154,6 +153,16 @@ export const useBasketStore = create<BasketState & BasketStateActions>()(
 					state.runtimeBasketList = state.runtimeBasketList.map((b) => {
 						if (b.id === id) {
 							return { ...b, exchange: exchange, instrument: instrument }
+						} else {
+							return b
+						}
+					})
+				}),
+			updateSelection: (id: string) =>
+				set((state) => {
+					state.runtimeBasketList = state.runtimeBasketList.map((b) => {
+						if (b.id === id) {
+							return { ...b, selected: !b.selected }
 						} else {
 							return b
 						}
@@ -176,12 +185,7 @@ export const useBasketStore = create<BasketState & BasketStateActions>()(
 						void state.savedBaskets.push(basket)
 					}
 				}),
-			filterSelectedBaskets: (id: string) =>
-				set((state) => {
-					state.selectedBaskets = state.selectedBaskets.filter(
-						(b) => b.id !== id
-					)
-				}),
+
 			setTimeError: (timeError) => set({ timeError }),
 			setEmptyBasketError: (emptyBasketError) => set({ emptyBasketError }),
 			resetEditablebasket: () =>

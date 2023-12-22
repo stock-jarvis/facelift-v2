@@ -1,10 +1,10 @@
 import { Flex, theme } from 'antd'
 import ListItem from '../../common/basket-item/saved-basket-tem'
-import BasketExchange from '../../common/basket-exchange/exchange-selector'
 import { useState, useEffect } from 'react'
 import { useBasketStore } from '../../store/basket-store'
 import EmptySavedBasket from '../../common/empty-saved-basket'
 import { generateUniqueId } from '../../common/utils/randomizer'
+import ExchangeSelector from '../../common/basket-exchange/exchange-selector'
 interface EmptyBaskeyProps {
 	NSE: boolean
 	CUR: boolean
@@ -15,9 +15,15 @@ type key = 'NSE' | 'CUR' | 'MCX'
 const Index = () => {
 	//const { Text } = Typography
 	const { token } = theme.useToken()
-	const { storedBaskets, addToStoredBaskets, deleteStoredBasket } =
-		useBasketStore()
-	const [exchange, setExchange] = useState<string>('NSE')
+	const {
+		storedBaskets,
+		addToStoredBaskets,
+		deleteStoredBasket,
+		exchange,
+
+		setExchange,
+	} = useBasketStore()
+
 	const [val, setVal] = useState<key>('NSE')
 	const [emptyBasketsCheck, setEmptyBasketChecks] = useState<EmptyBaskeyProps>({
 		NSE: true,
@@ -77,8 +83,13 @@ const Index = () => {
 
 	return (
 		<Flex flex="1" vertical>
-			<Flex>
-				<BasketExchange
+			<Flex
+				style={{
+					padding: token.paddingXS,
+					//border: '0.5px solid #D3D3D3',
+				}}
+			>
+				<ExchangeSelector
 					exchangeValue={exchange}
 					handleTradeChange={setExchange}
 				/>
@@ -88,7 +99,7 @@ const Index = () => {
 					overflow: 'hidden',
 					height: '100%',
 					paddingBottom: token.paddingXS,
-					border: '0.5px solid #D3D3D3',
+					//border: '0.5px solid #D3D3D3',
 				}}
 			>
 				<Flex

@@ -91,23 +91,22 @@ const Index: React.FC<ModalProps> = ({ open }) => {
 					}}
 				>
 					<Typography.Text
-						style={{
-							color: token.colorBgBase,
-							fontWeight: token.fontWeightStrong,
-							fontSize: token.fontSize,
-						}}
+						style={
+							{
+								// color: token.colorBgBase,
+								// fontWeight: token.fontWeightStrong,
+								// fontSize: token.fontSize,
+							}
+						}
 					>
 						Add New Basket
 					</Typography.Text>
-					<CloseOutlined
-						onClick={onModalClose}
-						style={{ color: token.colorBgBase, paddingInline: token.paddingSM }}
-					/>
+					<CloseOutlined onClick={onModalClose} />
 				</Flex>
 			}
 			footer={
 				<Flex style={{ padding: token.paddingSM }} justify="flex-end">
-					<Button onClick={onModalClose} type="primary">
+					<Button onClick={onModalClose} type="default">
 						Cancel
 					</Button>
 					<Button onClick={onOkSelect} type="primary">
@@ -122,43 +121,42 @@ const Index: React.FC<ModalProps> = ({ open }) => {
 			destroyOnClose
 			styles={{
 				content: { marginTop: '80px', padding: 0 },
-				header: { backgroundColor: token.colorPrimary },
-				body: { padding: token.paddingSM, paddingTop: 0, paddingBottom: 0 },
+				//header: { backgroundColor: token.colorPrimary },
+				body: { padding: token.paddingXS, paddingTop: 0, paddingBottom: 0 },
 			}}
 		>
-			<Flex vertical gap="large">
-				<Flex className="w-[40%] shadow-sm">
+			<Flex vertical gap={'small'}>
+				<Flex>
 					<ExhchangeSelector
 						exchangeValue={exhange}
 						handleTradeChange={setExchange}
 					/>
 				</Flex>
-				<Flex flex={1} vertical gap="middle">
-					<Input
-						style={{
-							borderColor: basketNameError ? 'red' : '',
-						}}
-						placeholder="Enter Basket Name"
-						value={basketName}
-						onChange={handleInputChange}
-					/>
 
-					<Select
-						style={{
-							outline: basketInstrumentError ? 'red' : 'black',
-						}}
-						value={instrument}
-						onChange={handleInstrumentChange}
-						className="w-full"
-						placeholder="Select an intument"
-						options={[
-							{ value: 'Ticker-1', label: 'Ticker-1' },
-							{ value: 'Ticker-2', label: 'Ticker-2' },
-							{ value: 'Ticker-3', label: 'Ticker-3' },
-							{ value: 'Ticker-4', label: 'Ticker-4' },
-						]}
-					/>
-				</Flex>
+				<Input
+					style={{
+						borderColor: basketNameError ? 'red' : '',
+					}}
+					placeholder="Enter Basket Name"
+					value={basketName}
+					onChange={handleInputChange}
+				/>
+
+				<Select
+					style={{
+						outline: basketInstrumentError ? 'red' : 'black',
+					}}
+					value={instrument}
+					onChange={handleInstrumentChange}
+					className="w-full"
+					placeholder="Select an intument"
+					options={[
+						{ value: 'Ticker-1', label: 'Ticker-1' },
+						{ value: 'Ticker-2', label: 'Ticker-2' },
+						{ value: 'Ticker-3', label: 'Ticker-3' },
+						{ value: 'Ticker-4', label: 'Ticker-4' },
+					]}
+				/>
 			</Flex>
 		</Modal>
 	)

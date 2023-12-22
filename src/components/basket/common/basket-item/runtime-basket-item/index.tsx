@@ -20,19 +20,11 @@ const BasketItem: React.FC<RuntimeBasketItemProps> = ({
 }) => {
 	const { token } = theme.useToken()
 	const [itemSelected, setItemSelected] = useState(false)
-	const { runtimeBasketList, addToSelectedBaskets, filterSelectedBaskets } =
-		useBasketStore()
+	const { runtimeBasketList } = useBasketStore()
 	const [error, setError] = useState<boolean>(false)
 	const handleActionClicked = (actionType: string) => {
 		handleOnClickAction(id, actionType, name)
 	}
-	useEffect(() => {
-		if (itemSelected) {
-			addToSelectedBaskets(id)
-		} else if (!itemSelected) {
-			filterSelectedBaskets(id)
-		}
-	}, [itemSelected, addToSelectedBaskets, filterSelectedBaskets, id])
 
 	useEffect(() => {
 		const basketIndex = runtimeBasketList.findIndex(

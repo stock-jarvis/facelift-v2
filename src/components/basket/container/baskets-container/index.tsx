@@ -1,10 +1,16 @@
-import { Flex, theme } from 'antd'
-import ListItem from '../../common/basket-item/runtime-basket-item'
-
-import BasketNav from '../basket-nav'
+import { Flex, theme, Table, Button, Checkbox, Typography } from 'antd'
+//import ListItem from '../../common/basket-item/runtime-basket-item'
+import {
+	FormOutlined,
+	DeleteOutlined,
+	CopyOutlined,
+	SnippetsOutlined,
+} from '@ant-design/icons'
 import { useBasketStore } from '../../store/basket-store'
-import EmptyBasket from '../../common/empty-basket'
 import { generateUniqueId } from '../../common/utils/randomizer'
+import { RunTimeBasketData } from '../../types/types'
+import { useEffect } from 'react'
+//import { IconActions } from '../../types/types'
 
 const Index = () => {
 	const { token } = theme.useToken()
@@ -16,7 +22,9 @@ const Index = () => {
 		addNewRuntimeBasket,
 		savedBaskets,
 		toogleSaveError,
+		updateSelection,
 		addToStoredBaskets,
+		updateSelectedBasket,
 	} = useBasketStore()
 
 	const onHandleBasketEdit = (id: string) => {
@@ -41,6 +49,9 @@ const Index = () => {
 			})
 		}
 	}
+	useEffect(() => {
+		updateSelectedBasket()
+	}, [runtimeBasketList, updateSelectedBasket])
 
 	const onHandleBaskeSave = (id: string) => {
 		const isBasketSaved = savedBaskets.find((basket) => basket.id === id)
@@ -57,73 +68,132 @@ const Index = () => {
 		deleteRuntimeBasket(id)
 	}
 
-	const handleActionClick = (id: string, actionType: string, name: string) => {
-		actionType === 'edit'
-			? onHandleBasketEdit(id)
-			: actionType === 'duplicate'
-				? onHandleBasketDuplicate(name)
-				: actionType === 'save'
-					? onHandleBaskeSave(id)
-					: onHandleBaskeDelete(id)
-	}
+	const columns = [
+		{
+			title: '',
+			dataIndex: '',
+			render: (record: RunTimeBasketData) => (
+				<Flex flex={1}>
+					<Checkbox
+						checked={record.selected}
+						onChange={() => {
+							updateSelection(record.id)
+							//		setItemSelected(!itemSelected)
+						}}
+					/>
+				</Flex>
+			),
+		},
+		{
+			title: (
+				<Flex flex={1} justify="flex-end">
+					Name
+				</Flex>
+			),
+			dataIndex: '',
+			render: (record: RunTimeBasketData) => (
+				<Flex flex="1" justify="flex-end">
+					<Typography.Text>
+						{record.name}
+						{record.identifier > 0 ? ` - ${record.identifier}` : ''}
+					</Typography.Text>
+				</Flex>
+			),
+			key: 'name',
+		},
+		{
+			title: (
+				<Flex flex={1} justify="flex-end">
+					Exchange
+				</Flex>
+			),
+			render: (record: RunTimeBasketData) => (
+				<Flex flex="1" justify="flex-end">
+					<Typography.Text>{record.exchange}</Typography.Text>
+				</Flex>
+			),
+			dataIndex: '',
+			key: 'exchange',
+		},
+		{
+			title: (
+				<Flex flex={1} justify="flex-end">
+					Istrument
+				</Flex>
+			),
+			render: (record: RunTimeBasketData) => (
+				<Flex flex="1" justify="flex-end">
+					<Typography.Text>{record.instrument}</Typography.Text>
+				</Flex>
+			),
+			key: 'identifier',
+		},
+		{
+			title: (
+				<Flex flex={1} justify="flex-end">
+					Actions
+				</Flex>
+			),
+			dataIndex: '',
+			render: (record: RunTimeBasketData) => (
+				<Flex gap={'small'} flex={1} justify="flex-end">
+					<Button
+						shape="circle"
+						type="text"
+						icon={<FormOutlined />}
+						onClick={() => onHandleBasketEdit(record.id)}
+					/>
+					<Button
+						shape="circle"
+						type="text"
+						icon={<CopyOutlined />}
+						onClick={() => onHandleBasketDuplicate(record.name)}
+					/>
+					<Button
+						shape="circle"
+						type="text"
+						icon={<SnippetsOutlined />}
+						onClick={() => onHandleBaskeSave(record.id)}
+					/>
+					<Button
+						shape="circle"
+						type="text"
+						icon={<DeleteOutlined />}
+						onClick={() => onHandleBaskeDelete(record.id)}
+					/>
+				</Flex>
+			),
+			key: 'actions',
+		},
+	]
 
 	return (
-		<>
-			{runtimeBasketList.length > 0 ? (
-				<Flex flex="1" vertical className="h-full overflow-y-hidden">
-					<Flex className="bg-[white]">
-						<BasketNav />
-					</Flex>
-
-					<div
-						style={{
-							overflow: 'hidden',
-							//	paddingBottom: token.paddingXS,
-							border: '0.5px solid #D3D3D3',
-							height: '100%',
-						}}
-					>
-						<Flex
-							style={{
-								overflowY: 'scroll',
-								height: '100%',
-								padding: token.paddingXS,
-							}}
-							vertical
-						>
-							<div className="flex flex-col gap-[5px] ">
-								{runtimeBasketList.length > 0 &&
-									runtimeBasketList.map((basket) => (
-										<ListItem
-											handleOnClickAction={handleActionClick}
-											key={basket.id}
-											id={basket.id}
-											name={basket.name}
-											exchange={basket.exchange}
-											identifier={basket.identifier}
-										/>
-									))}
-							</div>
-						</Flex>
-					</div>
-				</Flex>
-			) : (
-				<Flex flex="1" style={{ padding: token.paddingXS }}>
+		<Flex vertical flex={1}>
+			<Flex flex="1" vertical className="h-full w-full overflow-y-hidden">
+				<div
+					style={{
+						overflow: 'hidden',
+						height: '100%',
+					}}
+				>
 					<Flex
-						flex="1"
-						justify="center"
-						gap="middle"
 						style={{
+							overflowY: 'scroll',
 							height: '100%',
 							padding: token.paddingXS,
-							overflowY: 'hidden',
 						}}
+						vertical
 					>
-						<EmptyBasket />
+						<Table
+							scroll={{ y: 'calc(100vh - 165px)' }}
+							columns={columns}
+							dataSource={runtimeBasketList}
+							pagination={false}
+						/>
 					</Flex>
-				</Flex>
-			)}
-		</>
+				</div>
+			</Flex>
+		</Flex>
 	)
 }
 
