@@ -1,28 +1,22 @@
-import { Flex, Select, SelectProps, Space, Typography, theme } from 'antd'
+import {
+	Button,
+	ButtonProps,
+	Flex,
+	Select,
+	SelectProps,
+	Space,
+	Tooltip,
+	TooltipProps,
+	Typography,
+	theme,
+} from 'antd'
 import { PlusOutlined } from '@ant-design/icons'
-import Link from 'antd/es/typography/Link'
-import { useMemo } from 'react'
+import { useMemo, useState } from 'react'
 import { convertValuesToDefaultOptions } from 'src/common/utils/conversion-utils'
 import { DerivativesMetric } from '../../../../common/enums'
+import { mockFutures } from './mock-data'
 
 const { Text } = Typography
-
-type TitleLinkValueProps = {
-	title: string
-	value: string
-}
-
-const TitleLinkValue: React.FC<TitleLinkValueProps> = ({ title, value }) => (
-	<Space size="small">
-		<Text strong>{title} :</Text>
-		<Link>
-			<Space>
-				<Text>{value}</Text>
-				<PlusOutlined />
-			</Space>
-		</Link>
-	</Space>
-)
 
 type DerivatiesParamSelectionProps = {
 	selectedDerivativeMetric?: DerivativesMetric
@@ -37,6 +31,8 @@ const DerivatiesParamSelection: React.FC<DerivatiesParamSelectionProps> = ({
 }) => {
 	const { token } = theme.useToken()
 
+	const [selectedFuture, setSelectedFuture] = useState<number>(38750)
+
 	const derivativeMetricOptions = useMemo(
 		() => convertValuesToDefaultOptions(Object.values(DerivativesMetric)),
 		[]
@@ -48,7 +44,13 @@ const DerivatiesParamSelection: React.FC<DerivatiesParamSelectionProps> = ({
 	return (
 		<Flex className="w-full" justify="space-between">
 			{/* // TODO: Wire up value and spot price link */}
-			<TitleLinkValue title="Spot Price" value="38725" />
+			<Space size="small">
+				<Text strong>Spot Price :</Text>
+				<Space>
+					<Text>38725</Text>
+					<AddPositionButton tooltipTitle="Add position" />
+				</Space>
+			</Space>
 
 			<Select
 				allowClear
@@ -65,9 +67,39 @@ const DerivatiesParamSelection: React.FC<DerivatiesParamSelectionProps> = ({
 			/>
 
 			{/* // TODO: Wire up value and futures link */}
-			<TitleLinkValue title="Futures" value="38750" />
+			<Space size="small">
+				<Text strong>Futures :</Text>
+				<Flex>
+					<Select
+						// TODO: Wire up with real data and memoize the conversion
+						options={convertValuesToDefaultOptions(mockFutures)}
+						value={selectedFuture}
+						bordered={false}
+						onChange={setSelectedFuture}
+					/>
+					<AddPositionButton tooltipTitle="Add position" />
+				</Flex>
+			</Space>
 		</Flex>
 	)
 }
+
+type AddPositionButton = {
+	// TODO: Remove prop if Add position text for both is finalized
+	tooltipTitle: TooltipProps['title']
+	// TODO: Make it mandatory after implementation
+	onClick?: ButtonProps['onClick']
+}
+
+const AddPositionButton: React.FC<AddPositionButton> = ({
+	tooltipTitle,
+	onClick,
+}) => (
+	<Tooltip title={tooltipTitle}>
+		<Button type="link" shape="round" style={{ padding: 0 }} onClick={onClick}>
+			<PlusOutlined />
+		</Button>
+	</Tooltip>
+)
 
 export default DerivatiesParamSelection

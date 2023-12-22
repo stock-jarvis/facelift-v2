@@ -1,7 +1,3 @@
-import GreeksTable from './greeks-table'
-
-const Greeks = () => {
-	return <GreeksTable />
-}
+import Greeks from './greeks'
 
 export default Greeks
