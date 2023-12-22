@@ -43,7 +43,6 @@ const Index = () => {
 				<RangePicker
 					format={'DD-MM-YYYY'}
 					suffixIcon={<IoCalendarOutline />}
-					style={{}}
 					onChange={handleDateChanged}
 				/>
 			</Flex>

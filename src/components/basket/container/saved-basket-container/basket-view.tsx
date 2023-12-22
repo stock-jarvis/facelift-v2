@@ -1,4 +1,4 @@
-import { Flex, theme, Typography, Button } from 'antd'
+import { Flex, theme, Typography, Button, Tooltip } from 'antd'
 import { SavedBasketsObject } from '../../types/types'
 import { useBasketStore } from '../../store/basket-store'
 import { generateUniqueId } from '../../common/utils/randomizer'
@@ -53,34 +53,42 @@ const Index = () => {
 			key: generateUniqueId(),
 			render: (record: SavedBasketsObject) => (
 				<Flex justify="flex-end" align="center" key={generateUniqueId()}>
-					<Button
-						size="small"
-						icon={<FormOutlined />}
-						type="text"
-						shape="circle"
-						onClick={() => onHandleBasketEdit(record.id)}
-					/>
-					<Button
-						size="small"
-						icon={<CopyOutlined />}
-						type="text"
-						shape="circle"
-						onClick={() => onHandleBasketDuplicate(record.id)}
-					/>
-					<Button
-						size="small"
-						icon={<DeleteOutlined />}
-						type="text"
-						shape="circle"
-						onClick={() => onHandleBaskeDelete(record.id)}
-					/>
-					<Button
-						size="small"
-						icon={<ArrowRightOutlined />}
-						type="text"
-						shape="circle"
-						onClick={() => onHandleBaskeMove(record.id)}
-					/>
+					<Tooltip title="Edit">
+						<Button
+							size="small"
+							icon={<FormOutlined />}
+							type="text"
+							shape="circle"
+							onClick={() => onHandleBasketEdit(record.id)}
+						/>
+					</Tooltip>
+					<Tooltip title="Duplicate">
+						<Button
+							size="small"
+							icon={<CopyOutlined />}
+							type="text"
+							shape="circle"
+							onClick={() => onHandleBasketDuplicate(record.id)}
+						/>
+					</Tooltip>
+					<Tooltip title="Delete">
+						<Button
+							size="small"
+							icon={<DeleteOutlined />}
+							type="text"
+							shape="circle"
+							onClick={() => onHandleBaskeDelete(record.id)}
+						/>
+					</Tooltip>
+					<Tooltip title="Move">
+						<Button
+							size="small"
+							icon={<ArrowRightOutlined />}
+							type="text"
+							shape="circle"
+							onClick={() => onHandleBaskeMove(record.id)}
+						/>
+					</Tooltip>
 				</Flex>
 			),
 		},

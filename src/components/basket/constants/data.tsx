@@ -1,11 +1,4 @@
 import { OptionObject } from '../types/types'
-import {
-	DeleteOutlined,
-	CopyOutlined,
-	FormOutlined,
-	ArrowRightOutlined,
-	SnippetsOutlined,
-} from '@ant-design/icons'
 
 export const futureExpiry: OptionObject[] = [
 	{
@@ -94,60 +87,6 @@ export const exchangeType = [
 	{ type: 'NSE', id: 1, value: 'NSE', label: 'NSE' },
 	{ type: 'MCX', id: 2, value: 'MCX', label: 'MCX' },
 	{ type: 'CUR', id: 3, value: 'CUR', label: 'CUR' },
-]
-
-export const iconsSections = [
-	{
-		key: 'edit',
-		icon: <FormOutlined />,
-		toolTipLabel: 'Edit Basket',
-		actionName: 'edit',
-	},
-	{
-		key: 'duplicate',
-		icon: <CopyOutlined />,
-		toolTipLabel: 'Make duplicate',
-		actionName: 'duplicate',
-	},
-	{
-		key: 'save',
-		icon: <SnippetsOutlined />,
-		toolTipLabel: 'Save basket',
-		actionName: 'save',
-	},
-	{
-		key: 'delete',
-		icon: <DeleteOutlined />,
-		toolTipLabel: 'Delete basket',
-		actionName: 'delete',
-	},
-]
-
-export const savedIconsSections = [
-	{
-		key: 'edit',
-		icon: <FormOutlined />,
-		toolTipLabel: 'Edit Basket',
-		actionName: 'edit',
-	},
-	{
-		key: 'duplicate',
-		icon: <CopyOutlined />,
-		toolTipLabel: 'Make duplicate',
-		actionName: 'duplicate',
-	},
-	{
-		key: 'delete',
-		icon: <DeleteOutlined />,
-		toolTipLabel: 'Delete basket',
-		actionName: 'delete',
-	},
-	{
-		key: 'move',
-		icon: <ArrowRightOutlined />,
-		toolTipLabel: 'Move to runtime',
-		actionName: 'move',
-	},
 ]
 
 export const tradeTypeData = [

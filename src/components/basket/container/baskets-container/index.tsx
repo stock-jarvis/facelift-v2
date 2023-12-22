@@ -1,4 +1,4 @@
-import { Flex, theme, Table, Button, Checkbox, Typography } from 'antd'
+import { Flex, theme, Table, Button, Checkbox, Typography, Tooltip } from 'antd'
 //import ListItem from '../../common/basket-item/runtime-basket-item'
 import {
 	FormOutlined,
@@ -69,16 +69,24 @@ const Index = () => {
 
 	const columns = [
 		{
-			title: '',
+			title: (
+				<Flex flex={1}>
+					<Tooltip title={'Select All Baskets'}>
+						<Checkbox />
+					</Tooltip>
+				</Flex>
+			),
 			dataIndex: '',
 			render: (record: RunTimeBasketData) => (
 				<Flex flex={1}>
-					<Checkbox
-						checked={record.selected}
-						onChange={() => {
-							updateSelection(record.id)
-						}}
-					/>
+					<Tooltip title="Select Basket">
+						<Checkbox
+							checked={record.selected}
+							onChange={() => {
+								updateSelection(record.id)
+							}}
+						/>
+					</Tooltip>
 				</Flex>
 			),
 		},
@@ -136,30 +144,38 @@ const Index = () => {
 			dataIndex: '',
 			render: (record: RunTimeBasketData) => (
 				<Flex gap={'small'} flex={1} justify="flex-end">
-					<Button
-						shape="circle"
-						type="text"
-						icon={<FormOutlined />}
-						onClick={() => onHandleBasketEdit(record.id)}
-					/>
-					<Button
-						shape="circle"
-						type="text"
-						icon={<CopyOutlined />}
-						onClick={() => onHandleBasketDuplicate(record.name)}
-					/>
-					<Button
-						shape="circle"
-						type="text"
-						icon={<SnippetsOutlined />}
-						onClick={() => onHandleBaskeSave(record.id)}
-					/>
-					<Button
-						shape="circle"
-						type="text"
-						icon={<DeleteOutlined />}
-						onClick={() => onHandleBaskeDelete(record.id)}
-					/>
+					<Tooltip title="Edit">
+						<Button
+							shape="circle"
+							type="text"
+							icon={<FormOutlined />}
+							onClick={() => onHandleBasketEdit(record.id)}
+						/>
+					</Tooltip>
+					<Tooltip title="Duplicate">
+						<Button
+							shape="circle"
+							type="text"
+							icon={<CopyOutlined />}
+							onClick={() => onHandleBasketDuplicate(record.name)}
+						/>
+					</Tooltip>
+					<Tooltip title="Save">
+						<Button
+							shape="circle"
+							type="text"
+							icon={<SnippetsOutlined />}
+							onClick={() => onHandleBaskeSave(record.id)}
+						/>
+					</Tooltip>
+					<Tooltip title="Delete">
+						<Button
+							shape="circle"
+							type="text"
+							icon={<DeleteOutlined />}
+							onClick={() => onHandleBaskeDelete(record.id)}
+						/>
+					</Tooltip>
 				</Flex>
 			),
 			key: 'actions',

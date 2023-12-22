@@ -34,18 +34,20 @@ const Index: React.FC<ModalProps> = ({
 					}}
 				>
 					<Typography.Text
-						style={{
-							color: token.colorBgBase,
-							fontWeight: token.fontWeightStrong,
-							fontSize: token.fontSize,
-						}}
+						style={
+							{
+								//	color: token.colorBgBase,
+								//		fontWeight: token.fontWeightStrong,
+								//		fontSize: token.fontSize,
+							}
+						}
 					>
 						{header}
 					</Typography.Text>
 
 					<CloseOutlined
 						onClick={handleCancelSelect}
-						style={{ color: token.colorBgBase, paddingInline: token.paddingSM }}
+						style={{ paddingInline: token.paddingSM }}
 					/>
 				</Flex>
 			}
@@ -63,15 +65,12 @@ const Index: React.FC<ModalProps> = ({
 			onOk={handleOkSelect}
 			styles={{
 				content: { marginTop: '80px', padding: 0 },
-				header: { backgroundColor: token.colorPrimary },
 				body: { padding: token.paddingSM },
 			}}
 		>
 			<Flex flex="1" justify="center" align="center">
 				<Typography.Text
 					style={{
-						fontSize: token.fontSizeLG,
-						fontWeight: token.fontWeightStrong,
 						textAlign: 'center',
 					}}
 				>

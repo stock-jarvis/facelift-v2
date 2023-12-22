@@ -76,7 +76,7 @@ const Basket = () => {
 				handleOpen={handleEmptyBasketErrorModalClose}
 				handleCancel={handleEmptyBasketErrorModalClose}
 				header={'Cannot Save Basket'}
-				message="Basket should have atleast on position element to save."
+				message="Basket should have atleast one position element to save."
 			/>
 		</>
 	)
