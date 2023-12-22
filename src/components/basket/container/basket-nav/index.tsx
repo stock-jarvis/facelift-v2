@@ -16,7 +16,6 @@ const Index = () => {
 		startDate,
 		endDate,
 	} = useBasketStore()
-	//const { token } = theme.useToken()
 	const [disabledButton, setDisabledButton] = useState<boolean>(true)
 
 	const handleDateChanged: TimeRangePickerProps['onChange'] = (e) => {
@@ -34,7 +33,7 @@ const Index = () => {
 	}, [startDate, endDate, selectedBaskets, setDisabledButton])
 
 	return (
-		<Flex flex="1" style={{ padding: token.paddingXS }} justify="space-between">
+		<Flex flex="1" style={{ padding: token.paddingSM }} justify="space-between">
 			<Flex>
 				<RangePicker
 					format={'DD-MM-YYYY'}

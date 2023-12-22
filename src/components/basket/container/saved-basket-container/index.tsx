@@ -1,6 +1,6 @@
 import { Flex, Tabs, TabsProps, Divider, Typography, theme } from 'antd'
 import { useBasketStore } from '../../store/basket-store'
-import BasketTable from './basket-table'
+import BasketTable from './basket-view'
 const Index = () => {
 	const { token } = theme.useToken()
 	const { setExchange } = useBasketStore()
@@ -27,7 +27,7 @@ const Index = () => {
 	]
 
 	return (
-		<Flex flex="1" vertical>
+		<Flex flex="1" vertical style={{ padding: token.paddingXS }}>
 			<Divider>
 				<Typography.Text style={{ color: token.colorPrimary }}>
 					Saved Baskets
@@ -39,7 +39,7 @@ const Index = () => {
 				onChange={handleTabChange}
 				className="w-full"
 				style={{ height: '100%' }}
-				tabBarGutter={10}
+				tabBarGutter={5}
 			/>
 		</Flex>
 	)
