@@ -56,7 +56,16 @@ type BasketStateActions = {
 }
 
 const defaultState: BasketState = {
-	runtimeBasketList: [],
+	runtimeBasketList: [
+		{
+			id: '1',
+			name: 'Apple',
+			identifier: 0,
+			exchange: 'NSE',
+			instrument: 'ticker-1',
+			error: true,
+		},
+	],
 	storedBaskets: [
 		{
 			id: '1',
@@ -84,7 +93,6 @@ const defaultState: BasketState = {
 	duplicateError: false,
 	isEditModalOpen: false,
 	positionCopy: false,
-
 	isAddBasketModalOpen: false,
 	timeErrorModalOpen: false,
 	closeModalConfirmation: false,

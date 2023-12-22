@@ -123,7 +123,11 @@ const Index = () => {
 			),
 			render: (record: RunTimeBasketData) => (
 				<Flex flex="1" justify="flex-start">
-					<Typography.Text>
+					<Typography.Text
+						style={{
+							color: record.error ? token.colorError : '#000',
+						}}
+					>
 						{record.name}
 						{record.identifier > 0 ? ` - ${record.identifier}` : ''}
 					</Typography.Text>
@@ -139,7 +143,11 @@ const Index = () => {
 			),
 			render: (record: RunTimeBasketData) => (
 				<Flex flex="1" justify="flex-end">
-					<Typography.Text style={{ color: token.colorPrimary }}>
+					<Typography.Text
+						style={{
+							color: record.error ? token.colorError : token.colorPrimary,
+						}}
+					>
 						{record.exchange}
 					</Typography.Text>
 				</Flex>
@@ -155,7 +163,13 @@ const Index = () => {
 			),
 			render: (record: RunTimeBasketData) => (
 				<Flex flex="1" justify="flex-end">
-					<Typography.Text>{record.instrument}</Typography.Text>
+					<Typography.Text
+						style={{
+							color: record.error ? token.colorError : '#000',
+						}}
+					>
+						{record.instrument}
+					</Typography.Text>
 				</Flex>
 			),
 			key: 'identifier',
@@ -175,6 +189,9 @@ const Index = () => {
 							type="text"
 							icon={<FormOutlined />}
 							onClick={() => onHandleBasketEdit(record.id)}
+							style={{
+								color: record.error ? token.colorError : '',
+							}}
 						/>
 					</Tooltip>
 					<Tooltip title="Duplicate">
@@ -183,6 +200,9 @@ const Index = () => {
 							type="text"
 							icon={<CopyOutlined />}
 							onClick={() => onHandleBasketDuplicate(record.name)}
+							style={{
+								color: record.error ? token.colorError : '',
+							}}
 						/>
 					</Tooltip>
 					<Tooltip title="Save">
@@ -191,6 +211,9 @@ const Index = () => {
 							type="text"
 							icon={<SnippetsOutlined />}
 							onClick={() => onHandleBaskeSave(record.id)}
+							style={{
+								color: record.error ? token.colorError : '',
+							}}
 						/>
 					</Tooltip>
 					<Tooltip title="Delete">
@@ -199,6 +222,9 @@ const Index = () => {
 							type="text"
 							icon={<DeleteOutlined />}
 							onClick={() => onHandleBaskeDelete(record.id)}
+							style={{
+								color: record.error ? token.colorError : '',
+							}}
 						/>
 					</Tooltip>
 				</Flex>
