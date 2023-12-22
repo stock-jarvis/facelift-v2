@@ -1,12 +1,17 @@
 import { Flex, Tabs, TabsProps, Divider, Typography, theme } from 'antd'
 import { useBasketStore } from '../../store/basket-store'
 import BasketTable from './basket-view'
+import { useEffect } from 'react'
 const Index = () => {
 	const { token } = theme.useToken()
 	const { setExchange } = useBasketStore()
 	const handleTabChange: TabsProps['onChange'] = (val: string) => {
 		setExchange(val)
 	}
+
+	useEffect(() => {
+		setExchange('NSE')
+	}, [setExchange])
 
 	const tabItems: TabsProps['items'] = [
 		{

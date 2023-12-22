@@ -1,5 +1,5 @@
 import { Flex, theme, Table, Button, Checkbox, Typography, Tooltip } from 'antd'
-//import ListItem from '../../common/basket-item/runtime-basket-item'
+
 import {
 	FormOutlined,
 	DeleteOutlined,
@@ -9,11 +9,14 @@ import {
 import { useBasketStore } from '../../store/basket-store'
 import { generateUniqueId } from '../../common/utils/randomizer'
 import { RunTimeBasketData } from '../../types/types'
-import { useEffect } from 'react'
-//import { IconActions } from '../../types/types'
+import { useState, useEffect } from 'react'
 
 const Index = () => {
 	const { token } = theme.useToken()
+
+	const [individualSelection, setIndividualSelection] = useState<boolean>(false)
+	const [selectAll, setSelectAll] = useState<boolean>(false)
+
 	const {
 		runtimeBasketList,
 		deleteRuntimeBasket,
@@ -25,6 +28,7 @@ const Index = () => {
 		updateSelection,
 		addToStoredBaskets,
 		updateSelectedBasket,
+		selectAllBaskets,
 	} = useBasketStore()
 
 	const onHandleBasketEdit = (id: string) => {
@@ -45,13 +49,11 @@ const Index = () => {
 				...duplicateBasket[duplicateBasket.length - 1],
 				id: generateUniqueId(),
 				error: false,
+				selected: false,
 				identifier: duplicateBasket[duplicateBasket.length - 1].identifier + 1,
 			})
 		}
 	}
-	useEffect(() => {
-		updateSelectedBasket()
-	}, [runtimeBasketList, updateSelectedBasket])
 
 	const onHandleBaskeSave = (id: string) => {
 		const isBasketSaved = savedBaskets.find((basket) => basket.id === id)
@@ -67,12 +69,35 @@ const Index = () => {
 		deleteRuntimeBasket(id)
 	}
 
+	const handleIndividualSelectChange = (id: string) => {
+		setIndividualSelection(true)
+		updateSelection(id)
+	}
+
+	const selectAllBasket = () => {
+		setSelectAll(!selectAll)
+	}
+
+	useEffect(() => {
+		if (individualSelection) {
+			updateSelectedBasket()
+			setIndividualSelection(false)
+		}
+	}, [runtimeBasketList, updateSelectedBasket, individualSelection])
+
+	useEffect(() => {
+		if (selectAll) {
+			selectAllBaskets(true)
+		} else {
+			selectAllBaskets(false)
+		}
+	}, [selectAll, selectAllBaskets])
 	const columns = [
 		{
 			title: (
 				<Flex flex={1}>
 					<Tooltip title={'Select All Baskets'}>
-						<Checkbox />
+						<Checkbox checked={selectAll} onChange={selectAllBasket} />
 					</Tooltip>
 				</Flex>
 			),
@@ -83,7 +108,7 @@ const Index = () => {
 						<Checkbox
 							checked={record.selected}
 							onChange={() => {
-								updateSelection(record.id)
+								handleIndividualSelectChange(record.id)
 							}}
 						/>
 					</Tooltip>

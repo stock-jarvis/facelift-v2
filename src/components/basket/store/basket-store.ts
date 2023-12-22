@@ -52,6 +52,7 @@ type BasketStateActions = {
 	toogleSaveError: (id: string, error: boolean) => void
 	setPositionCopy: (val: boolean) => void
 	updateSelectedBasket: () => void
+	selectAllBaskets: (value: boolean) => void
 }
 
 const defaultState: BasketState = {
@@ -141,6 +142,25 @@ export const useBasketStore = create<BasketState & BasketStateActions>()(
 						} else {
 							void state.storedBaskets.push(basket)
 						}
+					}
+				}),
+
+			selectAllBaskets: (value: boolean) =>
+				set((state) => {
+					void (state.runtimeBasketList = state.runtimeBasketList.map(
+						(basket) => {
+							return {
+								...basket,
+								selected: value,
+							}
+						}
+					))
+					if (value) {
+						state.selectedBaskets = state.runtimeBasketList.map(
+							(basket) => basket
+						)
+					} else {
+						state.selectedBaskets = []
 					}
 				}),
 			setExchange: (exchange) => set({ exchange }),
