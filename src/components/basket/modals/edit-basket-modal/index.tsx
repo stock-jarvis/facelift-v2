@@ -454,190 +454,168 @@ const EditBasketModal = ({ open }: EditModalProps) => {
 				},
 			}}
 		>
-			<Flex vertical gap="middle">
-				<Flex
-					vertical
-					gap={'middle'}
-					style={{
-						padding: token.paddingMD,
-						height: '500px',
-						overflow: 'scroll',
-						scrollBehavior: 'smooth',
-					}}
-					className="no-scrollbar"
-				>
-					<Flex
-						vertical
-						justify="space-between"
-						align="center"
-						flex={1}
-						style={{
-							padding: token.paddingXS,
-							paddingTop: 30,
-							paddingBottom: 30,
-							gap: '20px',
-							borderRadius: token.borderRadiusLG,
-						}}
-					>
-						<div className="w-[50%]">
-							<Toggle
-								toogle1="INTRADAY"
-								toogle2="POSITIONAL"
-								setToogleValue={handleBasketPositionsChange}
-							/>
-						</div>
-
-						<div className="w-[50%]">
-							<Toggle
-								toogle1="Spot as ATM"
-								toogle2="Future as ATM"
-								setToogleValue={handleAtmChange}
-							/>
-						</div>
-					</Flex>
-
-					<Selectors
-						quantityValue={quantityValue}
-						actionValue={actionValue}
-						instrument={instrument}
-						optionExpiryList={optionExpiryList}
-						futureExpiryList={futureExpiryList}
-						futureExpiryBaseValue={futureExpiryBaseValue}
-						optionExpiryBaseValue={optionExpiryBaseValue}
-						subTradeOption={subTradeOption}
-						optionType={optionType}
-						tradeValue={tradeValue}
-						tradeOption={tradeOption}
-						subTradeOptionList={subTradeOptionList}
-						setTradeOption={setTradeOption}
-						setOptionType={setOptionType}
-						setTradeValue={setTradeValue}
-						setActionValue={setActionValue}
-						handleAddBasket={handleAddBasket}
-						setQuantityValue={setQuantityValue}
-						setSubTradeOption={setSubTradeOption}
-						setSubTradeOptionList={setSubTradeOptionList}
-						setFutureExpiryBaseValue={setFutureExpiryBaseValue}
-						setOptionExpiryBaseValue={setOptionExpiryBaseValue}
-						setOptionValue={setOptionValue}
+			<Flex
+				vertical
+				gap={'middle'}
+				style={{
+					padding: token.paddingMD,
+					height: '500px',
+					overflow: 'scroll',
+					scrollBehavior: 'smooth',
+				}}
+				className="no-scrollbar"
+			>
+				<div className="w-[50%]">
+					<Toggle
+						toogle1="INTRADAY"
+						toogle2="POSITIONAL"
+						setToogleValue={handleBasketPositionsChange}
 					/>
+				</div>
 
-					{basket?.map((bask) =>
-						bask.type === 'spot' ? (
-							<SpotBasketDetail
-								key={bask.id}
-								id={bask.id}
-								basket={basket}
-								baseTotalProfitValue={
-									bask.exitCondition?.totalProfit.value || 0
-								}
-								baseSpotLossOption={
-									bask.exitCondition?.stopLoss.type || spotLossOptions[0].value
-								}
-								baseTotalProfitOption={
-									bask.exitCondition?.totalProfit.type ||
-									totalProfitOptions[0].value
-								}
-								baseSpotLossValue={bask.exitCondition?.stopLoss.value || 0}
-								baseQuanity={bask.entryCondition.quantity}
-								baseInstrumentValue={instrument}
-								baseActionValue={bask.entryCondition.actionType}
-								handleEditBasket={setBasket}
-								handleCopyBasket={handleCopyBasket}
-								handleDeleteBasket={handleDeleteBasket}
-							/>
-						) : bask.type === 'future' ? (
-							<FututeBasketDetails
-								key={bask.id}
-								id={bask.id}
-								baseQuanity={bask.entryCondition.quantity}
-								baseInstrumentValue={instrument}
-								baseTotalProfitValue={
-									bask.exitCondition?.totalProfit.value || 0
-								}
-								baseSpotLossOption={
-									bask.exitCondition?.stopLoss.type || spotLossOptions[0].value
-								}
-								baseTotalProfitOption={
-									bask.exitCondition?.totalProfit.type ||
-									totalProfitOptions[0].value
-								}
-								baseSpotLossValue={bask.exitCondition?.stopLoss.value || 0}
-								baseActionValue={bask.entryCondition.actionType}
-								futureExpiryBaseValue={bask.entryCondition.expiry || 'Monthly'}
-								futureExpiryList={futureExpiryList}
-								basket={basket}
-								handleEditBasket={setBasket}
-								handleCopyBasket={handleCopyBasket}
-								handleDeleteBasket={handleDeleteBasket}
-							/>
-						) : (
-							<OptionBasketDetail
-								key={bask.id}
-								id={bask.id}
-								baseQuanity={bask.entryCondition.quantity}
-								optionExpiryBaseValue={bask.entryCondition.expiry || 'Monthly'}
-								baseTotalProfitValue={
-									bask.exitCondition?.totalProfit.value || 0
-								}
-								baseSpotLossOption={
-									bask.exitCondition?.stopLoss.type || spotLossOptions[0].value
-								}
-								baseTotalProfitOption={
-									bask.exitCondition?.totalProfit.type ||
-									totalProfitOptions[0].value
-								}
-								baseSpotLossValue={bask.exitCondition?.stopLoss.value || 0}
-								baseActionValue={bask.entryCondition.actionType}
-								baseOptionValue={bask.entryCondition.optionType || optionType}
-								baseInstrumentValue={instrument}
-								optionExpiryList={optionExpiryList}
-								baseSubTradeOption={
-									bask.entryCondition.tradeTypeParams || subTradeOption
-								}
-								baseTradeOption={bask.entryCondition.tradeType || tradeOption}
-								baseSubTradeOptionList={
-									tradeTypeData.find(
-										(trade) => trade.value === bask.entryCondition.tradeType
-									)?.children || subTradeOptionList
-								}
-								baseTradeValue={bask.entryCondition.tradeTypeValue || 0}
-								basket={basket}
-								handleEditBasket={setBasket}
-								handleCopyBasket={handleCopyBasket}
-								handleDeleteBasket={handleDeleteBasket}
-							/>
-						)
-					)}
-					{basket.length > 0 && (
-						<ExitCondition
-							moveSl={moveSl}
-							exchange={basketTrade}
-							entryHoursData={entryHourList}
-							entryMinutesData={entryMinuteList}
-							entryHourValue={currentEntryHour}
-							lossValue={lossValue}
-							profitValue={profitValue}
-							basketTradeType={basketTradeType}
-							entryMinuteValue={currentEntryMinute}
-							exitHoursData={exitHourList}
-							exitMinutesData={exitMinuteList}
-							exitHourValue={currentExitHour}
-							exitMinuteValue={currentExitMinute}
-							handleBasketTradeTypeChange={setBasketTradeType}
-							handleLossValueChange={setLossValue}
-							setRepeatSl={setRepeatSl}
-							handleProfitValueChange={setProfitValue}
-							handleChangeEntryHour={setCurrentEntryHour}
-							setMoveSl={setMoveSl}
-							handleChangeEntryMinute={setCurrentEntryMinute}
-							handleEntryMinuteListChange={setEntryMinuteList}
-							handleExitMinuteListChange={setExitMinuteList}
-							handleChangeExitHour={setCurrentExitHour}
-							handleChangeExitMinute={setCurrentExitMinute}
+				<div className="w-[50%]">
+					<Toggle
+						toogle1="Spot as ATM"
+						toogle2="Future as ATM"
+						setToogleValue={handleAtmChange}
+					/>
+				</div>
+
+				<Selectors
+					quantityValue={quantityValue}
+					actionValue={actionValue}
+					instrument={instrument}
+					optionExpiryList={optionExpiryList}
+					futureExpiryList={futureExpiryList}
+					futureExpiryBaseValue={futureExpiryBaseValue}
+					optionExpiryBaseValue={optionExpiryBaseValue}
+					subTradeOption={subTradeOption}
+					optionType={optionType}
+					tradeValue={tradeValue}
+					tradeOption={tradeOption}
+					subTradeOptionList={subTradeOptionList}
+					setTradeOption={setTradeOption}
+					setOptionType={setOptionType}
+					setTradeValue={setTradeValue}
+					setActionValue={setActionValue}
+					handleAddBasket={handleAddBasket}
+					setQuantityValue={setQuantityValue}
+					setSubTradeOption={setSubTradeOption}
+					setSubTradeOptionList={setSubTradeOptionList}
+					setFutureExpiryBaseValue={setFutureExpiryBaseValue}
+					setOptionExpiryBaseValue={setOptionExpiryBaseValue}
+					setOptionValue={setOptionValue}
+				/>
+
+				{basket?.map((bask) =>
+					bask.type === 'spot' ? (
+						<SpotBasketDetail
+							key={bask.id}
+							id={bask.id}
+							basket={basket}
+							baseTotalProfitValue={bask.exitCondition?.totalProfit.value || 0}
+							baseSpotLossOption={
+								bask.exitCondition?.stopLoss.type || spotLossOptions[0].value
+							}
+							baseTotalProfitOption={
+								bask.exitCondition?.totalProfit.type ||
+								totalProfitOptions[0].value
+							}
+							baseSpotLossValue={bask.exitCondition?.stopLoss.value || 0}
+							baseQuanity={bask.entryCondition.quantity}
+							baseInstrumentValue={instrument}
+							baseActionValue={bask.entryCondition.actionType}
+							handleEditBasket={setBasket}
+							handleCopyBasket={handleCopyBasket}
+							handleDeleteBasket={handleDeleteBasket}
 						/>
-					)}
-				</Flex>
+					) : bask.type === 'future' ? (
+						<FututeBasketDetails
+							key={bask.id}
+							id={bask.id}
+							baseQuanity={bask.entryCondition.quantity}
+							baseInstrumentValue={instrument}
+							baseTotalProfitValue={bask.exitCondition?.totalProfit.value || 0}
+							baseSpotLossOption={
+								bask.exitCondition?.stopLoss.type || spotLossOptions[0].value
+							}
+							baseTotalProfitOption={
+								bask.exitCondition?.totalProfit.type ||
+								totalProfitOptions[0].value
+							}
+							baseSpotLossValue={bask.exitCondition?.stopLoss.value || 0}
+							baseActionValue={bask.entryCondition.actionType}
+							futureExpiryBaseValue={bask.entryCondition.expiry || 'Monthly'}
+							futureExpiryList={futureExpiryList}
+							basket={basket}
+							handleEditBasket={setBasket}
+							handleCopyBasket={handleCopyBasket}
+							handleDeleteBasket={handleDeleteBasket}
+						/>
+					) : (
+						<OptionBasketDetail
+							key={bask.id}
+							id={bask.id}
+							baseQuanity={bask.entryCondition.quantity}
+							optionExpiryBaseValue={bask.entryCondition.expiry || 'Monthly'}
+							baseTotalProfitValue={bask.exitCondition?.totalProfit.value || 0}
+							baseSpotLossOption={
+								bask.exitCondition?.stopLoss.type || spotLossOptions[0].value
+							}
+							baseTotalProfitOption={
+								bask.exitCondition?.totalProfit.type ||
+								totalProfitOptions[0].value
+							}
+							baseSpotLossValue={bask.exitCondition?.stopLoss.value || 0}
+							baseActionValue={bask.entryCondition.actionType}
+							baseOptionValue={bask.entryCondition.optionType || optionType}
+							baseInstrumentValue={instrument}
+							optionExpiryList={optionExpiryList}
+							baseSubTradeOption={
+								bask.entryCondition.tradeTypeParams || subTradeOption
+							}
+							baseTradeOption={bask.entryCondition.tradeType || tradeOption}
+							baseSubTradeOptionList={
+								tradeTypeData.find(
+									(trade) => trade.value === bask.entryCondition.tradeType
+								)?.children || subTradeOptionList
+							}
+							baseTradeValue={bask.entryCondition.tradeTypeValue || 0}
+							basket={basket}
+							handleEditBasket={setBasket}
+							handleCopyBasket={handleCopyBasket}
+							handleDeleteBasket={handleDeleteBasket}
+						/>
+					)
+				)}
+				{basket.length > 0 && (
+					<ExitCondition
+						moveSl={moveSl}
+						exchange={basketTrade}
+						entryHoursData={entryHourList}
+						entryMinutesData={entryMinuteList}
+						entryHourValue={currentEntryHour}
+						lossValue={lossValue}
+						profitValue={profitValue}
+						basketTradeType={basketTradeType}
+						entryMinuteValue={currentEntryMinute}
+						exitHoursData={exitHourList}
+						exitMinutesData={exitMinuteList}
+						exitHourValue={currentExitHour}
+						exitMinuteValue={currentExitMinute}
+						handleBasketTradeTypeChange={setBasketTradeType}
+						handleLossValueChange={setLossValue}
+						setRepeatSl={setRepeatSl}
+						handleProfitValueChange={setProfitValue}
+						handleChangeEntryHour={setCurrentEntryHour}
+						setMoveSl={setMoveSl}
+						handleChangeEntryMinute={setCurrentEntryMinute}
+						handleEntryMinuteListChange={setEntryMinuteList}
+						handleExitMinuteListChange={setExitMinuteList}
+						handleChangeExitHour={setCurrentExitHour}
+						handleChangeExitMinute={setCurrentExitMinute}
+					/>
+				)}
 			</Flex>
 		</Modal>
 	)

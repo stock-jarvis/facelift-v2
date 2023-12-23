@@ -1,4 +1,4 @@
-import { Flex, Select, Input, Typography, theme } from 'antd'
+import { Flex, Select, Input, theme } from 'antd'
 import { ChangeEvent } from 'react'
 import { tradeTypeData } from '../../../constants/data'
 import { InputProps } from 'antd'
@@ -71,28 +71,30 @@ const StrikeSelector: React.FC<StrikeSelectorProps> = ({
 			justify="center"
 			align="center"
 		>
-			<Typography.Text style={{ fontWeight: token.fontWeightStrong }}>
-				Strike Type
-			</Typography.Text>
-			<Flex style={{ width: '300px', height: 'fit-content' }}>
+			<Flex style={{ width: '200px', height: 'fit-content' }}>
 				<Select
 					size="large"
-					style={{ width: '100%' }}
+					style={{ width: '100px' }}
 					options={tradeTypeData}
 					value={tradeOption}
 					onChange={handleTradeChange}
 				/>
 				<Select
 					size="large"
-					style={{ width: '100%' }}
+					style={{
+						width:
+							tradeOption !== 'ATMPt' && tradeOption !== 'HIGHOI'
+								? '70px'
+								: '100px',
+					}}
 					options={subTradeOptionList}
 					value={subTradeOption}
 					onChange={handleSubTradeChange}
 				/>
 				{tradeOption !== 'ATMPt' && tradeOption !== 'HIGHOI' && (
-					<Flex style={{ width: '90px', height: '40px' }}>
+					<Flex style={{ width: '60px', height: '40px' }}>
 						<Input
-							style={{ width: '80px' }}
+							style={{ width: '50px' }}
 							type="number"
 							value={tradeValue}
 							onChange={handleInputChange}

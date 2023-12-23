@@ -96,7 +96,6 @@ const FututeBasketDetails = ({
 				</Flex>
 				<Flex flex={1} justify="center">
 					<ActionSelector
-						label="Action Type"
 						action1="B"
 						action2="S"
 						color1="green"

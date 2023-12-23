@@ -1,8 +1,9 @@
-import { Tabs, TabsProps } from 'antd'
+import { Tabs, TabsProps, theme, Divider, Flex, Typography } from 'antd'
 import SpotBasketSelector from './spot-basket-selector'
 import FutureBasketSelector from './future-basket-selector'
 import OptionsBasketSelector from './options-basket-selector'
 import { OptionObject, TradeOptions } from 'src/components/basket/types/types'
+import { useState } from 'react'
 interface SelectProps {
 	quantityValue: number
 	instrument: string
@@ -42,7 +43,6 @@ const Selectors: React.FC<SelectProps> = ({
 	tradeValue,
 	tradeOption,
 	subTradeOptionList,
-
 	setTradeOption,
 	setOptionValue,
 	setOptionType,
@@ -55,77 +55,97 @@ const Selectors: React.FC<SelectProps> = ({
 	setFutureExpiryBaseValue,
 	setOptionExpiryBaseValue,
 }) => {
-	const handleTabChange: TabsProps['onChange'] = () => {
+	const { token } = theme.useToken()
+	const [tabValue, setTabValue] = useState<string>('spot')
+	const handleTabChange: TabsProps['onChange'] = (e: string) => {
 		setOptionValue()
+		setTabValue(e)
 	}
 	return (
-		<Tabs
-			type="card"
-			onChange={(e) => {
-				handleTabChange(e)
-			}}
-			tabBarGutter={15}
-			items={[
-				{
-					label: 'Spot',
-					key: 'spot',
-					children: (
-						<SpotBasketSelector
-							baseQuantityValue={quantityValue}
-							baseActionValue={actionValue}
-							baseInstrumentValue={instrument}
-							handleBaseActionChange={setActionValue}
-							handleAddBasket={handleAddBasket}
-							handleBaseQuantityChange={setQuantityValue}
-						/>
-					),
-				},
-				{
-					label: 'Future',
-					key: 'future',
-					children: (
-						<FutureBasketSelector
-							futureExpiryBaseValue={futureExpiryBaseValue}
-							futureExpiryList={futureExpiryList}
-							baseQuantityValue={quantityValue}
-							baseActionValue={actionValue}
-							baseInstrumentValue={instrument}
-							handleBaseActionChange={setActionValue}
-							handleBaseExpiryChange={setFutureExpiryBaseValue}
-							handleAddBasket={handleAddBasket}
-							handleBaseQuantityChange={setQuantityValue}
-						/>
-					),
-				},
-				{
-					label: 'Options',
-					key: 'options',
-					children: (
-						<OptionsBasketSelector
-							optionExpiryBaseValue={optionExpiryBaseValue}
-							optionExpiryList={optionExpiryList}
-							baseQuantityValue={quantityValue}
-							baseActionValue={actionValue}
-							baseOptionValue={optionType}
-							baseSubTradeOption={subTradeOption}
-							baseInstrumentValue={instrument}
-							baseTradeValue={tradeValue}
-							baseTradeOption={tradeOption}
-							baseSubTradeOptionList={subTradeOptionList}
-							handleBaseExpiryChange={setOptionExpiryBaseValue}
-							handleAddBasket={handleAddBasket}
-							handleBaseQuantityChange={setQuantityValue}
-							handleBaseActionChange={setActionValue}
-							handleBaseOptionChange={setOptionType}
-							handleBaseTradeValueChange={setTradeValue}
-							handleBaseTradeChange={setTradeOption}
-							handleBaseSubTradeChange={setSubTradeOption}
-							handleBaseSubTradeListChange={setSubTradeOptionList}
-						/>
-					),
-				},
-			]}
-		/>
+		<Flex flex={1} vertical gap="middle">
+			<Divider>
+				<Typography.Text
+					style={{ fontSize: token.fontSizeLG, color: token.colorPrimary }}
+				>
+					Positions
+				</Typography.Text>
+			</Divider>
+			<Tabs
+				destroyInactiveTabPane={true}
+				type="card"
+				activeKey={tabValue}
+				onChange={(e) => {
+					handleTabChange(e)
+				}}
+				style={{
+					border: '1px solid #D3D3D3',
+					padding: token.paddingXS,
+					borderRadius: token.borderRadiusLG,
+				}}
+				className="w-full"
+				tabBarGutter={15}
+				items={[
+					{
+						label: 'Spot',
+						key: 'spot',
+						children: (
+							<SpotBasketSelector
+								baseQuantityValue={quantityValue}
+								baseActionValue={actionValue}
+								baseInstrumentValue={instrument}
+								handleBaseActionChange={setActionValue}
+								handleAddBasket={handleAddBasket}
+								handleBaseQuantityChange={setQuantityValue}
+							/>
+						),
+					},
+					{
+						label: 'Future',
+						key: 'future',
+						children: (
+							<FutureBasketSelector
+								futureExpiryBaseValue={futureExpiryBaseValue}
+								futureExpiryList={futureExpiryList}
+								baseQuantityValue={quantityValue}
+								baseActionValue={actionValue}
+								baseInstrumentValue={instrument}
+								handleBaseActionChange={setActionValue}
+								handleBaseExpiryChange={setFutureExpiryBaseValue}
+								handleAddBasket={handleAddBasket}
+								handleBaseQuantityChange={setQuantityValue}
+							/>
+						),
+					},
+					{
+						label: 'Options',
+						key: 'options',
+						children: (
+							<OptionsBasketSelector
+								optionExpiryBaseValue={optionExpiryBaseValue}
+								optionExpiryList={optionExpiryList}
+								baseQuantityValue={quantityValue}
+								baseActionValue={actionValue}
+								baseOptionValue={optionType}
+								baseSubTradeOption={subTradeOption}
+								baseInstrumentValue={instrument}
+								baseTradeValue={tradeValue}
+								baseTradeOption={tradeOption}
+								baseSubTradeOptionList={subTradeOptionList}
+								handleBaseExpiryChange={setOptionExpiryBaseValue}
+								handleAddBasket={handleAddBasket}
+								handleBaseQuantityChange={setQuantityValue}
+								handleBaseActionChange={setActionValue}
+								handleBaseOptionChange={setOptionType}
+								handleBaseTradeValueChange={setTradeValue}
+								handleBaseTradeChange={setTradeOption}
+								handleBaseSubTradeChange={setSubTradeOption}
+								handleBaseSubTradeListChange={setSubTradeOptionList}
+							/>
+						),
+					},
+				]}
+			/>
+		</Flex>
 	)
 }
 export default Selectors

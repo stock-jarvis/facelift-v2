@@ -1,4 +1,4 @@
-import { Flex, Typography, theme, Input } from 'antd'
+import { Input } from 'antd'
 import { InputProps } from 'antd'
 import { ChangeEvent } from 'react'
 import { useState, useEffect } from 'react'
@@ -13,7 +13,6 @@ const QuantityInput: React.FC<QuantityProps> = ({
 	handleQantityChange,
 }) => {
 	const [quantityValue, setQuantityValue] = useState<number>()
-	const { token } = theme.useToken()
 
 	useEffect(() => {
 		if (!quantityValue) {
@@ -24,8 +23,6 @@ const QuantityInput: React.FC<QuantityProps> = ({
 	const handleInputChange: InputProps['onChange'] = (
 		e: ChangeEvent<HTMLInputElement>
 	) => {
-		e.stopPropagation()
-		e.preventDefault()
 		if (+e.target.value <= 0) {
 			setQuantityValue(1)
 			handleQantityChange(1)
@@ -36,26 +33,13 @@ const QuantityInput: React.FC<QuantityProps> = ({
 	}
 
 	return (
-		<Flex
-			style={{
-				width: 'fit-content',
-				borderRadius: token.borderRadiusLG,
-				padding: token.paddingSM,
-			}}
-			vertical
-			justify="center"
-			align="center"
-		>
-			<Typography.Text style={{ fontWeight: token.fontWeightStrong }}>
-				Quantity
-			</Typography.Text>
-			<Input
-				value={quantityValue}
-				size="large"
-				type="number"
-				onChange={handleInputChange}
-			/>
-		</Flex>
+		<Input
+			value={quantityValue}
+			style={{ width: '140px' }}
+			size="large"
+			type="number"
+			onChange={handleInputChange}
+		/>
 	)
 }
 

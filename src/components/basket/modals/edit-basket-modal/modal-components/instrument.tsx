@@ -1,34 +1,17 @@
-import { Flex, Typography, theme } from 'antd'
+import { Tag, Typography, theme } from 'antd'
 interface InstrumentProps {
 	instrument: string
 }
 const Instrument: React.FC<InstrumentProps> = ({ instrument }) => {
 	const { token } = theme.useToken()
-
 	return (
-		<Flex
-			style={{
-				width: 'fit-content',
-
-				borderRadius: token.borderRadiusLG,
-				padding: token.paddingSM,
-				//boxShadow: '2px 2px 2px 2px rgba(0, 0, 0, 0.25) inset',
-			}}
-			vertical
-			align="center"
-		>
-			<Typography.Text style={{ fontWeight: token.fontWeightStrong }}>
-				Instrument
+		<Tag bordered color="blue" style={{ padding: token.paddingXS }}>
+			<Typography.Text
+				style={{ fontSize: token.fontSizeLG, color: token.colorBgSpotlight }}
+			>
+				{instrument}
 			</Typography.Text>
-
-			<Flex align="center" className="h-full">
-				<Typography.Text
-					style={{ paddingTop: token.paddingSM, fontWeight: 'bold' }}
-				>
-					{instrument}
-				</Typography.Text>
-			</Flex>
-		</Flex>
+		</Tag>
 	)
 }
 

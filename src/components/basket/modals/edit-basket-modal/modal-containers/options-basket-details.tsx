@@ -124,7 +124,6 @@ const OptionBasketDetail = ({
 					<Flex flex="1" justify="space-around">
 						<Flex flex={1} justify="center">
 							<ActionSelector
-								label="Action Type"
 								action1="B"
 								action2="S"
 								color1="green"
@@ -133,9 +132,14 @@ const OptionBasketDetail = ({
 								handleBaseActionChange={setActionValue}
 							/>
 						</Flex>
+						<Flex flex={1}>
+							<QuantityInput
+								baseQuantityValue={quantityValue}
+								handleQantityChange={setQuantityValue}
+							/>
+						</Flex>
 						<Flex flex={1} justify="center">
 							<ActionSelector
-								label="Option Type"
 								action1="CE"
 								action2="PE"
 								color1="black"
@@ -157,12 +161,7 @@ const OptionBasketDetail = ({
 								setSubTradeOptionList={setSubTradeOptionList}
 							/>
 						</Flex>
-						<Flex flex={1}>
-							<QuantityInput
-								baseQuantityValue={quantityValue}
-								handleQantityChange={setQuantityValue}
-							/>
-						</Flex>
+
 						<Flex flex={1}>
 							<ExpirySelector
 								expiryValue={expiryValue}

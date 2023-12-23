@@ -1,8 +1,8 @@
-import { Flex, Typography, theme, Divider } from 'antd'
+import { Flex, Typography, theme, Segmented, SegmentedProps } from 'antd'
+import { SegmentedValue } from 'antd/es/segmented'
 import { useState } from 'react'
 
 interface ActionSelectorProps {
-	label: string
 	action1: string
 	action2: string
 	color1: string
@@ -13,7 +13,6 @@ interface ActionSelectorProps {
 
 const ActionSelector: React.FC<ActionSelectorProps> = ({
 	handleBaseActionChange,
-	label,
 	action1,
 	action2,
 	color1,
@@ -23,10 +22,43 @@ const ActionSelector: React.FC<ActionSelectorProps> = ({
 	const [tag, setTag] = useState<string>(baseActionValue)
 	const { token } = theme.useToken()
 
-	const handleTagChange = (tagVal: string) => {
-		if (tagVal !== tag) {
-			setTag(tagVal)
-			handleBaseActionChange(tagVal)
+	const items = [
+		{
+			label: (
+				<Typography.Text
+					style={{
+						color: color1,
+						fontSize: token.fontSizeLG,
+						fontWeight: token.fontWeightStrong,
+					}}
+				>
+					{action1}
+				</Typography.Text>
+			),
+			value: action1,
+		},
+		{
+			label: (
+				<Typography.Text
+					style={{
+						color: color2,
+						fontSize: token.fontSizeLG,
+						fontWeight: token.fontWeightStrong,
+					}}
+				>
+					{action2}
+				</Typography.Text>
+			),
+			value: action2,
+		},
+	]
+	const handleTagChange: SegmentedProps['onChange'] = (
+		tagVal: SegmentedValue
+	) => {
+		//console.log(tagVal.toLocaleString())
+		if (tagVal.toLocaleString() !== tag) {
+			setTag(tagVal.toLocaleString())
+			handleBaseActionChange(tagVal.toLocaleString())
 		}
 	}
 
@@ -41,45 +73,12 @@ const ActionSelector: React.FC<ActionSelectorProps> = ({
 			align="center"
 			gap={'middle'}
 		>
-			<Typography.Text style={{ fontWeight: token.fontWeightStrong }}>
-				{label}
-			</Typography.Text>
-			<Flex align="center">
-				<div
-					style={{
-						cursor: 'pointer',
-						padding: token.paddingSM,
-						borderBottom:
-							tag === action1 ? `2px solid ${color1}` : '2px solid transparent',
-					}}
-					onClick={() => handleTagChange(action1)}
-				>
-					<Typography.Text
-						style={{ fontWeight: token.fontWeightStrong, color: color1 }}
-					>
-						{action1}
-					</Typography.Text>
-				</div>
-				<Divider
-					type="vertical"
-					style={{ fontSize: token.fontSizeHeading1, fill: 'black' }}
-				/>
-				<div
-					style={{
-						cursor: 'pointer',
-						padding: token.paddingSM,
-						borderBottom:
-							tag === action2 ? `2px solid ${color2}` : '2px solid transparent',
-					}}
-					onClick={() => handleTagChange(action2)}
-				>
-					<Typography.Text
-						style={{ fontWeight: token.fontWeightStrong, color: color2 }}
-					>
-						{action2}
-					</Typography.Text>
-				</div>
-			</Flex>
+			<Segmented
+				options={items}
+				value={tag}
+				onChange={handleTagChange}
+				size="large"
+			/>
 		</Flex>
 	)
 }

@@ -1,7 +1,7 @@
-import { Flex } from 'antd'
+import { Flex, Descriptions, DescriptionsProps, Typography, theme } from 'antd'
 import { TradeOptions } from '../../../types/types'
 import { OptionObject } from '../../../types/types'
-import StrikeRadioSelector from '../modal-components/strike-radio-selector'
+
 import PositionHolder from './position-holder'
 import StrikeSelector from '../modal-components/strike-selector'
 import Instrument from '../modal-components/instrument'
@@ -51,25 +51,32 @@ const OptionsBasketSelector = ({
 	baseSubTradeOption,
 	baseSubTradeOptionList,
 }: BasketProps) => {
-	return (
-		<PositionHolder
-			heading="Options"
-			basketType="options"
-			onClick={handleAddBasket}
-		>
-			<Flex flex="1" vertical gap="middle">
-				<Flex flex="1">
-					<StrikeRadioSelector
-						tradeOption={baseTradeOption}
-						setTradeOption={handleBaseTradeChange}
-						setSubTradeOptionList={handleBaseSubTradeListChange}
-						setSubTradeOption={handleBaseSubTradeChange}
-					/>
+	const { token } = theme.useToken()
+	const items: DescriptionsProps['items'] = [
+		{
+			key: 'instrument',
+			label: (
+				<Flex justify="center">
+					<Typography.Text>Instruments</Typography.Text>
 				</Flex>
-				<Flex flex={1} justify="space-around" align="center">
+			),
+			children: (
+				<Flex flex={1} justify="center" className="w-full">
 					<Instrument instrument={baseInstrumentValue} />
+				</Flex>
+			),
+		},
+		{
+			key: '2',
+			label: (
+				<Flex flex={1} justify="center">
+					<Typography.Text>Action</Typography.Text>
+				</Flex>
+			),
+
+			children: (
+				<Flex flex={1} justify="center">
 					<ActionSelector
-						label="Action Type"
 						action1="B"
 						action2="S"
 						color1="green"
@@ -77,8 +84,20 @@ const OptionsBasketSelector = ({
 						baseActionValue={baseActionValue}
 						handleBaseActionChange={handleBaseActionChange}
 					/>
+				</Flex>
+			),
+		},
+
+		{
+			key: 'Options',
+			label: (
+				<Flex flex={1} justify="center">
+					<Typography.Text>Option</Typography.Text>
+				</Flex>
+			),
+			children: (
+				<Flex flex={1} justify="center">
 					<ActionSelector
-						label="Option Type"
 						action1="CE"
 						action2="PE"
 						color1="black"
@@ -86,6 +105,18 @@ const OptionsBasketSelector = ({
 						baseActionValue={baseOptionValue}
 						handleBaseActionChange={handleBaseOptionChange}
 					/>
+				</Flex>
+			),
+		},
+		{
+			key: '5',
+			label: (
+				<Flex flex={1} justify="center">
+					Strike
+				</Flex>
+			),
+			children: (
+				<Flex flex={1} justify="center">
 					<StrikeSelector
 						tradeOption={baseTradeOption}
 						tradeValue={baseTradeValue}
@@ -96,17 +127,80 @@ const OptionsBasketSelector = ({
 						subTradeOptionList={baseSubTradeOptionList}
 						setSubTradeOptionList={handleBaseSubTradeListChange}
 					/>
+				</Flex>
+			),
+		},
+		{
+			key: '3',
+			label: (
+				<Flex flex={1} justify="center">
+					Quantity
+				</Flex>
+			),
+			children: (
+				<Flex flex={1} justify="center">
 					<QuantityInput
 						baseQuantityValue={baseQuantityValue}
 						handleQantityChange={handleBaseQuantityChange}
 					/>
+				</Flex>
+			),
+		},
+		{
+			key: '4',
+			label: (
+				<Flex flex={1} justify="center">
+					Expiry
+				</Flex>
+			),
+			children: (
+				<Flex flex={1} justify="center">
 					<ExpirySelector
 						handleExpiryChange={handleBaseExpiryChange}
 						expiryValue={optionExpiryBaseValue}
 						expiryOptions={optionExpiryList}
 					/>
 				</Flex>
-			</Flex>
+			),
+		},
+	]
+
+	const mainItems: DescriptionsProps['items'] = [
+		{
+			key: 'options',
+			label: (
+				<Flex justify="center">
+					<Typography.Text
+						style={{
+							fontSize: token.fontSizeLG,
+							fontWeight: token.fontWeightStrong,
+						}}
+					>
+						Options Position
+					</Typography.Text>
+				</Flex>
+			),
+			children: (
+				<Flex className="w-full" align="center" justify="space-between">
+					<Descriptions
+						className="w-full"
+						items={items}
+						column={8}
+						layout="vertical"
+						bordered
+					/>
+				</Flex>
+			),
+		},
+	]
+	return (
+		<PositionHolder onClick={handleAddBasket} basketType="options">
+			<Descriptions
+				className="w-full"
+				items={mainItems}
+				layout="vertical"
+				bordered
+			/>
 		</PositionHolder>
 	)
 }
