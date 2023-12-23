@@ -24,6 +24,8 @@ const QuantityInput: React.FC<QuantityProps> = ({
 	const handleInputChange: InputProps['onChange'] = (
 		e: ChangeEvent<HTMLInputElement>
 	) => {
+		e.stopPropagation()
+		e.preventDefault()
 		if (+e.target.value <= 0) {
 			setQuantityValue(1)
 			handleQantityChange(1)

@@ -1,5 +1,5 @@
 import { Modal, Flex, Button, Select, Input, Typography, theme } from 'antd'
-import ExhchangeSelector from '../../common/basket-exchange/exchange-selector'
+import ExhchangeSelector from '../../common/basket-exchange'
 import { CloseOutlined } from '@ant-design/icons'
 import { useBasketStore } from '../../store/basket-store'
 import { useState, ChangeEvent } from 'react'
@@ -35,6 +35,7 @@ const Index: React.FC<ModalProps> = ({ open }) => {
 			)
 			if (!checkDuplicateBasketName) {
 				addNewRuntimeBasket({
+					key: generateUniqueId(),
 					id: generateUniqueId(),
 					name: basketName,
 					instrument: instrument,
@@ -90,17 +91,7 @@ const Index: React.FC<ModalProps> = ({ open }) => {
 						padding: token.paddingXS,
 					}}
 				>
-					<Typography.Text
-						style={
-							{
-								// color: token.colorBgBase,
-								// fontWeight: token.fontWeightStrong,
-								// fontSize: token.fontSize,
-							}
-						}
-					>
-						Add New Basket
-					</Typography.Text>
+					<Typography.Text>Add New Basket</Typography.Text>
 					<CloseOutlined onClick={onModalClose} />
 				</Flex>
 			}
@@ -121,7 +112,6 @@ const Index: React.FC<ModalProps> = ({ open }) => {
 			destroyOnClose
 			styles={{
 				content: { marginTop: '80px', padding: 0 },
-				//header: { backgroundColor: token.colorPrimary },
 				body: { padding: token.paddingXS, paddingTop: 0, paddingBottom: 0 },
 			}}
 		>

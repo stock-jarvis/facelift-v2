@@ -33,17 +33,7 @@ const Index: React.FC<ModalProps> = ({
 						padding: token.paddingXS,
 					}}
 				>
-					<Typography.Text
-						style={
-							{
-								//	color: token.colorBgBase,
-								//		fontWeight: token.fontWeightStrong,
-								//		fontSize: token.fontSize,
-							}
-						}
-					>
-						{header}
-					</Typography.Text>
+					<Typography.Text>{header}</Typography.Text>
 
 					<CloseOutlined
 						onClick={handleCancelSelect}

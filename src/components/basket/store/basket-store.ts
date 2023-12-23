@@ -58,6 +58,7 @@ type BasketStateActions = {
 const defaultState: BasketState = {
 	runtimeBasketList: [
 		{
+			key: '1',
 			id: '1',
 			name: 'Apple',
 			identifier: 0,
@@ -69,6 +70,7 @@ const defaultState: BasketState = {
 	storedBaskets: [
 		{
 			id: '1',
+			key: '1',
 			name: 'Apple',
 			identifier: 1,
 			exchange: 'NSE',
@@ -78,6 +80,7 @@ const defaultState: BasketState = {
 		},
 		{
 			id: '2',
+			key: '2',
 			name: 'Apple',
 			identifier: 0,
 			exchange: 'NSE',
@@ -98,6 +101,7 @@ const defaultState: BasketState = {
 	closeModalConfirmation: false,
 	editableBasketData: {
 		id: '',
+		key: '',
 		name: '',
 		exchange: '',
 		instrument: '',
@@ -220,6 +224,7 @@ export const useBasketStore = create<BasketState & BasketStateActions>()(
 				set(
 					(state) =>
 						void (state.editableBasketData = {
+							key: '',
 							id: '',
 							identifier: 0,
 							name: '',
@@ -272,6 +277,7 @@ export const useBasketStore = create<BasketState & BasketStateActions>()(
 						(basket) => basket.id === id
 					) || {
 						id: '',
+						key: '',
 						name: '',
 						exchange: '',
 						instrument: '',

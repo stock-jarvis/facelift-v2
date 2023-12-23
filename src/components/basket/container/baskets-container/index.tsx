@@ -96,22 +96,18 @@ const Index = () => {
 		{
 			title: (
 				<Flex flex={1}>
-					<Tooltip title={'Select All Baskets'}>
-						<Checkbox checked={selectAll} onChange={selectAllBasket} />
-					</Tooltip>
+					<Checkbox checked={selectAll} onChange={selectAllBasket} />
 				</Flex>
 			),
 			dataIndex: '',
 			render: (record: RunTimeBasketData) => (
-				<Flex flex={1}>
-					<Tooltip title="Select Basket">
-						<Checkbox
-							checked={record.selected}
-							onChange={() => {
-								handleIndividualSelectChange(record.id)
-							}}
-						/>
-					</Tooltip>
+				<Flex flex={1} key={record.id}>
+					<Checkbox
+						checked={record.selected}
+						onChange={() => {
+							handleIndividualSelectChange(record.id)
+						}}
+					/>
 				</Flex>
 			),
 		},
@@ -122,7 +118,7 @@ const Index = () => {
 				</Flex>
 			),
 			render: (record: RunTimeBasketData) => (
-				<Flex flex="1" justify="flex-start">
+				<Flex flex="1" justify="flex-start" key={record.id + record.name}>
 					<Typography.Text
 						style={{
 							color: record.error ? token.colorError : '#000',
@@ -142,7 +138,7 @@ const Index = () => {
 				</Flex>
 			),
 			render: (record: RunTimeBasketData) => (
-				<Flex flex="1" justify="flex-end">
+				<Flex flex="1" justify="flex-end" key={record.id + record.exchange}>
 					<Typography.Text
 						style={{
 							color: record.error ? token.colorError : token.colorPrimary,
@@ -162,7 +158,7 @@ const Index = () => {
 				</Flex>
 			),
 			render: (record: RunTimeBasketData) => (
-				<Flex flex="1" justify="flex-end">
+				<Flex flex="1" justify="flex-end" key={record.id + record.instrument}>
 					<Typography.Text
 						style={{
 							color: record.error ? token.colorError : '#000',
@@ -182,7 +178,12 @@ const Index = () => {
 			),
 			dataIndex: '',
 			render: (record: RunTimeBasketData) => (
-				<Flex gap={'small'} flex={1} justify="flex-end">
+				<Flex
+					gap={'small'}
+					flex={1}
+					justify="flex-end"
+					key={record.id + generateUniqueId()}
+				>
 					<Tooltip title="Edit">
 						<Button
 							shape="circle"

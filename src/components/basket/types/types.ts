@@ -20,6 +20,7 @@ export interface TradeOptions {
 }
 
 export interface RunTimeBasketData {
+	key: string
 	id: string
 	name: string
 	exchange: string
@@ -80,6 +81,7 @@ export interface PositionExitCondition {
 }
 
 export interface SavedBasketsObject {
+	key: string
 	id: string
 	name?: string
 	identifier: number

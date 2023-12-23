@@ -8,6 +8,7 @@ import {
 	SavedBasketsObject,
 } from 'src/components/basket/types/types'
 import { useEffect, useState } from 'react'
+import { generateUniqueId } from 'src/components/basket/common/utils/randomizer'
 interface FooterPorps {
 	id: string
 	atm: string
@@ -150,6 +151,7 @@ const Footer = ({
 			savedBasket.positions !== basket
 		) {
 			setSavedBasket({
+				key: generateUniqueId(),
 				ticker: instrument,
 				id: id,
 				name: basketName || '',
