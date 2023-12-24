@@ -122,8 +122,6 @@ const EditBasketModal = ({ open }: EditModalProps) => {
 	const [subTradeOption, setSubTradeOption] = useState<string>(initialSubTrade)
 
 	const [basketPositions, setBasketPositions] = useState<string>('INTRA')
-	const [basketTradeType, setBasketTradeType] =
-		useState<string>('Square off one Leg')
 	const [subTradeOptionList, setSubTradeOptionList] =
 		useState<TradeOptions[]>(initialSubTradeList)
 	const [futureExpiryBaseValue, setFutureExpiryBaseValue] =
@@ -153,14 +151,6 @@ const EditBasketModal = ({ open }: EditModalProps) => {
 		currentExitMinute,
 		setTimeError
 	)
-
-	useEffect(() => {
-		if (basketTradeType === 'Square of All Legs') {
-			setFinalTradeType('SQAL')
-		} else {
-			setFinalTradeType('SQOL')
-		}
-	}, [basketTradeType])
 
 	usePersistState(
 		positionCopy,
@@ -499,32 +489,46 @@ const EditBasketModal = ({ open }: EditModalProps) => {
 					/>
 				)}
 				{basket.length > 0 && (
-					<ExitCondition
-						moveSl={moveSl}
-						exchange={basketTrade}
-						entryHoursData={entryHourList}
-						entryMinutesData={entryMinuteList}
-						entryHourValue={currentEntryHour}
-						lossValue={lossValue}
-						profitValue={profitValue}
-						basketTradeType={basketTradeType}
-						entryMinuteValue={currentEntryMinute}
-						exitHoursData={exitHourList}
-						exitMinutesData={exitMinuteList}
-						exitHourValue={currentExitHour}
-						exitMinuteValue={currentExitMinute}
-						handleBasketTradeTypeChange={setBasketTradeType}
-						handleLossValueChange={setLossValue}
-						setRepeatSl={setRepeatSl}
-						handleProfitValueChange={setProfitValue}
-						handleChangeEntryHour={setCurrentEntryHour}
-						setMoveSl={setMoveSl}
-						handleChangeEntryMinute={setCurrentEntryMinute}
-						handleEntryMinuteListChange={setEntryMinuteList}
-						handleExitMinuteListChange={setExitMinuteList}
-						handleChangeExitHour={setCurrentExitHour}
-						handleChangeExitMinute={setCurrentExitMinute}
-					/>
+					<>
+						<br />
+						<Divider>
+							<Typography.Text
+								style={{
+									color: token.colorPrimary,
+									fontSize: token.fontSizeLG,
+									fontWeight: token.fontWeightStrong,
+								}}
+							>
+								Exit Parameters
+							</Typography.Text>
+						</Divider>
+						<ExitCondition
+							moveSl={moveSl}
+							exchange={basketTrade}
+							entryHoursData={entryHourList}
+							entryMinutesData={entryMinuteList}
+							entryHourValue={currentEntryHour}
+							lossValue={lossValue}
+							profitValue={profitValue}
+							basketTradeType={finalTradeType}
+							entryMinuteValue={currentEntryMinute}
+							exitHoursData={exitHourList}
+							exitMinutesData={exitMinuteList}
+							exitHourValue={currentExitHour}
+							exitMinuteValue={currentExitMinute}
+							handleBasketTradeTypeChange={setFinalTradeType}
+							handleLossValueChange={setLossValue}
+							setRepeatSl={setRepeatSl}
+							handleProfitValueChange={setProfitValue}
+							handleChangeEntryHour={setCurrentEntryHour}
+							setMoveSl={setMoveSl}
+							handleChangeEntryMinute={setCurrentEntryMinute}
+							handleEntryMinuteListChange={setEntryMinuteList}
+							handleExitMinuteListChange={setExitMinuteList}
+							handleChangeExitHour={setCurrentExitHour}
+							handleChangeExitMinute={setCurrentExitMinute}
+						/>
+					</>
 				)}
 			</Flex>
 		</Modal>

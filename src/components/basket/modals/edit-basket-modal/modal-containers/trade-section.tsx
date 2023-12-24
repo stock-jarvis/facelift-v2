@@ -1,4 +1,11 @@
-import { Flex, Switch, Typography, theme } from 'antd'
+import {
+	Flex,
+	Switch,
+	Typography,
+	theme,
+	Descriptions,
+	DescriptionsProps,
+} from 'antd'
 import Toggle from '../modal-components/toggle'
 import { useEffect, useState } from 'react'
 import { CheckOutlined, CloseOutlined } from '@ant-design/icons'
@@ -23,7 +30,7 @@ const TradeSecion = ({
 	const [repeatTrade, setRepeatTrade] = useState<boolean>(false)
 
 	useEffect(() => {
-		if (toggleValue === 'Square off one Leg') {
+		if (toggleValue === 'SQOL') {
 			setTrade(false)
 		} else {
 			setTrade(true)
@@ -61,83 +68,137 @@ const TradeSecion = ({
 			setRepeatCondition(true)
 		}
 	}
-
-	return (
-		<Flex flex={1} justify="center" align="center" vertical gap="large">
-			<Flex style={{ width: '80%' }}>
-				<Toggle
-					toogle1="Square off one Leg"
-					toogle2="Square of All Legs"
-					setToogleValue={(value: string) => {
-						setMove(false)
-						setRepeat('NA')
-						setRepeatTrade(false)
-						setRepeatCondition(false)
-						setToggleValue(value)
-					}}
-				/>
-			</Flex>
-			{!trade ? (
-				<Flex gap="middle">
-					<Switch
-						onChange={() => setMove(!move)}
-						autoFocus={true}
-						checkedChildren={<CheckOutlined />}
-						unCheckedChildren={
-							<CloseOutlined style={{ color: token.colorPrimary }} />
-						}
-					/>
+	const items: DescriptionsProps['items'] = [
+		{
+			label: (
+				<Flex flex="1" justify="center">
 					<Typography.Text
 						style={{
 							fontSize: token.fontSizeLG,
 							fontWeight: token.fontWeightStrong,
 						}}
 					>
-						Move Sl to cost
+						Condition
 					</Typography.Text>
 				</Flex>
-			) : (
-				<Flex gap="middle">
-					<Flex gap="middle">
-						<Switch
-							value={repeatTrade}
-							onChange={handleTradeChange}
-							autoFocus={true}
-							checkedChildren={<CheckOutlined />}
-							unCheckedChildren={
-								<CloseOutlined style={{ color: token.colorPrimary }} />
-							}
-						/>
-						<Typography.Text
-							style={{
-								fontSize: token.fontSizeLG,
-								fontWeight: token.fontWeightStrong,
-							}}
-						>
-							Repeat Trade
-						</Typography.Text>
-					</Flex>
-					<Flex gap="middle">
-						<Switch
-							value={repeatCondition}
-							onChange={handleConditionChange}
-							autoFocus={true}
-							checkedChildren={<CheckOutlined />}
-							unCheckedChildren={
-								<CloseOutlined style={{ color: token.colorPrimary }} />
-							}
-						/>
-						<Typography.Text
-							style={{
-								fontSize: token.fontSizeLG,
-								fontWeight: token.fontWeightStrong,
-							}}
-						>
-							Repeat Condition
-						</Typography.Text>
-					</Flex>
+			),
+			key: 'conditions',
+			children: (
+				<Flex flex="1" justify="center">
+					{!trade ? (
+						<Flex gap="middle">
+							<Switch
+								onChange={() => setMove(!move)}
+								autoFocus={true}
+								checkedChildren={<CheckOutlined />}
+								unCheckedChildren={
+									<CloseOutlined style={{ color: token.colorPrimary }} />
+								}
+							/>
+							<Typography.Text
+								style={{
+									fontSize: token.fontSizeLG,
+									fontWeight: token.fontWeightStrong,
+								}}
+							>
+								Move Sl to cost
+							</Typography.Text>
+						</Flex>
+					) : (
+						<Flex gap="middle">
+							<Flex gap="middle">
+								<Switch
+									value={repeatTrade}
+									onChange={handleTradeChange}
+									autoFocus={true}
+									checkedChildren={<CheckOutlined />}
+									unCheckedChildren={
+										<CloseOutlined style={{ color: token.colorPrimary }} />
+									}
+								/>
+								<Typography.Text
+									style={{
+										fontSize: token.fontSizeLG,
+										fontWeight: token.fontWeightStrong,
+									}}
+								>
+									Repeat Trade
+								</Typography.Text>
+							</Flex>
+							<Flex gap="middle">
+								<Switch
+									value={repeatCondition}
+									onChange={handleConditionChange}
+									autoFocus={true}
+									checkedChildren={<CheckOutlined />}
+									unCheckedChildren={
+										<CloseOutlined style={{ color: token.colorPrimary }} />
+									}
+								/>
+								<Typography.Text
+									style={{
+										fontSize: token.fontSizeLG,
+										fontWeight: token.fontWeightStrong,
+									}}
+								>
+									Repeat Condition
+								</Typography.Text>
+							</Flex>
+						</Flex>
+					)}
 				</Flex>
-			)}
+			),
+		},
+	]
+
+	const toogleItems: DescriptionsProps['items'] = [
+		{
+			label: (
+				<Flex flex="1" justify="center">
+					<Typography.Text
+						style={{
+							fontSize: token.fontSizeLG,
+							fontWeight: token.fontWeightStrong,
+						}}
+					>
+						Trade
+					</Typography.Text>
+				</Flex>
+			),
+			key: 'trade',
+			children: (
+				<Flex flex="1" justify="center">
+					<Toggle
+						label1="Square of one leg"
+						label2="Square of all legs"
+						toogle1="SQOL"
+						toogle2="SQAL"
+						setToogleValue={(value: string) => {
+							setMove(false)
+							setRepeat('NA')
+							setRepeatTrade(false)
+							setRepeatCondition(false)
+							setToggleValue(value)
+						}}
+					/>
+				</Flex>
+			),
+		},
+	]
+	return (
+		<Flex flex={1} justify="center" vertical gap="large">
+			<Descriptions
+				layout="vertical"
+				items={toogleItems}
+				bordered
+				className="w-full"
+			/>
+			<Descriptions
+				layout="vertical"
+				items={items}
+				bordered
+				className="w-full"
+			/>
 		</Flex>
 	)
 }
