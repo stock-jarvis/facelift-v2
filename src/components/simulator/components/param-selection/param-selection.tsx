@@ -4,7 +4,6 @@ import {
 	DatePicker,
 	DatePickerProps,
 	TimePickerProps,
-	Button,
 } from 'antd'
 
 import Jump from './jump'
@@ -18,6 +17,7 @@ import {
 	getDisabledTimeByExchange,
 } from 'src/common/utils/date-time-utils'
 import { useMemo } from 'react'
+import QuarterlyResults from './quarterly-results/quarterly-results'
 
 const ParamSelection = () => {
 	const { date, time, setDate, setTime, exchange } = useSimulatorParamsStore()
@@ -69,7 +69,7 @@ const ParamSelection = () => {
 
 					<Flex align="center">India VIX : 22.56</Flex>
 
-					<Button type="default">Quarterly Results</Button>
+					<QuarterlyResults />
 
 					<Randomize />
 				</Flex>
