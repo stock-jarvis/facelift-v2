@@ -8,6 +8,7 @@ interface ToggleProps {
 	toogle2: string
 	setToogleValue: (val: string) => void
 }
+
 const Toggle: React.FC<ToggleProps> = ({
 	label1,
 	label2,
