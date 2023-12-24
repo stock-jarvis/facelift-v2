@@ -64,7 +64,7 @@ const defaultState: BasketState = {
 			identifier: 0,
 			exchange: 'NSE',
 			instrument: 'ticker-1',
-			error: true,
+			error: false,
 		},
 	],
 	storedBaskets: [
