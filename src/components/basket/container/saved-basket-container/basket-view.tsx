@@ -1,4 +1,4 @@
-import { Flex, theme, Typography, Button, Tooltip } from 'antd'
+import { Flex, theme, Typography, Button, Tooltip, Empty } from 'antd'
 import { SavedBasketsObject } from '../../types/types'
 import { useBasketStore } from '../../store/basket-store'
 import { generateUniqueId } from '../../common/utils/randomizer'
@@ -95,14 +95,20 @@ const Index = () => {
 	]
 
 	return (
-		<Flex vertical style={{ gap: token.paddingXS }}>
-			<Table
-				key={generateUniqueId()}
-				dataSource={storedBaskets.filter((b) => b.exchange === exchange)}
-				columns={columns}
-				pagination={false}
-				scroll={{ y: 'calc(100vh - 305px)' }}
-			/>
+		<Flex vertical style={{ gap: token.paddingXS }} flex="1">
+			{storedBaskets.length > 0 ? (
+				<Table
+					key={generateUniqueId()}
+					dataSource={storedBaskets.filter((b) => b.exchange === exchange)}
+					columns={columns}
+					pagination={false}
+					scroll={{ y: 'calc(100vh - 305px)' }}
+				/>
+			) : (
+				<Flex className="w-full h-[300px]" justify="center" align="center">
+					<Empty />
+				</Flex>
+			)}
 		</Flex>
 	)
 }

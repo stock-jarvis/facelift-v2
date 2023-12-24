@@ -1,4 +1,13 @@
-import { Flex, theme, Table, Button, Checkbox, Typography, Tooltip } from 'antd'
+import {
+	Flex,
+	theme,
+	Table,
+	Button,
+	Checkbox,
+	Typography,
+	Tooltip,
+	Empty,
+} from 'antd'
 
 import {
 	FormOutlined,
@@ -241,14 +250,21 @@ const Index = () => {
 				height: '100%',
 				padding: token.paddingXS,
 			}}
+			flex="1"
 			vertical
 		>
-			<Table
-				scroll={{ y: 'calc(100vh - 200px)' }}
-				columns={columns}
-				dataSource={runtimeBasketList}
-				pagination={false}
-			/>
+			{runtimeBasketList.length > 0 ? (
+				<Table
+					scroll={{ y: 'calc(100vh - 200px)' }}
+					columns={columns}
+					dataSource={runtimeBasketList}
+					pagination={false}
+				/>
+			) : (
+				<Flex justify="center" flex={1} align="center">
+					<Empty />
+				</Flex>
+			)}
 		</Flex>
 	)
 }
