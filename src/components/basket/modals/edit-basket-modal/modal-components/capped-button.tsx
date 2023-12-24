@@ -1,6 +1,12 @@
 import { useState, useEffect, ChangeEvent } from 'react'
-import { Typography, theme, Flex, Input, Tooltip } from 'antd'
-import { CloseOutlined } from '@ant-design/icons'
+import {
+	Typography,
+	theme,
+	Flex,
+	Input,
+	Descriptions,
+	DescriptionsProps,
+} from 'antd'
 
 interface CappedButtonProps {
 	label: string
@@ -14,7 +20,6 @@ const CappedButton: React.FC<CappedButtonProps> = ({
 	setValue,
 }) => {
 	const { token } = theme.useToken()
-	const [isCapped, setIsCapped] = useState(true)
 	const [currentValue, setCurrentValue] = useState<number>()
 
 	useEffect(() => {
@@ -33,94 +38,57 @@ const CappedButton: React.FC<CappedButtonProps> = ({
 		}
 	}
 
+	const items: DescriptionsProps['items'] = [
+		{
+			key: 'value',
+			label: (
+				<Flex flex="1" justify="center">
+					<Typography.Text>{label}</Typography.Text>
+				</Flex>
+			),
+			children: (
+				<Flex
+					align="center"
+					gap="middle"
+					style={{
+						backgroundColor: token.colorBgBase,
+						paddingInlineStart: token.paddingContentHorizontalLG,
+						borderRadius: token.borderRadiusLG,
+					}}
+				>
+					<Typography.Text
+						style={{
+							fontSize: token.fontSizeXL,
+							fontWeight: token.fontWeightStrong,
+						}}
+					>
+						₹
+					</Typography.Text>
+					<Input
+						className="select-none"
+						value={currentValue}
+						onChange={handleInputChange}
+						type="number"
+						size="large"
+						style={{
+							border: 'none',
+							outline: 'none',
+						}}
+					/>
+				</Flex>
+			),
+		},
+	]
+
 	return (
 		<Flex
 			className="select-none"
 			style={{
-				width: '340px',
+				padding: token.paddingMD,
 				borderRadius: token.borderRadiusLG,
-				boxShadow: '1px 2px 3px rgba(0, 0, 0, 0.25)',
 			}}
 		>
-			{isCapped ? (
-				<Tooltip title={`Add ${label}`}>
-					<Flex
-						onClick={() => setIsCapped(false)}
-						style={{
-							padding: token.paddingMD,
-							borderRadius: token.borderRadiusLG,
-							backgroundColor: token.colorPrimary,
-						}}
-						justify="center"
-						flex={1}
-					>
-						<Typography.Text
-							style={{
-								fontWeight: token.fontWeightStrong,
-								fontSize: token.fontSizeLG,
-								color: token.colorBgBase,
-							}}
-						>
-							{label}
-						</Typography.Text>
-					</Flex>
-				</Tooltip>
-			) : (
-				<Flex
-					className="select-none"
-					style={{
-						padding: token.paddingMD,
-						borderRadius: token.borderRadiusLG,
-						backgroundColor: '#F1F8FF',
-					}}
-					justify="center"
-					align="center"
-					flex={1}
-					gap="middle"
-				>
-					<Flex>
-						<Typography.Text style={{ textWrap: 'nowrap' }}>
-							{label}
-						</Typography.Text>
-					</Flex>
-					<Flex
-						align="center"
-						gap="middle"
-						style={{
-							backgroundColor: token.colorBgBase,
-							paddingInlineStart: token.paddingContentHorizontalLG,
-							borderRadius: token.borderRadiusLG,
-						}}
-					>
-						<Typography.Text
-							style={{
-								fontSize: token.fontSizeXL,
-								fontWeight: token.fontWeightStrong,
-							}}
-						>
-							₹
-						</Typography.Text>
-						<Input
-							className="select-none"
-							value={currentValue}
-							onChange={handleInputChange}
-							type="number"
-							size="large"
-							style={{
-								border: 'none',
-								outline: 'none',
-							}}
-						/>
-					</Flex>
-					<CloseOutlined
-						style={{
-							fontWeight: token.fontWeightStrong,
-							fontSize: token.fontSizeHeading4,
-						}}
-						onClick={() => setIsCapped(true)}
-					/>
-				</Flex>
-			)}
+			<Descriptions bordered items={items} />
 		</Flex>
 	)
 }

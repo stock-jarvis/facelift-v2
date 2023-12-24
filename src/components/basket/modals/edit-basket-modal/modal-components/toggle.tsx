@@ -1,11 +1,16 @@
 import { useState, useEffect } from 'react'
-import { Space, Flex, theme, Typography } from 'antd'
+import { theme, Typography, Segmented, SegmentedProps } from 'antd'
+import { SegmentedValue } from 'antd/es/segmented'
 interface ToggleProps {
+	label1: string
+	label2: string
 	toogle1: string
 	toogle2: string
 	setToogleValue: (val: string) => void
 }
 const Toggle: React.FC<ToggleProps> = ({
+	label1,
+	label2,
 	toogle1,
 	toogle2,
 	setToogleValue,
@@ -20,74 +25,56 @@ const Toggle: React.FC<ToggleProps> = ({
 		}
 	}, [toogle1, toogleValue, setToogleValue])
 
-	const onToogleChange = (value: string) => {
-		if (toogleValue !== value) {
-			setValue(value)
-			setToogleValue(value)
+	const SegmentedItems = [
+		{
+			size: 'large',
+			label: (
+				<Typography.Text
+					style={{
+						fontSize: token.fontSizeHeading5,
+						color: toogleValue === toogle1 ? token.colorPrimary : '#000',
+					}}
+				>
+					{label1}
+				</Typography.Text>
+			),
+			value: toogle1,
+		},
+
+		{
+			label: (
+				<Typography.Text
+					style={{
+						fontSize: token.fontSizeHeading5,
+						color: toogleValue === toogle2 ? token.colorPrimary : '#000',
+					}}
+				>
+					{label2}
+				</Typography.Text>
+			),
+			value: toogle2,
+		},
+	]
+
+	const handleSegmentsChanged: SegmentedProps['onChange'] = (
+		tagVal: SegmentedValue
+	) => {
+		if (toogleValue !== tagVal.toLocaleString()) {
+			setValue(tagVal.toLocaleString())
+			setToogleValue(tagVal.toLocaleString())
 		}
 	}
 
 	return (
-		<Flex
-			flex="1"
-			justify="center"
+		<Segmented
+			size="large"
+			onChange={handleSegmentsChanged}
+			options={SegmentedItems}
 			style={{
-				background: token.colorBgBase,
-				boxShadow: '1px 2px 3px rgba(0, 0, 0, 0.25)',
-				borderRadius: token.borderRadiusLG,
-				cursor: 'pointer',
+				backgroundColor: token.colorBgContainerDisabled,
 			}}
-			gap="middle"
-			className="select-none"
-		>
-			<Flex
-				onClick={() => onToogleChange(toogle1)}
-				flex={1}
-				justify="center"
-				style={{
-					backgroundColor:
-						toogleValue === toogle1 ? token.colorPrimary : token.colorBgBase,
-					padding: token.paddingXS,
-
-					borderRadius: token.borderRadiusLG,
-				}}
-			>
-				<Space>
-					<Typography.Text
-						style={{
-							color: toogleValue === toogle1 ? 'white' : 'black',
-							fontSize: token.fontSizeHeading5,
-							fontWeight: token.fontWeightStrong,
-						}}
-					>
-						{toogle1}
-					</Typography.Text>
-				</Space>
-			</Flex>
-			<Flex
-				onClick={() => onToogleChange(toogle2)}
-				flex={1}
-				justify="center"
-				style={{
-					backgroundColor:
-						toogleValue === toogle2 ? token.colorPrimary : token.colorBgBase,
-					padding: token.paddingXS,
-					borderRadius: token.borderRadiusLG,
-				}}
-			>
-				<Space>
-					<Typography.Text
-						style={{
-							color: toogleValue === toogle2 ? 'white' : 'black',
-							fontSize: token.fontSizeHeading5,
-							fontWeight: token.fontWeightStrong,
-						}}
-					>
-						{toogle2}
-					</Typography.Text>
-				</Space>
-			</Flex>
-		</Flex>
+			className="w-fit"
+		/>
 	)
 }
 

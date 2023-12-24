@@ -1,4 +1,4 @@
-import { Flex, Button, theme, Typography, Space } from 'antd'
+import { Flex, Button, theme } from 'antd'
 
 import { useBasketStore } from 'src/components/basket/store/basket-store'
 import {
@@ -136,7 +136,7 @@ const Footer = ({
 		basketExitConditions,
 	])
 	useEffect(() => {
-		//console.log(savedBasket)
+		console.log(savedBasket)
 	}, [savedBasket])
 	useEffect(() => {
 		if (
@@ -202,26 +202,9 @@ const Footer = ({
 				width: '100%',
 				borderTop: '1px solid #F0F0F0',
 			}}
-			justify="space-between"
+			justify="flex-end"
 			align="center"
 		>
-			<Space
-				className="max-md:w-full max-md:flex max-md:justify-center"
-				style={{
-					padding: `${token.paddingXXS}px ${token.paddingContentHorizontalSM}px`,
-				}}
-			>
-				<Typography.Text
-					style={{
-						fontSize: token.fontSizeHeading4,
-						fontWeight: token.fontWeightStrong,
-					}}
-				>
-					{basketName}
-					{identifier ? (identifier > 0 ? ` - ${identifier}` : '') : ''}
-				</Typography.Text>
-			</Space>
-
 			<Button
 				type="primary"
 				onClick={handleSaveBasketClick}

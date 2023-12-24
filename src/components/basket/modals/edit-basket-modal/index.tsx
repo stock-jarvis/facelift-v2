@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react'
-import { Modal, theme, Flex } from 'antd'
+import { Modal, theme, Flex, Typography, Divider } from 'antd'
 import { CloseOutlined } from '@ant-design/icons'
 import Header from './modal-containers/header'
 import Footer from './modal-containers/footer'
-import Toggle from './modal-components/toggle'
+
 import ExitCondition from './modal-containers/exit-condition'
 import DetailsContainer from './modal-containers/detail-container'
 import { useUndefinedSet } from './modal-hooks/useUndefinedSet'
@@ -14,6 +14,7 @@ import { usePersistState } from './modal-hooks/usePersistState'
 import { useValidateTimes } from './modal-hooks/useValidateTimes'
 import { useMarketTimes } from './modal-hooks/useMarketTime'
 import Selectors from './modal-containers/selector-container'
+
 import { futureExpiry, optionExpiry, tradeTypeData } from '../../constants/data'
 import {
 	OptionObject,
@@ -206,21 +207,6 @@ const EditBasketModal = ({ open }: EditModalProps) => {
 		setInstrument
 	)
 
-	const handleAtmChange = (value: string) => {
-		if (value === 'Future as ATM') {
-			setAtm('future')
-		} else {
-			setAtm('spot')
-		}
-	}
-	const handleBasketPositionsChange = (value: string) => {
-		if (value === 'POSITIONAL') {
-			setBasketPositions('POS')
-		} else {
-			setBasketPositions('INTRA')
-		}
-	}
-
 	const handleAfterClose = () => {
 		resetEditablebasket()
 		setBasket([])
@@ -402,7 +388,11 @@ const EditBasketModal = ({ open }: EditModalProps) => {
 			onCancel={() => closeEditConfirmation(true)}
 			destroyOnClose={true}
 			afterClose={handleAfterClose}
-			title={<>Edit Baskets</>}
+			title={
+				<Flex style={{ padding: token.paddingXS }}>
+					<Typography.Text>Edit Baskets</Typography.Text>
+				</Flex>
+			}
 			footer={
 				<Footer
 					profitValue={profitValue}
@@ -446,33 +436,30 @@ const EditBasketModal = ({ open }: EditModalProps) => {
 				gap={'middle'}
 				style={{
 					padding: token.paddingMD,
-					height: '600px',
+					height: '550px',
 					overflow: 'scroll',
 					scrollBehavior: 'smooth',
 				}}
 			>
+				<Divider>
+					<Typography.Text
+						style={{
+							color: token.colorPrimary,
+							fontSize: token.fontSizeLG,
+							fontWeight: token.fontWeightStrong,
+						}}
+					>
+						{basketName} {basketIdentifier > 0 ? ` - ${basketIdentifier}` : ''}
+					</Typography.Text>
+				</Divider>
 				<Header
 					trade={basketTrade}
 					handleTradeChange={setBasketTrade}
 					instrument={instrument}
 					handleInstrumentChange={setInstrument}
+					setBasketPositions={setBasketPositions}
+					setAtm={setAtm}
 				/>
-				<div className="w-[50%]">
-					<Toggle
-						toogle1="INTRADAY"
-						toogle2="POSITIONAL"
-						setToogleValue={handleBasketPositionsChange}
-					/>
-				</div>
-
-				<div className="w-[50%]">
-					<Toggle
-						toogle1="Spot as ATM"
-						toogle2="Future as ATM"
-						setToogleValue={handleAtmChange}
-					/>
-				</div>
-
 				<Selectors
 					quantityValue={quantityValue}
 					actionValue={actionValue}
