@@ -1,5 +1,13 @@
-import DetailBasketHolder from './detail-basket-holder'
-import { Flex } from 'antd'
+import { CopyOutlined, DeleteOutlined } from '@ant-design/icons'
+import {
+	Flex,
+	Button,
+	Typography,
+	Divider,
+	theme,
+	Descriptions,
+	DescriptionsProps,
+} from 'antd'
 import { useState } from 'react'
 import Instrument from '../modal-components/instrument'
 import ActionSelector from '../modal-components/action-selector'
@@ -53,6 +61,7 @@ const FututeBasketDetails = ({
 	handleEditBasket,
 	handleDeleteBasket,
 }: FututreDetailsProps) => {
+	const { token } = theme.useToken()
 	const [quantityValue, setQuantityValue] = useState<number>(baseQuanity)
 	const [actionValue, setActionValue] = useState<string>(baseActionValue)
 	const [expirtyValue, setExpiryValue] = useState<string>(futureExpiryBaseValue)
@@ -84,16 +93,42 @@ const FututeBasketDetails = ({
 		'totalProfit'
 	)
 
-	return (
-		<DetailBasketHolder
-			handleCopyBasket={handleCopyBasket}
-			id={id}
-			handleDeleteBasket={handleDeleteBasket}
-		>
-			<Flex flex="1" justify="space-around">
+	const item: DescriptionsProps['items'] = [
+		{
+			key: 'intruments',
+			label: (
+				<Flex flex="1" justify="center">
+					<Typography.Text
+						style={{
+							fontSize: token.fontSizeSM,
+							fontWeight: token.fontWeightStrong,
+						}}
+					>
+						Intruments
+					</Typography.Text>
+				</Flex>
+			),
+			children: (
 				<Flex flex={1} justify="center">
 					<Instrument instrument={baseInstrumentValue} />
 				</Flex>
+			),
+		},
+		{
+			key: 'actions',
+			label: (
+				<Flex flex="1" justify="center">
+					<Typography.Text
+						style={{
+							fontSize: token.fontSizeSM,
+							fontWeight: token.fontWeightStrong,
+						}}
+					>
+						Action
+					</Typography.Text>
+				</Flex>
+			),
+			children: (
 				<Flex flex={1} justify="center">
 					<ActionSelector
 						action1="B"
@@ -104,22 +139,73 @@ const FututeBasketDetails = ({
 						handleBaseActionChange={setActionValue}
 					/>
 				</Flex>
-				<Flex flex={1}>
+			),
+		},
+		{
+			key: 'quantity',
+			label: (
+				<Flex flex="1" justify="center">
+					<Typography.Text
+						style={{
+							fontSize: token.fontSizeSM,
+							fontWeight: token.fontWeightStrong,
+						}}
+					>
+						Quantity
+					</Typography.Text>
+				</Flex>
+			),
+			children: (
+				<Flex flex={1} justify="center">
 					<QuantityInput
 						baseQuantityValue={quantityValue}
 						handleQantityChange={setQuantityValue}
 					/>
 				</Flex>
-				<Flex flex={1}>
+			),
+		},
+
+		{
+			key: 'quantity',
+			label: (
+				<Flex flex="1" justify="center">
+					<Typography.Text
+						style={{
+							fontSize: token.fontSizeSM,
+							fontWeight: token.fontWeightStrong,
+						}}
+					>
+						Expiry
+					</Typography.Text>
+				</Flex>
+			),
+			children: (
+				<Flex flex={1} justify="center">
 					<ExpirySelector
 						expiryOptions={futureExpiryList}
 						expiryValue={expirtyValue}
 						handleExpiryChange={setExpiryValue}
 					/>
 				</Flex>
-				<Flex flex={1} style={{ marginTop: '23px' }}>
+			),
+		},
+		{
+			key: 'totalprofit',
+			label: (
+				<Flex flex="1" justify="center">
+					<Typography.Text
+						style={{
+							fontSize: token.fontSizeSM,
+							fontWeight: token.fontWeightStrong,
+						}}
+					>
+						Total Profit
+					</Typography.Text>
+				</Flex>
+			),
+			children: (
+				<Flex flex={1} justify="center">
 					<YeildButton
-						label="Total Profit"
 						options={totalProfitOptions}
 						targetType={totalProfitType}
 						targetValue={totalProfitValue}
@@ -127,9 +213,25 @@ const FututeBasketDetails = ({
 						handleTargetTypeChange={setTotalProfitType}
 					/>
 				</Flex>
-				<Flex flex={1} style={{ marginTop: '23px' }}>
+			),
+		},
+		{
+			key: 'stopLoss',
+			label: (
+				<Flex flex="1" justify="center">
+					<Typography.Text
+						style={{
+							fontSize: token.fontSizeSM,
+							fontWeight: token.fontWeightStrong,
+						}}
+					>
+						Spot Loss
+					</Typography.Text>
+				</Flex>
+			),
+			children: (
+				<Flex flex={1} justify="center">
 					<YeildButton
-						label="Spot Loss"
 						options={spotLossOptions}
 						targetType={spotLossType}
 						targetValue={spotLossValue}
@@ -137,8 +239,56 @@ const FututeBasketDetails = ({
 						handleTargetTypeChange={setSpotLossType}
 					/>
 				</Flex>
-			</Flex>
-		</DetailBasketHolder>
+			),
+		},
+
+		{
+			key: 'operations',
+			label: (
+				<Flex flex="1" justify="center">
+					<Typography.Text
+						style={{
+							fontSize: token.fontSizeSM,
+							fontWeight: token.fontWeightStrong,
+						}}
+					>
+						Operations
+					</Typography.Text>
+				</Flex>
+			),
+			children: (
+				<Flex flex={1} justify="center">
+					<Button
+						shape="circle"
+						icon={<CopyOutlined />}
+						type="text"
+						onClick={() => handleCopyBasket(id)}
+					/>
+					<Button
+						shape="circle"
+						icon={<DeleteOutlined />}
+						type="text"
+						onClick={() => handleDeleteBasket(id)}
+					/>
+				</Flex>
+			),
+		},
+	]
+	return (
+		<Flex vertical>
+			<Divider>
+				<Typography.Text style={{ color: token.colorPrimary }}>
+					Future
+				</Typography.Text>
+			</Divider>
+			<Descriptions
+				items={item}
+				layout="vertical"
+				bordered
+				column={8}
+				className="w-[100%]"
+			/>
+		</Flex>
 	)
 }
 

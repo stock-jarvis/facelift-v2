@@ -84,7 +84,7 @@ const SpotBasketSelector = ({
 							fontWeight: token.fontWeightStrong,
 						}}
 					>
-						Spot Poistion
+						Spot Position
 					</Typography.Text>
 				</Flex>
 			),

@@ -78,7 +78,6 @@ const Selectors: React.FC<SelectProps> = ({
 					handleTabChange(e)
 				}}
 				style={{
-					border: '1px solid #D3D3D3',
 					padding: token.paddingXS,
 					borderRadius: token.borderRadiusLG,
 				}}

@@ -1,5 +1,13 @@
-import DetailBasketHolder from './detail-basket-holder'
-import { Flex } from 'antd'
+import {
+	Flex,
+	Button,
+	Descriptions,
+	DescriptionsProps,
+	theme,
+	Typography,
+	Divider,
+} from 'antd'
+import { CopyOutlined, DeleteOutlined } from '@ant-design/icons'
 import Instrument from '../modal-components/instrument'
 import ActionSelector from '../modal-components/action-selector'
 import QuantityInput from '../modal-components/quantity-input'
@@ -63,6 +71,7 @@ const OptionBasketDetail = ({
 	handleCopyBasket,
 	handleEditBasket,
 }: OptionDetailsProps) => {
+	const { token } = theme.useToken()
 	const [quantityValue, setQuantityValue] = useState<number>(baseQuanity)
 	const [actionValue, setActionValue] = useState<string>(baseActionValue)
 	const [optionType, setOptionType] = useState<string>(baseOptionValue)
@@ -83,6 +92,251 @@ const OptionBasketDetail = ({
 	const [totalProfitValue, setTotalProfitValue] =
 		useState<number>(baseTotalProfitValue)
 	const [spotLossValue, setSpotLossValue] = useState<number>(baseSpotLossValue)
+	const item: DescriptionsProps['items'] = [
+		{
+			key: 'intruments',
+			label: (
+				<Flex flex="1" justify="center">
+					<Typography.Text
+						style={{
+							fontSize: token.fontSizeSM,
+							fontWeight: token.fontWeightStrong,
+						}}
+					>
+						Intruments
+					</Typography.Text>
+				</Flex>
+			),
+			span: { xs: 0.5, sm: 0.5, md: 0.5, lg: 0.5, xl: 0.5, xxl: 0.5 },
+			children: (
+				<Flex flex={1} justify="center">
+					<Instrument instrument={baseInstrumentValue} />
+				</Flex>
+			),
+		},
+		{
+			key: 'actions',
+			label: (
+				<Flex flex="1" justify="center">
+					<Typography.Text
+						style={{
+							fontSize: token.fontSizeSM,
+							fontWeight: token.fontWeightStrong,
+						}}
+					>
+						Action
+					</Typography.Text>
+				</Flex>
+			),
+			span: { xs: 0.5, sm: 0.5, md: 0.5, lg: 0.5, xl: 0.5, xxl: 0.5 },
+			children: (
+				<Flex flex={1} justify="center">
+					<ActionSelector
+						action1="B"
+						action2="S"
+						color1="green"
+						color2="red"
+						baseActionValue={actionValue}
+						handleBaseActionChange={setActionValue}
+					/>
+				</Flex>
+			),
+		},
+		{
+			key: 'options',
+			label: (
+				<Flex flex="1" justify="center">
+					<Typography.Text
+						style={{
+							fontSize: token.fontSizeSM,
+							fontWeight: token.fontWeightStrong,
+						}}
+					>
+						Option
+					</Typography.Text>
+				</Flex>
+			),
+			span: { xs: 0.5, sm: 0.5, md: 0.5, lg: 0.5, xl: 0.5, xxl: 0.5 },
+			children: (
+				<Flex flex={1} justify="center">
+					<ActionSelector
+						action1="CE"
+						action2="PE"
+						color1="black"
+						color2="purple"
+						baseActionValue={optionType}
+						handleBaseActionChange={setOptionType}
+					/>
+				</Flex>
+			),
+		},
+		{
+			key: 'quantity',
+			label: (
+				<Flex flex="1" justify="center">
+					<Typography.Text
+						style={{
+							fontSize: token.fontSizeSM,
+							fontWeight: token.fontWeightStrong,
+						}}
+					>
+						Quantity
+					</Typography.Text>
+				</Flex>
+			),
+			span: { xs: 0.5, sm: 0.5, md: 0.5, lg: 0.5, xl: 0.5, xxl: 0.5 },
+			children: (
+				<Flex flex={1} justify="center">
+					<QuantityInput
+						baseQuantityValue={quantityValue}
+						handleQantityChange={setQuantityValue}
+					/>
+				</Flex>
+			),
+		},
+		{
+			key: 'operations',
+			label: (
+				<Flex flex="1" justify="center">
+					<Typography.Text
+						style={{
+							fontSize: token.fontSizeSM,
+							fontWeight: token.fontWeightStrong,
+						}}
+					>
+						Operations
+					</Typography.Text>
+				</Flex>
+			),
+			span: { xs: 2, sm: 2, md: 2, lg: 2, xl: 2, xxl: 2 },
+			children: (
+				<Flex flex={1} justify="center">
+					<Button
+						shape="circle"
+						icon={<CopyOutlined />}
+						type="text"
+						onClick={() => handleCopyBasket(id)}
+					/>
+					<Button
+						shape="circle"
+						icon={<DeleteOutlined />}
+						type="text"
+						onClick={() => handleDeleteBasket(id)}
+					/>
+				</Flex>
+			),
+		},
+		{
+			key: 'strike',
+			label: (
+				<Flex flex="1" justify="center">
+					<Typography.Text
+						style={{
+							fontSize: token.fontSizeSM,
+							fontWeight: token.fontWeightStrong,
+						}}
+					>
+						Strike
+					</Typography.Text>
+				</Flex>
+			),
+			span: { xs: 1, sm: 1, md: 1, lg: 1, xl: 1, xxl: 1 },
+			children: (
+				<Flex flex={1} justify="center">
+					<StrikeSelector
+						tradeOption={tradeOption}
+						tradeValue={tradeValue}
+						setTradeValue={setTradeValue}
+						setTradeOption={setTradeOption}
+						subTradeOption={subTradeOption}
+						setSubTradeOption={setSubTradeOption}
+						subTradeOptionList={subTradeOptionList}
+						setSubTradeOptionList={setSubTradeOptionList}
+					/>
+				</Flex>
+			),
+		},
+
+		{
+			key: 'expiry',
+			label: (
+				<Flex flex="1" justify="center">
+					<Typography.Text
+						style={{
+							fontSize: token.fontSizeSM,
+							fontWeight: token.fontWeightStrong,
+						}}
+					>
+						Expiry
+					</Typography.Text>
+				</Flex>
+			),
+			span: { xs: 1, sm: 1, md: 1, lg: 1, xl: 1, xxl: 1 },
+			children: (
+				<Flex flex={1} justify="center">
+					<ExpirySelector
+						expiryValue={expiryValue}
+						handleExpiryChange={setExpiryValue}
+						expiryOptions={optionExpiryList}
+					/>
+				</Flex>
+			),
+		},
+		{
+			key: 'totalprofit',
+			label: (
+				<Flex flex="1" justify="center">
+					<Typography.Text
+						style={{
+							fontSize: token.fontSizeSM,
+							fontWeight: token.fontWeightStrong,
+						}}
+					>
+						Total Profit
+					</Typography.Text>
+				</Flex>
+			),
+			span: { xs: 0.5, sm: 0.5, md: 0.5, lg: 0.5, xl: 0.5, xxl: 0.5 },
+			children: (
+				<Flex flex={1} justify="center">
+					<YeildButton
+						options={totalProfitOptions}
+						targetType={totalProfitType}
+						targetValue={totalProfitValue}
+						handleTargetValueChange={setTotalProfitValue}
+						handleTargetTypeChange={setTotalProfitType}
+					/>
+				</Flex>
+			),
+		},
+		{
+			key: 'stopLoss',
+			label: (
+				<Flex flex="1" justify="center">
+					<Typography.Text
+						style={{
+							fontSize: token.fontSizeSM,
+							fontWeight: token.fontWeightStrong,
+						}}
+					>
+						Spot Loss
+					</Typography.Text>
+				</Flex>
+			),
+			span: { xs: 1, sm: 1, md: 2, lg: 2, xl: 2, xxl: 2 },
+			children: (
+				<Flex flex={1} justify="center">
+					<YeildButton
+						options={spotLossOptions}
+						targetType={spotLossType}
+						targetValue={spotLossValue}
+						handleTargetValueChange={setSpotLossValue}
+						handleTargetTypeChange={setSpotLossType}
+					/>
+				</Flex>
+			),
+		},
+	]
 
 	useValueChange(quantityValue, id, basket, handleEditBasket, 'quantity')
 	useValueChange(tradeValue, id, basket, handleEditBasket, 'tradeTypeValue')
@@ -110,91 +364,19 @@ const OptionBasketDetail = ({
 	)
 
 	return (
-		<DetailBasketHolder
-			id={id}
-			handleDeleteBasket={handleDeleteBasket}
-			handleCopyBasket={handleCopyBasket}
-		>
-			<Flex className="h-fit">
-				<Flex className="p-10">
-					<Instrument instrument={baseInstrumentValue} />
-				</Flex>
-
-				<Flex vertical flex={1}>
-					<Flex flex="1" justify="space-around">
-						<Flex flex={1} justify="center">
-							<ActionSelector
-								action1="B"
-								action2="S"
-								color1="green"
-								color2="red"
-								baseActionValue={actionValue}
-								handleBaseActionChange={setActionValue}
-							/>
-						</Flex>
-						<Flex flex={1}>
-							<QuantityInput
-								baseQuantityValue={quantityValue}
-								handleQantityChange={setQuantityValue}
-							/>
-						</Flex>
-						<Flex flex={1} justify="center">
-							<ActionSelector
-								action1="CE"
-								action2="PE"
-								color1="black"
-								color2="purple"
-								baseActionValue={optionType}
-								handleBaseActionChange={setOptionType}
-							/>
-						</Flex>
-
-						<Flex flex={1}>
-							<StrikeSelector
-								tradeOption={tradeOption}
-								tradeValue={tradeValue}
-								setTradeValue={setTradeValue}
-								setTradeOption={setTradeOption}
-								subTradeOption={subTradeOption}
-								setSubTradeOption={setSubTradeOption}
-								subTradeOptionList={subTradeOptionList}
-								setSubTradeOptionList={setSubTradeOptionList}
-							/>
-						</Flex>
-
-						<Flex flex={1}>
-							<ExpirySelector
-								expiryValue={expiryValue}
-								handleExpiryChange={setExpiryValue}
-								expiryOptions={optionExpiryList}
-							/>
-						</Flex>
-					</Flex>
-					<Flex flex="1" justify="center" gap="middle">
-						<Flex>
-							<YeildButton
-								label="Total Profit"
-								options={totalProfitOptions}
-								targetType={totalProfitType}
-								targetValue={totalProfitValue}
-								handleTargetValueChange={setTotalProfitValue}
-								handleTargetTypeChange={setTotalProfitType}
-							/>
-						</Flex>
-						<Flex>
-							<YeildButton
-								label="Spot Loss"
-								options={spotLossOptions}
-								targetType={spotLossType}
-								targetValue={spotLossValue}
-								handleTargetValueChange={setSpotLossValue}
-								handleTargetTypeChange={setSpotLossType}
-							/>
-						</Flex>
-					</Flex>
-				</Flex>
-			</Flex>
-		</DetailBasketHolder>
+		<Flex vertical>
+			<Divider>
+				<Typography.Text style={{ color: token.colorPrimary }}>
+					Options
+				</Typography.Text>
+			</Divider>
+			<Descriptions
+				items={item}
+				layout="vertical"
+				bordered
+				className="w-[100%]"
+			/>
+		</Flex>
 	)
 }
 

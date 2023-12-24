@@ -1,4 +1,4 @@
-import { Flex, Button, theme, Typography, Input, Space, Tooltip } from 'antd'
+import { Flex, Button, theme, Typography, Space } from 'antd'
 
 import { useBasketStore } from 'src/components/basket/store/basket-store'
 import {
@@ -7,6 +7,7 @@ import {
 	SavedBasketsEntryCondition,
 	SavedBasketsObject,
 } from 'src/components/basket/types/types'
+import { SnippetsOutlined } from '@ant-design/icons'
 import { useEffect, useState } from 'react'
 import { generateUniqueId } from 'src/components/basket/common/utils/randomizer'
 interface FooterPorps {
@@ -201,70 +202,33 @@ const Footer = ({
 				width: '100%',
 				borderTop: '1px solid #F0F0F0',
 			}}
-			justify="center"
+			justify="space-between"
 			align="center"
 		>
-			<Flex
-				className="max-md:flex-col max-md:items-start max-md:gap-4 justify-between"
-				align="center"
-				justify="space-between"
+			<Space
+				className="max-md:w-full max-md:flex max-md:justify-center"
 				style={{
-					width: '90%',
-					//boxShadow: '1px 2px 3px rgba(0, 0, 0, 0.25)',
-					padding: token.paddingLG,
-					borderRadius: token.borderRadiusLG,
-					//backgroundColor: '#F1F8FF',
+					padding: `${token.paddingXXS}px ${token.paddingContentHorizontalSM}px`,
 				}}
 			>
-				<Space
-					className="max-md:w-[100%]"
+				<Typography.Text
 					style={{
-						width: '150px',
-						padding: `${token.paddingXXS}px ${token.paddingContentHorizontalSM}px`,
-						border: '2px solid',
-						borderRadius: token.borderRadiusLG,
-						borderColor: token.colorBgTextHover,
+						fontSize: token.fontSizeHeading4,
+						fontWeight: token.fontWeightStrong,
 					}}
 				>
-					<Input
-						type="primary"
-						placeholder="Spread"
-						style={{
-							//	backgroundColor: '#F1F8FF',
-							fontSize: token.fontSizeHeading5,
-							outline: 'none',
-							border: 'none',
-						}}
-					/>
-					%
-				</Space>
+					{basketName}
+					{identifier ? (identifier > 0 ? ` - ${identifier}` : '') : ''}
+				</Typography.Text>
+			</Space>
 
-				<Space
-					className="max-md:w-full max-md:flex max-md:justify-center"
-					style={{
-						padding: `${token.paddingXXS}px ${token.paddingContentHorizontalSM}px`,
-					}}
-				>
-					<Typography.Text
-						style={{
-							fontSize: token.fontSizeHeading4,
-							fontWeight: token.fontWeightStrong,
-						}}
-					>
-						{basketName}
-						{identifier ? (identifier > 0 ? ` - ${identifier}` : '') : ''}
-					</Typography.Text>
-				</Space>
-				<Tooltip title="Click to save basket">
-					<Button
-						className="max-md:w-[100%]"
-						type="primary"
-						onClick={handleSaveBasketClick}
-					>
-						Save Basket
-					</Button>
-				</Tooltip>
-			</Flex>
+			<Button
+				type="primary"
+				onClick={handleSaveBasketClick}
+				icon={<SnippetsOutlined />}
+			>
+				Save Basket
+			</Button>
 		</Flex>
 	)
 }

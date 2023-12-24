@@ -446,7 +446,7 @@ const EditBasketModal = ({ open }: EditModalProps) => {
 				gap={'middle'}
 				style={{
 					padding: token.paddingMD,
-					height: '500px',
+					height: '600px',
 					overflow: 'scroll',
 					scrollBehavior: 'smooth',
 				}}
