@@ -1,6 +1,5 @@
-import { Flex, Select, Space, theme } from 'antd'
-import { CloseOutlined } from '@ant-design/icons'
-import { useBasketStore } from 'src/components/basket/store/basket-store'
+import { Flex, Select, Space } from 'antd'
+
 interface HeaderProps {
 	trade: string | undefined
 	instrument: string | undefined
@@ -13,12 +12,6 @@ const Header = ({
 	instrument,
 	handleInstrumentChange,
 }: HeaderProps) => {
-	const { token } = theme.useToken()
-	const { closeEditConfirmation } = useBasketStore()
-
-	const handleCloseEditModal = () => {
-		closeEditConfirmation(true)
-	}
 	return (
 		<Flex align="center" flex="1">
 			<Flex flex={1} gap={'middle'} justify="center">
@@ -48,16 +41,6 @@ const Header = ({
 						]}
 					/>
 				</Space>
-			</Flex>
-			<Flex
-				style={{
-					padding: token.paddingXS,
-				}}
-			>
-				<CloseOutlined
-					//	style={{ color: '#ffffff' }}
-					onClick={handleCloseEditModal}
-				/>
 			</Flex>
 		</Flex>
 	)

@@ -5,9 +5,12 @@ interface InstrumentProps {
 const Instrument: React.FC<InstrumentProps> = ({ instrument }) => {
 	const { token } = theme.useToken()
 	return (
-		<Tag bordered color="blue" style={{ padding: token.paddingXS }}>
+		<Tag color="blue" style={{ padding: token.paddingXS }}>
 			<Typography.Text
-				style={{ fontSize: token.fontSizeLG, color: token.colorBgSpotlight }}
+				style={{
+					fontSize: token.fontSizeLG,
+					color: token.colorBgSpotlight,
+				}}
 			>
 				{instrument}
 			</Typography.Text>

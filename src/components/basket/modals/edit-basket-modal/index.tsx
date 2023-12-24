@@ -1,13 +1,11 @@
 import { useState, useEffect } from 'react'
 import { Modal, theme, Flex } from 'antd'
+import { CloseOutlined } from '@ant-design/icons'
 import Header from './modal-containers/header'
 import Footer from './modal-containers/footer'
 import Toggle from './modal-components/toggle'
-import FututeBasketDetails from './modal-containers/future-basket-details'
-import OptionBasketDetail from './modal-containers/options-basket-details'
-import SpotBasketDetail from './modal-containers/spot-basket-detail'
 import ExitCondition from './modal-containers/exit-condition'
-
+import DetailsContainer from './modal-containers/detail-container'
 import { useUndefinedSet } from './modal-hooks/useUndefinedSet'
 import { useUndefinedNumberedSet } from './modal-hooks/useUndefinedNumberSet'
 import { generateUniqueId } from '../../common/utils/randomizer'
@@ -16,13 +14,7 @@ import { usePersistState } from './modal-hooks/usePersistState'
 import { useValidateTimes } from './modal-hooks/useValidateTimes'
 import { useMarketTimes } from './modal-hooks/useMarketTime'
 import Selectors from './modal-containers/selector-container'
-import {
-	futureExpiry,
-	optionExpiry,
-	tradeTypeData,
-	totalProfitOptions,
-	spotLossOptions,
-} from '../../constants/data'
+import { futureExpiry, optionExpiry, tradeTypeData } from '../../constants/data'
 import {
 	OptionObject,
 	TradeOptions,
@@ -93,6 +85,7 @@ const EditBasketModal = ({ open }: EditModalProps) => {
 		positionCopy,
 		setPositionCopy,
 		resetEditablebasket,
+		closeEditConfirmation,
 	} = useBasketStore()
 
 	const { token } = theme.useToken()
@@ -405,17 +398,11 @@ const EditBasketModal = ({ open }: EditModalProps) => {
 		<Modal
 			open={open}
 			width={1250}
-			closeIcon={null}
+			closeIcon={<CloseOutlined />}
+			onCancel={() => closeEditConfirmation(true)}
 			destroyOnClose={true}
 			afterClose={handleAfterClose}
-			title={
-				<Header
-					trade={basketTrade}
-					handleTradeChange={setBasketTrade}
-					instrument={instrument}
-					handleInstrumentChange={setInstrument}
-				/>
-			}
+			title={<>Edit Baskets</>}
 			footer={
 				<Footer
 					profitValue={profitValue}
@@ -463,8 +450,13 @@ const EditBasketModal = ({ open }: EditModalProps) => {
 					overflow: 'scroll',
 					scrollBehavior: 'smooth',
 				}}
-				className="no-scrollbar"
 			>
+				<Header
+					trade={basketTrade}
+					handleTradeChange={setBasketTrade}
+					instrument={instrument}
+					handleInstrumentChange={setInstrument}
+				/>
 				<div className="w-[50%]">
 					<Toggle
 						toogle1="INTRADAY"
@@ -506,87 +498,18 @@ const EditBasketModal = ({ open }: EditModalProps) => {
 					setOptionExpiryBaseValue={setOptionExpiryBaseValue}
 					setOptionValue={setOptionValue}
 				/>
-
-				{basket?.map((bask) =>
-					bask.type === 'spot' ? (
-						<SpotBasketDetail
-							key={bask.id}
-							id={bask.id}
-							basket={basket}
-							baseTotalProfitValue={bask.exitCondition?.totalProfit.value || 0}
-							baseSpotLossOption={
-								bask.exitCondition?.stopLoss.type || spotLossOptions[0].value
-							}
-							baseTotalProfitOption={
-								bask.exitCondition?.totalProfit.type ||
-								totalProfitOptions[0].value
-							}
-							baseSpotLossValue={bask.exitCondition?.stopLoss.value || 0}
-							baseQuanity={bask.entryCondition.quantity}
-							baseInstrumentValue={instrument}
-							baseActionValue={bask.entryCondition.actionType}
-							handleEditBasket={setBasket}
-							handleCopyBasket={handleCopyBasket}
-							handleDeleteBasket={handleDeleteBasket}
-						/>
-					) : bask.type === 'future' ? (
-						<FututeBasketDetails
-							key={bask.id}
-							id={bask.id}
-							baseQuanity={bask.entryCondition.quantity}
-							baseInstrumentValue={instrument}
-							baseTotalProfitValue={bask.exitCondition?.totalProfit.value || 0}
-							baseSpotLossOption={
-								bask.exitCondition?.stopLoss.type || spotLossOptions[0].value
-							}
-							baseTotalProfitOption={
-								bask.exitCondition?.totalProfit.type ||
-								totalProfitOptions[0].value
-							}
-							baseSpotLossValue={bask.exitCondition?.stopLoss.value || 0}
-							baseActionValue={bask.entryCondition.actionType}
-							futureExpiryBaseValue={bask.entryCondition.expiry || 'Monthly'}
-							futureExpiryList={futureExpiryList}
-							basket={basket}
-							handleEditBasket={setBasket}
-							handleCopyBasket={handleCopyBasket}
-							handleDeleteBasket={handleDeleteBasket}
-						/>
-					) : (
-						<OptionBasketDetail
-							key={bask.id}
-							id={bask.id}
-							baseQuanity={bask.entryCondition.quantity}
-							optionExpiryBaseValue={bask.entryCondition.expiry || 'Monthly'}
-							baseTotalProfitValue={bask.exitCondition?.totalProfit.value || 0}
-							baseSpotLossOption={
-								bask.exitCondition?.stopLoss.type || spotLossOptions[0].value
-							}
-							baseTotalProfitOption={
-								bask.exitCondition?.totalProfit.type ||
-								totalProfitOptions[0].value
-							}
-							baseSpotLossValue={bask.exitCondition?.stopLoss.value || 0}
-							baseActionValue={bask.entryCondition.actionType}
-							baseOptionValue={bask.entryCondition.optionType || optionType}
-							baseInstrumentValue={instrument}
-							optionExpiryList={optionExpiryList}
-							baseSubTradeOption={
-								bask.entryCondition.tradeTypeParams || subTradeOption
-							}
-							baseTradeOption={bask.entryCondition.tradeType || tradeOption}
-							baseSubTradeOptionList={
-								tradeTypeData.find(
-									(trade) => trade.value === bask.entryCondition.tradeType
-								)?.children || subTradeOptionList
-							}
-							baseTradeValue={bask.entryCondition.tradeTypeValue || 0}
-							basket={basket}
-							handleEditBasket={setBasket}
-							handleCopyBasket={handleCopyBasket}
-							handleDeleteBasket={handleDeleteBasket}
-						/>
-					)
+				{basket.length > 0 && (
+					<DetailsContainer
+						basket={basket}
+						instrument={instrument}
+						optionType={optionType}
+						tradeOption={tradeOption}
+						subTradeOption={subTradeOption}
+						subTradeOptionList={subTradeOptionList}
+						setBasket={setBasket}
+						handleCopyBasket={handleCopyBasket}
+						handleDeleteBasket={handleDeleteBasket}
+					/>
 				)}
 				{basket.length > 0 && (
 					<ExitCondition
