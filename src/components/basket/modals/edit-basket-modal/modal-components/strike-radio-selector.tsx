@@ -47,7 +47,13 @@ const StrikeRadioSelector: React.FC<StrikeRadioProps> = ({
 		setSubTradeOption(subTradeData[0]?.value || '')
 	}
 
-	return <Segmented options={segmentedItems} onChange={handleSegmentChanges} />
+	return (
+		<Segmented
+			value={tradeOption}
+			options={segmentedItems}
+			onChange={handleSegmentChanges}
+		/>
+	)
 }
 
 export default StrikeRadioSelector

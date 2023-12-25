@@ -8,6 +8,7 @@ import {
 	Tooltip,
 	Empty,
 } from 'antd'
+import { PlusOutlined } from '@ant-design/icons'
 
 import {
 	FormOutlined,
@@ -23,7 +24,7 @@ import { useState, useEffect } from 'react'
 
 const Index = () => {
 	const { token } = theme.useToken()
-
+	const { toggleSetBasketModalOpen } = useBasketStore()
 	const [individualSelection, setIndividualSelection] = useState<boolean>(false)
 	const [selectAll, setSelectAll] = useState<boolean>(false)
 
@@ -256,19 +257,29 @@ const Index = () => {
 			flex="1"
 			vertical
 		>
-			<Flex>
-				<BasketNav />
-			</Flex>
 			{runtimeBasketList.length > 0 ? (
-				<Table
-					scroll={{ y: 'calc(100vh - 200px)' }}
-					columns={columns}
-					dataSource={runtimeBasketList}
-					pagination={false}
-				/>
+				<>
+					<Flex>
+						<BasketNav />
+					</Flex>
+
+					<Table
+						scroll={{ y: 'calc(100vh - 175px)' }}
+						columns={columns}
+						dataSource={runtimeBasketList}
+						pagination={false}
+					/>
+				</>
 			) : (
-				<Flex justify="center" flex={1} align="center">
+				<Flex justify="center" flex={1} align="center" vertical gap="large">
 					<Empty />
+					<Button
+						type="primary"
+						icon={<PlusOutlined />}
+						onClick={() => toggleSetBasketModalOpen(true)}
+					>
+						Add New Basket
+					</Button>
 				</Flex>
 			)}
 		</Flex>
