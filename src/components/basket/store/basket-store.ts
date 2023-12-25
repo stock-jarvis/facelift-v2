@@ -5,6 +5,7 @@ import { immer } from 'zustand/middleware/immer'
 
 type BasketState = {
 	endDate: string
+	exchange: string
 	startDate: string
 	timeError: boolean
 	positionCopy: boolean
@@ -14,7 +15,6 @@ type BasketState = {
 	timeErrorModalOpen: boolean
 	isAddBasketModalOpen: boolean
 	closeModalConfirmation: boolean
-	exchange: string
 	selectedBaskets: RunTimeBasketData[]
 	runtimeBasketList: RunTimeBasketData[]
 	editableBasketData: RunTimeBasketData

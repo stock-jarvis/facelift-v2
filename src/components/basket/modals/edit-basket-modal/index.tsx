@@ -90,7 +90,7 @@ const EditBasketModal = ({ open }: EditModalProps) => {
 	} = useBasketStore()
 
 	const { token } = theme.useToken()
-
+	const [basketData, setBasketData] = useState({ quanity: 1 })
 	const [atm, setAtm] = useState<string>('spot')
 	const [basket, setBasket] = useState<BasketDataProps[]>([])
 	const [moveSl, setMoveSl] = useState<boolean>(false)
@@ -112,13 +112,10 @@ const EditBasketModal = ({ open }: EditModalProps) => {
 	const [currentExitHour, setCurrentExitHour] = useState<number>(0)
 	const [basketIdentifier, setBasketIdentifier] = useState<number>(0)
 	const [currentEntryHour, setCurrentEntryHour] = useState<number>(0)
-	const [futureExpiryList] = useState<OptionObject[]>(futureExpiry)
-	const [optionExpiryList] = useState<OptionObject[]>(optionExpiry)
 	const [currentExitMinute, setCurrentExitMinute] = useState<number>(0)
 	const [currentEntryMinute, setCurrentEntryMinute] = useState<number>(0)
 	const [finalTradeType, setFinalTradeType] = useState<string>('SQAL')
 	const [persistedValues, setPersistedValues] = useState<PersistedValues>()
-	//const [isSavedState, setIsSavedState] = useState<boolean>(false)
 	const [subTradeOption, setSubTradeOption] = useState<string>(initialSubTrade)
 
 	const [basketPositions, setBasketPositions] = useState<string>('INTRA')
@@ -451,11 +448,11 @@ const EditBasketModal = ({ open }: EditModalProps) => {
 					setAtm={setAtm}
 				/>
 				<Selectors
+					basketData={basketData}
+					setBasketData={setBasketData}
 					quantityValue={quantityValue}
 					actionValue={actionValue}
 					instrument={instrument}
-					optionExpiryList={optionExpiryList}
-					futureExpiryList={futureExpiryList}
 					futureExpiryBaseValue={futureExpiryBaseValue}
 					optionExpiryBaseValue={optionExpiryBaseValue}
 					subTradeOption={subTradeOption}

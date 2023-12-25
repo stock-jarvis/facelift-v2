@@ -2,17 +2,22 @@ import { Tabs, TabsProps, theme, Divider, Flex, Typography } from 'antd'
 import SpotBasketSelector from './spot-basket-selector'
 import FutureBasketSelector from './future-basket-selector'
 import OptionsBasketSelector from './options-basket-selector'
-import { OptionObject, TradeOptions } from 'src/components/basket/types/types'
+import { TradeOptions } from 'src/components/basket/types/types'
 import { useState } from 'react'
+import {
+	futureExpiry,
+	optionExpiry,
+} from 'src/components/basket/constants/data'
 interface SelectProps {
+	basketData: object
+	setBasketData: (val: { quantity: number }) => void
 	quantityValue: number
 	instrument: string
 	actionValue: string
 	optionType: string
 	futureExpiryBaseValue: string
 	optionExpiryBaseValue: string
-	futureExpiryList: OptionObject[]
-	optionExpiryList: OptionObject[]
+
 	subTradeOption: string
 	tradeValue: number
 	tradeOption: string
@@ -31,11 +36,12 @@ interface SelectProps {
 }
 
 const Selectors: React.FC<SelectProps> = ({
+	//basketData,
+	//setBasketData,
 	quantityValue,
 	actionValue,
 	instrument,
-	optionExpiryList,
-	futureExpiryList,
+
 	futureExpiryBaseValue,
 	optionExpiryBaseValue,
 	subTradeOption,
@@ -61,6 +67,8 @@ const Selectors: React.FC<SelectProps> = ({
 		setOptionValue()
 		setTabValue(e)
 	}
+
+	//const handleValueChange= (e: string) => {}
 	return (
 		<Flex flex={1} vertical gap="middle">
 			<Divider>
@@ -104,7 +112,7 @@ const Selectors: React.FC<SelectProps> = ({
 						children: (
 							<FutureBasketSelector
 								futureExpiryBaseValue={futureExpiryBaseValue}
-								futureExpiryList={futureExpiryList}
+								futureExpiryList={futureExpiry}
 								baseQuantityValue={quantityValue}
 								baseActionValue={actionValue}
 								baseInstrumentValue={instrument}
@@ -121,7 +129,7 @@ const Selectors: React.FC<SelectProps> = ({
 						children: (
 							<OptionsBasketSelector
 								optionExpiryBaseValue={optionExpiryBaseValue}
-								optionExpiryList={optionExpiryList}
+								optionExpiryList={optionExpiry}
 								baseQuantityValue={quantityValue}
 								baseActionValue={actionValue}
 								baseOptionValue={optionType}
