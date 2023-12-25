@@ -1,4 +1,4 @@
-import { Flex, Select, Input, theme } from 'antd'
+import { Flex, Select, Input } from 'antd'
 import { ChangeEvent } from 'react'
 import { tradeTypeData } from '../../../constants/data'
 import { InputProps } from 'antd'
@@ -26,8 +26,6 @@ const StrikeSelector: React.FC<StrikeSelectorProps> = ({
 	setSubTradeOptionList,
 	setTradeValue,
 }) => {
-	const { token } = theme.useToken()
-
 	const handleTradeChange: SelectProps['onChange'] = (value: string) => {
 		const subTradeData =
 			tradeTypeData.find((data) => data.value === value)?.children || []
@@ -61,50 +59,40 @@ const StrikeSelector: React.FC<StrikeSelectorProps> = ({
 	}
 
 	return (
-		<Flex
-			style={{
-				width: 'fit-content',
-				borderRadius: token.borderRadiusLG,
-				padding: token.paddingSM,
-			}}
-			vertical
-			justify="center"
-			align="center"
-		>
-			<Flex style={{ width: '200px', height: 'fit-content' }}>
-				<Select
-					size="large"
-					style={{ width: '100px' }}
-					options={tradeTypeData}
-					value={tradeOption}
-					onChange={handleTradeChange}
-				/>
-				<Select
-					size="large"
-					style={{
-						width:
-							tradeOption !== 'ATMPt' && tradeOption !== 'HIGHOI'
-								? '70px'
-								: '100px',
-					}}
-					options={subTradeOptionList}
-					value={subTradeOption}
-					onChange={handleSubTradeChange}
-				/>
-				{tradeOption !== 'ATMPt' && tradeOption !== 'HIGHOI' && (
-					<Flex style={{ width: '60px', height: '40px' }}>
-						<Input
-							style={{ width: '50px' }}
-							type="number"
-							value={tradeValue}
-							onChange={handleInputChange}
-						/>
-						{tradeOption !== 'CP' && (
-							<p className="flex self-center pl-[3px]">%</p>
-						)}
-					</Flex>
-				)}
-			</Flex>
+		<Flex style={{ width: '100%', height: 'fit-content' }} justify="center">
+			<Select
+				size="large"
+				style={{ width: '150px' }}
+				options={tradeTypeData}
+				value={tradeOption}
+				onChange={handleTradeChange}
+			/>
+			<Select
+				size="large"
+				style={{
+					width:
+						tradeOption !== 'ATMPt' && tradeOption !== 'HIGHOI'
+							? '80px'
+							: '150px',
+				}}
+				options={subTradeOptionList}
+				value={subTradeOption}
+				onChange={handleSubTradeChange}
+			/>
+			{tradeOption !== 'ATMPt' && tradeOption !== 'HIGHOI' && (
+				<Flex style={{ width: '70px', height: '40px' }}>
+					<Input
+						style={{
+							width: '70px',
+							textAlign: tradeOption === 'CP' ? 'center' : 'start',
+						}}
+						type="number"
+						value={tradeValue}
+						onChange={handleInputChange}
+						suffix={tradeOption !== 'CP' ? '%' : null}
+					/>
+				</Flex>
+			)}
 		</Flex>
 	)
 }

@@ -1,4 +1,4 @@
-import { Flex } from 'antd'
+import { Divider, Flex, theme, Typography } from 'antd'
 import ProfitLoss from './profit-loss-section'
 import EntryExit from './entry-exit-container'
 import TradeSection from './trade-section'
@@ -55,11 +55,17 @@ const ExitCondition = ({
 	handleChangeEntryMinute,
 	handleChangeEntryHour,
 }: ExitConditionProps) => {
-	//console.log('basket Trade Type', basketTradeType)
+	const { token } = theme.useToken()
 	return (
 		<Flex flex={1} vertical gap="middle">
 			<Flex flex={1}>
-				<Flex flex={1}>
+				<Flex flex={1} vertical>
+					<Divider>
+						<Typography.Text style={{ color: token.colorPrimary }}>
+							Trade Selector
+						</Typography.Text>
+					</Divider>
+
 					<TradeSection
 						move={moveSl}
 						setRepeat={setRepeatSl}
@@ -68,7 +74,12 @@ const ExitCondition = ({
 						setToggleValue={handleBasketTradeTypeChange}
 					/>
 				</Flex>
-				<Flex flex={1}>
+				<Flex flex={1} vertical>
+					<Divider>
+						<Typography.Text style={{ color: token.colorPrimary }}>
+							Profit-Loss
+						</Typography.Text>
+					</Divider>
 					<ProfitLoss
 						profitValue={profitValue}
 						lossValue={lossValue}

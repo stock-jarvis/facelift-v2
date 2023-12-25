@@ -31,6 +31,8 @@ import {
 } from 'src/components/basket/constants/data'
 interface OptionDetailsProps {
 	id: string
+	dark: boolean
+	count: number
 	baseQuanity: number
 	baseActionValue: string
 	baseOptionValue: string
@@ -52,6 +54,8 @@ interface OptionDetailsProps {
 }
 const OptionBasketDetail = ({
 	id,
+	dark,
+	count,
 	basket,
 	baseQuanity,
 	baseActionValue,
@@ -72,6 +76,7 @@ const OptionBasketDetail = ({
 	handleEditBasket,
 }: OptionDetailsProps) => {
 	const { token } = theme.useToken()
+
 	const [quantityValue, setQuantityValue] = useState<number>(baseQuanity)
 	const [actionValue, setActionValue] = useState<string>(baseActionValue)
 	const [optionType, setOptionType] = useState<string>(baseOptionValue)
@@ -367,10 +372,11 @@ const OptionBasketDetail = ({
 		<Flex vertical>
 			<Divider>
 				<Typography.Text style={{ color: token.colorPrimary }}>
-					Options
+					Options ({`Leg-${count}`})
 				</Typography.Text>
 			</Divider>
 			<Descriptions
+				style={{ backgroundColor: dark ? '#D3D3D3' : 'transparent' }}
 				items={item}
 				layout="vertical"
 				bordered

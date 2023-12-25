@@ -1,4 +1,4 @@
-import { Flex, Button, DatePicker, theme, Typography, Divider } from 'antd'
+import { Flex, Button, DatePicker, theme } from 'antd'
 import { PlayCircleOutlined, PlusOutlined } from '@ant-design/icons'
 import { IoCalendarOutline } from 'react-icons/io5'
 
@@ -46,23 +46,7 @@ const Index = () => {
 					onChange={handleDateChanged}
 				/>
 			</Flex>
-			<Flex
-				flex="1"
-				justify="center"
-				style={{ paddingInline: token.paddingXS }}
-			>
-				<Divider>
-					<Typography.Text
-						style={{
-							fontSize: token.fontSizeXL,
-							color: token.colorPrimary,
-							fontWeight: token.fontWeightStrong,
-						}}
-					>
-						Baskets
-					</Typography.Text>
-				</Divider>
-			</Flex>
+
 			<Flex gap="middle" justify="flex-end">
 				<Button
 					type="primary"

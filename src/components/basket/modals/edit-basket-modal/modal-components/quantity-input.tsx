@@ -35,7 +35,7 @@ const QuantityInput: React.FC<QuantityProps> = ({
 	return (
 		<Input
 			value={quantityValue}
-			style={{ width: '140px' }}
+			style={{ width: '140px', textAlign: 'center' }}
 			size="large"
 			type="number"
 			onChange={handleInputChange}

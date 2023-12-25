@@ -3,6 +3,7 @@ import { Flex, theme, Input, Select } from 'antd'
 import { ChangeEvent } from 'react'
 import { SelectProps, InputProps } from 'antd'
 import { OptionObject } from 'src/components/basket/types/types'
+
 interface YeildButtonProps {
 	options: OptionObject[]
 	targetType: string
@@ -45,20 +46,30 @@ const YeildButton: React.FC<YeildButtonProps> = ({
 		<Flex align="center">
 			<Flex
 				style={{
-					width: '200px',
+					width: '210px',
 					padding: token.paddingXS,
-					borderRadius: token.borderRadiusLG,
 				}}
 				gap="middle"
 			>
-				<Flex>
+				<Flex align="center">
 					<Select
 						style={{ minWidth: '90px' }}
 						options={options}
 						value={targetType}
 						onChange={handleTypeChange}
 					/>
-					<Input value={targetValue} onChange={handleInputChange} />
+					<Input
+						suffix={
+							targetType === 'percent'
+								? '%'
+								: targetType === 'rupees'
+									? '₹'
+									: 'Pt'
+						}
+						style={{ width: '90px' }}
+						value={targetValue}
+						onChange={handleInputChange}
+					/>
 				</Flex>
 			</Flex>
 		</Flex>

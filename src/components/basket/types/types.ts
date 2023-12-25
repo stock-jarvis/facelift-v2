@@ -96,6 +96,7 @@ export interface SavedBasketsObject {
 export interface BasketDataProps {
 	type: string
 	id: string
+	count: number
 	entryCondition: {
 		quantity: number
 		actionType: string

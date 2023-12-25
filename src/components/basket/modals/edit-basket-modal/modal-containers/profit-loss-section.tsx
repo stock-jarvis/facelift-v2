@@ -1,4 +1,4 @@
-import { Flex, theme } from 'antd'
+import { Flex } from 'antd'
 import CappedButton from '../modal-components/capped-button'
 
 interface ProfitLossProps {
@@ -18,14 +18,12 @@ const ProfitLoss = ({
 	profitValue,
 	lossValue,
 }: ProfitLossProps) => {
-	const { token } = theme.useToken()
 	return (
 		<Flex
 			flex="1"
-			style={{ padding: token.paddingMD, cursor: 'pointer' }}
+			style={{ cursor: 'pointer' }}
 			justify="center"
 			align="center"
-			gap="middle"
 			vertical
 		>
 			<CappedButton

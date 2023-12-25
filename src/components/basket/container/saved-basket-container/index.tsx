@@ -34,7 +34,9 @@ const Index = () => {
 	return (
 		<Flex flex="1" vertical style={{ padding: token.paddingXS }}>
 			<Divider>
-				<Typography.Text style={{ color: token.colorPrimary }}>
+				<Typography.Text
+					style={{ color: token.colorPrimary, fontSize: token.fontSizeLG }}
+				>
 					Saved Baskets
 				</Typography.Text>
 			</Divider>

@@ -1,7 +1,7 @@
 import { Flex, Descriptions, DescriptionsProps, Typography, theme } from 'antd'
 import { TradeOptions } from '../../../types/types'
 import { OptionObject } from '../../../types/types'
-
+import StrikeRadioSelector from '../modal-components/strike-radio-selector'
 import PositionHolder from './position-holder'
 import StrikeSelector from '../modal-components/strike-selector'
 import Instrument from '../modal-components/instrument'
@@ -176,12 +176,25 @@ const OptionsBasketSelector = ({
 							fontWeight: token.fontWeightStrong,
 						}}
 					>
-						Options Position
+						Options Leg
 					</Typography.Text>
 				</Flex>
 			),
+
 			children: (
-				<Flex className="w-full" align="center" justify="space-between">
+				<Flex
+					className="w-full"
+					align="center"
+					justify="space-between"
+					vertical
+					gap="middle"
+				>
+					<StrikeRadioSelector
+						tradeOption={baseTradeOption}
+						setSubTradeOption={handleBaseSubTradeChange}
+						setTradeOption={handleBaseTradeChange}
+						setSubTradeOptionList={handleBaseSubTradeListChange}
+					/>
 					<Descriptions
 						className="w-full"
 						items={items}

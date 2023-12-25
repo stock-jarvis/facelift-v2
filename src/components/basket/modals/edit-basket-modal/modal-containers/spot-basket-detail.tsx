@@ -27,6 +27,8 @@ interface SpotDetailsProps {
 	handleCopyBasket: (val: string) => void
 	handleEditBasket: (basket: BasketDataProps[]) => void
 	id: string
+	dark: boolean
+	count: number
 	basket: BasketDataProps[]
 	baseSpotLossValue: number
 	baseTotalProfitValue: number
@@ -42,6 +44,8 @@ const SpotBasketDetail = ({
 	handleCopyBasket,
 	handleEditBasket,
 	id,
+	dark,
+	count,
 	basket,
 	baseQuanity,
 	baseActionValue,
@@ -242,10 +246,11 @@ const SpotBasketDetail = ({
 		<Flex vertical>
 			<Divider>
 				<Typography.Text style={{ color: token.colorPrimary }}>
-					Spot
+					Spot ({`Leg-${count}`})
 				</Typography.Text>
 			</Divider>
 			<Descriptions
+				style={{ backgroundColor: dark ? '#fafafb' : 'transparent' }}
 				items={item}
 				layout="vertical"
 				bordered

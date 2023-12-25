@@ -9,8 +9,8 @@ import {
 	optionExpiry,
 } from 'src/components/basket/constants/data'
 interface SelectProps {
-	basketData: object
-	setBasketData: (val: { quantity: number }) => void
+	//basketData: object
+	//setBasketData: (val: { quantity: number }) => void
 	quantityValue: number
 	instrument: string
 	actionValue: string

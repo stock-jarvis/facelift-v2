@@ -109,7 +109,7 @@ const FutureBasketSelector = ({
 							fontWeight: token.fontWeightStrong,
 						}}
 					>
-						Future Position
+						Future Leg
 					</Typography.Text>
 				</Flex>
 			),

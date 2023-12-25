@@ -5,7 +5,7 @@ import ConfirmModal from './modals/confitm-modal'
 import BasketContainer from './container/baskets-container'
 import EditBasketModal from './modals/edit-basket-modal'
 import { useBasketStore } from './store/basket-store'
-import BasketNav from '../basket/container/basket-nav'
+
 const Basket = () => {
 	const {
 		isAddBasketModalOpen,
@@ -39,7 +39,6 @@ const Basket = () => {
 
 	return (
 		<>
-			<BasketNav />
 			<Flex className="h-[100vh] overflow-y-hidden overflow-x-hidden">
 				<Flex flex={'1'}>
 					<SaveBasket />

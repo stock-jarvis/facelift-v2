@@ -40,11 +40,13 @@ const DetailsContainer: React.FC<DetailsContainerProps> = ({
 	const [optionExpiryList] = useState<OptionObject[]>(optionExpiry)
 	return (
 		<>
-			{basket.map((bask) =>
+			{basket.map((bask, index) =>
 				bask.type === 'spot' ? (
 					<SpotBasketDetail
+						dark={index % 2 === 0}
 						key={bask.id}
 						id={bask.id}
+						count={bask.count}
 						basket={basket}
 						baseTotalProfitValue={bask.exitCondition?.totalProfit.value || 0}
 						baseSpotLossOption={
@@ -66,6 +68,8 @@ const DetailsContainer: React.FC<DetailsContainerProps> = ({
 					<FututeBasketDetails
 						key={bask.id}
 						id={bask.id}
+						dark={index % 2 === 0}
+						count={bask.count}
 						baseQuanity={bask.entryCondition.quantity}
 						baseInstrumentValue={instrument}
 						baseTotalProfitValue={bask.exitCondition?.totalProfit.value || 0}
@@ -89,6 +93,8 @@ const DetailsContainer: React.FC<DetailsContainerProps> = ({
 					<OptionBasketDetail
 						key={bask.id}
 						id={bask.id}
+						dark={index % 2 === 0}
+						count={bask.count}
 						baseQuanity={bask.entryCondition.quantity}
 						optionExpiryBaseValue={bask.entryCondition.expiry || 'Monthly'}
 						baseTotalProfitValue={bask.exitCondition?.totalProfit.value || 0}

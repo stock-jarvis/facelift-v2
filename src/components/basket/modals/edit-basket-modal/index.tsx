@@ -15,9 +15,8 @@ import { useValidateTimes } from './modal-hooks/useValidateTimes'
 import { useMarketTimes } from './modal-hooks/useMarketTime'
 import Selectors from './modal-containers/selector-container'
 
-import { futureExpiry, optionExpiry, tradeTypeData } from '../../constants/data'
+import { tradeTypeData } from '../../constants/data'
 import {
-	OptionObject,
 	TradeOptions,
 	BasketDataProps,
 	PersistedValues,
@@ -31,6 +30,7 @@ const initialTrade = tradeTypeData[0].value
 
 const defaultSpotPosition: BasketDataProps = {
 	id: generateUniqueId(),
+	count: 0,
 	type: 'spot',
 	entryCondition: {
 		quantity: 1,
@@ -44,6 +44,7 @@ const defaultSpotPosition: BasketDataProps = {
 
 const defaultFuturePosition: BasketDataProps = {
 	id: generateUniqueId(),
+	count: 0,
 	type: 'future',
 	entryCondition: {
 		quantity: 1,
@@ -59,6 +60,7 @@ const defaultFuturePosition: BasketDataProps = {
 const defaultOptionsPosition: BasketDataProps = {
 	id: generateUniqueId(),
 	type: 'options',
+	count: 0,
 	entryCondition: {
 		quantity: 1,
 		actionType: 'B',
@@ -90,7 +92,7 @@ const EditBasketModal = ({ open }: EditModalProps) => {
 	} = useBasketStore()
 
 	const { token } = theme.useToken()
-	const [basketData, setBasketData] = useState({ quanity: 1 })
+	//	const [basketData, setBasketData] = useState({ quanity: 1 })
 	const [atm, setAtm] = useState<string>('spot')
 	const [basket, setBasket] = useState<BasketDataProps[]>([])
 	const [moveSl, setMoveSl] = useState<boolean>(false)
@@ -245,6 +247,7 @@ const EditBasketModal = ({ open }: EditModalProps) => {
 							quantity: quantityValue,
 							actionType: actionValue,
 						},
+						count: basket.length + 1,
 						exitCondition: {
 							stopLoss: {
 								type: 'percent',
@@ -260,6 +263,7 @@ const EditBasketModal = ({ open }: EditModalProps) => {
 					? {
 							...defaultFuturePosition,
 							id: uniqueId,
+							count: basket.length + 1,
 							entryCondition: {
 								quantity: quantityValue,
 								actionType: actionValue,
@@ -279,6 +283,7 @@ const EditBasketModal = ({ open }: EditModalProps) => {
 					: {
 							...defaultOptionsPosition,
 							id: uniqueId,
+							count: basket.length + 1,
 							entryCondition: {
 								quantity: quantityValue,
 								actionType: actionValue,
@@ -448,8 +453,8 @@ const EditBasketModal = ({ open }: EditModalProps) => {
 					setAtm={setAtm}
 				/>
 				<Selectors
-					basketData={basketData}
-					setBasketData={setBasketData}
+					//	basketData={basketData}
+					//		setBasketData={setBasketData}
 					quantityValue={quantityValue}
 					actionValue={actionValue}
 					instrument={instrument}

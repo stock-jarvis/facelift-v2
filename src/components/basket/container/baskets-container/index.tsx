@@ -15,6 +15,7 @@ import {
 	CopyOutlined,
 	SnippetsOutlined,
 } from '@ant-design/icons'
+import BasketNav from '../basket-nav'
 import { useBasketStore } from '../../store/basket-store'
 import { generateUniqueId } from '../../common/utils/randomizer'
 import { RunTimeBasketData } from '../../types/types'
@@ -253,6 +254,9 @@ const Index = () => {
 			flex="1"
 			vertical
 		>
+			<Flex>
+				<BasketNav />
+			</Flex>
 			{runtimeBasketList.length > 0 ? (
 				<Table
 					scroll={{ y: 'calc(100vh - 200px)' }}

@@ -31,6 +31,8 @@ import {
 
 interface FututreDetailsProps {
 	id: string
+	dark: boolean
+	count: number
 	baseQuanity: number
 	baseActionValue: string
 	futureExpiryList: OptionObject[]
@@ -47,6 +49,8 @@ interface FututreDetailsProps {
 }
 const FututeBasketDetails = ({
 	id,
+	dark,
+	count,
 	basket,
 	baseQuanity,
 	baseActionValue,
@@ -278,10 +282,11 @@ const FututeBasketDetails = ({
 		<Flex vertical>
 			<Divider>
 				<Typography.Text style={{ color: token.colorPrimary }}>
-					Future
+					Future ({`Leg-${count}`})
 				</Typography.Text>
 			</Divider>
 			<Descriptions
+				style={{ backgroundColor: dark ? '#D3D3D3' : 'transparent' }}
 				items={item}
 				layout="vertical"
 				bordered
