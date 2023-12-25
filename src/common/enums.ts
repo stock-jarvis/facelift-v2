@@ -38,3 +38,14 @@ export enum ComparisonOperator {
 	LessThanOrEqualTo = '<=',
 	GreaterThanorEqualTo = '>=',
 }
+
+export enum Resolution {
+	'1 Minute' = '1',
+	'3 Minute' = '3',
+	'5 Minute' = '5',
+	'10 Minute' = '10',
+	'15 Minute' = '15',
+	'30 Minute' = '30',
+	'1 Hour' = '60',
+	'1 Day' = '1D',
+}

@@ -19,3 +19,5 @@ const convertToDefaultOption = (value: DefaultOptionType['value']) =>
 export const convertValuesToDefaultOptions = (
 	values: DefaultOptionType['value'][]
 ) => values.map(convertToDefaultOption)
+
+export const convertNumberToPercentageString = (value: number) => `${value}%`

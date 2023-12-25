@@ -6,6 +6,8 @@ import Greeks from './greeks'
 import { useEffect, useMemo, useState } from 'react'
 import { useSimulatorParamsStore } from '../../store/simulator-params-store'
 import { convertValuesToItemType } from 'src/common/utils/conversion-utils'
+import Charts from './charts'
+import { BANK_NIFTY_TICKER } from 'src/common/constants'
 
 enum MenuItem {
 	Positions = 'Positions',
@@ -27,7 +29,7 @@ const MenuContent: React.FC<MenuContentProps> = ({ selectedItemKey }) => {
 		case MenuItem['Payoff Charts']:
 			return <div>Payoff charts under construction</div>
 		case MenuItem.Charts:
-			return <div>Charts under construction</div>
+			return <Charts />
 		default:
 			return <div>You are not supposed to be here.</div>
 	}
@@ -37,10 +39,12 @@ const RightContent = () => {
 	const { selectedInstruments, setActiveInstrument } = useSimulatorParamsStore()
 
 	const [selectedMenuItem, setSelectedMenuItem] = useState<MenuItem>(
-		MenuItem.Positions
+		// Dev: Change to Positions
+		MenuItem.Charts
 	)
 
-	const [tabInstrument, setTabInstrument] = useState<string>()
+	// Dev: Remove BANK_NIFTY_TICKER
+	const [tabInstrument, setTabInstrument] = useState<string>(BANK_NIFTY_TICKER)
 
 	const items: MenuProps['items'] = useMemo(
 		() =>
