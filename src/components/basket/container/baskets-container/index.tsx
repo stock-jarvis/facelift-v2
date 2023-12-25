@@ -39,6 +39,7 @@ const Index = () => {
 		addToStoredBaskets,
 		updateSelectedBasket,
 		selectAllBaskets,
+		selectedBaskets,
 	} = useBasketStore()
 
 	const onHandleBasketEdit = (id: string) => {
@@ -86,6 +87,7 @@ const Index = () => {
 
 	const selectAllBasket = () => {
 		setSelectAll(!selectAll)
+		selectAllBaskets(!selectAll)
 	}
 
 	useEffect(() => {
@@ -96,12 +98,12 @@ const Index = () => {
 	}, [runtimeBasketList, updateSelectedBasket, individualSelection])
 
 	useEffect(() => {
-		if (selectAll) {
-			selectAllBaskets(true)
-		} else {
-			selectAllBaskets(false)
+		if (selectedBaskets.length !== runtimeBasketList.length) {
+			setSelectAll(false)
+		} else if (selectedBaskets.length === runtimeBasketList.length) {
+			setSelectAll(true)
 		}
-	}, [selectAll, selectAllBaskets])
+	}, [selectedBaskets, runtimeBasketList, selectAll])
 	const columns = [
 		{
 			title: (

@@ -307,7 +307,12 @@ const EditBasketModal = ({ open }: EditModalProps) => {
 	}
 
 	const handleDeleteBasket = (id: string) => {
-		setBasket(basket.filter((basket) => basket.id !== id))
+		const filteredBaskets = basket.filter((basket) => basket.id !== id)
+		const refinedBaskets = filteredBaskets.map((basket, index) => ({
+			...basket,
+			count: index + 1,
+		}))
+		setBasket(refinedBaskets)
 	}
 
 	const handleCopyBasket = (id: string) => {
@@ -367,7 +372,11 @@ const EditBasketModal = ({ open }: EditModalProps) => {
 
 			setBasket((prev) => [
 				...prev,
-				{ ...basketToBeCopied, id: generateUniqueId() },
+				{
+					...basketToBeCopied,
+					count: basket.length + 1,
+					id: generateUniqueId(),
+				},
 			])
 		}
 	}

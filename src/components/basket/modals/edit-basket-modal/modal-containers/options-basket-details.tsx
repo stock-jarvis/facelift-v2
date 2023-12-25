@@ -376,7 +376,7 @@ const OptionBasketDetail = ({
 				</Typography.Text>
 			</Divider>
 			<Descriptions
-				style={{ backgroundColor: dark ? '#D3D3D3' : 'transparent' }}
+				style={{ backgroundColor: dark ? '#F7FBFD' : 'transparent' }}
 				items={item}
 				layout="vertical"
 				bordered

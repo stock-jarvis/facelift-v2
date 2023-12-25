@@ -250,7 +250,7 @@ const SpotBasketDetail = ({
 				</Typography.Text>
 			</Divider>
 			<Descriptions
-				style={{ backgroundColor: dark ? '#fafafb' : 'transparent' }}
+				style={{ backgroundColor: dark ? '#F7FBFD' : 'transparent' }}
 				items={item}
 				layout="vertical"
 				bordered
