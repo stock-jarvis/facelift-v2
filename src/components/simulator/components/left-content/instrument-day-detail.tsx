@@ -1,6 +1,5 @@
 import { Flex } from 'antd'
-
-import TitleValue from 'src/common/components/key-value'
+import TitleValue from 'src/common/components/title-value'
 
 const InstrumentDayDetail = () => {
 	return (

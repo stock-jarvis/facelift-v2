@@ -7,9 +7,9 @@ import {
 	TriggerPointMetric,
 } from 'src/common/enums'
 import { range } from 'radash'
-import { Alert } from './alerts-table'
+import { Jump } from './jump-table'
 
-export const alertsMockData: Alert[] = [...range(0, 20)].map((value) => ({
+export const alertsMockData: Jump[] = [...range(0, 20)].map((value) => ({
 	tradeAction: value % 2 ? TradeAction.Buy : TradeAction.Sell,
 	lots: 1,
 	entryDate: dayjs(),

@@ -1,15 +1,18 @@
 import { Table, TableProps as AntdTableProps } from 'antd'
 import { Dayjs } from 'dayjs'
-import { ComparisonOperator, TradeAction } from 'src/common/enums'
-import { Option, TriggerPoint } from 'src/common/types'
+import { ComparisonOperator, OptionType, TradeAction } from 'src/common/enums'
+import { TriggerPoint } from 'src/common/types'
 import { alertsMockData } from './mock-data'
 import { getDateAsStringFromDayjs } from 'src/common/utils/date-time-utils'
 import { renderTradeAction } from 'src/common/utils/render-utils'
 
-export type Alert = {
+export type Jump = {
 	tradeAction: TradeAction
 	lots: number
-	strike: Option
+	strike: {
+		strikePrice: number
+		type: OptionType
+	}
 	expiry: Dayjs
 	entryPrice: number
 	lastTradedPrice: number
@@ -19,10 +22,10 @@ export type Alert = {
 	instrumentPrice: number
 }
 
-type TableProps = AntdTableProps<Alert>
+type TableProps = AntdTableProps<Jump>
 
 // TODO: Wire up
-const AlertsTable = () => {
+const JumpTable = () => {
 	const columns: TableProps['columns'] = [
 		{
 			key: 'tradeAction',
@@ -93,4 +96,4 @@ const AlertsTable = () => {
 	)
 }
 
-export default AlertsTable
+export default JumpTable
