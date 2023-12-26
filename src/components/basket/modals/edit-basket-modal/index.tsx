@@ -370,6 +370,7 @@ const EditBasketModal = ({ open }: EditModalProps) => {
 					padding: token.paddingXS,
 				},
 				body: {
+					backgroundColor: token.colorBgBase,
 					overflow: 'scroll',
 					scrollBehavior: 'smooth',
 				},
@@ -380,7 +381,7 @@ const EditBasketModal = ({ open }: EditModalProps) => {
 				gap={'middle'}
 				style={{
 					padding: token.paddingMD,
-					height: '550px',
+					height: '500px',
 					overflow: 'scroll',
 					scrollBehavior: 'smooth',
 				}}
