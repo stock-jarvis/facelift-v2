@@ -2,64 +2,35 @@ import { Tabs, TabsProps, theme, Divider, Flex, Typography } from 'antd'
 import SpotBasketSelector from './spot-basket-selector'
 import FutureBasketSelector from './future-basket-selector'
 import OptionsBasketSelector from './options-basket-selector'
-import { TradeOptions } from 'src/components/basket/types/types'
+import {
+	TradeOptions,
+	BasketDataValues,
+} from 'src/components/basket/types/types'
 import { useState } from 'react'
 import {
 	futureExpiry,
 	optionExpiry,
 } from 'src/components/basket/constants/data'
+type NumberedKeys = 'quantity' | 'tradeValue'
+type Keys = 'action' | 'expiry' | 'option' | 'tradeOption' | 'subTradeOption'
 interface SelectProps {
-	//basketData: object
-	//setBasketData: (val: { quantity: number }) => void
-	quantityValue: number
+	basketInitialData: BasketDataValues
+	updatedBasketData: (val: BasketDataValues) => void
 	instrument: string
-	actionValue: string
-	optionType: string
-	futureExpiryBaseValue: string
-	optionExpiryBaseValue: string
-
-	subTradeOption: string
-	tradeValue: number
-	tradeOption: string
 	subTradeOptionList: TradeOptions[]
-	setTradeValue: (val: number) => void
-	setOptionType: (val: string) => void
-	setTradeOption: (val: string) => void
-	setActionValue: (val: string) => void
 	handleAddBasket: (val: string) => void
 	setOptionValue: () => void
-	setQuantityValue: (val: number) => void
-	setSubTradeOption: (val: string) => void
 	setSubTradeOptionList: (val: TradeOptions[]) => void
-	setFutureExpiryBaseValue: (val: string) => void
-	setOptionExpiryBaseValue: (val: string) => void
 }
 
 const Selectors: React.FC<SelectProps> = ({
-	//basketData,
-	//setBasketData,
-	quantityValue,
-	actionValue,
 	instrument,
-
-	futureExpiryBaseValue,
-	optionExpiryBaseValue,
-	subTradeOption,
-	optionType,
-	tradeValue,
-	tradeOption,
+	basketInitialData,
 	subTradeOptionList,
-	setTradeOption,
+	updatedBasketData,
 	setOptionValue,
-	setOptionType,
-	setTradeValue,
-	setActionValue,
 	handleAddBasket,
-	setQuantityValue,
-	setSubTradeOption,
 	setSubTradeOptionList,
-	setFutureExpiryBaseValue,
-	setOptionExpiryBaseValue,
 }) => {
 	const { token } = theme.useToken()
 	const [tabValue, setTabValue] = useState<string>('spot')
@@ -67,8 +38,13 @@ const Selectors: React.FC<SelectProps> = ({
 		setOptionValue()
 		setTabValue(e)
 	}
-
-	//const handleValueChange= (e: string) => {}
+	const handleQuantityChange = (val: number, key: NumberedKeys) => {
+		updatedBasketData({ ...basketInitialData, [key]: val })
+	}
+	const handleActionChange = (val: string, key: Keys) => {
+		console.log('action changed')
+		updatedBasketData({ ...basketInitialData, [key]: val })
+	}
 	return (
 		<Flex flex={1} vertical gap="middle">
 			<Divider>
@@ -81,6 +57,7 @@ const Selectors: React.FC<SelectProps> = ({
 			<Tabs
 				destroyInactiveTabPane={true}
 				type="card"
+				tabBarStyle={{ width: '400px' }}
 				activeKey={tabValue}
 				onChange={(e) => {
 					handleTabChange(e)
@@ -97,12 +74,16 @@ const Selectors: React.FC<SelectProps> = ({
 						key: 'spot',
 						children: (
 							<SpotBasketSelector
-								baseQuantityValue={quantityValue}
-								baseActionValue={actionValue}
+								baseQuantityValue={basketInitialData.quantity}
+								baseActionValue={basketInitialData.action}
 								baseInstrumentValue={instrument}
-								handleBaseActionChange={setActionValue}
+								handleBaseActionChange={(val) =>
+									handleActionChange(val, 'action')
+								}
 								handleAddBasket={handleAddBasket}
-								handleBaseQuantityChange={setQuantityValue}
+								handleBaseQuantityChange={(val) =>
+									handleQuantityChange(val, 'quantity')
+								}
 							/>
 						),
 					},
@@ -111,15 +92,21 @@ const Selectors: React.FC<SelectProps> = ({
 						key: 'future',
 						children: (
 							<FutureBasketSelector
-								futureExpiryBaseValue={futureExpiryBaseValue}
+								futureExpiryBaseValue={basketInitialData.expiry || ''}
 								futureExpiryList={futureExpiry}
-								baseQuantityValue={quantityValue}
-								baseActionValue={actionValue}
+								baseQuantityValue={basketInitialData.quantity}
+								baseActionValue={basketInitialData.action}
 								baseInstrumentValue={instrument}
-								handleBaseActionChange={setActionValue}
-								handleBaseExpiryChange={setFutureExpiryBaseValue}
+								handleBaseActionChange={(val) =>
+									handleActionChange(val, 'action')
+								}
+								handleBaseExpiryChange={(val) =>
+									handleActionChange(val, 'expiry')
+								}
 								handleAddBasket={handleAddBasket}
-								handleBaseQuantityChange={setQuantityValue}
+								handleBaseQuantityChange={(val) =>
+									handleQuantityChange(val, 'quantity')
+								}
 							/>
 						),
 					},
@@ -128,24 +115,38 @@ const Selectors: React.FC<SelectProps> = ({
 						key: 'options',
 						children: (
 							<OptionsBasketSelector
-								optionExpiryBaseValue={optionExpiryBaseValue}
+								optionExpiryBaseValue={basketInitialData.expiry || ''}
 								optionExpiryList={optionExpiry}
-								baseQuantityValue={quantityValue}
-								baseActionValue={actionValue}
-								baseOptionValue={optionType}
-								baseSubTradeOption={subTradeOption}
+								baseQuantityValue={basketInitialData.quantity}
+								baseActionValue={basketInitialData.action}
+								baseOptionValue={basketInitialData.option || ''}
+								baseSubTradeOption={basketInitialData.subTradeOption || ''}
 								baseInstrumentValue={instrument}
-								baseTradeValue={tradeValue}
-								baseTradeOption={tradeOption}
+								baseTradeValue={basketInitialData.tradeValue || 1}
+								baseTradeOption={basketInitialData.tradeOption}
 								baseSubTradeOptionList={subTradeOptionList}
-								handleBaseExpiryChange={setOptionExpiryBaseValue}
+								handleBaseExpiryChange={(val) =>
+									handleActionChange(val, 'expiry')
+								}
 								handleAddBasket={handleAddBasket}
-								handleBaseQuantityChange={setQuantityValue}
-								handleBaseActionChange={setActionValue}
-								handleBaseOptionChange={setOptionType}
-								handleBaseTradeValueChange={setTradeValue}
-								handleBaseTradeChange={setTradeOption}
-								handleBaseSubTradeChange={setSubTradeOption}
+								handleBaseQuantityChange={(val) =>
+									handleQuantityChange(val, 'quantity')
+								}
+								handleBaseActionChange={(val) =>
+									handleActionChange(val, 'action')
+								}
+								handleBaseOptionChange={(val) =>
+									handleActionChange(val, 'option')
+								}
+								handleBaseTradeValueChange={(val) =>
+									handleQuantityChange(val, 'tradeValue')
+								}
+								handleBaseTradeChange={(val) => {
+									handleActionChange(val, 'tradeOption')
+								}}
+								handleBaseSubTradeChange={(val) =>
+									updatedBasketData({ ...basketInitialData, tradeOption: val })
+								}
 								handleBaseSubTradeListChange={setSubTradeOptionList}
 							/>
 						),

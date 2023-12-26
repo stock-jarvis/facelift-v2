@@ -54,8 +54,7 @@ export interface PersistedValues {
 	tradeOption: string
 	subTradeOption: string
 	tradeValue: number
-	futureExpiryBaseValue: string
-	optionExpiryBaseValue: string
+	expiry: string
 }
 
 export interface SavedBasketsEntryCondition {
@@ -107,4 +106,14 @@ export interface BasketDataProps {
 		tradeTypeValue?: number
 	}
 	exitCondition: PositionExitCondition
+}
+export interface BasketDataValues {
+	quantity: number
+	action: string
+	expiry?: string
+	option?: string
+	tradeValue?: number
+	tradeOption: string
+	subTradeOption?: string
+	instrument: string
 }

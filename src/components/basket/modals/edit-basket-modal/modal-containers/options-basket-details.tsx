@@ -112,7 +112,7 @@ const OptionBasketDetail = ({
 					</Typography.Text>
 				</Flex>
 			),
-			span: { xs: 0.5, sm: 0.5, md: 0.5, lg: 0.5, xl: 0.5, xxl: 0.5 },
+			//	span: { xs: 0.5, sm: 0.5, md: 0.5, lg: 0.5, xl: 0.5, xxl: 0.5 },
 			children: (
 				<Flex flex={1} justify="center">
 					<Instrument instrument={baseInstrumentValue} />
@@ -133,7 +133,7 @@ const OptionBasketDetail = ({
 					</Typography.Text>
 				</Flex>
 			),
-			span: { xs: 0.5, sm: 0.5, md: 0.5, lg: 0.5, xl: 0.5, xxl: 0.5 },
+			//	span: { xs: 0.5, sm: 0.5, md: 0.5, lg: 0.5, xl: 0.5, xxl: 0.5 },
 			children: (
 				<Flex flex={1} justify="center">
 					<ActionSelector
@@ -161,7 +161,7 @@ const OptionBasketDetail = ({
 					</Typography.Text>
 				</Flex>
 			),
-			span: { xs: 0.5, sm: 0.5, md: 0.5, lg: 0.5, xl: 0.5, xxl: 0.5 },
+			//	span: { xs: 0.5, sm: 0.5, md: 0.5, lg: 0.5, xl: 0.5, xxl: 0.5 },
 			children: (
 				<Flex flex={1} justify="center">
 					<ActionSelector
@@ -189,7 +189,7 @@ const OptionBasketDetail = ({
 					</Typography.Text>
 				</Flex>
 			),
-			span: { xs: 0.5, sm: 0.5, md: 0.5, lg: 0.5, xl: 0.5, xxl: 0.5 },
+			//	span: { xs: 0.5, sm: 0.5, md: 0.5, lg: 0.5, xl: 0.5, xxl: 0.5 },
 			children: (
 				<Flex flex={1} justify="center">
 					<QuantityInput
@@ -213,7 +213,7 @@ const OptionBasketDetail = ({
 					</Typography.Text>
 				</Flex>
 			),
-			span: { xs: 2, sm: 2, md: 2, lg: 2, xl: 2, xxl: 2 },
+			//	span: { xs: 2, sm: 2, md: 2, lg: 2, xl: 2, xxl: 2 },
 			children: (
 				<Flex flex={1} justify="center">
 					<Button
@@ -245,7 +245,7 @@ const OptionBasketDetail = ({
 					</Typography.Text>
 				</Flex>
 			),
-			span: { xs: 1, sm: 1, md: 1, lg: 1, xl: 1, xxl: 1 },
+			//	span: { xs: 1, sm: 1, md: 1, lg: 1, xl: 1, xxl: 1 },
 			children: (
 				<Flex flex={1} justify="center">
 					<StrikeSelector
@@ -276,7 +276,7 @@ const OptionBasketDetail = ({
 					</Typography.Text>
 				</Flex>
 			),
-			span: { xs: 1, sm: 1, md: 1, lg: 1, xl: 1, xxl: 1 },
+			//	span: { xs: 1, sm: 1, md: 1, lg: 1, xl: 1, xxl: 1 },
 			children: (
 				<Flex flex={1} justify="center">
 					<ExpirySelector
@@ -301,7 +301,7 @@ const OptionBasketDetail = ({
 					</Typography.Text>
 				</Flex>
 			),
-			span: { xs: 0.5, sm: 0.5, md: 0.5, lg: 0.5, xl: 0.5, xxl: 0.5 },
+			//span: { xs: 0.5, sm: 0.5, md: 0.5, lg: 0.5, xl: 0.5, xxl: 0.5 },
 			children: (
 				<Flex flex={1} justify="center">
 					<YeildButton
@@ -328,7 +328,7 @@ const OptionBasketDetail = ({
 					</Typography.Text>
 				</Flex>
 			),
-			span: { xs: 1, sm: 1, md: 2, lg: 2, xl: 2, xxl: 2 },
+			//span: { xs: 1, sm: 1, md: 2, lg: 2, xl: 2, xxl: 2 },
 			children: (
 				<Flex flex={1} justify="center">
 					<YeildButton
@@ -378,6 +378,7 @@ const OptionBasketDetail = ({
 			<Descriptions
 				style={{ backgroundColor: dark ? '#F7FBFD' : 'transparent' }}
 				items={item}
+				column={5}
 				layout="vertical"
 				bordered
 				className="w-[100%]"

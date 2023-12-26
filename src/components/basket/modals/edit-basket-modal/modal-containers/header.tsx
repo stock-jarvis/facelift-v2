@@ -24,6 +24,7 @@ const Header = ({
 	setBasketPositions,
 	handleInstrumentChange,
 }: HeaderProps) => {
+	//console.log(instrument)
 	const { token } = theme.useToken()
 	const items: DescriptionsProps['items'] = [
 		{

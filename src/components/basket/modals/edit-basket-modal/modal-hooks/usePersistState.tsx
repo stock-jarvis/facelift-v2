@@ -1,48 +1,35 @@
 import { useEffect } from 'react'
-import { PersistedValues } from '../../../types/types'
+import { PersistedValues, BasketDataValues } from '../../../types/types'
 import { tradeTypeData } from 'src/components/basket/constants/data'
 export const usePersistState = (
+	basketInitialData: BasketDataValues,
+	updatedBasketData: (val: BasketDataValues) => void,
 	positionCopy: boolean,
 	setPositionCopy: (val: boolean) => void,
-	persistedValues: PersistedValues | undefined,
-	setQuantityValue: (val: number) => void,
-	setActionValue: (val: string) => void,
-	setOptionType: (val: string) => void,
-	setOptionExpiryBaseValue: (val: string) => void,
-	setFutureExpiryBaseValue: (val: string) => void,
-	setTradeOption: (val: string) => void,
-	setSubTradeOption: (val: string) => void,
-	setTradeValue: (val: number) => void
+	persistedValues: PersistedValues | undefined
+	//setOptionType: (val: string) => void,
 ) => {
 	useEffect(() => {
 		if (positionCopy) {
-			setQuantityValue(persistedValues?.quantityValue || 1)
-			setActionValue(persistedValues?.actionValue || 'B')
-			setOptionType(persistedValues?.optionType || 'CE')
-			setOptionExpiryBaseValue(
-				persistedValues?.optionExpiryBaseValue || 'Monthly'
-			)
-			setFutureExpiryBaseValue(
-				persistedValues?.futureExpiryBaseValue || 'Monthly'
-			)
-			setTradeOption(persistedValues?.tradeOption || tradeTypeData[0].value)
-			setSubTradeOption(
-				persistedValues?.subTradeOption || tradeTypeData[0].children[0].value
-			)
-			setTradeValue(persistedValues?.tradeValue || 1)
+			updatedBasketData({
+				...basketInitialData,
+				quantity: persistedValues?.quantityValue || 1,
+				action: persistedValues?.actionValue || 'B',
+				expiry: persistedValues?.expiry || 'Monthly',
+				option: persistedValues?.optionType || 'CE',
+				tradeValue: persistedValues?.tradeValue || 1,
+				tradeOption: persistedValues?.tradeOption || tradeTypeData[0].value,
+				subTradeOption:
+					persistedValues?.subTradeOption || tradeTypeData[0].children[0].value,
+			})
+
 			setPositionCopy(false)
 		}
 	}, [
+		basketInitialData,
+		updatedBasketData,
 		positionCopy,
 		setPositionCopy,
 		persistedValues,
-		setQuantityValue,
-		setActionValue,
-		setOptionType,
-		setTradeOption,
-		setSubTradeOption,
-		setTradeValue,
-		setFutureExpiryBaseValue,
-		setOptionExpiryBaseValue,
 	])
 }

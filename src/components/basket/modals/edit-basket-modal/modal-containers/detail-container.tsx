@@ -16,7 +16,6 @@ import OptionBasketDetail from './options-basket-details'
 interface DetailsContainerProps {
 	basket: BasketDataProps[]
 	instrument: string
-	optionType: string
 	tradeOption: string
 	subTradeOption: string
 	subTradeOptionList: TradeOptions[]
@@ -28,7 +27,6 @@ import { useState } from 'react'
 const DetailsContainer: React.FC<DetailsContainerProps> = ({
 	basket,
 	instrument,
-	optionType,
 	tradeOption,
 	subTradeOption,
 	subTradeOptionList,
@@ -107,7 +105,7 @@ const DetailsContainer: React.FC<DetailsContainerProps> = ({
 						}
 						baseSpotLossValue={bask.exitCondition?.stopLoss.value || 0}
 						baseActionValue={bask.entryCondition.actionType}
-						baseOptionValue={bask.entryCondition.optionType || optionType}
+						baseOptionValue={bask.entryCondition.optionType || 'CE'}
 						baseInstrumentValue={instrument}
 						optionExpiryList={optionExpiryList}
 						baseSubTradeOption={

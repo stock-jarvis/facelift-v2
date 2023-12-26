@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { Modal, theme, Flex, Typography, Divider } from 'antd'
 import { CloseOutlined } from '@ant-design/icons'
+import { useImmer } from 'use-immer'
 import Header from './modal-containers/header'
 import Footer from './modal-containers/footer'
 
@@ -20,61 +21,12 @@ import {
 	TradeOptions,
 	BasketDataProps,
 	PersistedValues,
+	BasketDataValues,
 	TimeHours,
 	Time,
 } from '../../types/types'
 
-const initialSubTrade = tradeTypeData[0].children[0].value
 const initialSubTradeList = tradeTypeData[0].children
-const initialTrade = tradeTypeData[0].value
-
-const defaultSpotPosition: BasketDataProps = {
-	id: generateUniqueId(),
-	count: 0,
-	type: 'spot',
-	entryCondition: {
-		quantity: 1,
-		actionType: 'B',
-	},
-	exitCondition: {
-		stopLoss: { type: 'percent', value: 0 },
-		totalProfit: { type: 'percent', value: 0 },
-	},
-}
-
-const defaultFuturePosition: BasketDataProps = {
-	id: generateUniqueId(),
-	count: 0,
-	type: 'future',
-	entryCondition: {
-		quantity: 1,
-		actionType: 'B',
-		expiry: 'Monthly',
-	},
-	exitCondition: {
-		stopLoss: { type: 'percent', value: 0 },
-		totalProfit: { type: 'percent', value: 0 },
-	},
-}
-
-const defaultOptionsPosition: BasketDataProps = {
-	id: generateUniqueId(),
-	type: 'options',
-	count: 0,
-	entryCondition: {
-		quantity: 1,
-		actionType: 'B',
-		expiry: 'Monthly',
-		optionType: 'CE',
-		tradeType: tradeTypeData[0].value,
-		tradeTypeParams: tradeTypeData[0].children[0].value,
-		tradeTypeValue: 1,
-	},
-	exitCondition: {
-		stopLoss: { type: 'percent', value: 0 },
-		totalProfit: { type: 'percent', value: 0 },
-	},
-}
 
 interface EditModalProps {
 	open: boolean
@@ -91,24 +43,31 @@ const EditBasketModal = ({ open }: EditModalProps) => {
 		closeEditConfirmation,
 	} = useBasketStore()
 
+	////////////////////////////////////////
+
+	const [basketInitialData, updatedBasketData] = useImmer<BasketDataValues>({
+		quantity: 1,
+		action: 'B',
+		option: 'CE',
+		expiry: 'Monthly',
+		tradeValue: 1,
+		tradeOption: tradeTypeData[0].value,
+		subTradeOption: 'ATM',
+		instrument: '',
+	})
+	////////////////////////////////////////
 	const { token } = theme.useToken()
-	//	const [basketData, setBasketData] = useState({ quanity: 1 })
 	const [atm, setAtm] = useState<string>('spot')
 	const [basket, setBasket] = useState<BasketDataProps[]>([])
 	const [moveSl, setMoveSl] = useState<boolean>(false)
 	const [repeatSl, setRepeatSl] = useState<string>('NA')
 	const [lossValue, setLossValue] = useState<number>(0)
-	const [tradeValue, setTradeValue] = useState<number>(0)
-	const [optionType, setOptionType] = useState<string>('CE')
 	const [basketName, setBasketName] = useState<string>('')
 	const [instrument, setInstrument] = useState<string>('')
 	const [profitValue, setProfitValue] = useState<number>(0)
-	const [tradeOption, setTradeOption] = useState<string>(initialTrade)
-	const [actionValue, setActionValue] = useState<string>('B')
 	const [basketTrade, setBasketTrade] = useState<string>('')
 	const [exitHourList, setExitHourList] = useState<TimeHours[]>()
 	const [entryHourList, setEntryHourList] = useState<TimeHours[]>()
-	const [quantityValue, setQuantityValue] = useState<number>(1)
 	const [exitMinuteList, setExitMinuteList] = useState<Time[]>()
 	const [entryMinuteList, setEntryMinuteList] = useState<Time[]>()
 	const [currentExitHour, setCurrentExitHour] = useState<number>(0)
@@ -118,15 +77,10 @@ const EditBasketModal = ({ open }: EditModalProps) => {
 	const [currentEntryMinute, setCurrentEntryMinute] = useState<number>(0)
 	const [finalTradeType, setFinalTradeType] = useState<string>('SQAL')
 	const [persistedValues, setPersistedValues] = useState<PersistedValues>()
-	const [subTradeOption, setSubTradeOption] = useState<string>(initialSubTrade)
 
 	const [basketPositions, setBasketPositions] = useState<string>('INTRA')
 	const [subTradeOptionList, setSubTradeOptionList] =
 		useState<TradeOptions[]>(initialSubTradeList)
-	const [futureExpiryBaseValue, setFutureExpiryBaseValue] =
-		useState<string>('Monthly')
-	const [optionExpiryBaseValue, setOptionExpiryBaseValue] =
-		useState<string>('Monthly')
 
 	useEffect(() => {
 		if (editableBasketData) {
@@ -152,17 +106,11 @@ const EditBasketModal = ({ open }: EditModalProps) => {
 	)
 
 	usePersistState(
+		basketInitialData,
+		updatedBasketData,
 		positionCopy,
 		setPositionCopy,
-		persistedValues,
-		setQuantityValue,
-		setActionValue,
-		setOptionType,
-		setOptionExpiryBaseValue,
-		setFutureExpiryBaseValue,
-		setTradeOption,
-		setSubTradeOption,
-		setTradeValue
+		persistedValues
 	)
 
 	useMarketTimes(
@@ -200,19 +148,22 @@ const EditBasketModal = ({ open }: EditModalProps) => {
 		resetEditablebasket()
 		setBasket([])
 		setInstrument('')
-		setQuantityValue(1)
-		setActionValue('B')
-		setOptionType('CE')
+		updatedBasketData({
+			...basketInitialData,
+			quantity: 1,
+			action: 'B',
+			expiry: 'Monthly',
+			option: 'CE',
+			tradeValue: 1,
+			tradeOption: '',
+			subTradeOption: '',
+		})
 		setProfitValue(0)
 		setLossValue(0)
 		setBasketTrade('')
 		setBasketName('')
 		setBasketIdentifier(0)
-		setTradeOption(initialTrade)
-		setSubTradeOption(initialSubTrade)
 		setSubTradeOptionList(initialSubTradeList)
-		setFutureExpiryBaseValue('Monthly')
-		setOptionExpiryBaseValue('Monthly')
 		setCurrentExitHour(0)
 		setCurrentExitMinute(0)
 		setCurrentEntryHour(0)
@@ -224,14 +175,16 @@ const EditBasketModal = ({ open }: EditModalProps) => {
 	}
 
 	const setOptionValue = () => {
-		setQuantityValue(1)
-		setActionValue('B')
-		setOptionType('CE')
-		setOptionExpiryBaseValue('Monthly')
-		setFutureExpiryBaseValue('Monthly')
-		setTradeValue(1)
-		setTradeOption(tradeTypeData[0].value)
-		setSubTradeOption(tradeTypeData[0].children[0].value)
+		updatedBasketData({
+			...basketInitialData,
+			quantity: 1,
+			action: 'B',
+			expiry: 'Monthly',
+			option: 'CE',
+			tradeValue: 1,
+			tradeOption: tradeTypeData[0].value,
+			subTradeOption: tradeTypeData[0].children[0].value,
+		})
 		setSubTradeOptionList(tradeTypeData[0].children)
 	}
 
@@ -241,11 +194,11 @@ const EditBasketModal = ({ open }: EditModalProps) => {
 			...prev,
 			value === 'spot'
 				? {
-						...defaultSpotPosition,
 						id: uniqueId,
+						type: 'spot',
 						entryCondition: {
-							quantity: quantityValue,
-							actionType: actionValue,
+							quantity: basketInitialData.quantity,
+							actionType: basketInitialData.action,
 						},
 						count: basket.length + 1,
 						exitCondition: {
@@ -261,13 +214,13 @@ const EditBasketModal = ({ open }: EditModalProps) => {
 					}
 				: value === 'future'
 					? {
-							...defaultFuturePosition,
+							type: 'future',
 							id: uniqueId,
 							count: basket.length + 1,
 							entryCondition: {
-								quantity: quantityValue,
-								actionType: actionValue,
-								expiry: futureExpiryBaseValue,
+								quantity: basketInitialData.quantity,
+								actionType: basketInitialData.action,
+								expiry: basketInitialData.expiry,
 							},
 							exitCondition: {
 								stopLoss: {
@@ -281,16 +234,17 @@ const EditBasketModal = ({ open }: EditModalProps) => {
 							},
 						}
 					: {
-							...defaultOptionsPosition,
+							type: 'options',
 							id: uniqueId,
 							count: basket.length + 1,
 							entryCondition: {
-								quantity: quantityValue,
-								actionType: actionValue,
-								expiry: optionExpiryBaseValue,
-								tradeType: tradeOption,
-								tradeTypeParams: subTradeOption,
-								tradeTypeValue: tradeValue,
+								quantity: basketInitialData.quantity,
+								actionType: basketInitialData.action,
+								expiry: basketInitialData.expiry,
+								optionType: basketInitialData.option,
+								tradeType: basketInitialData.tradeOption,
+								tradeTypeParams: basketInitialData.subTradeOption,
+								tradeTypeValue: basketInitialData.tradeValue,
 							},
 							exitCondition: {
 								stopLoss: {
@@ -315,59 +269,47 @@ const EditBasketModal = ({ open }: EditModalProps) => {
 		setBasket(refinedBaskets)
 	}
 
+	useEffect(() => {
+		//	console.log(basketInitialData)
+	}, [basketInitialData])
 	const handleCopyBasket = (id: string) => {
 		setPersistedValues({
-			quantityValue,
-			actionValue,
-			tradeOption,
-			subTradeOption,
-			tradeValue,
-			optionType,
-			optionExpiryBaseValue,
-			futureExpiryBaseValue,
+			quantityValue: basketInitialData.quantity,
+			actionValue: basketInitialData.action,
+			expiry: basketInitialData.expiry || 'Monthly',
+			optionType: basketInitialData.option || 'CE',
+			tradeValue: basketInitialData.tradeValue || 1,
+			tradeOption: basketInitialData.tradeOption || tradeTypeData[0].value,
+			subTradeOption:
+				basketInitialData.subTradeOption || tradeTypeData[0].children[0].value,
 		})
 		const basketToBeCopied = basket.find((basket) => basket.id === id)
 		setPositionCopy(true)
 		if (basketToBeCopied) {
 			if (basketToBeCopied.type === 'spot') {
-				setActionValue(basketToBeCopied.entryCondition.actionType)
-				setQuantityValue(basketToBeCopied.entryCondition.quantity)
+				updatedBasketData({
+					...basketInitialData,
+					action: basketToBeCopied.entryCondition.actionType,
+					quantity: basketToBeCopied.entryCondition.quantity,
+				})
 			} else if (basketToBeCopied.type === 'future') {
-				setActionValue(basketToBeCopied.entryCondition.actionType)
-				setQuantityValue(basketToBeCopied.entryCondition.quantity)
-				setFutureExpiryBaseValue(
-					basketToBeCopied.entryCondition.expiry
-						? basketToBeCopied.entryCondition.expiry
-						: 'Monthly'
-				)
+				updatedBasketData({
+					...basketInitialData,
+					action: basketToBeCopied.entryCondition.actionType,
+					quantity: basketToBeCopied.entryCondition.quantity,
+					expiry: basketToBeCopied.entryCondition.expiry || 'Monthly',
+				})
 			} else if (basketToBeCopied.type === 'options') {
-				setActionValue(basketToBeCopied.entryCondition.actionType)
-				setOptionType(
-					basketToBeCopied.entryCondition.optionType
-						? basketToBeCopied.entryCondition.optionType
-						: 'CE'
-				)
-				setTradeOption(
-					basketToBeCopied.entryCondition.tradeType
-						? basketToBeCopied.entryCondition.tradeType
-						: tradeTypeData[0].value
-				)
-				setSubTradeOption(
-					basketToBeCopied.entryCondition.tradeTypeParams
-						? basketToBeCopied.entryCondition.tradeTypeParams
-						: tradeTypeData[0].children[0].value
-				)
-				setTradeValue(
-					basketToBeCopied.entryCondition.tradeTypeValue
-						? basketToBeCopied.entryCondition.tradeTypeValue
-						: 1
-				)
-				setQuantityValue(basketToBeCopied.entryCondition.quantity)
-				setOptionExpiryBaseValue(
-					basketToBeCopied.entryCondition.expiry
-						? basketToBeCopied.entryCondition.expiry
-						: 'Monthly'
-				)
+				updatedBasketData({
+					...basketInitialData,
+					action: basketToBeCopied.entryCondition.actionType,
+					quantity: basketToBeCopied.entryCondition.quantity,
+					expiry: basketToBeCopied.entryCondition.expiry,
+					option: basketToBeCopied.entryCondition.optionType,
+					tradeValue: basketToBeCopied.entryCondition.tradeTypeValue,
+					tradeOption: basketToBeCopied.entryCondition.tradeType || 'Atmpt',
+					subTradeOption: basketToBeCopied.entryCondition.tradeTypeParams,
+				})
 			}
 
 			setBasket((prev) => [
@@ -417,6 +359,7 @@ const EditBasketModal = ({ open }: EditModalProps) => {
 			}
 			styles={{
 				content: {
+					backgroundColor: token.colorBgBase,
 					margin: -30,
 					padding: 0,
 				},
@@ -462,37 +405,25 @@ const EditBasketModal = ({ open }: EditModalProps) => {
 					setAtm={setAtm}
 				/>
 				<Selectors
-					//	basketData={basketData}
-					//		setBasketData={setBasketData}
-					quantityValue={quantityValue}
-					actionValue={actionValue}
+					basketInitialData={basketInitialData}
+					updatedBasketData={updatedBasketData}
 					instrument={instrument}
-					futureExpiryBaseValue={futureExpiryBaseValue}
-					optionExpiryBaseValue={optionExpiryBaseValue}
-					subTradeOption={subTradeOption}
-					optionType={optionType}
-					tradeValue={tradeValue}
-					tradeOption={tradeOption}
 					subTradeOptionList={subTradeOptionList}
-					setTradeOption={setTradeOption}
-					setOptionType={setOptionType}
-					setTradeValue={setTradeValue}
-					setActionValue={setActionValue}
 					handleAddBasket={handleAddBasket}
-					setQuantityValue={setQuantityValue}
-					setSubTradeOption={setSubTradeOption}
 					setSubTradeOptionList={setSubTradeOptionList}
-					setFutureExpiryBaseValue={setFutureExpiryBaseValue}
-					setOptionExpiryBaseValue={setOptionExpiryBaseValue}
 					setOptionValue={setOptionValue}
 				/>
 				{basket.length > 0 && (
 					<DetailsContainer
 						basket={basket}
 						instrument={instrument}
-						optionType={optionType}
-						tradeOption={tradeOption}
-						subTradeOption={subTradeOption}
+						tradeOption={
+							basketInitialData.tradeOption || tradeTypeData[0].value
+						}
+						subTradeOption={
+							basketInitialData.subTradeOption ||
+							tradeTypeData[0].children[0].value
+						}
 						subTradeOptionList={subTradeOptionList}
 						setBasket={setBasket}
 						handleCopyBasket={handleCopyBasket}

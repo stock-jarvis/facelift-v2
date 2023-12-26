@@ -168,7 +168,37 @@ const FututeBasketDetails = ({
 				</Flex>
 			),
 		},
-
+		{
+			key: 'operations',
+			label: (
+				<Flex flex="1" justify="center">
+					<Typography.Text
+						style={{
+							fontSize: token.fontSizeSM,
+							fontWeight: token.fontWeightStrong,
+						}}
+					>
+						Operations
+					</Typography.Text>
+				</Flex>
+			),
+			children: (
+				<Flex flex={1} justify="center">
+					<Button
+						shape="circle"
+						icon={<CopyOutlined />}
+						type="text"
+						onClick={() => handleCopyBasket(id)}
+					/>
+					<Button
+						shape="circle"
+						icon={<DeleteOutlined />}
+						type="text"
+						onClick={() => handleDeleteBasket(id)}
+					/>
+				</Flex>
+			),
+		},
 		{
 			key: 'quantity',
 			label: (
@@ -245,38 +275,6 @@ const FututeBasketDetails = ({
 				</Flex>
 			),
 		},
-
-		{
-			key: 'operations',
-			label: (
-				<Flex flex="1" justify="center">
-					<Typography.Text
-						style={{
-							fontSize: token.fontSizeSM,
-							fontWeight: token.fontWeightStrong,
-						}}
-					>
-						Operations
-					</Typography.Text>
-				</Flex>
-			),
-			children: (
-				<Flex flex={1} justify="center">
-					<Button
-						shape="circle"
-						icon={<CopyOutlined />}
-						type="text"
-						onClick={() => handleCopyBasket(id)}
-					/>
-					<Button
-						shape="circle"
-						icon={<DeleteOutlined />}
-						type="text"
-						onClick={() => handleDeleteBasket(id)}
-					/>
-				</Flex>
-			),
-		},
 	]
 	return (
 		<Flex vertical>
@@ -290,7 +288,7 @@ const FututeBasketDetails = ({
 				items={item}
 				layout="vertical"
 				bordered
-				column={8}
+				column={4}
 				className="w-[100%]"
 			/>
 		</Flex>

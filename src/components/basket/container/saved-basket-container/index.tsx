@@ -45,6 +45,7 @@ const Index = () => {
 				type="card"
 				onChange={handleTabChange}
 				className="w-full"
+				tabBarStyle={{ width: '200px' }}
 				style={{ height: '100%' }}
 				tabBarGutter={5}
 			/>

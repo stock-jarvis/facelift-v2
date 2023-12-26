@@ -8,6 +8,7 @@ import Instrument from '../modal-components/instrument'
 import QuantityInput from '../modal-components/quantity-input'
 import ExpirySelector from '../modal-components/expiry-selector'
 import ActionSelector from '../modal-components/action-selector'
+import { useEffect } from 'react'
 interface BasketProps {
 	handleAddBasket: (val: string) => void
 	handleBaseTradeChange: (val: string) => void
@@ -52,6 +53,9 @@ const OptionsBasketSelector = ({
 	baseSubTradeOptionList,
 }: BasketProps) => {
 	const { token } = theme.useToken()
+	useEffect(() => {
+		console.log(baseTradeOption)
+	}, [baseTradeOption])
 	const items: DescriptionsProps['items'] = [
 		{
 			key: 'instrument',
