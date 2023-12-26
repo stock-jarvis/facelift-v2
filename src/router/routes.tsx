@@ -1,3 +1,5 @@
+// TODO: Fix up this file after merging
+
 import { Spin } from 'antd'
 import { Suspense, lazy } from 'react'
 import { RouteObject } from 'react-router-dom'
@@ -16,7 +18,7 @@ const RefundPolicy = lazy(
 const Simulator = lazy(() => import('src/components/simulator'))
 const Basket = lazy(() => import('src/components/basket'))
 
-const FullscreenSpinner = () => <Spin tip="Loading..." fullscreen />
+const FullscreenSpinner = () => <Spin fullscreen />
 
 const routes: RouteObject[] = [
 	{

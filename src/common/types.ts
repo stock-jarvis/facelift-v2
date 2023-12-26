@@ -38,3 +38,14 @@ export type TriggerPoint = {
 	value: number
 	metric: TriggerPointMetric
 }
+
+export type TimeByUnit = {
+	hour: number
+	minute: number
+	second: number
+}
+
+export type TimeBoundary = {
+	start: TimeByUnit
+	end: TimeByUnit
+}
