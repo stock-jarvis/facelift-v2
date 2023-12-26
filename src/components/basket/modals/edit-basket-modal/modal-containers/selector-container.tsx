@@ -75,7 +75,7 @@ const Selectors: React.FC<SelectProps> = ({
 				<Typography.Text
 					style={{ fontSize: token.fontSizeLG, color: token.colorPrimary }}
 				>
-					Positions
+					Legs
 				</Typography.Text>
 			</Divider>
 			<Tabs
