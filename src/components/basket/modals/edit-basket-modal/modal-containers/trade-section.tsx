@@ -64,9 +64,6 @@ const TradeSecion: React.FC<TradeProps> = ({
 
 	const handleTypeChange = (val: string) => {
 		setTradeValue(val)
-		setRepeatCondition(false)
-		setRepeatTrade(false)
-
 		setBasketData({
 			...basketData,
 			exitCondition: {

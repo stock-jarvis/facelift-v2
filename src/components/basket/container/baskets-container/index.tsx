@@ -19,7 +19,7 @@ import {
 import BasketNav from '../basket-nav'
 import { useBasketStore } from '../../store/basket-store'
 import { generateUniqueId } from '../../common/utils/randomizer'
-import { RunTimeBasketData } from '../../types/types'
+import { SavedBasketsObject } from '../../types/types'
 import { useState, useEffect } from 'react'
 
 const Index = () => {
@@ -44,11 +44,7 @@ const Index = () => {
 	} = useBasketStore()
 
 	const onHandleBasketEdit = (id: string) => {
-		const basket = runtimeBasketList.find((basket) => basket.id === id)
-		if (basket) {
-			setEditableBasket(id)
-		}
-		//
+		setEditableBasket(id)
 		toogleEditModal(true)
 	}
 
@@ -116,10 +112,10 @@ const Index = () => {
 				</Flex>
 			),
 			dataIndex: '',
-			render: (record: RunTimeBasketData) => (
+			render: (record: SavedBasketsObject) => (
 				<Flex flex={1} key={record.id}>
 					<Checkbox
-						checked={record.selected}
+						//checked={record.selected}
 						onChange={() => {
 							handleIndividualSelectChange(record.id)
 						}}
@@ -133,12 +129,14 @@ const Index = () => {
 					Name
 				</Flex>
 			),
-			render: (record: RunTimeBasketData) => (
+			render: (record: SavedBasketsObject) => (
 				<Flex flex="1" justify="flex-start" key={record.id + record.name}>
 					<Typography.Text
-						style={{
-							color: record.error ? token.colorError : '#000',
-						}}
+						style={
+							{
+								//color: record.error ? token.colorError : '#000',
+							}
+						}
 					>
 						{record.name}
 						{record.identifier > 0 ? ` - ${record.identifier}` : ''}
@@ -153,12 +151,14 @@ const Index = () => {
 					Exchange
 				</Flex>
 			),
-			render: (record: RunTimeBasketData) => (
+			render: (record: SavedBasketsObject) => (
 				<Flex flex="1" justify="flex-end" key={record.id + record.exchange}>
 					<Typography.Text
-						style={{
-							color: record.error ? token.colorError : token.colorPrimary,
-						}}
+						style={
+							{
+								//color: record.error ? token.colorError : token.colorPrimary,
+							}
+						}
 					>
 						{record.exchange}
 					</Typography.Text>
@@ -173,14 +173,16 @@ const Index = () => {
 					Istrument
 				</Flex>
 			),
-			render: (record: RunTimeBasketData) => (
-				<Flex flex="1" justify="flex-end" key={record.id + record.instrument}>
+			render: (record: SavedBasketsObject) => (
+				<Flex flex="1" justify="flex-end" key={record.id + record.ticker}>
 					<Typography.Text
-						style={{
-							color: record.error ? token.colorError : '#000',
-						}}
+						style={
+							{
+								//color: record.error ? token.colorError : '#000',
+							}
+						}
 					>
-						{record.instrument}
+						{record.ticker}
 					</Typography.Text>
 				</Flex>
 			),
@@ -193,7 +195,7 @@ const Index = () => {
 				</Flex>
 			),
 			dataIndex: '',
-			render: (record: RunTimeBasketData) => (
+			render: (record: SavedBasketsObject) => (
 				<Flex
 					gap={'small'}
 					flex={1}
@@ -206,9 +208,11 @@ const Index = () => {
 							type="text"
 							icon={<FormOutlined />}
 							onClick={() => onHandleBasketEdit(record.id)}
-							style={{
-								color: record.error ? token.colorError : '',
-							}}
+							style={
+								{
+									//color: record.error ? token.colorError : '',
+								}
+							}
 						/>
 					</Tooltip>
 					<Tooltip title="Duplicate">
@@ -216,10 +220,14 @@ const Index = () => {
 							shape="circle"
 							type="text"
 							icon={<CopyOutlined />}
-							onClick={() => onHandleBasketDuplicate(record.id, record.name)}
-							style={{
-								color: record.error ? token.colorError : '',
-							}}
+							onClick={() =>
+								onHandleBasketDuplicate(record.id, record.name || '')
+							}
+							style={
+								{
+									//color: record.error ? token.colorError : '',
+								}
+							}
 						/>
 					</Tooltip>
 					<Tooltip title="Save">
@@ -228,9 +236,11 @@ const Index = () => {
 							type="text"
 							icon={<SnippetsOutlined />}
 							onClick={() => onHandleBaskeSave(record.id)}
-							style={{
-								color: record.error ? token.colorError : '',
-							}}
+							style={
+								{
+									//color: record.error ? token.colorError : '',
+								}
+							}
 						/>
 					</Tooltip>
 					<Tooltip title="Delete">
@@ -239,9 +249,11 @@ const Index = () => {
 							type="text"
 							icon={<DeleteOutlined />}
 							onClick={() => onHandleBaskeDelete(record.id)}
-							style={{
-								color: record.error ? token.colorError : '',
-							}}
+							style={
+								{
+									//color: record.error ? token.colorError : '',
+								}
+							}
 						/>
 					</Tooltip>
 				</Flex>

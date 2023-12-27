@@ -7,27 +7,28 @@ import {
 	DescriptionsProps,
 } from 'antd'
 import Toggle from '../modal-components/toggle'
+import { SavedBasketsObject } from 'src/components/basket/types/types'
 
 interface HeaderProps {
-	trade: string | undefined
-	instrument: string | undefined
-	atm: string
-	setAtm: (val: string) => void
-	setBasketPositions: (val: string) => void
-	handleTradeChange: (val: string) => void
-	handleInstrumentChange: (val: string) => void
+	basketData: SavedBasketsObject
+	setBasketData: (val: SavedBasketsObject) => void
 }
-const Header = ({
-	atm,
-	trade,
-	handleTradeChange,
-	instrument,
-	setAtm,
-	setBasketPositions,
-	handleInstrumentChange,
-}: HeaderProps) => {
-	//	console.log(atm)
+const Header = ({ basketData, setBasketData }: HeaderProps) => {
 	const { token } = theme.useToken()
+
+	const handleBasketExchangeChange = (val: string) => {
+		setBasketData({ ...basketData, exchange: val })
+	}
+
+	const handleBasketTickerChange = (val: string) => {
+		setBasketData({ ...basketData, ticker: val })
+	}
+	const handleBasketTypeChange = (val: string) => {
+		setBasketData({ ...basketData, type: val })
+	}
+	const handleBasketAtmChange = (val: string) => {
+		setBasketData({ ...basketData, atm: val })
+	}
 	const items: DescriptionsProps['items'] = [
 		{
 			label: (
@@ -43,9 +44,9 @@ const Header = ({
 			children: (
 				<Flex flex={1} justify="center">
 					<Select
-						value={trade}
+						value={basketData.exchange}
 						size="large"
-						onChange={handleTradeChange}
+						onChange={handleBasketExchangeChange}
 						options={[
 							{ id: 1, label: 'NSE', value: 'NSE' },
 							{ id: 2, label: 'MCX', value: 'MCX' },
@@ -69,8 +70,8 @@ const Header = ({
 				<Flex flex={1} justify="center">
 					<Select
 						size="large"
-						value={instrument}
-						onChange={handleInstrumentChange}
+						value={basketData.ticker}
+						onChange={handleBasketTickerChange}
 						options={[
 							{ id: 1, value: 'Ticker-1', label: 'Ticker-1' },
 							{ id: 2, value: 'Ticker-2', label: 'Ticker-2' },
@@ -98,8 +99,8 @@ const Header = ({
 						label2="POSITIONAL"
 						toogle1="INTRA"
 						toogle2="POS"
-						setToogleValue={setBasketPositions}
-						value="POS"
+						setToogleValue={handleBasketTypeChange}
+						value={basketData.type}
 					/>
 				</Flex>
 			),
@@ -121,8 +122,8 @@ const Header = ({
 						label2="Future as ATM"
 						toogle1="spot"
 						toogle2="future"
-						setToogleValue={setAtm}
-						value={atm}
+						setToogleValue={handleBasketAtmChange}
+						value={basketData.atm}
 					/>
 				</Flex>
 			),

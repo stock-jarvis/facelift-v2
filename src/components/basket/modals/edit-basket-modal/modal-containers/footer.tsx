@@ -11,155 +11,76 @@ import { SnippetsOutlined } from '@ant-design/icons'
 import { useEffect, useState } from 'react'
 import { generateUniqueId } from 'src/components/basket/common/utils/randomizer'
 interface FooterPorps {
-	id: string
-	atm: string
-	instrument: string
+	basketData: SavedBasketsObject
 	basket: BasketDataProps[]
-	currentEntryHour: number
-	currentEntryMinute: number
-	currentExitHour: number
-	currentExitMinute: number
-	profitValue: number
-	lossValue: number
-	simpleType: string
-	basketTrade: string
-	exchange: string
-	basketRepeat: string
-	basketMove: boolean
-	basketName: string | undefined
-	identifier: number | undefined
 }
 
-const Footer = ({
-	id,
-	atm,
-	basket,
-	exchange,
-	basketMove,
-	simpleType,
-	basketName,
-	profitValue,
-	lossValue,
-	identifier,
-	instrument,
-	basketTrade,
-	basketRepeat,
-	currentEntryHour,
-	currentEntryMinute,
-	currentExitHour,
-	currentExitMinute,
-}: FooterPorps) => {
+const Footer = ({ basket, basketData }: FooterPorps) => {
 	const { token } = theme.useToken()
 	const {
 		timeError,
 		toggleTimeErrorModalOpen,
 		setEmptyBasketError,
+		resetEditablebasket,
 		updateRuntimeBasketData,
 		toogleEditModal,
 	} = useBasketStore()
-	const [entryTimes, setEntryTimes] = useState<string>('')
-	const [exitTimes, setExitTimes] = useState<string>('')
-	const [basketEntryConditions, setBasketEntryConditions] =
-		useState<SavedBasketsEntryCondition>()
+
+	const [basketEntryConditions] = useState<SavedBasketsEntryCondition>()
 	const [basketExitConditions, setBasketExitConditions] =
 		useState<SavedBasketsExitCondition>()
 	const [savedBasket, setSavedBasket] = useState<SavedBasketsObject>()
-	useEffect(() => {
-		let entryHour: string
-		let entryMinute: string
-		if (currentEntryHour < 10) {
-			entryHour = '0' + currentEntryHour.toString()
-		} else {
-			entryHour = currentEntryHour.toString()
-		}
-		if (currentEntryMinute < 10) {
-			entryMinute = '0' + currentEntryMinute.toString()
-		} else {
-			entryMinute = currentEntryMinute.toString()
-		}
-		setEntryTimes(entryHour + ':' + entryMinute + ':00')
-	}, [currentEntryHour, currentEntryMinute])
-	useEffect(() => {
-		let exitHour: string
-		let exitMinute: string
-		if (currentExitHour < 10) {
-			exitHour = '0' + currentExitHour.toString()
-		} else {
-			exitHour = currentExitHour.toString()
-		}
-		if (currentExitMinute < 10) {
-			exitMinute = '0' + currentExitMinute.toString()
-		} else {
-			exitMinute = currentExitMinute.toString()
-		}
-		setExitTimes(exitHour + ':' + exitMinute + ':00')
-	}, [currentExitHour, currentExitMinute])
-
-	useEffect(() => {
-		if (
-			!basketEntryConditions ||
-			basketEntryConditions.entryTime !== entryTimes ||
-			basketEntryConditions.exitTime !== exitTimes
-		) {
-			setBasketEntryConditions({ entryTime: entryTimes, exitTime: exitTimes })
-		}
-	}, [basketEntryConditions, entryTimes, exitTimes])
 
 	useEffect(() => {
 		if (
 			!basketExitConditions ||
-			basketExitConditions.type !== basketTrade ||
-			basketExitConditions.totalProfit !== profitValue ||
-			basketExitConditions.totalLoss !== lossValue ||
-			(basketTrade === 'SQOL' && basketExitConditions.move !== basketMove) ||
-			(basketTrade === 'SQAL' && basketExitConditions.repeat !== basketRepeat)
+			basketExitConditions.type !== basketData.exitCondition.type ||
+			basketExitConditions.totalProfit !==
+				basketData.exitCondition.totalProfit ||
+			basketExitConditions.totalLoss !== basketData.exitCondition.totalLoss ||
+			(basketData.exitCondition.type === 'SQOL' &&
+				basketExitConditions.move !== basketData.exitCondition.move) ||
+			(basketData.exitCondition.type === 'SQAL' &&
+				basketExitConditions.repeat !== basketData.exitCondition.repeat)
 		) {
 			const obj: SavedBasketsExitCondition = {
-				type: basketTrade,
-				totalLoss: lossValue,
-				totalProfit: profitValue,
+				type: basketData.exitCondition.type,
+				totalLoss: basketData.exitCondition.totalLoss,
+				totalProfit: basketData.exitCondition.totalProfit,
 			}
 			if (obj.type === 'SQOL') {
-				obj.move = basketMove
+				obj.move = basketData.exitCondition.move
 			} else if (obj.type === 'SQAL') {
-				obj.repeat = basketRepeat
+				obj.repeat = basketData.exitCondition.repeat
 			}
 			setBasketExitConditions(obj)
 		}
-	}, [
-		basketTrade,
-		lossValue,
-		profitValue,
-		basketMove,
-		basketRepeat,
-		basketExitConditions,
-	])
-	useEffect(() => {
-		//	console.log(savedBasket)
-	}, [savedBasket])
+	}, [basketData, basketExitConditions])
+	useEffect(() => {}, [savedBasket])
 	useEffect(() => {
 		if (
 			!savedBasket ||
-			savedBasket.ticker !== instrument ||
-			savedBasket.id !== id ||
-			savedBasket.exchange !== exchange ||
-			savedBasket.atm !== atm ||
+			savedBasket.ticker !== basketData.ticker ||
+			savedBasket.id !== basketData.id ||
+			savedBasket.exchange !== basketData.exchange ||
+			savedBasket.atm !== basketData.atm ||
 			savedBasket.entryCondition !== basketEntryConditions ||
-			savedBasket.name !== basketName ||
-			savedBasket.identifier !== identifier ||
-			savedBasket.exitCondition !== basketExitConditions ||
-			savedBasket.positions !== basket
+			savedBasket.name !== basketData.name ||
+			savedBasket.identifier !== basketData.identifier ||
+			savedBasket.exitCondition !== basketData.exitCondition ||
+			savedBasket.positions !== basket ||
+			savedBasket.type !== basketData.type
 		) {
 			if (basketExitConditions) {
 				setSavedBasket({
 					key: generateUniqueId(),
-					ticker: instrument,
-					id: id,
-					name: basketName || '',
-					identifier: identifier || 0,
-					exchange: exchange,
-					type: simpleType,
-					atm: atm,
+					ticker: basketData.ticker,
+					id: basketData.id,
+					name: basketData.name,
+					identifier: basketData.identifier,
+					exchange: basketData.exchange,
+					type: basketData.type,
+					atm: basketData.atm,
 					entryCondition: basketEntryConditions,
 					exitCondition: basketExitConditions,
 					positions: basket,
@@ -167,17 +88,11 @@ const Footer = ({
 			}
 		}
 	}, [
-		identifier,
-		basketName,
 		basketEntryConditions,
-		atm,
-		exchange,
-		simpleType,
+		basketData,
 		basket,
 		basketExitConditions,
 		savedBasket,
-		instrument,
-		id,
 	])
 
 	const handleSaveBasketClick = () => {
@@ -186,8 +101,8 @@ const Footer = ({
 				toggleTimeErrorModalOpen(true)
 			} else {
 				if (savedBasket) {
-					//		addToSavedBasket(savedBasket)
 					updateRuntimeBasketData(savedBasket)
+					resetEditablebasket()
 					toogleEditModal(false)
 				}
 			}

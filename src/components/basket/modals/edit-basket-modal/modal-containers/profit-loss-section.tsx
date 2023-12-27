@@ -1,23 +1,31 @@
 import { Flex } from 'antd'
 import CappedButton from '../modal-components/capped-button'
-
+import { SavedBasketsObject } from 'src/components/basket/types/types'
 interface ProfitLossProps {
-	setProfitValue: (value: number) => void
-	setLossValue: (value: number) => void
+	basketData: SavedBasketsObject
+	setBasketData: (val: SavedBasketsObject) => void
 	profitLabel: string
 	lossLabel: string
-	profitValue: number
-	lossValue: number
 }
 
 const ProfitLoss = ({
-	setProfitValue,
-	setLossValue,
+	basketData,
 	profitLabel,
 	lossLabel,
-	profitValue,
-	lossValue,
+	setBasketData,
 }: ProfitLossProps) => {
+	const handleChangeProfit = (val: number) => {
+		setBasketData({
+			...basketData,
+			exitCondition: { ...basketData.exitCondition, totalProfit: val },
+		})
+	}
+	const handleChangeLoss = (val: number) => {
+		setBasketData({
+			...basketData,
+			exitCondition: { ...basketData.exitCondition, totalLoss: val },
+		})
+	}
 	return (
 		<Flex
 			flex="1"
@@ -28,13 +36,13 @@ const ProfitLoss = ({
 		>
 			<CappedButton
 				label={profitLabel}
-				value={profitValue}
-				setValue={setProfitValue}
+				value={basketData.exitCondition.totalProfit}
+				setValue={handleChangeProfit}
 			/>
 			<CappedButton
 				label={lossLabel}
-				value={lossValue}
-				setValue={setLossValue}
+				value={basketData.exitCondition.totalLoss}
+				setValue={handleChangeLoss}
 			/>
 		</Flex>
 	)

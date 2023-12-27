@@ -1,5 +1,5 @@
 import { Divider, Flex, theme, Typography } from 'antd'
-//import ProfitLoss from './profit-loss-section'
+import ProfitLoss from './profit-loss-section'
 //import EntryExit from './entry-exit-container'
 import TradeSection from './trade-section'
 import {
@@ -34,14 +34,12 @@ const ExitCondition: React.FC<ExitConditionProps> = ({
 							Profit-Loss
 						</Typography.Text>
 					</Divider>
-					{/* <ProfitLoss
-						profitValue={profitValue}
-						lossValue={lossValue}
-						setLossValue={handleLossValueChange}
-						setProfitValue={handleProfitValueChange}
+					<ProfitLoss
+						basketData={basketData}
+						setBasketData={setBasketData}
 						profitLabel="Total Profit"
 						lossLabel="Total Loss"
-					/> */}
+					/>
 				</Flex>
 			</Flex>
 			{/* <Flex flex={1}>

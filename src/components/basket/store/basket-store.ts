@@ -196,13 +196,10 @@ export const useBasketStore = create<BasketState & BasketStateActions>()(
 			setExchange: (exchange) => set({ exchange }),
 			updateRuntimeBasketData: (basket: SavedBasketsObject) =>
 				set((state) => {
-					state.runtimeBasketList = state.runtimeBasketList.map((b) => {
-						if (b.id === basket.id) {
-							return basket
-						} else {
-							return b
-						}
-					})
+					const index = state.runtimeBasketList.findIndex(
+						(b) => b.id === basket.id
+					)
+					state.runtimeBasketList[index] = basket
 				}),
 			// updateSelection: (id: string) =>
 			// 	set((state) => {
@@ -269,7 +266,6 @@ export const useBasketStore = create<BasketState & BasketStateActions>()(
 			addNewRuntimeBasket: (newBasket: SavedBasketsObject) =>
 				set((state) => {
 					void state.runtimeBasketList.push(newBasket)
-					state.duplicateError = false
 				}),
 
 			deleteStoredBasket: (id: string) =>

@@ -4,7 +4,6 @@ import { CloseOutlined } from '@ant-design/icons'
 import { useImmer } from 'use-immer'
 import Header from './modal-containers/header'
 import Footer from './modal-containers/footer'
-//import { useBasketValues } from './modal-hooks/useBasketValues'
 import ExitCondition from './modal-containers/exit-condition'
 import DetailsContainer from './modal-containers/detail-container'
 import { generateUniqueId } from '../../common/utils/randomizer'
@@ -23,50 +22,58 @@ import {
 
 const initialSubTradeList = tradeTypeData[0].children
 
+const defaultInitialValues: BasketDataValues = {
+	quantity: 1,
+	action: 'B',
+	option: 'CE',
+	expiry: 'Monthly',
+	tradeValue: 1,
+	tradeOption: tradeTypeData[0].value,
+	subTradeOption: 'ATM',
+	instrument: '',
+}
+
+const defaultOuterData: SavedBasketsObject = {
+	name: '',
+	exchange: '',
+	ticker: '',
+	id: '',
+	key: '',
+	type: '',
+	identifier: 0,
+	atm: '',
+	exitCondition: {
+		totalLoss: 0,
+		totalProfit: 0,
+		move: false,
+		repeat: '',
+		type: '',
+	},
+}
 interface EditModalProps {
 	open: boolean
 }
 
 const EditBasketModal = ({ open }: EditModalProps) => {
+	const { token } = theme.useToken()
 	const {
 		editableBasketData,
-		//savedBaskets,
 		positionCopy,
 		setPositionCopy,
 		resetEditablebasket,
 		closeEditConfirmation,
 	} = useBasketStore()
 
-	////////////////////////////////////////
-
-	const [basketInitialData, updatedBasketData] = useImmer<BasketDataValues>({
-		quantity: 1,
-		action: 'B',
-		option: 'CE',
-		expiry: 'Monthly',
-		tradeValue: 1,
-		tradeOption: tradeTypeData[0].value,
-		subTradeOption: 'ATM',
-		instrument: '',
-	})
+	const [basketInitialData, updatedBasketData] =
+		useImmer<BasketDataValues>(defaultInitialValues)
 	const [basketData, setBasketData] =
 		useImmer<SavedBasketsObject>(editableBasketData)
-	//const [exitData, setExitData] = useImmer(editableBasketData.exitCondition)
-
-	const { token } = theme.useToken()
-
 	const [basket, setBasket] = useState<BasketDataProps[]>(
 		editableBasketData.positions || []
 	)
-	const [repeatSl, setRepeatSl] = useState<string>('NA')
-	const [lossValue, setLossValue] = useState<number>(0)
-	const [basketName, setBasketName] = useState<string>('')
-	const [profitValue, setProfitValue] = useState<number>(0)
-	const [basketIdentifier, setBasketIdentifier] = useState<number>(0)
-	//const [finalTradeType, setFinalTradeType] = useState<string>('SQAL')
+
 	const [persistedValues, setPersistedValues] = useState<PersistedValues>()
 
-	const [basketPositions, setBasketPositions] = useState<string>('INTRA')
 	const [subTradeOptionList, setSubTradeOptionList] =
 		useState<TradeOptions[]>(initialSubTradeList)
 
@@ -80,36 +87,14 @@ const EditBasketModal = ({ open }: EditModalProps) => {
 
 	const handleAfterClose = () => {
 		resetEditablebasket()
+		setBasketData(defaultOuterData)
 		setBasket([])
-		setBasketData({ ...basketData, ticker: '', exchange: '', atm: '' })
-		updatedBasketData({
-			...basketInitialData,
-			quantity: 1,
-			action: 'B',
-			expiry: 'Monthly',
-			option: 'CE',
-			tradeValue: 1,
-			tradeOption: '',
-			subTradeOption: '',
-		})
-		setProfitValue(0)
-		setLossValue(0)
-		setBasketName('')
-		setBasketIdentifier(0)
+		updatedBasketData(defaultInitialValues)
 		setSubTradeOptionList(initialSubTradeList)
 	}
 
 	const setOptionValue = () => {
-		updatedBasketData({
-			...basketInitialData,
-			quantity: 1,
-			action: 'B',
-			expiry: 'Monthly',
-			option: 'CE',
-			tradeValue: 1,
-			tradeOption: tradeTypeData[0].value,
-			subTradeOption: tradeTypeData[0].children[0].value,
-		})
+		updatedBasketData(defaultInitialValues)
 		setSubTradeOptionList(tradeTypeData[0].children)
 	}
 
@@ -258,27 +243,7 @@ const EditBasketModal = ({ open }: EditModalProps) => {
 					<Typography.Text>Edit Baskets</Typography.Text>
 				</Flex>
 			}
-			footer={
-				<Footer
-					profitValue={profitValue}
-					lossValue={lossValue}
-					currentEntryHour={0}
-					currentEntryMinute={0}
-					currentExitHour={0}
-					currentExitMinute={0}
-					id={'1'}
-					exchange={basketData.exchange}
-					instrument={basketData.ticker}
-					basket={basket}
-					basketMove={basketData.exitCondition.move || false}
-					basketRepeat={basketData.exitCondition.repeat || 'NA'}
-					basketTrade={basketData.exitCondition?.type || 'SQOL'}
-					identifier={basketIdentifier}
-					basketName={basketName}
-					atm={basketData.atm}
-					simpleType={basketPositions}
-				/>
-			}
+			footer={<Footer basketData={basketData} basket={basket} />}
 			styles={{
 				content: {
 					backgroundColor: token.colorBgBase,
@@ -310,24 +275,11 @@ const EditBasketModal = ({ open }: EditModalProps) => {
 							fontWeight: token.fontWeightStrong,
 						}}
 					>
-						{basketName} {basketIdentifier > 0 ? ` - ${basketIdentifier}` : ''}
+						{basketData.name}{' '}
+						{basketData.identifier > 0 ? ` - ${basketData.identifier}` : ''}
 					</Typography.Text>
 				</Divider>
-				<Header
-					trade={basketData.exchange}
-					handleTradeChange={(val) =>
-						setBasketData({ ...basketData, exchange: val })
-					}
-					instrument={basketData.ticker}
-					handleInstrumentChange={(val) =>
-						setBasketData({ ...basketData, ticker: val })
-					}
-					setBasketPositions={setBasketPositions}
-					atm={basketData.atm}
-					setAtm={(val) => {
-						setBasketData({ ...basketData, atm: val })
-					}}
-				/>
+				<Header basketData={basketData} setBasketData={setBasketData} />
 				<Selectors
 					basketInitialData={basketInitialData}
 					updatedBasketData={updatedBasketData}
@@ -340,6 +292,7 @@ const EditBasketModal = ({ open }: EditModalProps) => {
 				{basket.length > 0 && (
 					<DetailsContainer
 						basket={basket}
+						setBasket={setBasket}
 						instrument={basketData.ticker}
 						tradeOption={
 							basketInitialData.tradeOption || tradeTypeData[0].value
@@ -349,7 +302,6 @@ const EditBasketModal = ({ open }: EditModalProps) => {
 							tradeTypeData[0].children[0].value
 						}
 						subTradeOptionList={subTradeOptionList}
-						setBasket={setBasket}
 						handleCopyBasket={handleCopyBasket}
 						handleDeleteBasket={handleDeleteBasket}
 					/>
@@ -371,63 +323,6 @@ const EditBasketModal = ({ open }: EditModalProps) => {
 						<ExitCondition
 							basketData={basketData}
 							setBasketData={setBasketData}
-							// moveSl={basketData.exitCondition.move || false}
-							// setRepeatSl={setRepeatSl}
-							// exchange={basketData.exchange}
-							// entryHoursData={[]}
-							// entryMinutesData={[]}
-							// entryHourValue={0}
-							// lossValue={basketData.exitCondition?.totalLoss || 0}
-							// profitValue={basketData.exitCondition?.totalProfit || 0}
-							// basketTradeType={basketData.exitCondition?.type || 'SQOL'}
-							// entryMinuteValue={0}
-							// exitHoursData={[]}
-							// exitMinutesData={[]}
-							// exitHourValue={0}
-							// exitMinuteValue={0}
-							// handleBasketTradeTypeChange={(val) => {
-							// 	setBasketData({
-							// 		...basketData,
-							// 		exitCondition: { ...basketData.exitCondition, type: val },
-							// 	})
-							// }}
-							// handleLossValueChange={setLossValue}
-							// handleProfitValueChange={setProfitValue}
-							// handleChangeEntryHour={(val) => {
-							// 	console.log(val)
-							// }}
-							// setMoveSl={() => {
-							// 	basketData.exitCondition.move
-							// 		? setBasketData({
-							// 				...basketData,
-							// 				exitCondition: {
-							// 					...basketData.exitCondition,
-							// 					move: !basketData.exitCondition.move,
-							// 				},
-							// 			})
-							// 		: setBasketData({
-							// 				...basketData,
-							// 				exitCondition: {
-							// 					...basketData.exitCondition,
-							// 					move: true,
-							// 				},
-							// 			})
-							// }}
-							// handleChangeEntryMinute={(val) => {
-							// 	console.log(val)
-							// }}
-							// handleEntryMinuteListChange={(val) => {
-							// 	console.log(val)
-							// }}
-							// handleExitMinuteListChange={(val) => {
-							// 	console.log(val)
-							// }}
-							// handleChangeExitHour={(val) => {
-							// 	console.log(val)
-							// }}
-							// handleChangeExitMinute={(val) => {
-							// 	console.log(val)
-							// }}
 						/>
 					</>
 				)}
