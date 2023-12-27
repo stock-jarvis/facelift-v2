@@ -90,7 +90,7 @@ export interface SavedBasketsObject {
 	atm: string
 	positions?: BasketDataProps[]
 	entryCondition?: SavedBasketsEntryCondition
-	exitCondition?: SavedBasketsExitCondition
+	exitCondition: SavedBasketsExitCondition
 }
 export interface BasketDataProps {
 	type: string

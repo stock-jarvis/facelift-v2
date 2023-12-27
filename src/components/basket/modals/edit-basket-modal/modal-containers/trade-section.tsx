@@ -7,65 +7,115 @@ import {
 	DescriptionsProps,
 } from 'antd'
 import Toggle from '../modal-components/toggle'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
+import { SavedBasketsObject } from 'src/components/basket/types/types'
 
 interface TradeProps {
-	toggleValue: string
-	move: boolean
-	setMove: (val: boolean) => void
-	setRepeat: (val: string) => void
-	setToggleValue: (val: string) => void
+	basketData: SavedBasketsObject
+	setBasketData: (val: SavedBasketsObject) => void
 }
-const TradeSecion = ({
-	toggleValue,
-	move,
-	setRepeat,
-	setMove,
-	setToggleValue,
+const TradeSecion: React.FC<TradeProps> = ({
+	basketData,
+	setBasketData,
 }: TradeProps) => {
 	const { token } = theme.useToken()
-	const [trade, setTrade] = useState<boolean>(false)
-	const [repeatCondition, setRepeatCondition] = useState<boolean>(false)
-	const [repeatTrade, setRepeatTrade] = useState<boolean>(false)
-
-	useEffect(() => {
-		if (toggleValue === 'SQOL') {
-			setTrade(false)
-		} else {
-			setTrade(true)
-		}
-	}, [toggleValue])
-
-	useEffect(() => {
-		if (repeatTrade) {
-			setRepeat('Trade')
-		} else if (repeatCondition) {
-			setRepeat('Condition')
-		} else {
-			setRepeat('NA')
-		}
-	}, [setRepeat, repeatCondition, repeatTrade])
+	const [repeatCondition, setRepeatCondition] = useState<boolean>(
+		basketData.exitCondition.repeat === 'Condition'
+	)
+	const [repeatTrade, setRepeatTrade] = useState<boolean>(
+		basketData.exitCondition.repeat === 'Trade'
+	)
+	const [tradeValue, setTradeValue] = useState<string>(
+		basketData.exitCondition.type
+	)
 
 	const handleTradeChange = () => {
 		if (repeatTrade) {
 			setRepeatTrade(false)
+			setBasketData({
+				...basketData,
+				exitCondition: {
+					...basketData.exitCondition,
+					repeat: 'NA',
+				},
+			})
 		} else if (!repeatTrade && repeatCondition) {
 			setRepeatCondition(false)
 			setRepeatTrade(true)
+			setBasketData({
+				...basketData,
+				exitCondition: {
+					...basketData.exitCondition,
+					repeat: 'Trade',
+				},
+			})
 		} else if (!repeatTrade) {
 			setRepeatTrade(true)
+			setBasketData({
+				...basketData,
+				name: 'Apple',
+				exitCondition: {
+					...basketData.exitCondition,
+					repeat: 'Trade',
+				},
+			})
 		}
+	}
+
+	const handleTypeChange = (val: string) => {
+		setTradeValue(val)
+		setRepeatCondition(false)
+		setRepeatTrade(false)
+
+		setBasketData({
+			...basketData,
+			exitCondition: {
+				...basketData.exitCondition,
+				type: val,
+			},
+		})
 	}
 
 	const handleConditionChange = () => {
 		if (repeatCondition) {
 			setRepeatCondition(false)
+			setBasketData({
+				...basketData,
+				exitCondition: {
+					...basketData.exitCondition,
+					repeat: 'NA',
+				},
+			})
 		} else if (!repeatCondition && repeatTrade) {
 			setRepeatTrade(false)
 			setRepeatCondition(true)
+			setBasketData({
+				...basketData,
+				exitCondition: {
+					...basketData.exitCondition,
+					repeat: 'Condition',
+				},
+			})
 		} else if (!repeatCondition) {
 			setRepeatCondition(true)
+			setBasketData({
+				...basketData,
+				exitCondition: {
+					...basketData.exitCondition,
+					repeat: 'Condition',
+				},
+			})
 		}
+	}
+
+	const handleMoveChange = () => {
+		setBasketData({
+			...basketData,
+			exitCondition: {
+				...basketData.exitCondition,
+				move: !basketData.exitCondition.move,
+			},
+		})
 	}
 
 	const toogleItems: DescriptionsProps['items'] = [
@@ -91,19 +141,18 @@ const TradeSecion = ({
 							label2="Exit legs to all square"
 							toogle1="SQOL"
 							toogle2="SQAL"
-							setToogleValue={(value: string) => {
-								setMove(false)
-								setRepeat('NA')
-								setRepeatTrade(false)
-								setRepeatCondition(false)
-								setToggleValue(value)
-							}}
+							value={basketData.exitCondition.type}
+							setToogleValue={handleTypeChange}
 						/>
 					</Flex>
 					<Flex flex="1" justify="center">
-						{!trade ? (
+						{tradeValue === 'SQOL' ? (
 							<Flex gap="middle" align="center">
-								<Switch size="small" onChange={() => setMove(!move)} />
+								<Switch
+									size="small"
+									onChange={handleMoveChange}
+									value={basketData.exitCondition.move}
+								/>
 								<Typography.Text
 									style={{
 										fontSize: token.fontSizeLG,

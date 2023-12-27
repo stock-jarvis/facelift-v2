@@ -150,19 +150,21 @@ const Footer = ({
 			savedBasket.exitCondition !== basketExitConditions ||
 			savedBasket.positions !== basket
 		) {
-			setSavedBasket({
-				key: generateUniqueId(),
-				ticker: instrument,
-				id: id,
-				name: basketName || '',
-				identifier: identifier || 0,
-				exchange: exchange,
-				type: simpleType,
-				atm: atm,
-				entryCondition: basketEntryConditions,
-				exitCondition: basketExitConditions,
-				positions: basket,
-			})
+			if (basketExitConditions) {
+				setSavedBasket({
+					key: generateUniqueId(),
+					ticker: instrument,
+					id: id,
+					name: basketName || '',
+					identifier: identifier || 0,
+					exchange: exchange,
+					type: simpleType,
+					atm: atm,
+					entryCondition: basketEntryConditions,
+					exitCondition: basketExitConditions,
+					positions: basket,
+				})
+			}
 		}
 	}, [
 		identifier,

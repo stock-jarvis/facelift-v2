@@ -51,20 +51,19 @@ const EditBasketModal = ({ open }: EditModalProps) => {
 	})
 	const [basketData, setBasketData] =
 		useImmer<SavedBasketsObject>(editableBasketData)
-	//	const { outerData, updateData } = useBasketValues()
+	//const [exitData, setExitData] = useImmer(editableBasketData.exitCondition)
 
 	const { token } = theme.useToken()
 
 	const [basket, setBasket] = useState<BasketDataProps[]>(
 		editableBasketData.positions || []
 	)
-	const [moveSl, setMoveSl] = useState<boolean>(false)
 	const [repeatSl, setRepeatSl] = useState<string>('NA')
 	const [lossValue, setLossValue] = useState<number>(0)
 	const [basketName, setBasketName] = useState<string>('')
 	const [profitValue, setProfitValue] = useState<number>(0)
 	const [basketIdentifier, setBasketIdentifier] = useState<number>(0)
-	const [finalTradeType, setFinalTradeType] = useState<string>('SQAL')
+	//const [finalTradeType, setFinalTradeType] = useState<string>('SQAL')
 	const [persistedValues, setPersistedValues] = useState<PersistedValues>()
 
 	const [basketPositions, setBasketPositions] = useState<string>('INTRA')
@@ -271,9 +270,9 @@ const EditBasketModal = ({ open }: EditModalProps) => {
 					exchange={basketData.exchange}
 					instrument={basketData.ticker}
 					basket={basket}
-					basketMove={moveSl}
-					basketRepeat={repeatSl}
-					basketTrade={finalTradeType}
+					basketMove={basketData.exitCondition.move || false}
+					basketRepeat={basketData.exitCondition.repeat || 'NA'}
+					basketTrade={basketData.exitCondition?.type || 'SQOL'}
 					identifier={basketIdentifier}
 					basketName={basketName}
 					atm={basketData.atm}
@@ -326,7 +325,6 @@ const EditBasketModal = ({ open }: EditModalProps) => {
 					setBasketPositions={setBasketPositions}
 					atm={basketData.atm}
 					setAtm={(val) => {
-						//	console.log(val)
 						setBasketData({ ...basketData, atm: val })
 					}}
 				/>
@@ -371,42 +369,65 @@ const EditBasketModal = ({ open }: EditModalProps) => {
 							</Typography.Text>
 						</Divider>
 						<ExitCondition
-							moveSl={moveSl}
-							exchange={basketData.exchange}
-							entryHoursData={[]}
-							entryMinutesData={[]}
-							entryHourValue={0}
-							lossValue={lossValue}
-							profitValue={profitValue}
-							basketTradeType={finalTradeType}
-							entryMinuteValue={0}
-							exitHoursData={[]}
-							exitMinutesData={[]}
-							exitHourValue={0}
-							exitMinuteValue={0}
-							handleBasketTradeTypeChange={setFinalTradeType}
-							handleLossValueChange={setLossValue}
-							setRepeatSl={setRepeatSl}
-							handleProfitValueChange={setProfitValue}
-							handleChangeEntryHour={(val) => {
-								console.log(val)
-							}}
-							setMoveSl={setMoveSl}
-							handleChangeEntryMinute={(val) => {
-								console.log(val)
-							}}
-							handleEntryMinuteListChange={(val) => {
-								console.log(val)
-							}}
-							handleExitMinuteListChange={(val) => {
-								console.log(val)
-							}}
-							handleChangeExitHour={(val) => {
-								console.log(val)
-							}}
-							handleChangeExitMinute={(val) => {
-								console.log(val)
-							}}
+							basketData={basketData}
+							setBasketData={setBasketData}
+							// moveSl={basketData.exitCondition.move || false}
+							// setRepeatSl={setRepeatSl}
+							// exchange={basketData.exchange}
+							// entryHoursData={[]}
+							// entryMinutesData={[]}
+							// entryHourValue={0}
+							// lossValue={basketData.exitCondition?.totalLoss || 0}
+							// profitValue={basketData.exitCondition?.totalProfit || 0}
+							// basketTradeType={basketData.exitCondition?.type || 'SQOL'}
+							// entryMinuteValue={0}
+							// exitHoursData={[]}
+							// exitMinutesData={[]}
+							// exitHourValue={0}
+							// exitMinuteValue={0}
+							// handleBasketTradeTypeChange={(val) => {
+							// 	setBasketData({
+							// 		...basketData,
+							// 		exitCondition: { ...basketData.exitCondition, type: val },
+							// 	})
+							// }}
+							// handleLossValueChange={setLossValue}
+							// handleProfitValueChange={setProfitValue}
+							// handleChangeEntryHour={(val) => {
+							// 	console.log(val)
+							// }}
+							// setMoveSl={() => {
+							// 	basketData.exitCondition.move
+							// 		? setBasketData({
+							// 				...basketData,
+							// 				exitCondition: {
+							// 					...basketData.exitCondition,
+							// 					move: !basketData.exitCondition.move,
+							// 				},
+							// 			})
+							// 		: setBasketData({
+							// 				...basketData,
+							// 				exitCondition: {
+							// 					...basketData.exitCondition,
+							// 					move: true,
+							// 				},
+							// 			})
+							// }}
+							// handleChangeEntryMinute={(val) => {
+							// 	console.log(val)
+							// }}
+							// handleEntryMinuteListChange={(val) => {
+							// 	console.log(val)
+							// }}
+							// handleExitMinuteListChange={(val) => {
+							// 	console.log(val)
+							// }}
+							// handleChangeExitHour={(val) => {
+							// 	console.log(val)
+							// }}
+							// handleChangeExitMinute={(val) => {
+							// 	console.log(val)
+							// }}
 						/>
 					</>
 				)}

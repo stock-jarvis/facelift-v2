@@ -1,60 +1,20 @@
 import { Divider, Flex, theme, Typography } from 'antd'
-import ProfitLoss from './profit-loss-section'
-import EntryExit from './entry-exit-container'
+//import ProfitLoss from './profit-loss-section'
+//import EntryExit from './entry-exit-container'
 import TradeSection from './trade-section'
-import { TimeHours, Time } from 'src/components/basket/types/types'
+import {
+	//TimeHours,
+	//Time,
+	SavedBasketsObject,
+} from 'src/components/basket/types/types'
 interface ExitConditionProps {
-	entryHoursData: TimeHours[] | undefined
-	entryMinutesData: Time[] | undefined
-	entryHourValue: number
-	entryMinuteValue: number
-	exitHoursData: TimeHours[] | undefined
-	exitMinutesData: Time[] | undefined
-	exitHourValue: number
-	exitMinuteValue: number
-	exchange: string | undefined
-	profitValue: number
-	lossValue: number
-	basketTradeType: string
-	moveSl: boolean
-	setRepeatSl: (val: string) => void
-	setMoveSl: (val: boolean) => void
-	handleBasketTradeTypeChange: (val: string) => void
-	handleLossValueChange: (val: number) => void
-	handleProfitValueChange: (val: number) => void
-	handleExitMinuteListChange: (list: Time[]) => void
-	handleEntryMinuteListChange: (list: Time[]) => void
-	handleChangeExitHour: (val: number) => void
-	handleChangeExitMinute: (val: number) => void
-	handleChangeEntryMinute: (val: number) => void
-	handleChangeEntryHour: (val: number) => void
+	basketData: SavedBasketsObject
+	setBasketData: (val: SavedBasketsObject) => void
 }
-const ExitCondition = ({
-	exchange,
-	entryHoursData,
-	entryMinutesData,
-	entryHourValue,
-	entryMinuteValue,
-	exitHoursData,
-	exitMinutesData,
-	exitHourValue,
-	exitMinuteValue,
-	profitValue,
-	lossValue,
-	basketTradeType,
-	moveSl,
-	setRepeatSl,
-	setMoveSl,
-	handleBasketTradeTypeChange,
-	handleLossValueChange,
-	handleProfitValueChange,
-	handleEntryMinuteListChange,
-	handleExitMinuteListChange,
-	handleChangeExitHour,
-	handleChangeExitMinute,
-	handleChangeEntryMinute,
-	handleChangeEntryHour,
-}: ExitConditionProps) => {
+const ExitCondition: React.FC<ExitConditionProps> = ({
+	basketData,
+	setBasketData,
+}) => {
 	const { token } = theme.useToken()
 	return (
 		<Flex flex={1} vertical gap="middle">
@@ -66,13 +26,7 @@ const ExitCondition = ({
 						</Typography.Text>
 					</Divider>
 
-					<TradeSection
-						move={moveSl}
-						setRepeat={setRepeatSl}
-						setMove={setMoveSl}
-						toggleValue={basketTradeType}
-						setToggleValue={handleBasketTradeTypeChange}
-					/>
+					<TradeSection basketData={basketData} setBasketData={setBasketData} />
 				</Flex>
 				<Flex flex={1} vertical>
 					<Divider>
@@ -80,18 +34,18 @@ const ExitCondition = ({
 							Profit-Loss
 						</Typography.Text>
 					</Divider>
-					<ProfitLoss
+					{/* <ProfitLoss
 						profitValue={profitValue}
 						lossValue={lossValue}
 						setLossValue={handleLossValueChange}
 						setProfitValue={handleProfitValueChange}
 						profitLabel="Total Profit"
 						lossLabel="Total Loss"
-					/>
+					/> */}
 				</Flex>
 			</Flex>
-			<Flex flex={1}>
-				<EntryExit
+			{/* <Flex flex={1}>
+				{/* <EntryExit
 					exchange={exchange}
 					entryHoursData={entryHoursData}
 					entryMinutesData={entryMinutesData}
@@ -107,8 +61,8 @@ const ExitCondition = ({
 					handleChangeEntryHour={handleChangeEntryHour}
 					entryMinuteValue={entryMinuteValue}
 					handleChangeEntryMinute={handleChangeEntryMinute}
-				/>
-			</Flex>
+				/> 
+			</Flex> */}
 		</Flex>
 	)
 }

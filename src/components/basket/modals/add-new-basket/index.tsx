@@ -43,6 +43,11 @@ const Index: React.FC<ModalProps> = ({ open }) => {
 					identifier: 0,
 					type: 'INTRA',
 					atm: 'spot',
+					exitCondition: {
+						type: 'SQOL',
+						totalLoss: 0,
+						totalProfit: 0,
+					},
 				})
 			} else {
 				setDuplicateError(true)

@@ -62,6 +62,11 @@ const defaultState: BasketState = {
 			ticker: 'Ticker-1',
 			type: 'INTRA',
 			atm: 'spot',
+			exitCondition: {
+				type: 'SQOL',
+				totalLoss: 0,
+				totalProfit: 0,
+			},
 		},
 	],
 	storedBaskets: [
@@ -74,6 +79,11 @@ const defaultState: BasketState = {
 			atm: 'spot',
 			ticker: 'ticker-1',
 			type: 'INTRA',
+			exitCondition: {
+				type: 'SQOL',
+				totalLoss: 0,
+				totalProfit: 0,
+			},
 		},
 		{
 			id: '2',
@@ -84,6 +94,11 @@ const defaultState: BasketState = {
 			atm: 'spot',
 			ticker: 'ticker-1',
 			type: 'INTRA',
+			exitCondition: {
+				type: 'SQOL',
+				totalLoss: 0,
+				totalProfit: 0,
+			},
 		},
 	],
 	exchange: 'NSE',
@@ -105,6 +120,11 @@ const defaultState: BasketState = {
 		identifier: 0,
 		type: 'INTRA',
 		atm: 'spot',
+		exitCondition: {
+			type: 'SQOL',
+			totalLoss: 0,
+			totalProfit: 0,
+		},
 	},
 	savedBaskets: [],
 	timeError: false,
@@ -226,6 +246,11 @@ export const useBasketStore = create<BasketState & BasketStateActions>()(
 							exchange: '',
 							type: '',
 							atm: '',
+							exitCondition: {
+								type: 'SQOL',
+								totalLoss: 0,
+								totalProfit: 0,
+							},
 						})
 				),
 			setPositionCopy: (positionCopy) => set({ positionCopy }),
