@@ -55,7 +55,6 @@ const Footer = ({
 		toggleTimeErrorModalOpen,
 		setEmptyBasketError,
 		updateRuntimeBasketData,
-		addToSavedBasket,
 		toogleEditModal,
 	} = useBasketStore()
 	const [entryTimes, setEntryTimes] = useState<string>('')
@@ -185,8 +184,8 @@ const Footer = ({
 				toggleTimeErrorModalOpen(true)
 			} else {
 				if (savedBasket) {
-					addToSavedBasket(savedBasket)
-					updateRuntimeBasketData(id, exchange, instrument)
+					//		addToSavedBasket(savedBasket)
+					updateRuntimeBasketData(savedBasket)
 					toogleEditModal(false)
 				}
 			}

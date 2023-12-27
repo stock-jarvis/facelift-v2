@@ -34,47 +34,49 @@ const Index = () => {
 		toogleEditModal,
 		setEditableBasket,
 		addNewRuntimeBasket,
-		savedBaskets,
-		toogleSaveError,
-		updateSelection,
-		addToStoredBaskets,
+		//savedBaskets,
+		//toogleSaveError,
+		//	updateSelection,
+		//addToStoredBaskets,
 		updateSelectedBasket,
-		selectAllBaskets,
-		selectedBaskets,
+		//	selectAllBaskets,
+		//	selectedBaskets,
 	} = useBasketStore()
 
 	const onHandleBasketEdit = (id: string) => {
 		const basket = runtimeBasketList.find((basket) => basket.id === id)
 		if (basket) {
-			toogleSaveError(id, false)
+			setEditableBasket(id)
 		}
-		setEditableBasket(id)
+		//
 		toogleEditModal(true)
 	}
 
-	const onHandleBasketDuplicate = (name: string) => {
+	const onHandleBasketDuplicate = (id: string, name: string) => {
 		const duplicateBasket = runtimeBasketList.filter(
 			(basket) => basket.name === name
 		)
 		if (duplicateBasket[duplicateBasket.length - 1]) {
 			addNewRuntimeBasket({
-				...duplicateBasket[duplicateBasket.length - 1],
+				...duplicateBasket[
+					duplicateBasket.findIndex((basket) => basket.id === id)
+				],
+				key: generateUniqueId(),
 				id: generateUniqueId(),
-				error: false,
-				selected: false,
 				identifier: duplicateBasket[duplicateBasket.length - 1].identifier + 1,
 			})
 		}
 	}
 
 	const onHandleBaskeSave = (id: string) => {
-		const isBasketSaved = savedBaskets.find((basket) => basket.id === id)
-		if (isBasketSaved) {
-			addToStoredBaskets(isBasketSaved)
-			//TODO: Tie this up with the api
-		} else {
-			toogleSaveError(id, true)
-		}
+		console.log(id)
+		// const isBasketSaved = savedBaskets.find((basket) => basket.id === id)
+		// if (isBasketSaved) {
+		// 	addToStoredBaskets(isBasketSaved)
+		// 	//TODO: Tie this up with the api
+		// } else {
+		// 	toogleSaveError(id, true)
+		// }
 	}
 
 	const onHandleBaskeDelete = (id: string) => {
@@ -82,13 +84,14 @@ const Index = () => {
 	}
 
 	const handleIndividualSelectChange = (id: string) => {
+		console.log(id)
 		setIndividualSelection(true)
-		updateSelection(id)
+		//	updateSelection(id)
 	}
 
 	const selectAllBasket = () => {
 		setSelectAll(!selectAll)
-		selectAllBaskets(!selectAll)
+		//	selectAllBaskets(!selectAll)
 	}
 
 	useEffect(() => {
@@ -98,13 +101,13 @@ const Index = () => {
 		}
 	}, [runtimeBasketList, updateSelectedBasket, individualSelection])
 
-	useEffect(() => {
-		if (selectedBaskets.length !== runtimeBasketList.length) {
-			setSelectAll(false)
-		} else if (selectedBaskets.length === runtimeBasketList.length) {
-			setSelectAll(true)
-		}
-	}, [selectedBaskets, runtimeBasketList, selectAll])
+	// useEffect(() => {
+	// 	if (selectedBaskets.length !== runtimeBasketList.length) {
+	// 		setSelectAll(false)
+	// 	} else if (selectedBaskets.length === runtimeBasketList.length) {
+	// 		setSelectAll(true)
+	// 	}
+	// }, [selectedBaskets, runtimeBasketList, selectAll])
 	const columns = [
 		{
 			title: (
@@ -213,7 +216,7 @@ const Index = () => {
 							shape="circle"
 							type="text"
 							icon={<CopyOutlined />}
-							onClick={() => onHandleBasketDuplicate(record.name)}
+							onClick={() => onHandleBasketDuplicate(record.id, record.name)}
 							style={{
 								color: record.error ? token.colorError : '',
 							}}

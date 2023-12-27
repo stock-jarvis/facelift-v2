@@ -38,10 +38,11 @@ const Index: React.FC<ModalProps> = ({ open }) => {
 					key: generateUniqueId(),
 					id: generateUniqueId(),
 					name: basketName,
-					instrument: instrument,
+					ticker: instrument,
 					exchange: exhange,
 					identifier: 0,
-					error: false,
+					type: 'INTRA',
+					atm: 'spot',
 				})
 			} else {
 				setDuplicateError(true)
