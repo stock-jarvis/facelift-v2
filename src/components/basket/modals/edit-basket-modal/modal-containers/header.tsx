@@ -11,12 +11,14 @@ import Toggle from '../modal-components/toggle'
 interface HeaderProps {
 	trade: string | undefined
 	instrument: string | undefined
+	atm: string
 	setAtm: (val: string) => void
 	setBasketPositions: (val: string) => void
 	handleTradeChange: (val: string) => void
 	handleInstrumentChange: (val: string) => void
 }
 const Header = ({
+	atm,
 	trade,
 	handleTradeChange,
 	instrument,
@@ -24,7 +26,7 @@ const Header = ({
 	setBasketPositions,
 	handleInstrumentChange,
 }: HeaderProps) => {
-	//console.log(instrument)
+	//	console.log(atm)
 	const { token } = theme.useToken()
 	const items: DescriptionsProps['items'] = [
 		{
@@ -35,8 +37,9 @@ const Header = ({
 					</Typography.Text>
 				</Flex>
 			),
-			span: { xs: 2, sm: 2, md: 2, lg: 2, xl: 2 },
-			key: 'position',
+
+			key: 'exhange',
+
 			children: (
 				<Flex flex={1} justify="center">
 					<Select
@@ -60,8 +63,8 @@ const Header = ({
 					</Typography.Text>
 				</Flex>
 			),
-			span: { xs: 2, sm: 2, md: 2, lg: 2, xl: 2 },
-			key: 'atm',
+			key: 'instrument',
+
 			children: (
 				<Flex flex={1} justify="center">
 					<Select
@@ -87,7 +90,7 @@ const Header = ({
 				</Flex>
 			),
 			key: 'position',
-			span: { xs: 2, sm: 2, md: 2, lg: 2, xl: 2 },
+
 			children: (
 				<Flex flex={1} justify="center">
 					<Toggle
@@ -96,6 +99,7 @@ const Header = ({
 						toogle1="INTRA"
 						toogle2="POS"
 						setToogleValue={setBasketPositions}
+						value="POS"
 					/>
 				</Flex>
 			),
@@ -109,7 +113,7 @@ const Header = ({
 				</Flex>
 			),
 			key: 'atm',
-			span: { xs: 2, sm: 2, md: 2, lg: 2, xl: 2 },
+
 			children: (
 				<Flex flex={1} justify="center">
 					<Toggle
@@ -118,13 +122,14 @@ const Header = ({
 						toogle1="spot"
 						toogle2="future"
 						setToogleValue={setAtm}
+						value={atm}
 					/>
 				</Flex>
 			),
 		},
 	]
 
-	return <Descriptions items={items} bordered />
+	return <Descriptions items={items} bordered layout="vertical" />
 }
 
 export default Header

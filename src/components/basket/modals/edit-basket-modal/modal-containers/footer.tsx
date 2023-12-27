@@ -136,7 +136,7 @@ const Footer = ({
 		basketExitConditions,
 	])
 	useEffect(() => {
-		console.log(savedBasket)
+		//	console.log(savedBasket)
 	}, [savedBasket])
 	useEffect(() => {
 		if (

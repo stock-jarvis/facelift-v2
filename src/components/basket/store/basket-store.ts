@@ -63,7 +63,7 @@ const defaultState: BasketState = {
 			name: 'Apple',
 			identifier: 0,
 			exchange: 'NSE',
-			instrument: 'ticker-1',
+			instrument: 'Ticker-1',
 			error: false,
 		},
 	],

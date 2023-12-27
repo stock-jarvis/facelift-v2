@@ -30,6 +30,7 @@ const StrikeSelector: React.FC<StrikeSelectorProps> = ({
 		const subTradeData =
 			tradeTypeData.find((data) => data.value === value)?.children || []
 		setTradeOption(value)
+
 		setSubTradeOptionList(subTradeData)
 		setSubTradeOption(subTradeData[0]?.value || '')
 		setTradeValue(1)

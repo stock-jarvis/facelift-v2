@@ -42,7 +42,6 @@ const Selectors: React.FC<SelectProps> = ({
 		updatedBasketData({ ...basketInitialData, [key]: val })
 	}
 	const handleActionChange = (val: string, key: Keys) => {
-		console.log('action changed')
 		updatedBasketData({ ...basketInitialData, [key]: val })
 	}
 	return (

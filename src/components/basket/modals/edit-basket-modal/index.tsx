@@ -4,7 +4,7 @@ import { CloseOutlined } from '@ant-design/icons'
 import { useImmer } from 'use-immer'
 import Header from './modal-containers/header'
 import Footer from './modal-containers/footer'
-
+import { useBasketValues } from './modal-hooks/useBasketValues'
 import ExitCondition from './modal-containers/exit-condition'
 import DetailsContainer from './modal-containers/detail-container'
 import { useUndefinedSet } from './modal-hooks/useUndefinedSet'
@@ -12,8 +12,6 @@ import { useUndefinedNumberedSet } from './modal-hooks/useUndefinedNumberSet'
 import { generateUniqueId } from '../../common/utils/randomizer'
 import { useBasketStore } from '../../store/basket-store'
 import { usePersistState } from './modal-hooks/usePersistState'
-import { useValidateTimes } from './modal-hooks/useValidateTimes'
-import { useMarketTimes } from './modal-hooks/useMarketTime'
 import Selectors from './modal-containers/selector-container'
 
 import { tradeTypeData } from '../../constants/data'
@@ -36,7 +34,7 @@ const EditBasketModal = ({ open }: EditModalProps) => {
 	const {
 		editableBasketData,
 		savedBaskets,
-		setTimeError,
+		//setTimeError,
 		positionCopy,
 		setPositionCopy,
 		resetEditablebasket,
@@ -55,17 +53,17 @@ const EditBasketModal = ({ open }: EditModalProps) => {
 		subTradeOption: 'ATM',
 		instrument: '',
 	})
-	////////////////////////////////////////
+
+	const { outerData, updateData } = useBasketValues()
+
 	const { token } = theme.useToken()
-	const [atm, setAtm] = useState<string>('spot')
+
 	const [basket, setBasket] = useState<BasketDataProps[]>([])
 	const [moveSl, setMoveSl] = useState<boolean>(false)
 	const [repeatSl, setRepeatSl] = useState<string>('NA')
 	const [lossValue, setLossValue] = useState<number>(0)
 	const [basketName, setBasketName] = useState<string>('')
-	const [instrument, setInstrument] = useState<string>('')
 	const [profitValue, setProfitValue] = useState<number>(0)
-	const [basketTrade, setBasketTrade] = useState<string>('')
 	const [exitHourList, setExitHourList] = useState<TimeHours[]>()
 	const [entryHourList, setEntryHourList] = useState<TimeHours[]>()
 	const [exitMinuteList, setExitMinuteList] = useState<Time[]>()
@@ -89,21 +87,21 @@ const EditBasketModal = ({ open }: EditModalProps) => {
 			)
 			if (isSaved) {
 				setBasket(isSaved.positions || [])
-				setInstrument(isSaved.ticker)
-				setBasketTrade(isSaved.exchange)
+
+				if (outerData.atm !== isSaved.atm) {
+					updateData({
+						...outerData,
+						instrument: isSaved.ticker,
+						exchange: isSaved.exchange,
+						atm: isSaved.atm,
+					})
+				}
+
 				setProfitValue(isSaved.exitCondition?.totalProfit || 0)
 				setLossValue(isSaved.exitCondition?.totalLoss || 0)
 			}
 		}
-	}, [editableBasketData, savedBaskets])
-
-	useValidateTimes(
-		currentEntryHour,
-		currentExitHour,
-		currentEntryMinute,
-		currentExitMinute,
-		setTimeError
-	)
+	}, [editableBasketData, savedBaskets, updateData, outerData])
 
 	usePersistState(
 		basketInitialData,
@@ -113,41 +111,18 @@ const EditBasketModal = ({ open }: EditModalProps) => {
 		persistedValues
 	)
 
-	useMarketTimes(
-		basketTrade,
-		entryHourList,
-		exitHourList,
-		setEntryHourList,
-		setExitHourList,
-		setEntryMinuteList,
-		setExitMinuteList,
-		setCurrentEntryHour,
-		setCurrentEntryMinute,
-		setCurrentExitHour,
-		setCurrentExitMinute
-	)
-
 	useUndefinedNumberedSet(
 		basketIdentifier,
 		editableBasketData,
 		'identifier',
 		setBasketIdentifier
 	)
-
-	useUndefinedSet(basketTrade, editableBasketData, 'exchange', setBasketTrade)
 	useUndefinedSet(basketName, editableBasketData, 'name', setBasketName)
-	useUndefinedSet(instrument, editableBasketData, 'instrument', setInstrument)
-	useUndefinedSet(
-		basketIdentifier,
-		editableBasketData,
-		'instrument',
-		setInstrument
-	)
 
 	const handleAfterClose = () => {
 		resetEditablebasket()
 		setBasket([])
-		setInstrument('')
+		updateData({ ...outerData, instrument: '', exchange: '', atm: '' })
 		updatedBasketData({
 			...basketInitialData,
 			quantity: 1,
@@ -160,7 +135,7 @@ const EditBasketModal = ({ open }: EditModalProps) => {
 		})
 		setProfitValue(0)
 		setLossValue(0)
-		setBasketTrade('')
+		//setBasketTrade('')
 		setBasketName('')
 		setBasketIdentifier(0)
 		setSubTradeOptionList(initialSubTradeList)
@@ -270,8 +245,8 @@ const EditBasketModal = ({ open }: EditModalProps) => {
 	}
 
 	useEffect(() => {
-		//	console.log(basketInitialData)
-	}, [basketInitialData])
+		console.log(outerData)
+	}, [outerData])
 	const handleCopyBasket = (id: string) => {
 		setPersistedValues({
 			quantityValue: basketInitialData.quantity,
@@ -345,15 +320,15 @@ const EditBasketModal = ({ open }: EditModalProps) => {
 					currentExitHour={currentExitHour}
 					currentExitMinute={currentExitMinute}
 					id={editableBasketData.id}
-					exchange={basketTrade}
-					instrument={instrument}
+					exchange={outerData.exchange}
+					instrument={outerData.instrument}
 					basket={basket}
 					basketMove={moveSl}
 					basketRepeat={repeatSl}
 					basketTrade={finalTradeType}
 					identifier={basketIdentifier}
 					basketName={basketName}
-					atm={atm}
+					atm={outerData.atm}
 					simpleType={basketPositions}
 				/>
 			}
@@ -367,7 +342,7 @@ const EditBasketModal = ({ open }: EditModalProps) => {
 					padding: token.paddingXS,
 				},
 				footer: {
-					padding: token.paddingXS,
+					//padding: token.paddingXS,
 				},
 				body: {
 					backgroundColor: token.colorBgBase,
@@ -398,17 +373,25 @@ const EditBasketModal = ({ open }: EditModalProps) => {
 					</Typography.Text>
 				</Divider>
 				<Header
-					trade={basketTrade}
-					handleTradeChange={setBasketTrade}
-					instrument={instrument}
-					handleInstrumentChange={setInstrument}
+					trade={outerData.exchange}
+					handleTradeChange={(val) =>
+						updateData({ ...outerData, exchange: val })
+					}
+					instrument={outerData.instrument}
+					handleInstrumentChange={(val) =>
+						updateData({ ...outerData, instrument: val })
+					}
 					setBasketPositions={setBasketPositions}
-					setAtm={setAtm}
+					atm={outerData.atm}
+					setAtm={(val) => {
+						//	console.log(val)
+						updateData({ ...outerData, atm: val })
+					}}
 				/>
 				<Selectors
 					basketInitialData={basketInitialData}
 					updatedBasketData={updatedBasketData}
-					instrument={instrument}
+					instrument={outerData.instrument}
 					subTradeOptionList={subTradeOptionList}
 					handleAddBasket={handleAddBasket}
 					setSubTradeOptionList={setSubTradeOptionList}
@@ -417,7 +400,7 @@ const EditBasketModal = ({ open }: EditModalProps) => {
 				{basket.length > 0 && (
 					<DetailsContainer
 						basket={basket}
-						instrument={instrument}
+						instrument={outerData.instrument}
 						tradeOption={
 							basketInitialData.tradeOption || tradeTypeData[0].value
 						}
@@ -447,7 +430,7 @@ const EditBasketModal = ({ open }: EditModalProps) => {
 						</Divider>
 						<ExitCondition
 							moveSl={moveSl}
-							exchange={basketTrade}
+							exchange={outerData.exchange}
 							entryHoursData={entryHourList}
 							entryMinutesData={entryMinuteList}
 							entryHourValue={currentEntryHour}

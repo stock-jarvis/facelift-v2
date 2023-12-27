@@ -47,7 +47,7 @@ const Basket = () => {
 					<BasketContainer />
 				</Flex>
 			</Flex>
-			<EditBasketModal open={isEditModalOpen} />
+			{isEditModalOpen && <EditBasketModal open={isEditModalOpen} />}
 			{<AddBasketModal open={isAddBasketModalOpen} />}
 			<ConfirmModal
 				open={duplicateError}

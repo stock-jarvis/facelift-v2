@@ -6,6 +6,7 @@ interface ToggleProps {
 	label2: string
 	toogle1: string
 	toogle2: string
+	value: string
 	setToogleValue: (val: string) => void
 }
 
@@ -14,6 +15,7 @@ const Toggle: React.FC<ToggleProps> = ({
 	label2,
 	toogle1,
 	toogle2,
+	value,
 	setToogleValue,
 }) => {
 	const { token } = theme.useToken()
@@ -21,10 +23,10 @@ const Toggle: React.FC<ToggleProps> = ({
 
 	useEffect(() => {
 		if (!toogleValue) {
-			setValue(toogle1)
-			setToogleValue(toogle1)
+			setValue(value)
+			setToogleValue(value)
 		}
-	}, [toogle1, toogleValue, setToogleValue])
+	}, [value, toogleValue, setToogleValue])
 
 	const SegmentedItems = [
 		{
@@ -75,6 +77,7 @@ const Toggle: React.FC<ToggleProps> = ({
 				backgroundColor: token.colorBgContainerDisabled,
 			}}
 			className="w-fit"
+			value={toogleValue}
 		/>
 	)
 }
