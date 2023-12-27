@@ -3,6 +3,7 @@ import {
 	Select,
 	Typography,
 	theme,
+	Divider,
 	Descriptions,
 	DescriptionsProps,
 } from 'antd'
@@ -130,7 +131,23 @@ const Header = ({ basketData, setBasketData }: HeaderProps) => {
 		},
 	]
 
-	return <Descriptions items={items} bordered layout="vertical" />
+	return (
+		<Flex vertical>
+			<Divider>
+				<Typography.Text
+					style={{
+						color: token.colorPrimary,
+						fontSize: token.fontSizeLG,
+						fontWeight: token.fontWeightStrong,
+					}}
+				>
+					{basketData.name}{' '}
+					{basketData.identifier > 0 ? ` - ${basketData.identifier}` : ''}
+				</Typography.Text>
+			</Divider>
+			<Descriptions items={items} bordered layout="vertical" />
+		</Flex>
+	)
 }
 
 export default Header
