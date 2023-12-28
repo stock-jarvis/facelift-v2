@@ -2,6 +2,7 @@ import {
 	OptionObject,
 	BasketDataValues,
 	SavedBasketsObject,
+	PositionExitCondition,
 } from '../types/types'
 
 export const futureExpiry: OptionObject[] = [
@@ -218,6 +219,7 @@ export const defaultInitialLegValues: BasketDataValues = {
 	tradeOption: tradeTypeData[0].value,
 	subTradeOption: 'ATM',
 	instrument: '',
+	subTradeOptionList: tradeTypeData[0].children,
 }
 
 export const defaultBasketData: SavedBasketsObject = {
@@ -235,5 +237,16 @@ export const defaultBasketData: SavedBasketsObject = {
 		move: false,
 		repeat: '',
 		type: '',
+	},
+}
+
+export const defaultLegsEXitCondition: PositionExitCondition = {
+	stopLoss: {
+		type: 'percent',
+		value: 0,
+	},
+	totalProfit: {
+		type: 'percent',
+		value: 0,
 	},
 }

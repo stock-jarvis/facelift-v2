@@ -1,16 +1,14 @@
 import { Flex, Descriptions, DescriptionsProps, Typography, theme } from 'antd'
 
-import { OptionObject } from 'src/components/basket/types/types'
+import { futureExpiry } from 'src/components/basket/constants/data'
 import Instrument from '../modal-components/instrument'
 import ActionSelector from '../modal-components/action-selector'
 import PositionHolder from './position-holder'
 import QuantityInput from '../modal-components/quantity-input'
 import ExpirySelector from '../modal-components/expiry-selector'
+import { BasketDataValues } from 'src/components/basket/types/types'
 interface BasketProps {
-	futureExpiryList: OptionObject[]
-	futureExpiryBaseValue: string
-	baseQuantityValue: number
-	baseActionValue: string
+	basketInitialData: BasketDataValues
 	baseInstrumentValue: string
 	handleAddBasket: (val: string) => void
 	handleBaseQuantityChange: (value: number) => void
@@ -18,11 +16,8 @@ interface BasketProps {
 	handleBaseActionChange: (val: string) => void
 }
 const FutureBasketSelector = ({
-	baseActionValue,
-	baseQuantityValue,
+	basketInitialData,
 	baseInstrumentValue,
-	futureExpiryBaseValue,
-	futureExpiryList,
 	handleAddBasket,
 	handleBaseQuantityChange,
 	handleBaseActionChange,
@@ -57,7 +52,7 @@ const FutureBasketSelector = ({
 						action2="S"
 						color1="green"
 						color2="red"
-						baseActionValue={baseActionValue}
+						baseActionValue={basketInitialData.action}
 						handleBaseActionChange={handleBaseActionChange}
 					/>
 				</Flex>
@@ -73,7 +68,7 @@ const FutureBasketSelector = ({
 			children: (
 				<Flex flex={1} justify="center">
 					<QuantityInput
-						baseQuantityValue={baseQuantityValue}
+						baseQuantityValue={basketInitialData.quantity}
 						handleQantityChange={handleBaseQuantityChange}
 					/>
 				</Flex>
@@ -90,8 +85,8 @@ const FutureBasketSelector = ({
 				<Flex flex={1} justify="center">
 					<ExpirySelector
 						handleExpiryChange={handleBaseExpiryChange}
-						expiryValue={futureExpiryBaseValue}
-						expiryOptions={futureExpiryList}
+						expiryValue={basketInitialData.expiry || 'Monthly'}
+						expiryOptions={futureExpiry}
 					/>
 				</Flex>
 			),

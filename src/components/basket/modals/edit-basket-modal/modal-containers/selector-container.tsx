@@ -2,15 +2,13 @@ import { Tabs, TabsProps, theme, Divider, Flex, Typography } from 'antd'
 import SpotBasketSelector from './spot-basket-selector'
 import FutureBasketSelector from './future-basket-selector'
 import OptionsBasketSelector from './options-basket-selector'
+import { tradeTypeData } from 'src/components/basket/constants/data'
 import {
 	TradeOptions,
 	BasketDataValues,
 } from 'src/components/basket/types/types'
 import { useState } from 'react'
-import {
-	futureExpiry,
-	optionExpiry,
-} from 'src/components/basket/constants/data'
+
 type NumberedKeys = 'quantity' | 'tradeValue'
 type Keys = 'action' | 'expiry' | 'option' | 'tradeOption' | 'subTradeOption'
 interface SelectProps {
@@ -26,7 +24,6 @@ interface SelectProps {
 const Selectors: React.FC<SelectProps> = ({
 	instrument,
 	basketInitialData,
-	subTradeOptionList,
 	updatedBasketData,
 	setOptionValue,
 	handleAddBasket,
@@ -43,6 +40,19 @@ const Selectors: React.FC<SelectProps> = ({
 	}
 	const handleActionChange = (val: string, key: Keys) => {
 		updatedBasketData({ ...basketInitialData, [key]: val })
+	}
+	const handleTradeChange = (val: string) => {
+		const list = tradeTypeData.find((trade) => trade.value === val)?.children
+		if (list) {
+			setSubTradeOptionList(list)
+			updatedBasketData({
+				...basketInitialData,
+				tradeOption: val,
+				subTradeOption: list[0].value,
+				tradeValue: 1,
+				subTradeOptionList: list,
+			})
+		}
 	}
 	return (
 		<Flex flex={1} vertical gap="middle">
@@ -73,8 +83,7 @@ const Selectors: React.FC<SelectProps> = ({
 						key: 'spot',
 						children: (
 							<SpotBasketSelector
-								baseQuantityValue={basketInitialData.quantity}
-								baseActionValue={basketInitialData.action}
+								basketInitialData={basketInitialData}
 								baseInstrumentValue={instrument}
 								handleBaseActionChange={(val) =>
 									handleActionChange(val, 'action')
@@ -91,10 +100,7 @@ const Selectors: React.FC<SelectProps> = ({
 						key: 'future',
 						children: (
 							<FutureBasketSelector
-								futureExpiryBaseValue={basketInitialData.expiry || ''}
-								futureExpiryList={futureExpiry}
-								baseQuantityValue={basketInitialData.quantity}
-								baseActionValue={basketInitialData.action}
+								basketInitialData={basketInitialData}
 								baseInstrumentValue={instrument}
 								handleBaseActionChange={(val) =>
 									handleActionChange(val, 'action')
@@ -114,16 +120,8 @@ const Selectors: React.FC<SelectProps> = ({
 						key: 'options',
 						children: (
 							<OptionsBasketSelector
-								optionExpiryBaseValue={basketInitialData.expiry || ''}
-								optionExpiryList={optionExpiry}
-								baseQuantityValue={basketInitialData.quantity}
-								baseActionValue={basketInitialData.action}
-								baseOptionValue={basketInitialData.option || ''}
-								baseSubTradeOption={basketInitialData.subTradeOption || ''}
+								basketInitialData={basketInitialData}
 								baseInstrumentValue={instrument}
-								baseTradeValue={basketInitialData.tradeValue || 1}
-								baseTradeOption={basketInitialData.tradeOption}
-								baseSubTradeOptionList={subTradeOptionList}
 								handleBaseExpiryChange={(val) =>
 									handleActionChange(val, 'expiry')
 								}
@@ -141,12 +139,14 @@ const Selectors: React.FC<SelectProps> = ({
 									handleQuantityChange(val, 'tradeValue')
 								}
 								handleBaseTradeChange={(val) => {
-									handleActionChange(val, 'tradeOption')
+									handleTradeChange(val)
 								}}
 								handleBaseSubTradeChange={(val) =>
-									updatedBasketData({ ...basketInitialData, tradeOption: val })
+									updatedBasketData({
+										...basketInitialData,
+										subTradeOption: val,
+									})
 								}
-								handleBaseSubTradeListChange={setSubTradeOptionList}
 							/>
 						),
 					},

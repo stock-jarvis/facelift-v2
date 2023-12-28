@@ -67,7 +67,7 @@ const Footer = ({ basket, basketData }: FooterPorps) => {
 			savedBasket.entryCondition !== basketEntryConditions ||
 			savedBasket.name !== basketData.name ||
 			savedBasket.identifier !== basketData.identifier ||
-			savedBasket.exitCondition !== basketData.exitCondition ||
+			savedBasket.exitCondition !== basketExitConditions ||
 			savedBasket.positions !== basket ||
 			savedBasket.type !== basketData.type
 		) {

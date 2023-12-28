@@ -1,6 +1,5 @@
 import { Flex, Descriptions, DescriptionsProps, Typography, theme } from 'antd'
-import { TradeOptions } from '../../../types/types'
-import { OptionObject } from '../../../types/types'
+import { BasketDataValues } from '../../../types/types'
 import StrikeRadioSelector from '../modal-components/strike-radio-selector'
 import PositionHolder from './position-holder'
 import StrikeSelector from '../modal-components/strike-selector'
@@ -8,8 +7,9 @@ import Instrument from '../modal-components/instrument'
 import QuantityInput from '../modal-components/quantity-input'
 import ExpirySelector from '../modal-components/expiry-selector'
 import ActionSelector from '../modal-components/action-selector'
-import { useEffect } from 'react'
+import { optionExpiry } from '../../../constants/data'
 interface BasketProps {
+	basketInitialData: BasketDataValues
 	handleAddBasket: (val: string) => void
 	handleBaseTradeChange: (val: string) => void
 	handleBaseActionChange: (val: string) => void
@@ -18,19 +18,10 @@ interface BasketProps {
 	handleBaseSubTradeChange: (val: string) => void
 	handleBaseQuantityChange: (value: number) => void
 	handleBaseTradeValueChange: (val: number) => void
-	handleBaseSubTradeListChange: (val: TradeOptions[]) => void
 	baseInstrumentValue: string
-	baseTradeValue: number
-	baseActionValue: string
-	baseOptionValue: string
-	baseTradeOption: string
-	optionExpiryList: OptionObject[]
-	baseQuantityValue: number
-	baseSubTradeOption: string
-	optionExpiryBaseValue: string
-	baseSubTradeOptionList: TradeOptions[]
 }
 const OptionsBasketSelector = ({
+	basketInitialData,
 	handleAddBasket,
 	handleBaseQuantityChange,
 	handleBaseOptionChange,
@@ -38,23 +29,11 @@ const OptionsBasketSelector = ({
 	handleBaseExpiryChange,
 	handleBaseTradeChange,
 	handleBaseSubTradeChange,
-	handleBaseSubTradeListChange,
 	handleBaseTradeValueChange,
-	baseTradeValue,
-	optionExpiryBaseValue,
 	baseInstrumentValue,
-	baseQuantityValue,
-	baseActionValue,
-	optionExpiryList,
-	baseOptionValue,
-	baseTradeOption,
-	baseSubTradeOption,
-	baseSubTradeOptionList,
 }: BasketProps) => {
 	const { token } = theme.useToken()
-	useEffect(() => {
-		console.log(baseTradeOption)
-	}, [baseTradeOption])
+
 	const items: DescriptionsProps['items'] = [
 		{
 			key: 'instrument',
@@ -84,7 +63,7 @@ const OptionsBasketSelector = ({
 						action2="S"
 						color1="green"
 						color2="red"
-						baseActionValue={baseActionValue}
+						baseActionValue={basketInitialData.action}
 						handleBaseActionChange={handleBaseActionChange}
 					/>
 				</Flex>
@@ -105,7 +84,7 @@ const OptionsBasketSelector = ({
 						action2="PE"
 						color1="black"
 						color2="purple"
-						baseActionValue={baseOptionValue}
+						baseActionValue={basketInitialData.option || 'CE'}
 						handleBaseActionChange={handleBaseOptionChange}
 					/>
 				</Flex>
@@ -121,14 +100,13 @@ const OptionsBasketSelector = ({
 			children: (
 				<Flex flex={1} justify="center">
 					<StrikeSelector
-						tradeOption={baseTradeOption}
-						tradeValue={baseTradeValue}
+						tradeOption={basketInitialData.tradeOption}
+						tradeValue={basketInitialData.tradeValue || 1}
 						setTradeValue={handleBaseTradeValueChange}
 						setTradeOption={handleBaseTradeChange}
-						subTradeOption={baseSubTradeOption}
+						subTradeOption={basketInitialData.subTradeOption || ''}
 						setSubTradeOption={handleBaseSubTradeChange}
-						subTradeOptionList={baseSubTradeOptionList}
-						setSubTradeOptionList={handleBaseSubTradeListChange}
+						subTradeOptionList={basketInitialData.subTradeOptionList || []}
 					/>
 				</Flex>
 			),
@@ -143,7 +121,7 @@ const OptionsBasketSelector = ({
 			children: (
 				<Flex flex={1} justify="center">
 					<QuantityInput
-						baseQuantityValue={baseQuantityValue}
+						baseQuantityValue={basketInitialData.quantity}
 						handleQantityChange={handleBaseQuantityChange}
 					/>
 				</Flex>
@@ -160,8 +138,8 @@ const OptionsBasketSelector = ({
 				<Flex flex={1} justify="center">
 					<ExpirySelector
 						handleExpiryChange={handleBaseExpiryChange}
-						expiryValue={optionExpiryBaseValue}
-						expiryOptions={optionExpiryList}
+						expiryValue={basketInitialData.expiry || 'Monthly'}
+						expiryOptions={optionExpiry}
 					/>
 				</Flex>
 			),
@@ -193,10 +171,9 @@ const OptionsBasketSelector = ({
 					gap="middle"
 				>
 					<StrikeRadioSelector
-						tradeOption={baseTradeOption}
+						tradeOption={basketInitialData.tradeOption}
 						setSubTradeOption={handleBaseSubTradeChange}
 						setTradeOption={handleBaseTradeChange}
-						setSubTradeOptionList={handleBaseSubTradeListChange}
 					/>
 					<Descriptions
 						className="w-full"

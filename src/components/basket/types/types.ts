@@ -116,4 +116,5 @@ export interface BasketDataValues {
 	tradeOption: string
 	subTradeOption?: string
 	instrument: string
+	subTradeOptionList?: OptionObject[]
 }

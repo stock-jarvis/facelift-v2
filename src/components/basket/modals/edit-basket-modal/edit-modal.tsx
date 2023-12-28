@@ -14,6 +14,7 @@ import {
 	tradeTypeData,
 	defaultInitialLegValues,
 	defaultBasketData,
+	defaultLegsEXitCondition,
 } from '../../constants/data'
 import {
 	TradeOptions,
@@ -57,7 +58,6 @@ const EditBasketModal = ({ open }: EditModalProps) => {
 		updatedBasketData(defaultInitialLegValues)
 		setSubTradeOptionList(tradeTypeData[0].children)
 	}
-
 	const handleAddBasket = (value: string) => {
 		const uniqueId = generateUniqueId()
 		setBasket((prev) => [
@@ -71,16 +71,7 @@ const EditBasketModal = ({ open }: EditModalProps) => {
 							actionType: basketInitialData.action,
 						},
 						count: basket.length + 1,
-						exitCondition: {
-							stopLoss: {
-								type: 'percent',
-								value: 0,
-							},
-							totalProfit: {
-								type: 'percent',
-								value: 0,
-							},
-						},
+						exitCondition: defaultLegsEXitCondition,
 					}
 				: value === 'future'
 					? {
@@ -92,16 +83,7 @@ const EditBasketModal = ({ open }: EditModalProps) => {
 								actionType: basketInitialData.action,
 								expiry: basketInitialData.expiry,
 							},
-							exitCondition: {
-								stopLoss: {
-									type: 'percent',
-									value: 0,
-								},
-								totalProfit: {
-									type: 'percent',
-									value: 0,
-								},
-							},
+							exitCondition: defaultLegsEXitCondition,
 						}
 					: {
 							type: 'options',
@@ -116,16 +98,7 @@ const EditBasketModal = ({ open }: EditModalProps) => {
 								tradeTypeParams: basketInitialData.subTradeOption,
 								tradeTypeValue: basketInitialData.tradeValue,
 							},
-							exitCondition: {
-								stopLoss: {
-									type: 'percent',
-									value: 0,
-								},
-								totalProfit: {
-									type: 'percent',
-									value: 0,
-								},
-							},
+							exitCondition: defaultLegsEXitCondition,
 						},
 		])
 	}
@@ -189,9 +162,9 @@ const EditBasketModal = ({ open }: EditModalProps) => {
 					updatedBasketData={updatedBasketData}
 					instrument={basketData.ticker}
 					subTradeOptionList={subTradeOptionList}
-					handleAddBasket={handleAddBasket}
 					setSubTradeOptionList={setSubTradeOptionList}
 					setOptionValue={setOptionValue}
+					handleAddBasket={handleAddBasket}
 				/>
 				<DetailsContainer
 					basket={basket}

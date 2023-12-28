@@ -3,22 +3,21 @@ import Instrument from '../modal-components/instrument'
 import ActionSelector from '../modal-components/action-selector'
 import PositionHolder from './position-holder'
 import QuantityInput from '../modal-components/quantity-input'
+import { BasketDataValues } from 'src/components/basket/types/types'
 
 interface BasketProps {
+	basketInitialData: BasketDataValues
+	baseInstrumentValue: string
 	handleAddBasket: (val: string) => void
 	handleBaseQuantityChange: (value: number) => void
 	handleBaseActionChange: (val: string) => void
-	baseInstrumentValue: string
-	baseQuantityValue: number
-	baseActionValue: string
 }
 const SpotBasketSelector = ({
+	basketInitialData,
 	handleAddBasket,
 	handleBaseQuantityChange,
 	handleBaseActionChange,
 	baseInstrumentValue,
-	baseQuantityValue,
-	baseActionValue,
 }: BasketProps) => {
 	const { token } = theme.useToken()
 
@@ -50,7 +49,7 @@ const SpotBasketSelector = ({
 						action2="S"
 						color1="green"
 						color2="red"
-						baseActionValue={baseActionValue}
+						baseActionValue={basketInitialData.action}
 						handleBaseActionChange={handleBaseActionChange}
 					/>
 				</Flex>
@@ -66,7 +65,7 @@ const SpotBasketSelector = ({
 			children: (
 				<Flex flex={1} justify="center">
 					<QuantityInput
-						baseQuantityValue={baseQuantityValue}
+						baseQuantityValue={basketInitialData.quantity}
 						handleQantityChange={handleBaseQuantityChange}
 					/>
 				</Flex>

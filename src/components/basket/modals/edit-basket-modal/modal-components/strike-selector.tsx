@@ -12,7 +12,6 @@ interface StrikeSelectorProps {
 	tradeValue: number
 	setTradeOption: (val: string) => void
 	setSubTradeOption: (val: string) => void
-	setSubTradeOptionList: (val: TradeOptions[]) => void
 	setTradeValue: (val: number) => void
 }
 
@@ -23,17 +22,16 @@ const StrikeSelector: React.FC<StrikeSelectorProps> = ({
 	tradeValue,
 	setTradeOption,
 	setSubTradeOption,
-	setSubTradeOptionList,
 	setTradeValue,
 }) => {
 	const handleTradeChange: SelectProps['onChange'] = (value: string) => {
-		const subTradeData =
-			tradeTypeData.find((data) => data.value === value)?.children || []
+		// const subTradeData =
+		// 	tradeTypeData.find((data) => data.value === value)?.children || []
 		setTradeOption(value)
 
-		setSubTradeOptionList(subTradeData)
-		setSubTradeOption(subTradeData[0]?.value || '')
-		setTradeValue(1)
+		//setSubTradeOptionList(subTradeData)
+		// setSubTradeOption(subTradeData[0]?.value || '')
+		// setTradeValue(1)
 	}
 
 	const handleSubTradeChange: SelectProps['onChange'] = (value: string) => {
