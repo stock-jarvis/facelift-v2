@@ -9,13 +9,7 @@ import { useBasketStore } from '../../store/basket-store'
 const { RangePicker } = DatePicker
 const Index = () => {
 	const { token } = theme.useToken()
-	const {
-		toggleSetBasketModalOpen,
-
-		handleDateChange,
-		//	startDate,
-		//		endDate,
-	} = useBasketStore()
+	const { toggleSetBasketModalOpen, handleDateChange } = useBasketStore()
 	const [disabledButton /* setDisabledButton*/] = useState<boolean>(true)
 
 	const handleDateChanged: TimeRangePickerProps['onChange'] = (e) => {
