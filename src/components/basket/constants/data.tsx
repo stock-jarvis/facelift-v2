@@ -1,4 +1,8 @@
-import { OptionObject } from '../types/types'
+import {
+	OptionObject,
+	BasketDataValues,
+	SavedBasketsObject,
+} from '../types/types'
 
 export const futureExpiry: OptionObject[] = [
 	{
@@ -204,3 +208,32 @@ export const totalProfitOptions: OptionObject[] = [
 		label: 'TP Pt',
 	},
 ]
+
+export const defaultInitialLegValues: BasketDataValues = {
+	quantity: 1,
+	action: 'B',
+	option: 'CE',
+	expiry: 'Monthly',
+	tradeValue: 1,
+	tradeOption: tradeTypeData[0].value,
+	subTradeOption: 'ATM',
+	instrument: '',
+}
+
+export const defaultBasketData: SavedBasketsObject = {
+	name: '',
+	exchange: '',
+	ticker: '',
+	id: '',
+	key: '',
+	type: '',
+	identifier: 0,
+	atm: '',
+	exitCondition: {
+		totalLoss: 0,
+		totalProfit: 0,
+		move: false,
+		repeat: '',
+		type: '',
+	},
+}

@@ -8,92 +8,53 @@ import ExitCondition from './modal-containers/exit-condition'
 import DetailsContainer from './modal-containers/detail-container'
 import { generateUniqueId } from '../../common/utils/randomizer'
 import { useBasketStore } from '../../store/basket-store'
-import { usePersistState } from './modal-hooks/usePersistState'
 import Selectors from './modal-containers/selector-container'
 
-import { tradeTypeData } from '../../constants/data'
+import {
+	tradeTypeData,
+	defaultInitialLegValues,
+	defaultBasketData,
+} from '../../constants/data'
 import {
 	TradeOptions,
 	BasketDataProps,
-	PersistedValues,
 	BasketDataValues,
 	SavedBasketsObject,
 } from '../../types/types'
 
 const initialSubTradeList = tradeTypeData[0].children
 
-const defaultInitialValues: BasketDataValues = {
-	quantity: 1,
-	action: 'B',
-	option: 'CE',
-	expiry: 'Monthly',
-	tradeValue: 1,
-	tradeOption: tradeTypeData[0].value,
-	subTradeOption: 'ATM',
-	instrument: '',
-}
-
-const defaultOuterData: SavedBasketsObject = {
-	name: '',
-	exchange: '',
-	ticker: '',
-	id: '',
-	key: '',
-	type: '',
-	identifier: 0,
-	atm: '',
-	exitCondition: {
-		totalLoss: 0,
-		totalProfit: 0,
-		move: false,
-		repeat: '',
-		type: '',
-	},
-}
 interface EditModalProps {
 	open: boolean
 }
 
 const EditBasketModal = ({ open }: EditModalProps) => {
 	const { token } = theme.useToken()
-	const {
-		editableBasketData,
-		positionCopy,
-		setPositionCopy,
-		resetEditablebasket,
-		closeEditConfirmation,
-	} = useBasketStore()
+	const { editableBasketData, resetEditablebasket, closeEditConfirmation } =
+		useBasketStore()
 
-	const [basketInitialData, updatedBasketData] =
-		useImmer<BasketDataValues>(defaultInitialValues)
+	const [basketInitialData, updatedBasketData] = useImmer<BasketDataValues>(
+		defaultInitialLegValues
+	)
 	const [basketData, setBasketData] =
 		useImmer<SavedBasketsObject>(editableBasketData)
 	const [basket, setBasket] = useState<BasketDataProps[]>(
 		editableBasketData.positions || []
 	)
-	const [persistedValues, setPersistedValues] = useState<PersistedValues>()
 
 	const [subTradeOptionList, setSubTradeOptionList] =
 		useState<TradeOptions[]>(initialSubTradeList)
 
-	usePersistState(
-		basketInitialData,
-		updatedBasketData,
-		positionCopy,
-		setPositionCopy,
-		persistedValues
-	)
-
 	const handleAfterClose = () => {
 		resetEditablebasket()
-		setBasketData(defaultOuterData)
+		setBasketData(defaultBasketData)
 		setBasket([])
-		updatedBasketData(defaultInitialValues)
+		updatedBasketData(defaultInitialLegValues)
 		setSubTradeOptionList(initialSubTradeList)
 	}
 
 	const setOptionValue = () => {
-		updatedBasketData(defaultInitialValues)
+		updatedBasketData(defaultInitialLegValues)
 		setSubTradeOptionList(tradeTypeData[0].children)
 	}
 
@@ -179,45 +140,8 @@ const EditBasketModal = ({ open }: EditModalProps) => {
 	}
 
 	const handleCopyBasket = (id: string) => {
-		setPersistedValues({
-			quantityValue: basketInitialData.quantity,
-			actionValue: basketInitialData.action,
-			expiry: basketInitialData.expiry || 'Monthly',
-			optionType: basketInitialData.option || 'CE',
-			tradeValue: basketInitialData.tradeValue || 1,
-			tradeOption: basketInitialData.tradeOption || tradeTypeData[0].value,
-			subTradeOption:
-				basketInitialData.subTradeOption || tradeTypeData[0].children[0].value,
-		})
 		const basketToBeCopied = basket.find((basket) => basket.id === id)
-		setPositionCopy(true)
 		if (basketToBeCopied) {
-			if (basketToBeCopied.type === 'spot') {
-				updatedBasketData({
-					...basketInitialData,
-					action: basketToBeCopied.entryCondition.actionType,
-					quantity: basketToBeCopied.entryCondition.quantity,
-				})
-			} else if (basketToBeCopied.type === 'future') {
-				updatedBasketData({
-					...basketInitialData,
-					action: basketToBeCopied.entryCondition.actionType,
-					quantity: basketToBeCopied.entryCondition.quantity,
-					expiry: basketToBeCopied.entryCondition.expiry || 'Monthly',
-				})
-			} else if (basketToBeCopied.type === 'options') {
-				updatedBasketData({
-					...basketInitialData,
-					action: basketToBeCopied.entryCondition.actionType,
-					quantity: basketToBeCopied.entryCondition.quantity,
-					expiry: basketToBeCopied.entryCondition.expiry,
-					option: basketToBeCopied.entryCondition.optionType,
-					tradeValue: basketToBeCopied.entryCondition.tradeTypeValue,
-					tradeOption: basketToBeCopied.entryCondition.tradeType || 'Atmpt',
-					subTradeOption: basketToBeCopied.entryCondition.tradeTypeParams,
-				})
-			}
-
 			setBasket((prev) => [
 				...prev,
 				{
