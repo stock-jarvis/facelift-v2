@@ -56,7 +56,6 @@ const Footer: React.FC<FooterProps> = ({ basket, basketData }) => {
 			setBasketExitConditions(obj)
 		}
 	}, [basketData, basketExitConditions])
-	useEffect(() => {}, [savedBasket])
 	useEffect(() => {
 		if (
 			!savedBasket ||

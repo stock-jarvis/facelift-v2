@@ -41,10 +41,8 @@ const EntryExit: React.FC<EntryExitProps> = ({
 			<Flex
 				style={{
 					width: '90%',
-					//backgroundColor: '#F1F8FF',
 					padding: token.paddingLG,
 					borderRadius: token.borderRadiusLG,
-					//	boxShadow: '1px 2px 3px rgba(0, 0, 0, 0.25)',
 				}}
 			>
 				<Flex flex={1} justify="center" align="center">

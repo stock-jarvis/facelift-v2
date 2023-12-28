@@ -2,8 +2,7 @@ import { useEffect } from 'react'
 import { BasketDataProps } from 'src/components/basket/types/types'
 
 type keyValue = 'tradeType' | 'tradeTypeParams' | 'expiry'
-//| 'stop_loss_type'
-//| 'total_profit_type'
+
 export const useTypeChange = (
 	tradeType: string | undefined,
 	id: string,
