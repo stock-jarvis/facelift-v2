@@ -15,14 +15,14 @@ interface BasketProps {
 	handleBaseExpiryChange: (val: string) => void
 	handleBaseActionChange: (val: string) => void
 }
-const FutureBasketSelector = ({
+const FutureBasketSelector: React.FC<BasketProps> = ({
 	basketInitialData,
 	baseInstrumentValue,
 	handleAddBasket,
 	handleBaseQuantityChange,
 	handleBaseActionChange,
 	handleBaseExpiryChange,
-}: BasketProps) => {
+}) => {
 	const { token } = theme.useToken()
 	const items: DescriptionsProps['items'] = [
 		{

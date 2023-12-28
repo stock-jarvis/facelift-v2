@@ -211,6 +211,7 @@ export const totalProfitOptions: OptionObject[] = [
 ]
 
 export const defaultInitialLegValues: BasketDataValues = {
+	id: '',
 	quantity: 1,
 	action: 'B',
 	option: 'CE',

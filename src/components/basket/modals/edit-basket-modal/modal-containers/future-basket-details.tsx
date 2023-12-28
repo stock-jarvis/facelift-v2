@@ -19,79 +19,99 @@ import { useActionChange } from '../modal-hooks/useActionChange'
 import { useTypeChange } from '../modal-hooks/useTypeChange'
 import { useExitTypeChange } from '../modal-hooks/useExitTypeChange'
 import { useExitValueChange } from '../modal-hooks/useExitValueChange'
-
-import {
-	OptionObject,
-	BasketDataProps,
-} from 'src/components/basket/types/types'
+import { futureExpiry } from 'src/components/basket/constants/data'
+import { BasketDataProps } from 'src/components/basket/types/types'
 import {
 	spotLossOptions,
 	totalProfitOptions,
 } from 'src/components/basket/constants/data'
 
 interface FututreDetailsProps {
-	id: string
 	dark: boolean
-	count: number
-	baseQuanity: number
-	baseActionValue: string
-	futureExpiryList: OptionObject[]
-	futureExpiryBaseValue: string
+	individualBasket: BasketDataProps
 	baseInstrumentValue: string
 	basket: BasketDataProps[]
-	baseSpotLossValue: number
-	baseTotalProfitValue: number
-	baseSpotLossOption: string
-	baseTotalProfitOption: string
 	handleDeleteBasket: (val: string) => void
 	handleCopyBasket: (val: string) => void
 	handleEditBasket: (basket: BasketDataProps[]) => void
 }
-const FututeBasketDetails = ({
-	id,
+const FututeBasketDetails: React.FC<FututreDetailsProps> = ({
 	dark,
-	count,
 	basket,
-	baseQuanity,
-	baseActionValue,
-	futureExpiryList,
-	baseSpotLossValue,
-	baseTotalProfitValue,
-	baseSpotLossOption,
-	baseTotalProfitOption,
+	individualBasket,
 	baseInstrumentValue,
-	futureExpiryBaseValue,
 	handleCopyBasket,
 	handleEditBasket,
 	handleDeleteBasket,
-}: FututreDetailsProps) => {
+}) => {
 	const { token } = theme.useToken()
-	const [quantityValue, setQuantityValue] = useState<number>(baseQuanity)
-	const [actionValue, setActionValue] = useState<string>(baseActionValue)
-	const [expirtyValue, setExpiryValue] = useState<string>(futureExpiryBaseValue)
-	const [spotLossType, setSpotLossType] = useState<string>(baseSpotLossOption)
-	const [totalProfitType, setTotalProfitType] = useState<string>(
-		baseTotalProfitOption
+	const [quantityValue, setQuantityValue] = useState<number>(
+		individualBasket.entryCondition.quantity
 	)
-	const [totalProfitValue, setTotalProfitValue] =
-		useState<number>(baseTotalProfitValue)
-	const [spotLossValue, setSpotLossValue] = useState<number>(baseSpotLossValue)
+	const [actionValue, setActionValue] = useState<string>(
+		individualBasket.entryCondition.actionType
+	)
+	const [expirtyValue, setExpiryValue] = useState<string>(
+		individualBasket.entryCondition.expiry || 'Monthly'
+	)
+	const [spotLossType, setSpotLossType] = useState<string>(
+		individualBasket.exitCondition.stopLoss.type
+	)
+	const [totalProfitType, setTotalProfitType] = useState<string>(
+		individualBasket.exitCondition.totalProfit.type
+	)
+	const [totalProfitValue, setTotalProfitValue] = useState<number>(
+		individualBasket.exitCondition.stopLoss.value
+	)
+	const [spotLossValue, setSpotLossValue] = useState<number>(
+		individualBasket.exitCondition.totalProfit.value
+	)
 
-	useValueChange(quantityValue, id, basket, handleEditBasket, 'quantity')
-	useActionChange(actionValue, id, basket, handleEditBasket, 'actionType')
-	useTypeChange(expirtyValue, id, basket, handleEditBasket, 'expiry')
+	useValueChange(
+		quantityValue,
+		individualBasket.id,
+		basket,
+		handleEditBasket,
+		'quantity'
+	)
+	useActionChange(
+		actionValue,
+		individualBasket.id,
+		basket,
+		handleEditBasket,
+		'actionType'
+	)
+	useTypeChange(
+		expirtyValue,
+		individualBasket.id,
+		basket,
+		handleEditBasket,
+		'expiry'
+	)
 	useExitValueChange(
 		totalProfitValue,
-		id,
+		individualBasket.id,
 		basket,
 		handleEditBasket,
 		'totalProfit'
 	)
-	useExitValueChange(spotLossValue, id, basket, handleEditBasket, 'stopLoss')
-	useExitTypeChange(spotLossType, id, basket, handleEditBasket, 'stopLoss')
+	useExitValueChange(
+		spotLossValue,
+		individualBasket.id,
+		basket,
+		handleEditBasket,
+		'stopLoss'
+	)
+	useExitTypeChange(
+		spotLossType,
+		individualBasket.id,
+		basket,
+		handleEditBasket,
+		'stopLoss'
+	)
 	useExitTypeChange(
 		totalProfitType,
-		id,
+		individualBasket.id,
 		basket,
 		handleEditBasket,
 		'totalProfit'
@@ -188,13 +208,13 @@ const FututeBasketDetails = ({
 						shape="circle"
 						icon={<CopyOutlined />}
 						type="text"
-						onClick={() => handleCopyBasket(id)}
+						onClick={() => handleCopyBasket(individualBasket.id)}
 					/>
 					<Button
 						shape="circle"
 						icon={<DeleteOutlined />}
 						type="text"
-						onClick={() => handleDeleteBasket(id)}
+						onClick={() => handleDeleteBasket(individualBasket.id)}
 					/>
 				</Flex>
 			),
@@ -216,7 +236,7 @@ const FututeBasketDetails = ({
 			children: (
 				<Flex flex={1} justify="center">
 					<ExpirySelector
-						expiryOptions={futureExpiryList}
+						expiryOptions={futureExpiry}
 						expiryValue={expirtyValue}
 						handleExpiryChange={setExpiryValue}
 					/>
@@ -280,7 +300,7 @@ const FututeBasketDetails = ({
 		<Flex vertical>
 			<Divider>
 				<Typography.Text style={{ color: token.colorPrimary }}>
-					Future ({`Leg-${count}`})
+					Future ({`Leg-${individualBasket.count}`})
 				</Typography.Text>
 			</Divider>
 			<Descriptions

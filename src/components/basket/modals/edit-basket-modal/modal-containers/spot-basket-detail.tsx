@@ -23,48 +23,43 @@ import { useActionChange } from '../modal-hooks/useActionChange'
 import { useExitValueChange } from '../modal-hooks/useExitValueChange'
 import { useExitTypeChange } from '../modal-hooks/useExitTypeChange'
 interface SpotDetailsProps {
+	dark: boolean
+	basket: BasketDataProps[]
+	baseInstrumentValue: string
+	individualBasket: BasketDataProps
 	handleDeleteBasket: (val: string) => void
 	handleCopyBasket: (val: string) => void
 	handleEditBasket: (basket: BasketDataProps[]) => void
-	id: string
-	dark: boolean
-	count: number
-	basket: BasketDataProps[]
-	baseSpotLossValue: number
-	baseTotalProfitValue: number
-	baseInstrumentValue: string
-	baseQuanity: number
-	baseActionValue: string
-	baseSpotLossOption: string
-	baseTotalProfitOption: string
 }
 
-const SpotBasketDetail = ({
-	handleDeleteBasket,
+const SpotBasketDetail: React.FC<SpotDetailsProps> = ({
+	dark,
+	basket,
+	individualBasket,
+	baseInstrumentValue,
 	handleCopyBasket,
 	handleEditBasket,
-	id,
-	dark,
-	count,
-	basket,
-	baseQuanity,
-	baseActionValue,
-	baseInstrumentValue,
-	baseSpotLossValue,
-	baseTotalProfitValue,
-	baseSpotLossOption,
-	baseTotalProfitOption,
-}: SpotDetailsProps) => {
+	handleDeleteBasket,
+}) => {
 	const { token } = theme.useToken()
-	const [quantityValue, setQuantityValue] = useState<number>(baseQuanity)
-	const [actionValue, setActionValue] = useState<string>(baseActionValue)
-	const [spotLossType, setSpotLossType] = useState<string>(baseSpotLossOption)
-	const [totalProfitType, setTotalProfitType] = useState<string>(
-		baseTotalProfitOption
+	const [quantityValue, setQuantityValue] = useState<number>(
+		individualBasket.entryCondition.quantity
 	)
-	const [totalProfitValue, setTotalProfitValue] =
-		useState<number>(baseTotalProfitValue)
-	const [spotLossValue, setSpotLossValue] = useState<number>(baseSpotLossValue)
+	const [actionValue, setActionValue] = useState<string>(
+		individualBasket.entryCondition.actionType
+	)
+	const [spotLossType, setSpotLossType] = useState<string>(
+		individualBasket.exitCondition.stopLoss.type
+	)
+	const [totalProfitType, setTotalProfitType] = useState<string>(
+		individualBasket.exitCondition.totalProfit.type
+	)
+	const [totalProfitValue, setTotalProfitValue] = useState<number>(
+		individualBasket.exitCondition.totalProfit.value
+	)
+	const [spotLossValue, setSpotLossValue] = useState<number>(
+		individualBasket.exitCondition.stopLoss.value
+	)
 
 	const item: DescriptionsProps['items'] = [
 		{
@@ -210,33 +205,57 @@ const SpotBasketDetail = ({
 						shape="circle"
 						icon={<CopyOutlined />}
 						type="text"
-						onClick={() => handleCopyBasket(id)}
+						onClick={() => handleCopyBasket(individualBasket.id)}
 					/>
 					<Button
 						shape="circle"
 						icon={<DeleteOutlined />}
 						type="text"
-						onClick={() => handleDeleteBasket(id)}
+						onClick={() => handleDeleteBasket(individualBasket.id)}
 					/>
 				</Flex>
 			),
 		},
 	]
 
-	useValueChange(quantityValue, id, basket, handleEditBasket, 'quantity')
-	useActionChange(actionValue, id, basket, handleEditBasket, 'actionType')
+	useValueChange(
+		quantityValue,
+		individualBasket.id,
+		basket,
+		handleEditBasket,
+		'quantity'
+	)
+	useActionChange(
+		actionValue,
+		individualBasket.id,
+		basket,
+		handleEditBasket,
+		'actionType'
+	)
 	useExitValueChange(
 		totalProfitValue,
-		id,
+		individualBasket.id,
 		basket,
 		handleEditBasket,
 		'totalProfit'
 	)
-	useExitValueChange(spotLossValue, id, basket, handleEditBasket, 'stopLoss')
-	useExitTypeChange(spotLossType, id, basket, handleEditBasket, 'stopLoss')
+	useExitValueChange(
+		spotLossValue,
+		individualBasket.id,
+		basket,
+		handleEditBasket,
+		'stopLoss'
+	)
+	useExitTypeChange(
+		spotLossType,
+		individualBasket.id,
+		basket,
+		handleEditBasket,
+		'stopLoss'
+	)
 	useExitTypeChange(
 		totalProfitType,
-		id,
+		individualBasket.id,
 		basket,
 		handleEditBasket,
 		'totalProfit'
@@ -246,7 +265,7 @@ const SpotBasketDetail = ({
 		<Flex vertical>
 			<Divider>
 				<Typography.Text style={{ color: token.colorPrimary }}>
-					Spot ({`Leg-${count}`})
+					Spot ({`Leg-${individualBasket.count}`})
 				</Typography.Text>
 			</Divider>
 			<Descriptions

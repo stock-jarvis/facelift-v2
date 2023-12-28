@@ -11,19 +11,15 @@ import { useBasketStore } from '../../store/basket-store'
 import Selectors from './modal-containers/selector-container'
 
 import {
-	tradeTypeData,
 	defaultInitialLegValues,
 	defaultBasketData,
 	defaultLegsEXitCondition,
 } from '../../constants/data'
 import {
-	TradeOptions,
 	BasketDataProps,
 	BasketDataValues,
 	SavedBasketsObject,
 } from '../../types/types'
-
-const initialSubTradeList = tradeTypeData[0].children
 
 interface EditModalProps {
 	open: boolean
@@ -43,20 +39,15 @@ const EditBasketModal = ({ open }: EditModalProps) => {
 		editableBasketData.positions || []
 	)
 
-	const [subTradeOptionList, setSubTradeOptionList] =
-		useState<TradeOptions[]>(initialSubTradeList)
-
 	const handleAfterClose = () => {
 		resetEditablebasket()
 		setBasketData(defaultBasketData)
 		setBasket([])
 		updatedBasketData(defaultInitialLegValues)
-		setSubTradeOptionList(initialSubTradeList)
 	}
 
 	const setOptionValue = () => {
 		updatedBasketData(defaultInitialLegValues)
-		setSubTradeOptionList(tradeTypeData[0].children)
 	}
 	const handleAddBasket = (value: string) => {
 		const uniqueId = generateUniqueId()
@@ -161,21 +152,14 @@ const EditBasketModal = ({ open }: EditModalProps) => {
 					basketInitialData={basketInitialData}
 					updatedBasketData={updatedBasketData}
 					instrument={basketData.ticker}
-					subTradeOptionList={subTradeOptionList}
-					setSubTradeOptionList={setSubTradeOptionList}
 					setOptionValue={setOptionValue}
 					handleAddBasket={handleAddBasket}
 				/>
 				<DetailsContainer
 					basket={basket}
 					setBasket={setBasket}
+					basketInitialData={basketInitialData}
 					instrument={basketData.ticker}
-					tradeOption={basketInitialData.tradeOption || tradeTypeData[0].value}
-					subTradeOption={
-						basketInitialData.subTradeOption ||
-						tradeTypeData[0].children[0].value
-					}
-					subTradeOptionList={subTradeOptionList}
 					handleCopyBasket={handleCopyBasket}
 					handleDeleteBasket={handleDeleteBasket}
 				/>

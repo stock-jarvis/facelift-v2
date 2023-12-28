@@ -21,82 +21,86 @@ import { useExitTypeChange } from '../modal-hooks/useExitTypeChange'
 import { useExitValueChange } from '../modal-hooks/useExitValueChange'
 import { useState } from 'react'
 import {
-	OptionObject,
 	TradeOptions,
 	BasketDataProps,
 } from 'src/components/basket/types/types'
+import { optionExpiry } from 'src/components/basket/constants/data'
 import {
 	spotLossOptions,
 	totalProfitOptions,
+	tradeTypeData,
 } from 'src/components/basket/constants/data'
 interface OptionDetailsProps {
-	id: string
+	individualBasket: BasketDataProps
 	dark: boolean
-	count: number
-	baseQuanity: number
-	baseActionValue: string
-	baseOptionValue: string
 	basket: BasketDataProps[]
-	optionExpiryBaseValue: string
-	optionExpiryList: OptionObject[]
-	baseTradeValue: number
-	baseTradeOption: string
-	baseSubTradeOption: string
-	baseSubTradeOptionList: TradeOptions[]
 	baseInstrumentValue: string
-	baseSpotLossValue: number
-	baseTotalProfitValue: number
-	baseSpotLossOption: string
-	baseTotalProfitOption: string
 	handleDeleteBasket: (val: string) => void
 	handleCopyBasket: (val: string) => void
 	handleEditBasket: (basket: BasketDataProps[]) => void
 }
-const OptionBasketDetail = ({
-	id,
+const OptionBasketDetail: React.FC<OptionDetailsProps> = ({
 	dark,
-	count,
 	basket,
-	baseQuanity,
-	baseActionValue,
-	baseOptionValue,
-	optionExpiryList,
-	optionExpiryBaseValue,
-	baseTradeOption,
-	baseSubTradeOption,
-	baseSubTradeOptionList,
-	baseTradeValue,
+	individualBasket,
 	baseInstrumentValue,
-	baseSpotLossValue,
-	baseTotalProfitValue,
-	baseSpotLossOption,
-	baseTotalProfitOption,
 	handleDeleteBasket,
 	handleCopyBasket,
 	handleEditBasket,
-}: OptionDetailsProps) => {
+}) => {
 	const { token } = theme.useToken()
 
-	const [quantityValue, setQuantityValue] = useState<number>(baseQuanity)
-	const [actionValue, setActionValue] = useState<string>(baseActionValue)
-	const [optionType, setOptionType] = useState<string>(baseOptionValue)
-	const [tradeOption, setTradeOption] = useState<string>(baseTradeOption)
-	const [tradeValue, setTradeValue] = useState<number>(baseTradeValue)
-	const [subTradeOption, setSubTradeOption] =
-		useState<string>(baseSubTradeOption)
+	const [quantityValue, setQuantityValue] = useState<number>(
+		individualBasket.entryCondition.quantity
+	)
+	const [actionValue, setActionValue] = useState<string>(
+		individualBasket.entryCondition.actionType
+	)
+	const [optionType, setOptionType] = useState<string>(
+		individualBasket.entryCondition.optionType || ''
+	)
+	const [tradeOption, setTradeOption] = useState<string>(
+		individualBasket.entryCondition.tradeType || ''
+	)
+	const [tradeValue, setTradeValue] = useState<number>(
+		individualBasket.entryCondition.tradeTypeValue || 1
+	)
+	const [subTradeOption, setSubTradeOption] = useState<string>(
+		individualBasket.entryCondition.tradeTypeParams || ''
+	)
 
 	const [subTradeOptionList, setSubTradeOptionList] = useState<TradeOptions[]>(
-		baseSubTradeOptionList
+		tradeTypeData.find(
+			(trade) => individualBasket.entryCondition.tradeType === trade.value
+		)?.children || []
 	)
-	const [expiryValue, setExpiryValue] = useState<string>(optionExpiryBaseValue)
 
-	const [spotLossType, setSpotLossType] = useState<string>(baseSpotLossOption)
-	const [totalProfitType, setTotalProfitType] = useState<string>(
-		baseTotalProfitOption
+	const [expiryValue, setExpiryValue] = useState<string>(
+		individualBasket.entryCondition.expiry || 'Monthly'
 	)
-	const [totalProfitValue, setTotalProfitValue] =
-		useState<number>(baseTotalProfitValue)
-	const [spotLossValue, setSpotLossValue] = useState<number>(baseSpotLossValue)
+
+	const [spotLossType, setSpotLossType] = useState<string>(
+		individualBasket.exitCondition.stopLoss.type
+	)
+	const [totalProfitType, setTotalProfitType] = useState<string>(
+		individualBasket.exitCondition.totalProfit.type
+	)
+	const [totalProfitValue, setTotalProfitValue] = useState<number>(
+		individualBasket.exitCondition.totalProfit.value
+	)
+	const [spotLossValue, setSpotLossValue] = useState<number>(
+		individualBasket.exitCondition.stopLoss.value
+	)
+
+	const handleTradeOptionChange = (val: string) => {
+		const data = tradeTypeData.find((trade) => trade.value === val)
+		if (data) {
+			setTradeOption(val)
+			setSubTradeOption(data.children[0].value)
+			setSubTradeOptionList(data.children)
+			setTradeValue(1)
+		}
+	}
 	const item: DescriptionsProps['items'] = [
 		{
 			key: 'intruments',
@@ -220,13 +224,13 @@ const OptionBasketDetail = ({
 						shape="circle"
 						icon={<CopyOutlined />}
 						type="text"
-						onClick={() => handleCopyBasket(id)}
+						onClick={() => handleCopyBasket(individualBasket.id)}
 					/>
 					<Button
 						shape="circle"
 						icon={<DeleteOutlined />}
 						type="text"
-						onClick={() => handleDeleteBasket(id)}
+						onClick={() => handleDeleteBasket(individualBasket.id)}
 					/>
 				</Flex>
 			),
@@ -252,11 +256,11 @@ const OptionBasketDetail = ({
 						tradeOption={tradeOption}
 						tradeValue={tradeValue}
 						setTradeValue={setTradeValue}
-						setTradeOption={setTradeOption}
+						setTradeOption={handleTradeOptionChange}
 						subTradeOption={subTradeOption}
 						setSubTradeOption={setSubTradeOption}
 						subTradeOptionList={subTradeOptionList}
-						setSubTradeOptionList={setSubTradeOptionList}
+						//setSubTradeOptionList={setSubTradeOptionList}
 					/>
 				</Flex>
 			),
@@ -282,7 +286,7 @@ const OptionBasketDetail = ({
 					<ExpirySelector
 						expiryValue={expiryValue}
 						handleExpiryChange={setExpiryValue}
-						expiryOptions={optionExpiryList}
+						expiryOptions={optionExpiry}
 					/>
 				</Flex>
 			),
@@ -343,26 +347,80 @@ const OptionBasketDetail = ({
 		},
 	]
 
-	useValueChange(quantityValue, id, basket, handleEditBasket, 'quantity')
-	useValueChange(tradeValue, id, basket, handleEditBasket, 'tradeTypeValue')
-	useActionChange(actionValue, id, basket, handleEditBasket, 'actionType')
-	useActionChange(optionType, id, basket, handleEditBasket, 'optionType')
-	useTypeChange(tradeOption, id, basket, handleEditBasket, 'tradeType')
-	useTypeChange(expiryValue, id, basket, handleEditBasket, 'expiry')
-	useTypeChange(subTradeOption, id, basket, handleEditBasket, 'tradeTypeParams')
+	useValueChange(
+		quantityValue,
+		individualBasket.id,
+		basket,
+		handleEditBasket,
+		'quantity'
+	)
+	useValueChange(
+		tradeValue,
+		individualBasket.id,
+		basket,
+		handleEditBasket,
+		'tradeTypeValue'
+	)
+	useActionChange(
+		actionValue,
+		individualBasket.id,
+		basket,
+		handleEditBasket,
+		'actionType'
+	)
+	useActionChange(
+		optionType,
+		individualBasket.id,
+		basket,
+		handleEditBasket,
+		'optionType'
+	)
+	useTypeChange(
+		tradeOption,
+		individualBasket.id,
+		basket,
+		handleEditBasket,
+		'tradeType'
+	)
+	useTypeChange(
+		expiryValue,
+		individualBasket.id,
+		basket,
+		handleEditBasket,
+		'expiry'
+	)
+	useTypeChange(
+		subTradeOption,
+		individualBasket.id,
+		basket,
+		handleEditBasket,
+		'tradeTypeParams'
+	)
 
 	useExitValueChange(
 		totalProfitValue,
-		id,
+		individualBasket.id,
 		basket,
 		handleEditBasket,
 		'totalProfit'
 	)
-	useExitValueChange(spotLossValue, id, basket, handleEditBasket, 'stopLoss')
-	useExitTypeChange(spotLossType, id, basket, handleEditBasket, 'stopLoss')
+	useExitValueChange(
+		spotLossValue,
+		individualBasket.id,
+		basket,
+		handleEditBasket,
+		'stopLoss'
+	)
+	useExitTypeChange(
+		spotLossType,
+		individualBasket.id,
+		basket,
+		handleEditBasket,
+		'stopLoss'
+	)
 	useExitTypeChange(
 		totalProfitType,
-		id,
+		individualBasket.id,
 		basket,
 		handleEditBasket,
 		'totalProfit'
@@ -372,7 +430,7 @@ const OptionBasketDetail = ({
 		<Flex vertical>
 			<Divider>
 				<Typography.Text style={{ color: token.colorPrimary }}>
-					Options ({`Leg-${count}`})
+					Options ({`Leg-${individualBasket.count}`})
 				</Typography.Text>
 			</Divider>
 			<Descriptions

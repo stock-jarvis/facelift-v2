@@ -3,31 +3,25 @@ import SpotBasketSelector from './spot-basket-selector'
 import FutureBasketSelector from './future-basket-selector'
 import OptionsBasketSelector from './options-basket-selector'
 import { tradeTypeData } from 'src/components/basket/constants/data'
-import {
-	TradeOptions,
-	BasketDataValues,
-} from 'src/components/basket/types/types'
+import { BasketDataValues } from 'src/components/basket/types/types'
 import { useState } from 'react'
 
 type NumberedKeys = 'quantity' | 'tradeValue'
 type Keys = 'action' | 'expiry' | 'option' | 'tradeOption' | 'subTradeOption'
 interface SelectProps {
-	basketInitialData: BasketDataValues
-	updatedBasketData: (val: BasketDataValues) => void
 	instrument: string
-	subTradeOptionList: TradeOptions[]
-	handleAddBasket: (val: string) => void
+	basketInitialData: BasketDataValues
 	setOptionValue: () => void
-	setSubTradeOptionList: (val: TradeOptions[]) => void
+	handleAddBasket: (val: string) => void
+	updatedBasketData: (val: BasketDataValues) => void
 }
 
 const Selectors: React.FC<SelectProps> = ({
 	instrument,
 	basketInitialData,
-	updatedBasketData,
 	setOptionValue,
 	handleAddBasket,
-	setSubTradeOptionList,
+	updatedBasketData,
 }) => {
 	const { token } = theme.useToken()
 	const [tabValue, setTabValue] = useState<string>('spot')
@@ -44,7 +38,6 @@ const Selectors: React.FC<SelectProps> = ({
 	const handleTradeChange = (val: string) => {
 		const list = tradeTypeData.find((trade) => trade.value === val)?.children
 		if (list) {
-			setSubTradeOptionList(list)
 			updatedBasketData({
 				...basketInitialData,
 				tradeOption: val,

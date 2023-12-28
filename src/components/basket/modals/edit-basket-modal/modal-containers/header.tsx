@@ -14,7 +14,7 @@ interface HeaderProps {
 	basketData: SavedBasketsObject
 	setBasketData: (val: SavedBasketsObject) => void
 }
-const Header = ({ basketData, setBasketData }: HeaderProps) => {
+const Header: React.FC<HeaderProps> = ({ basketData, setBasketData }) => {
 	const { token } = theme.useToken()
 
 	const handleBasketExchangeChange = (val: string) => {

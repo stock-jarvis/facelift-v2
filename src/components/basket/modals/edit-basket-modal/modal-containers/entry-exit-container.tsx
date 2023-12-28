@@ -18,7 +18,7 @@ interface EntryExitProps {
 	handleChangeEntryMinute: (val: number) => void
 	handleChangeEntryHour: (val: number) => void
 }
-const EntryExit = ({
+const EntryExit: React.FC<EntryExitProps> = ({
 	entryHoursData,
 	entryMinutesData,
 	entryHourValue,
@@ -34,7 +34,7 @@ const EntryExit = ({
 	handleChangeEntryHour,
 	handleEntryMinuteListChange,
 	handleExitMinuteListChange,
-}: EntryExitProps) => {
+}) => {
 	const { token } = theme.useToken()
 	return (
 		<Flex flex={1} justify="center">

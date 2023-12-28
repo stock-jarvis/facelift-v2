@@ -20,7 +20,7 @@ interface BasketProps {
 	handleBaseTradeValueChange: (val: number) => void
 	baseInstrumentValue: string
 }
-const OptionsBasketSelector = ({
+const OptionsBasketSelector: React.FC<BasketProps> = ({
 	basketInitialData,
 	handleAddBasket,
 	handleBaseQuantityChange,
@@ -31,7 +31,7 @@ const OptionsBasketSelector = ({
 	handleBaseSubTradeChange,
 	handleBaseTradeValueChange,
 	baseInstrumentValue,
-}: BasketProps) => {
+}) => {
 	const { token } = theme.useToken()
 
 	const items: DescriptionsProps['items'] = [

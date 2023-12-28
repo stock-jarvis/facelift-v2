@@ -8,12 +8,12 @@ interface ProfitLossProps {
 	lossLabel: string
 }
 
-const ProfitLoss = ({
+const ProfitLoss: React.FC<ProfitLossProps> = ({
 	basketData,
 	profitLabel,
 	lossLabel,
 	setBasketData,
-}: ProfitLossProps) => {
+}) => {
 	const handleChangeProfit = (val: number) => {
 		setBasketData({
 			...basketData,

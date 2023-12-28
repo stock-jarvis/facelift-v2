@@ -7,12 +7,12 @@ interface PositionHolderProps {
 	handleCopyBasket: (val: string) => void
 	handleDeleteBasket: (val: string) => void
 }
-const DetailBasketHolder = ({
+const DetailBasketHolder: React.FC<PositionHolderProps> = ({
 	id,
 	children,
 	handleCopyBasket,
 	handleDeleteBasket,
-}: PositionHolderProps) => {
+}) => {
 	const { token } = theme.useToken()
 	return (
 		<Flex

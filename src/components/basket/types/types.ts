@@ -108,6 +108,7 @@ export interface BasketDataProps {
 	exitCondition: PositionExitCondition
 }
 export interface BasketDataValues {
+	id: string
 	quantity: number
 	action: string
 	expiry?: string

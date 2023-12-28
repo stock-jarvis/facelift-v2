@@ -7,11 +7,11 @@ interface PositionHolderProps {
 
 	basketType: string
 }
-const PositionHolder = ({
+const PositionHolder: React.FC<PositionHolderProps> = ({
 	onClick,
 	children,
 	basketType,
-}: PositionHolderProps) => {
+}) => {
 	const handleClick: ButtonProps['onClick'] = () => {
 		onClick(basketType)
 	}

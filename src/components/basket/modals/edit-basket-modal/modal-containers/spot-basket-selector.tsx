@@ -12,13 +12,13 @@ interface BasketProps {
 	handleBaseQuantityChange: (value: number) => void
 	handleBaseActionChange: (val: string) => void
 }
-const SpotBasketSelector = ({
+const SpotBasketSelector: React.FC<BasketProps> = ({
 	basketInitialData,
 	handleAddBasket,
 	handleBaseQuantityChange,
 	handleBaseActionChange,
 	baseInstrumentValue,
-}: BasketProps) => {
+}) => {
 	const { token } = theme.useToken()
 
 	const items: DescriptionsProps['items'] = [

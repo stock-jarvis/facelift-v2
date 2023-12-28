@@ -10,12 +10,12 @@ import {
 import { SnippetsOutlined } from '@ant-design/icons'
 import { useEffect, useState } from 'react'
 import { generateUniqueId } from 'src/components/basket/common/utils/randomizer'
-interface FooterPorps {
+interface FooterProps {
 	basketData: SavedBasketsObject
 	basket: BasketDataProps[]
 }
 
-const Footer = ({ basket, basketData }: FooterPorps) => {
+const Footer: React.FC<FooterProps> = ({ basket, basketData }) => {
 	const { token } = theme.useToken()
 	const {
 		timeError,
