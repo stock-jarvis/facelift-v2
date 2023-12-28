@@ -5,7 +5,7 @@ type keyValue = 'tradeType' | 'tradeTypeParams' | 'expiry'
 //| 'stop_loss_type'
 //| 'total_profit_type'
 export const useTypeChange = (
-	tradeType: string,
+	tradeType: string | undefined,
 	id: string,
 	basket: BasketDataProps[],
 	editBasket: (data: BasketDataProps[]) => void,

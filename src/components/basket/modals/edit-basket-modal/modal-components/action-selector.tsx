@@ -7,7 +7,7 @@ interface ActionSelectorProps {
 	action2: string
 	color1: string
 	color2: string
-	baseActionValue: string
+	baseActionValue: string | undefined
 	handleBaseActionChange: (val: string) => void
 }
 
@@ -19,7 +19,7 @@ const ActionSelector: React.FC<ActionSelectorProps> = ({
 	color2,
 	baseActionValue,
 }) => {
-	const [tag, setTag] = useState<string>(baseActionValue)
+	const [tag, setTag] = useState<string | undefined>(baseActionValue)
 	const { token } = theme.useToken()
 
 	const items = [
@@ -55,7 +55,6 @@ const ActionSelector: React.FC<ActionSelectorProps> = ({
 	const handleTagChange: SegmentedProps['onChange'] = (
 		tagVal: SegmentedValue
 	) => {
-		//console.log(tagVal.toLocaleString())
 		if (tagVal.toLocaleString() !== tag) {
 			setTag(tagVal.toLocaleString())
 			handleBaseActionChange(tagVal.toLocaleString())

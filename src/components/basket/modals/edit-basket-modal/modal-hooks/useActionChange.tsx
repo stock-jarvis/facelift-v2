@@ -4,7 +4,7 @@ import { BasketDataProps } from 'src/components/basket/types/types'
 type key = 'actionType' | 'optionType'
 
 export const useActionChange = (
-	actionValue: string,
+	actionValue: string | undefined,
 	id: string,
 	basket: BasketDataProps[],
 	editBasket: (data: BasketDataProps[]) => void,

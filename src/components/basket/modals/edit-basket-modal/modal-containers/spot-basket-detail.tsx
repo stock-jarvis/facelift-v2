@@ -3,6 +3,7 @@ import QuantityInput from '../modal-components/quantity-input'
 import ActionSelector from '../modal-components/action-selector'
 import YeildButton from '../modal-components/yeild-button'
 import { CopyOutlined, DeleteOutlined } from '@ant-design/icons'
+import { useImmer } from 'use-immer'
 import {
 	Flex,
 	theme,
@@ -12,8 +13,12 @@ import {
 	Divider,
 	Typography,
 } from 'antd'
-import { useState } from 'react'
-import { BasketDataProps } from 'src/components/basket/types/types'
+import {
+	SpotBasketData,
+	SpotDetailsProps,
+	spotStrKeys,
+	spotNumberedKeys,
+} from 'src/components/basket/types/types'
 import {
 	spotLossOptions,
 	totalProfitOptions,
@@ -22,15 +27,6 @@ import { useValueChange } from '../modal-hooks/useValueChange'
 import { useActionChange } from '../modal-hooks/useActionChange'
 import { useExitValueChange } from '../modal-hooks/useExitValueChange'
 import { useExitTypeChange } from '../modal-hooks/useExitTypeChange'
-interface SpotDetailsProps {
-	dark: boolean
-	basket: BasketDataProps[]
-	baseInstrumentValue: string
-	individualBasket: BasketDataProps
-	handleDeleteBasket: (val: string) => void
-	handleCopyBasket: (val: string) => void
-	handleEditBasket: (basket: BasketDataProps[]) => void
-}
 
 const SpotBasketDetail: React.FC<SpotDetailsProps> = ({
 	dark,
@@ -42,24 +38,21 @@ const SpotBasketDetail: React.FC<SpotDetailsProps> = ({
 	handleDeleteBasket,
 }) => {
 	const { token } = theme.useToken()
-	const [quantityValue, setQuantityValue] = useState<number>(
-		individualBasket.entryCondition.quantity
-	)
-	const [actionValue, setActionValue] = useState<string>(
-		individualBasket.entryCondition.actionType
-	)
-	const [spotLossType, setSpotLossType] = useState<string>(
-		individualBasket.exitCondition.stopLoss.type
-	)
-	const [totalProfitType, setTotalProfitType] = useState<string>(
-		individualBasket.exitCondition.totalProfit.type
-	)
-	const [totalProfitValue, setTotalProfitValue] = useState<number>(
-		individualBasket.exitCondition.totalProfit.value
-	)
-	const [spotLossValue, setSpotLossValue] = useState<number>(
-		individualBasket.exitCondition.stopLoss.value
-	)
+	const [spotBasketData, setSpotBasketData] = useImmer<SpotBasketData>({
+		quantityValue: individualBasket.entryCondition.quantity,
+		actionValue: individualBasket.entryCondition.actionType,
+		stopLossType: individualBasket.exitCondition.stopLoss.type,
+		stopLossValue: individualBasket.exitCondition.stopLoss.value,
+		totalProfitType: individualBasket.exitCondition.totalProfit.type,
+		totalProfitValue: individualBasket.exitCondition.totalProfit.value,
+	})
+
+	const handleChangeNumberValue = (val: number, key: spotNumberedKeys) => {
+		setSpotBasketData({ ...spotBasketData, [key]: val })
+	}
+	const handleChangeStrValue = (val: string, key: spotStrKeys) => {
+		setSpotBasketData({ ...spotBasketData, [key]: val })
+	}
 
 	const item: DescriptionsProps['items'] = [
 		{
@@ -103,8 +96,10 @@ const SpotBasketDetail: React.FC<SpotDetailsProps> = ({
 						action2="S"
 						color1="green"
 						color2="red"
-						baseActionValue={actionValue}
-						handleBaseActionChange={setActionValue}
+						baseActionValue={spotBasketData.actionValue}
+						handleBaseActionChange={(val) =>
+							handleChangeStrValue(val, 'actionValue')
+						}
 					/>
 				</Flex>
 			),
@@ -126,8 +121,10 @@ const SpotBasketDetail: React.FC<SpotDetailsProps> = ({
 			children: (
 				<Flex flex={1} justify="center">
 					<QuantityInput
-						baseQuantityValue={quantityValue}
-						handleQantityChange={setQuantityValue}
+						baseQuantityValue={spotBasketData.quantityValue}
+						handleQantityChange={(val) =>
+							handleChangeNumberValue(val, 'quantityValue')
+						}
 					/>
 				</Flex>
 			),
@@ -150,10 +147,14 @@ const SpotBasketDetail: React.FC<SpotDetailsProps> = ({
 				<Flex flex={1} justify="center">
 					<YeildButton
 						options={totalProfitOptions}
-						targetType={totalProfitType}
-						targetValue={totalProfitValue}
-						handleTargetValueChange={setTotalProfitValue}
-						handleTargetTypeChange={setTotalProfitType}
+						targetType={spotBasketData.totalProfitType}
+						targetValue={spotBasketData.totalProfitValue}
+						handleTargetValueChange={(val) =>
+							handleChangeNumberValue(val, 'totalProfitValue')
+						}
+						handleTargetTypeChange={(val) =>
+							handleChangeStrValue(val, 'totalProfitType')
+						}
 					/>
 				</Flex>
 			),
@@ -176,10 +177,14 @@ const SpotBasketDetail: React.FC<SpotDetailsProps> = ({
 				<Flex flex={1} justify="center">
 					<YeildButton
 						options={spotLossOptions}
-						targetType={spotLossType}
-						targetValue={spotLossValue}
-						handleTargetValueChange={setSpotLossValue}
-						handleTargetTypeChange={setSpotLossType}
+						targetType={spotBasketData.stopLossType}
+						targetValue={spotBasketData.stopLossValue}
+						handleTargetValueChange={(val) =>
+							handleChangeNumberValue(val, 'stopLossValue')
+						}
+						handleTargetTypeChange={(val) =>
+							handleChangeStrValue(val, 'stopLossType')
+						}
 					/>
 				</Flex>
 			),
@@ -219,42 +224,42 @@ const SpotBasketDetail: React.FC<SpotDetailsProps> = ({
 	]
 
 	useValueChange(
-		quantityValue,
+		spotBasketData.quantityValue,
 		individualBasket.id,
 		basket,
 		handleEditBasket,
 		'quantity'
 	)
 	useActionChange(
-		actionValue,
+		spotBasketData.actionValue,
 		individualBasket.id,
 		basket,
 		handleEditBasket,
 		'actionType'
 	)
 	useExitValueChange(
-		totalProfitValue,
+		spotBasketData.totalProfitValue,
 		individualBasket.id,
 		basket,
 		handleEditBasket,
 		'totalProfit'
 	)
 	useExitValueChange(
-		spotLossValue,
+		spotBasketData.stopLossValue,
 		individualBasket.id,
 		basket,
 		handleEditBasket,
 		'stopLoss'
 	)
 	useExitTypeChange(
-		spotLossType,
+		spotBasketData.stopLossType,
 		individualBasket.id,
 		basket,
 		handleEditBasket,
 		'stopLoss'
 	)
 	useExitTypeChange(
-		totalProfitType,
+		spotBasketData.totalProfitType,
 		individualBasket.id,
 		basket,
 		handleEditBasket,

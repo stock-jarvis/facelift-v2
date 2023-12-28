@@ -6,10 +6,10 @@ import { SelectProps } from 'antd/es/select'
 import { TradeOptions } from '../../../types/types'
 
 interface StrikeSelectorProps {
-	tradeOption: string
-	subTradeOption: string
-	subTradeOptionList: TradeOptions[]
-	tradeValue: number
+	tradeOption: string | undefined
+	subTradeOption: string | undefined
+	subTradeOptionList: TradeOptions[] | undefined
+	tradeValue: number | undefined
 	setTradeOption: (val: string) => void
 	setSubTradeOption: (val: string) => void
 	setTradeValue: (val: number) => void
@@ -25,17 +25,10 @@ const StrikeSelector: React.FC<StrikeSelectorProps> = ({
 	setTradeValue,
 }) => {
 	const handleTradeChange: SelectProps['onChange'] = (value: string) => {
-		// const subTradeData =
-		// 	tradeTypeData.find((data) => data.value === value)?.children || []
 		setTradeOption(value)
-
-		//setSubTradeOptionList(subTradeData)
-		// setSubTradeOption(subTradeData[0]?.value || '')
-		// setTradeValue(1)
 	}
 
 	const handleSubTradeChange: SelectProps['onChange'] = (value: string) => {
-		//TODO:Update on Demand
 		setSubTradeOption(value)
 	}
 

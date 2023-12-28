@@ -4,7 +4,7 @@ import { BasketDataProps } from 'src/components/basket/types/types'
 type keyValue = 'quantity' | 'tradeTypeValue'
 
 export const useValueChange = (
-	value: number,
+	value: number | undefined,
 	id: string,
 	basket: BasketDataProps[],
 	editBasket: (data: BasketDataProps[]) => void,

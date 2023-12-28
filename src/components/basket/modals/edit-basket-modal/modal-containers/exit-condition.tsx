@@ -4,8 +4,6 @@ import ProfitLoss from './profit-loss-section'
 import TradeSection from './trade-section'
 import {
 	BasketDataProps,
-	//TimeHours,
-	//Time,
 	SavedBasketsObject,
 } from 'src/components/basket/types/types'
 interface ExitConditionProps {

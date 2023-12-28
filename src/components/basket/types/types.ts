@@ -119,3 +119,95 @@ export interface BasketDataValues {
 	instrument: string
 	subTradeOptionList?: OptionObject[]
 }
+
+export interface SpotBasketData {
+	quantityValue: number
+	actionValue: string
+	totalProfitType: string
+	stopLossType: string
+	totalProfitValue: number
+	stopLossValue: number
+}
+
+export interface FututreDetailsProps {
+	dark: boolean
+	individualBasket: BasketDataProps
+	baseInstrumentValue: string
+	basket: BasketDataProps[]
+	handleDeleteBasket: (val: string) => void
+	handleCopyBasket: (val: string) => void
+	handleEditBasket: (basket: BasketDataProps[]) => void
+}
+
+export interface FutureBasketData {
+	quantityValue: number
+	actionValue: string
+	totalProfitType: string
+	stopLossType: string
+	expiry: string | undefined
+	totalProfitValue: number
+	stopLossValue: number
+}
+
+export type futureStrKeys =
+	| 'actionValue'
+	| 'expiry'
+	| 'stopLossType'
+	| 'totalProfitType'
+export type futureNumberedKeys =
+	| 'quantityValue'
+	| 'totalProfitValue'
+	| 'stopLossValue'
+
+export interface SpotDetailsProps {
+	dark: boolean
+	basket: BasketDataProps[]
+	baseInstrumentValue: string
+	individualBasket: BasketDataProps
+	handleDeleteBasket: (val: string) => void
+	handleCopyBasket: (val: string) => void
+	handleEditBasket: (basket: BasketDataProps[]) => void
+}
+
+export type spotStrKeys = 'actionValue' | 'stopLossType' | 'totalProfitType'
+export type spotNumberedKeys =
+	| 'quantityValue'
+	| 'totalProfitValue'
+	| 'stopLossValue'
+
+export interface OptionDetailsProps {
+	individualBasket: BasketDataProps
+	dark: boolean
+	basket: BasketDataProps[]
+	baseInstrumentValue: string
+	handleDeleteBasket: (val: string) => void
+	handleCopyBasket: (val: string) => void
+	handleEditBasket: (basket: BasketDataProps[]) => void
+}
+export interface OptionsBasketData {
+	quantityValue: number
+	actionValue: string
+	totalProfitType: string
+	optionType: string | undefined
+	stopLossType: string
+	expiry: string | undefined
+	totalProfitValue: number
+	stopLossValue: number
+	tradeOption: string | undefined
+	subTradeOption: string | undefined
+	tradeValue: number | undefined
+	subTradeOptionList: TradeOptions[] | undefined
+}
+
+export type optionsStrKeys =
+	| 'actionValue'
+	| 'optionType'
+	| 'expiry'
+	| 'stopLossType'
+	| 'totalProfitType'
+	| 'subTradeOption'
+export type optionNumberedKeys =
+	| 'quantityValue'
+	| 'totalProfitValue'
+	| 'stopLossValue'
+	| 'tradeValue'

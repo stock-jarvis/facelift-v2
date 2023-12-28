@@ -3,7 +3,7 @@ import { OptionObject } from 'src/components/basket/types/types'
 import { SelectProps } from 'antd'
 interface ExpirySelectorProps {
 	expiryOptions: OptionObject[]
-	expiryValue: string
+	expiryValue: string | undefined
 	handleExpiryChange: (val: string) => void
 }
 const ExpirySelector: React.FC<ExpirySelectorProps> = ({

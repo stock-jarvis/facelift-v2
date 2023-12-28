@@ -8,7 +8,8 @@ import {
 	Descriptions,
 	DescriptionsProps,
 } from 'antd'
-import { useState } from 'react'
+
+import { useImmer } from 'use-immer'
 import Instrument from '../modal-components/instrument'
 import ActionSelector from '../modal-components/action-selector'
 import QuantityInput from '../modal-components/quantity-input'
@@ -20,21 +21,17 @@ import { useTypeChange } from '../modal-hooks/useTypeChange'
 import { useExitTypeChange } from '../modal-hooks/useExitTypeChange'
 import { useExitValueChange } from '../modal-hooks/useExitValueChange'
 import { futureExpiry } from 'src/components/basket/constants/data'
-import { BasketDataProps } from 'src/components/basket/types/types'
+import {
+	FututreDetailsProps,
+	FutureBasketData,
+	futureStrKeys,
+	futureNumberedKeys,
+} from 'src/components/basket/types/types'
 import {
 	spotLossOptions,
 	totalProfitOptions,
 } from 'src/components/basket/constants/data'
 
-interface FututreDetailsProps {
-	dark: boolean
-	individualBasket: BasketDataProps
-	baseInstrumentValue: string
-	basket: BasketDataProps[]
-	handleDeleteBasket: (val: string) => void
-	handleCopyBasket: (val: string) => void
-	handleEditBasket: (basket: BasketDataProps[]) => void
-}
 const FututeBasketDetails: React.FC<FututreDetailsProps> = ({
 	dark,
 	basket,
@@ -45,72 +42,68 @@ const FututeBasketDetails: React.FC<FututreDetailsProps> = ({
 	handleDeleteBasket,
 }) => {
 	const { token } = theme.useToken()
-	const [quantityValue, setQuantityValue] = useState<number>(
-		individualBasket.entryCondition.quantity
-	)
-	const [actionValue, setActionValue] = useState<string>(
-		individualBasket.entryCondition.actionType
-	)
-	const [expirtyValue, setExpiryValue] = useState<string>(
-		individualBasket.entryCondition.expiry || 'Monthly'
-	)
-	const [spotLossType, setSpotLossType] = useState<string>(
-		individualBasket.exitCondition.stopLoss.type
-	)
-	const [totalProfitType, setTotalProfitType] = useState<string>(
-		individualBasket.exitCondition.totalProfit.type
-	)
-	const [totalProfitValue, setTotalProfitValue] = useState<number>(
-		individualBasket.exitCondition.stopLoss.value
-	)
-	const [spotLossValue, setSpotLossValue] = useState<number>(
-		individualBasket.exitCondition.totalProfit.value
-	)
+
+	const [futureBasketData, setFutureBasketData] = useImmer<FutureBasketData>({
+		quantityValue: individualBasket.entryCondition.quantity,
+		actionValue: individualBasket.entryCondition.actionType,
+		expiry: individualBasket.entryCondition.expiry,
+		stopLossType: individualBasket.exitCondition.stopLoss.type,
+		stopLossValue: individualBasket.exitCondition.stopLoss.value,
+		totalProfitType: individualBasket.exitCondition.totalProfit.type,
+		totalProfitValue: individualBasket.exitCondition.totalProfit.value,
+	})
+
+	const handleChangeNumberValue = (val: number, key: futureNumberedKeys) => {
+		setFutureBasketData({ ...futureBasketData, [key]: val })
+	}
+	const handleChangeStrValue = (val: string, key: futureStrKeys) => {
+		setFutureBasketData({ ...futureBasketData, [key]: val })
+	}
 
 	useValueChange(
-		quantityValue,
+		futureBasketData.quantityValue,
 		individualBasket.id,
 		basket,
 		handleEditBasket,
 		'quantity'
 	)
 	useActionChange(
-		actionValue,
+		futureBasketData.actionValue,
 		individualBasket.id,
 		basket,
 		handleEditBasket,
 		'actionType'
 	)
 	useTypeChange(
-		expirtyValue,
+		futureBasketData.expiry,
 		individualBasket.id,
 		basket,
 		handleEditBasket,
 		'expiry'
 	)
 	useExitValueChange(
-		totalProfitValue,
+		futureBasketData.totalProfitValue,
 		individualBasket.id,
 		basket,
 		handleEditBasket,
 		'totalProfit'
 	)
 	useExitValueChange(
-		spotLossValue,
+		futureBasketData.stopLossValue,
 		individualBasket.id,
 		basket,
 		handleEditBasket,
 		'stopLoss'
 	)
 	useExitTypeChange(
-		spotLossType,
+		futureBasketData.stopLossType,
 		individualBasket.id,
 		basket,
 		handleEditBasket,
 		'stopLoss'
 	)
 	useExitTypeChange(
-		totalProfitType,
+		futureBasketData.totalProfitType,
 		individualBasket.id,
 		basket,
 		handleEditBasket,
@@ -159,8 +152,10 @@ const FututeBasketDetails: React.FC<FututreDetailsProps> = ({
 						action2="S"
 						color1="green"
 						color2="red"
-						baseActionValue={actionValue}
-						handleBaseActionChange={setActionValue}
+						baseActionValue={futureBasketData.actionValue}
+						handleBaseActionChange={(val) =>
+							handleChangeStrValue(val, 'actionValue')
+						}
 					/>
 				</Flex>
 			),
@@ -182,8 +177,10 @@ const FututeBasketDetails: React.FC<FututreDetailsProps> = ({
 			children: (
 				<Flex flex={1} justify="center">
 					<QuantityInput
-						baseQuantityValue={quantityValue}
-						handleQantityChange={setQuantityValue}
+						baseQuantityValue={futureBasketData.quantityValue}
+						handleQantityChange={(val) =>
+							handleChangeNumberValue(val, 'quantityValue')
+						}
 					/>
 				</Flex>
 			),
@@ -220,7 +217,7 @@ const FututeBasketDetails: React.FC<FututreDetailsProps> = ({
 			),
 		},
 		{
-			key: 'quantity',
+			key: 'expiry',
 			label: (
 				<Flex flex="1" justify="center">
 					<Typography.Text
@@ -237,8 +234,8 @@ const FututeBasketDetails: React.FC<FututreDetailsProps> = ({
 				<Flex flex={1} justify="center">
 					<ExpirySelector
 						expiryOptions={futureExpiry}
-						expiryValue={expirtyValue}
-						handleExpiryChange={setExpiryValue}
+						expiryValue={futureBasketData.expiry}
+						handleExpiryChange={(val) => handleChangeStrValue(val, 'expiry')}
 					/>
 				</Flex>
 			),
@@ -261,10 +258,14 @@ const FututeBasketDetails: React.FC<FututreDetailsProps> = ({
 				<Flex flex={1} justify="center">
 					<YeildButton
 						options={totalProfitOptions}
-						targetType={totalProfitType}
-						targetValue={totalProfitValue}
-						handleTargetValueChange={setTotalProfitValue}
-						handleTargetTypeChange={setTotalProfitType}
+						targetType={futureBasketData.totalProfitType}
+						targetValue={futureBasketData.totalProfitValue}
+						handleTargetValueChange={(val) =>
+							handleChangeNumberValue(val, 'totalProfitValue')
+						}
+						handleTargetTypeChange={(val) => {
+							handleChangeStrValue(val, 'totalProfitType')
+						}}
 					/>
 				</Flex>
 			),
@@ -287,10 +288,14 @@ const FututeBasketDetails: React.FC<FututreDetailsProps> = ({
 				<Flex flex={1} justify="center">
 					<YeildButton
 						options={spotLossOptions}
-						targetType={spotLossType}
-						targetValue={spotLossValue}
-						handleTargetValueChange={setSpotLossValue}
-						handleTargetTypeChange={setSpotLossType}
+						targetType={futureBasketData.stopLossType}
+						targetValue={futureBasketData.stopLossValue}
+						handleTargetValueChange={(val) =>
+							handleChangeNumberValue(val, 'stopLossValue')
+						}
+						handleTargetTypeChange={(val) => {
+							handleChangeStrValue(val, 'stopLossType')
+						}}
 					/>
 				</Flex>
 			),
