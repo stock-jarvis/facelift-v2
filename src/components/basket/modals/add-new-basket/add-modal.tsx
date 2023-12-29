@@ -4,7 +4,7 @@ import { CloseOutlined } from '@ant-design/icons'
 import { useBasketStore } from '../../store/basket-store'
 import { useState, ChangeEvent } from 'react'
 import { SelectProps, InputProps } from 'antd'
-import { generateUniqueId } from '../../common/utils/randomizer'
+import { generateUniqueId } from '../../utils/randomizer'
 interface ModalProps {
 	open: boolean
 }

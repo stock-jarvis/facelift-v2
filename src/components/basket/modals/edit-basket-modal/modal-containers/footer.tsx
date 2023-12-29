@@ -9,7 +9,7 @@ import {
 } from 'src/components/basket/types/types'
 import { SnippetsOutlined } from '@ant-design/icons'
 import { useEffect, useState } from 'react'
-import { generateUniqueId } from 'src/components/basket/common/utils/randomizer'
+import { generateUniqueId } from 'src/components/basket/utils/randomizer'
 interface FooterProps {
 	basketData: SavedBasketsObject
 	basket: BasketDataProps[]

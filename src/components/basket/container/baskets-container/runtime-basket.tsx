@@ -18,7 +18,7 @@ import {
 } from '@ant-design/icons'
 import BasketNav from '../basket-nav'
 import { useBasketStore } from '../../store/basket-store'
-import { generateUniqueId } from '../../common/utils/randomizer'
+import { generateUniqueId } from '../../utils/randomizer'
 import { SavedBasketsObject } from '../../types/types'
 import { useState, useEffect } from 'react'
 

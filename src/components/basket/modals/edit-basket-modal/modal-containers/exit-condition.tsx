@@ -1,6 +1,6 @@
 import { Divider, Flex, theme, Typography } from 'antd'
 import ProfitLoss from './profit-loss-section'
-//import EntryExit from './entry-exit-container'
+import EntryExit from './entry-exit-container'
 import TradeSection from './trade-section'
 import {
 	BasketDataProps,
@@ -59,25 +59,14 @@ const ExitCondition: React.FC<ExitConditionProps> = ({
 							/>
 						</Flex>
 					</Flex>
-					{/* <Flex flex={1}>
-				{/* <EntryExit
-					exchange={exchange}
-					entryHoursData={entryHoursData}
-					entryMinutesData={entryMinutesData}
-					entryHourValue={entryHourValue}
-					exitHoursData={exitHoursData}
-					exitMinutesData={exitMinutesData}
-					exitHourValue={exitHourValue}
-					exitMinuteValue={exitMinuteValue}
-					handleChangeExitHour={handleChangeExitHour}
-					handleExitMinuteListChange={handleExitMinuteListChange}
-					handleEntryMinuteListChange={handleEntryMinuteListChange}
-					handleChangeExitMinute={handleChangeExitMinute}
-					handleChangeEntryHour={handleChangeEntryHour}
-					entryMinuteValue={entryMinuteValue}
-					handleChangeEntryMinute={handleChangeEntryMinute}
-				/> 
-			</Flex> */}
+					<Flex flex={1} vertical>
+						<Divider>
+							<Typography.Text style={{ color: token.colorPrimary }}>
+								Time Selector
+							</Typography.Text>
+						</Divider>
+						<EntryExit />
+					</Flex>
 				</Flex>
 			)}
 		</>

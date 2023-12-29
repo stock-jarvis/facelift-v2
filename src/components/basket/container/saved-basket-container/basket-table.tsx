@@ -1,7 +1,7 @@
 import { Flex, theme, Typography, Button, Tooltip, Empty } from 'antd'
 import { SavedBasketsObject } from '../../types/types'
 import { useBasketStore } from '../../store/basket-store'
-import { generateUniqueId } from '../../common/utils/randomizer'
+import { generateUniqueId } from '../../utils/randomizer'
 import { Table } from 'antd'
 
 import {

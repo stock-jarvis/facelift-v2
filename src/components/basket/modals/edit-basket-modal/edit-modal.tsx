@@ -6,9 +6,10 @@ import Header from './modal-containers/header'
 import Footer from './modal-containers/footer'
 import ExitCondition from './modal-containers/exit-condition'
 import DetailsContainer from './modal-containers/detail-container'
-import { generateUniqueId } from '../../common/utils/randomizer'
+import { generateUniqueId } from '../../utils/randomizer'
 import { useBasketStore } from '../../store/basket-store'
 import Selectors from './modal-containers/selector-container'
+//import { timeBoundariesByExchange } from 'src/common/constants'
 
 import {
 	defaultInitialLegValues,
@@ -29,7 +30,6 @@ const EditBasketModal = ({ open }: EditModalProps) => {
 	const { token } = theme.useToken()
 	const { editableBasketData, resetEditablebasket, closeEditConfirmation } =
 		useBasketStore()
-
 	const [basketInitialData, updatedBasketData] = useImmer<BasketDataValues>(
 		defaultInitialLegValues
 	)

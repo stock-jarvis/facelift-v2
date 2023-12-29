@@ -1,8 +1,15 @@
-import { Flex, Select, theme, Typography } from 'antd'
+import {
+	Flex,
+	Select,
+	theme,
+	Typography,
+	Descriptions,
+	DescriptionsProps,
+} from 'antd'
 const { Text } = Typography
 import { TimeHours, Time } from 'src/components/basket/types/types'
 import { SelectProps } from 'antd'
-import { useBasketStore } from 'src/components/basket/store/basket-store'
+//import { useBasketStore } from 'src/components/basket/store/basket-store'
 import {
 	mxcTimes,
 	nseTimes,
@@ -31,7 +38,7 @@ const TimeSelector: React.FC<TimeSelectorProps> = ({
 	handleMinuteListChange,
 }) => {
 	const { token } = theme.useToken()
-	const { timeError } = useBasketStore()
+	//const { timeError } = useBasketStore()
 	const handleHourChange: SelectProps['onChange'] = (value: number) => {
 		handleChangeCurrentHour(value)
 		if (exchange === 'MCX') {
@@ -58,40 +65,42 @@ const TimeSelector: React.FC<TimeSelectorProps> = ({
 		handleChangeCurrentMinute(value)
 	}
 
-	return (
-		<Flex flex={1} gap="middle" align="center" justify="center">
-			<Text
-				style={{
-					fontSize: token.fontSizeLG,
-					fontWeight: token.fontWeightStrong,
-					color: timeError ? 'red' : '',
-				}}
-			>
-				{label}
-			</Text>
-			<Select
-				style={{ width: '100px' }}
-				options={hours}
-				value={currentHour}
-				onChange={handleHourChange}
-			/>
-			<Text
-				style={{
-					fontSize: token.fontSizeLG,
-					fontWeight: token.fontWeightStrong,
-				}}
-			>
-				{' '}
-				:{' '}
-			</Text>
-			<Select
-				style={{ width: '100px' }}
-				options={minutes}
-				value={currentMinute}
-				onChange={handleMinuteChange}
-			/>
-		</Flex>
-	)
+	const items: DescriptionsProps['items'] = [
+		{
+			label: (
+				<Flex>
+					<Text>{label}</Text>
+				</Flex>
+			),
+			key: 'time_selector',
+			children: (
+				<Flex flex={1} gap="middle">
+					<Select
+						style={{ width: '100px' }}
+						options={hours}
+						value={currentHour}
+						onChange={handleHourChange}
+					/>
+					<Text
+						style={{
+							fontSize: token.fontSizeLG,
+							fontWeight: token.fontWeightStrong,
+						}}
+					>
+						{' '}
+						:{' '}
+					</Text>
+					<Select
+						style={{ width: '100px' }}
+						options={minutes}
+						value={currentMinute}
+						onChange={handleMinuteChange}
+					/>
+				</Flex>
+			),
+		},
+	]
+	return <Descriptions bordered items={items} />
 }
 
 export default TimeSelector
