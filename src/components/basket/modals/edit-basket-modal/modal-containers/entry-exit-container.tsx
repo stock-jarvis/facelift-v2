@@ -1,25 +1,93 @@
-import TimeSelector from '../modal-components/time-selector'
-import { Flex, theme } from 'antd'
+import {
+	Flex,
+	TimePicker,
+	Card,
+	theme,
+	Typography,
+	TimePickerProps,
+} from 'antd'
+import dayjs from 'dayjs'
+import { Exchange } from 'src/common/enums'
+import { SavedBasketsObject } from '../../../types/types'
+const format = 'HH:mm'
 
-interface EntryExitProps {}
-const EntryExit: React.FC<EntryExitProps> = () => {
+import { getDisabledTimeByExchange } from 'src/common/utils/date-time-utils'
+interface EntryExitProps {
+	basketData: SavedBasketsObject
+	setBasketData: (val: SavedBasketsObject) => void
+}
+const EntryExit: React.FC<EntryExitProps> = ({ basketData, setBasketData }) => {
 	const { token } = theme.useToken()
+
+	const handleEntryTimeChange: TimePickerProps['onChange'] = (val) => {
+		const date = val?.format(format).toString()
+		setBasketData({
+			...basketData,
+			entryCondition: {
+				exitTime: basketData.entryCondition?.exitTime || '',
+				entryTime: date || '',
+			},
+		})
+	}
+
+	const handleExitTimeChange: TimePickerProps['onChange'] = (val) => {
+		const date = val?.format(format).toString()
+		setBasketData({
+			...basketData,
+			entryCondition: {
+				entryTime: basketData.entryCondition?.entryTime || '',
+				exitTime: date || '',
+			},
+		})
+	}
 	return (
-		<Flex flex={1} justify="center">
-			<Flex
-				style={{
-					width: '90%',
-					padding: token.paddingLG,
-					borderRadius: token.borderRadiusLG,
-				}}
+		<Flex flex={1} justify="space-around">
+			<Card
+				title={
+					<Flex flex={1} justify="center">
+						<Typography.Text
+							style={{ fontSize: token.fontSizeSM, color: token.colorPrimary }}
+						>
+							Entry Time
+						</Typography.Text>
+					</Flex>
+				}
+				bordered
+				size="small"
 			>
-				<Flex flex={1} justify="center" align="center">
-					<TimeSelector label={'Entry Time'} />
+				<Flex flex="1" justify="center">
+					<TimePicker
+						value={dayjs(basketData.entryCondition?.entryTime, format)}
+						format={format}
+						onChange={handleEntryTimeChange}
+					/>
 				</Flex>
-				<Flex flex={1} justify="center" align="center">
-					<TimeSelector label={'Exit Time'} />
+			</Card>
+
+			<Card
+				title={
+					<Flex flex={1} justify="center">
+						<Typography.Text
+							style={{ fontSize: token.fontSizeSM, color: token.colorPrimary }}
+						>
+							Exit Time
+						</Typography.Text>
+					</Flex>
+				}
+				bordered
+				size="small"
+			>
+				<Flex flex="1" justify="center">
+					<TimePicker
+						disabledTime={getDisabledTimeByExchange(
+							basketData.exchange as Exchange
+						)}
+						value={dayjs(basketData.entryCondition?.exitTime, format)}
+						format={format}
+						onChange={handleExitTimeChange}
+					/>
 				</Flex>
-			</Flex>
+			</Card>
 		</Flex>
 	)
 }

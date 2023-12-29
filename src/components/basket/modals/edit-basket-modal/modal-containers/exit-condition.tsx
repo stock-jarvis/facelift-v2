@@ -5,7 +5,10 @@ import TradeSection from './trade-section'
 import {
 	BasketDataProps,
 	SavedBasketsObject,
+	Exchanges,
 } from 'src/components/basket/types/types'
+import { getTimes } from 'src/components/basket/utils/get-times'
+import { useEffect } from 'react'
 interface ExitConditionProps {
 	basket: BasketDataProps[]
 	basketData: SavedBasketsObject
@@ -16,6 +19,17 @@ const ExitCondition: React.FC<ExitConditionProps> = ({
 	basketData,
 	setBasketData,
 }) => {
+	useEffect(() => {
+		if (!basketData.entryCondition) {
+			setBasketData({
+				...basketData,
+				entryCondition: {
+					entryTime: getTimes(basketData.exchange as Exchanges, 'start'),
+					exitTime: getTimes(basketData.exchange as Exchanges, 'end'),
+				},
+			})
+		}
+	}, [basketData, setBasketData])
 	const { token } = theme.useToken()
 	return (
 		<>
@@ -65,7 +79,7 @@ const ExitCondition: React.FC<ExitConditionProps> = ({
 								Time Selector
 							</Typography.Text>
 						</Divider>
-						<EntryExit />
+						<EntryExit basketData={basketData} setBasketData={setBasketData} />
 					</Flex>
 				</Flex>
 			)}

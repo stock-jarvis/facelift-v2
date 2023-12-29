@@ -9,8 +9,6 @@ import DetailsContainer from './modal-containers/detail-container'
 import { generateUniqueId } from '../../utils/randomizer'
 import { useBasketStore } from '../../store/basket-store'
 import Selectors from './modal-containers/selector-container'
-//import { timeBoundariesByExchange } from 'src/common/constants'
-
 import {
 	defaultInitialLegValues,
 	defaultBasketData,
@@ -33,8 +31,9 @@ const EditBasketModal = ({ open }: EditModalProps) => {
 	const [basketInitialData, updatedBasketData] = useImmer<BasketDataValues>(
 		defaultInitialLegValues
 	)
-	const [basketData, setBasketData] =
-		useImmer<SavedBasketsObject>(editableBasketData)
+	const [basketData, setBasketData] = useImmer<SavedBasketsObject>({
+		...editableBasketData,
+	})
 	const [basket, setBasket] = useState<BasketDataProps[]>(
 		editableBasketData.positions || []
 	)

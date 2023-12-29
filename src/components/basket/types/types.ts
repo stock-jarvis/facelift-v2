@@ -1,6 +1,7 @@
 import { exchangeType } from '../constants/data'
 
 export type ExchangeType = (typeof exchangeType)[number]
+export type Exchanges = 'NSE' | 'CUR' | 'MCX'
 export interface OptionObject {
 	id: number
 	value: string

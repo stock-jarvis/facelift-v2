@@ -1,6 +1,6 @@
 import { Flex, Select } from 'antd'
 
-import { exchangeType } from '../../constants/data'
+import { exchangeType } from '../../../../constants/data'
 
 interface TradeSelectorProps {
 	exchangeValue: string

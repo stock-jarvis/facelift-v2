@@ -1,5 +1,5 @@
 import { Modal, Flex, Button, Select, Input, Typography, theme } from 'antd'
-import ExhchangeSelector from '../../common/basket-exchange'
+import ExhchangeSelector from './modal-components/basket-exchange'
 import { CloseOutlined } from '@ant-design/icons'
 import { useBasketStore } from '../../store/basket-store'
 import { useState, ChangeEvent } from 'react'

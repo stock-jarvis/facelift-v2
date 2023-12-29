@@ -26,10 +26,22 @@ const Footer: React.FC<FooterProps> = ({ basket, basketData }) => {
 		toogleEditModal,
 	} = useBasketStore()
 
-	const [basketEntryConditions] = useState<SavedBasketsEntryCondition>()
+	const [basketEntryConditions, setBasketEntryConditions] =
+		useState<SavedBasketsEntryCondition>()
 	const [basketExitConditions, setBasketExitConditions] =
 		useState<SavedBasketsExitCondition>()
 	const [savedBasket, setSavedBasket] = useState<SavedBasketsObject>()
+
+	useEffect(() => {
+		if (
+			!basketEntryConditions ||
+			basketEntryConditions.entryTime !==
+				basketData.entryCondition?.entryTime ||
+			basketEntryConditions.exitTime !== basketData.entryCondition.exitTime
+		) {
+			setBasketEntryConditions(basketData.entryCondition)
+		}
+	}, [basketData, basketEntryConditions])
 
 	useEffect(() => {
 		if (
