@@ -48,35 +48,43 @@ const Basket = () => {
 				</Flex>
 			</Flex>
 			{isEditModalOpen && <EditBasketModal open={isEditModalOpen} />}
-			{<AddBasketModal open={isAddBasketModalOpen} />}
-			<ConfirmModal
-				open={duplicateError}
-				handleOpen={setDuplicateError}
-				handleCancel={setDuplicateError}
-				header={'Duplicate Alert'}
-				message="Basket with this name already exists"
-			/>
-			<ConfirmModal
-				open={closeModalConfirmation}
-				handleOpen={handleCloseConfirmModal}
-				handleCancel={handleCancelConfirmModal}
-				header={'Alert!'}
-				message="Are you sure you want to close modal? All unsaved data will be lost!"
-			/>
-			<ConfirmModal
-				open={timeErrorModalOpen}
-				handleOpen={handleTimeErrorModalClose}
-				handleCancel={handleTimeErrorModalClose}
-				header={'Time Error!'}
-				message="Exit Time Should be after Entry Time!"
-			/>
-			<ConfirmModal
-				open={emptyBasketError}
-				handleOpen={handleEmptyBasketErrorModalClose}
-				handleCancel={handleEmptyBasketErrorModalClose}
-				header={'Cannot Save Basket'}
-				message="Basket should have atleast one position element to save."
-			/>
+			{isAddBasketModalOpen && <AddBasketModal open={isAddBasketModalOpen} />}
+			{duplicateError && (
+				<ConfirmModal
+					open={duplicateError}
+					handleOpen={setDuplicateError}
+					handleCancel={setDuplicateError}
+					header={'Duplicate Alert'}
+					message="Basket with this name already exists"
+				/>
+			)}
+			{closeModalConfirmation && (
+				<ConfirmModal
+					open={closeModalConfirmation}
+					handleOpen={handleCloseConfirmModal}
+					handleCancel={handleCancelConfirmModal}
+					header={'Alert!'}
+					message="Are you sure you want to close modal? All unsaved data will be lost!"
+				/>
+			)}
+			{timeErrorModalOpen && (
+				<ConfirmModal
+					open={timeErrorModalOpen}
+					handleOpen={handleTimeErrorModalClose}
+					handleCancel={handleTimeErrorModalClose}
+					header={'Time Error!'}
+					message="Exit Time Should be after Entry Time!"
+				/>
+			)}
+			{emptyBasketError && (
+				<ConfirmModal
+					open={emptyBasketError}
+					handleOpen={handleEmptyBasketErrorModalClose}
+					handleCancel={handleEmptyBasketErrorModalClose}
+					header={'Cannot Save Basket'}
+					message="Basket should have atleast one position element to save."
+				/>
+			)}
 		</>
 	)
 }
