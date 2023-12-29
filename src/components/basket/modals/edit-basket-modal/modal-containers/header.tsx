@@ -8,7 +8,11 @@ import {
 	DescriptionsProps,
 } from 'antd'
 import Toggle from '../modal-components/toggle'
-import { SavedBasketsObject } from 'src/components/basket/types/types'
+import {
+	Exchanges,
+	SavedBasketsObject,
+} from 'src/components/basket/types/types'
+import { getTimes } from 'src/components/basket/utils/get-times'
 
 interface HeaderProps {
 	basketData: SavedBasketsObject
@@ -18,7 +22,14 @@ const Header: React.FC<HeaderProps> = ({ basketData, setBasketData }) => {
 	const { token } = theme.useToken()
 
 	const handleBasketExchangeChange = (val: string) => {
-		setBasketData({ ...basketData, exchange: val })
+		setBasketData({
+			...basketData,
+			exchange: val,
+			entryCondition: {
+				exitTime: getTimes(val as Exchanges, 'end'),
+				entryTime: getTimes(val as Exchanges, 'start'),
+			},
+		})
 	}
 
 	const handleBasketTickerChange = (val: string) => {

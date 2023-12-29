@@ -39,7 +39,7 @@ const Basket = () => {
 
 	return (
 		<>
-			<Flex className="h-[100vh] overflow-y-hidden overflow-x-hidden">
+			<Flex style={{ height: '100vh', overflow: 'hidden' }}>
 				<Flex flex={'1'}>
 					<SaveBasket />
 				</Flex>

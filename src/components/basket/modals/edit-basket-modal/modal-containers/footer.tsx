@@ -17,6 +17,7 @@ interface FooterProps {
 
 const Footer: React.FC<FooterProps> = ({ basket, basketData }) => {
 	const { token } = theme.useToken()
+
 	const {
 		timeError,
 		toggleTimeErrorModalOpen,
