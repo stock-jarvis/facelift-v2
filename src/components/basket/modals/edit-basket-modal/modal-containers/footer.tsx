@@ -1,4 +1,4 @@
-import { Flex, Button, theme } from 'antd'
+import { Flex, Button, theme, Input } from 'antd'
 
 import { useBasketStore } from 'src/components/basket/store/basket-store'
 import {
@@ -130,9 +130,10 @@ const Footer: React.FC<FooterProps> = ({ basket, basketData }) => {
 				width: '100%',
 				borderTop: '1px solid #F0F0F0',
 			}}
-			justify="flex-end"
+			justify="space-between"
 			align="center"
 		>
+			<Input placeholder="spread" style={{ width: '150px' }} suffix={'%'} />
 			<Button
 				type="primary"
 				onClick={handleSaveBasketClick}
