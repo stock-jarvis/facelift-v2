@@ -17,34 +17,32 @@ import {
 	SnippetsOutlined,
 } from '@ant-design/icons'
 import BasketNav from '../basket-nav'
+
 import { useBasketStore } from '../../store/basket-store'
 import { generateUniqueId } from '../../utils/randomizer'
 import { SavedBasketsObject } from '../../types/types'
-import { useState, useEffect } from 'react'
 
 const Index = () => {
 	const { token } = theme.useToken()
-	const { toggleSetBasketModalOpen } = useBasketStore()
-	const [individualSelection, setIndividualSelection] = useState<boolean>(false)
-	const [selectAll, setSelectAll] = useState<boolean>(false)
 
 	const {
 		runtimeBasketList,
 		deleteRuntimeBasket,
 		toogleEditModal,
 		setEditableBasket,
+		selectedBaskets,
 		addNewRuntimeBasket,
-		//savedBaskets,
-		//toogleSaveError,
-		//	updateSelection,
-		//addToStoredBaskets,
-		updateSelectedBasket,
-		//	selectAllBaskets,
-		//	selectedBaskets,
+		toggleSetBasketModalOpen,
+		addBasketToSelectedBaskets,
+		selectAllBaskets,
+		setRuntimeError,
+		updateRuntimeError,
+		addToStoredBaskets,
 	} = useBasketStore()
 
 	const onHandleBasketEdit = (id: string) => {
 		setEditableBasket(id)
+		updateRuntimeError(id)
 		toogleEditModal(true)
 	}
 
@@ -65,14 +63,14 @@ const Index = () => {
 	}
 
 	const onHandleBaskeSave = (id: string) => {
-		console.log(id)
-		// const isBasketSaved = savedBaskets.find((basket) => basket.id === id)
-		// if (isBasketSaved) {
-		// 	addToStoredBaskets(isBasketSaved)
-		// 	//TODO: Tie this up with the api
-		// } else {
-		// 	toogleSaveError(id, true)
-		// }
+		const basket = runtimeBasketList.find((b) => b.id === id)
+		if (basket) {
+			if (basket.positions && basket.entryCondition) {
+				addToStoredBaskets(id)
+			} else {
+				setRuntimeError(id)
+			}
+		}
 	}
 
 	const onHandleBaskeDelete = (id: string) => {
@@ -80,42 +78,29 @@ const Index = () => {
 	}
 
 	const handleIndividualSelectChange = (id: string) => {
-		console.log(id)
-		setIndividualSelection(true)
-		//	updateSelection(id)
+		addBasketToSelectedBaskets(id)
 	}
 
 	const selectAllBasket = () => {
-		setSelectAll(!selectAll)
-		//	selectAllBaskets(!selectAll)
+		selectAllBaskets()
 	}
-
-	useEffect(() => {
-		if (individualSelection) {
-			updateSelectedBasket()
-			setIndividualSelection(false)
-		}
-	}, [runtimeBasketList, updateSelectedBasket, individualSelection])
-
-	// useEffect(() => {
-	// 	if (selectedBaskets.length !== runtimeBasketList.length) {
-	// 		setSelectAll(false)
-	// 	} else if (selectedBaskets.length === runtimeBasketList.length) {
-	// 		setSelectAll(true)
-	// 	}
-	// }, [selectedBaskets, runtimeBasketList, selectAll])
 	const columns = [
 		{
 			title: (
 				<Flex flex={1}>
-					<Checkbox checked={selectAll} onChange={selectAllBasket} />
+					<Checkbox
+						checked={selectedBaskets.length === runtimeBasketList.length}
+						onChange={selectAllBasket}
+					/>
 				</Flex>
 			),
 			dataIndex: '',
 			render: (record: SavedBasketsObject) => (
 				<Flex flex={1} key={record.id}>
 					<Checkbox
-						//checked={record.selected}
+						checked={
+							selectedBaskets.find((b) => b.id === record.id) ? true : false
+						}
 						onChange={() => {
 							handleIndividualSelectChange(record.id)
 						}}
@@ -132,11 +117,9 @@ const Index = () => {
 			render: (record: SavedBasketsObject) => (
 				<Flex flex="1" justify="flex-start" key={record.id + record.name}>
 					<Typography.Text
-						style={
-							{
-								//color: record.error ? token.colorError : '#000',
-							}
-						}
+						style={{
+							color: record.error ? token.colorError : '#000',
+						}}
 					>
 						{record.name}
 						{record.identifier > 0 ? ` - ${record.identifier}` : ''}
@@ -154,11 +137,9 @@ const Index = () => {
 			render: (record: SavedBasketsObject) => (
 				<Flex flex="1" justify="flex-end" key={record.id + record.exchange}>
 					<Typography.Text
-						style={
-							{
-								//color: record.error ? token.colorError : token.colorPrimary,
-							}
-						}
+						style={{
+							color: record.error ? token.colorError : token.colorPrimary,
+						}}
 					>
 						{record.exchange}
 					</Typography.Text>
@@ -176,11 +157,9 @@ const Index = () => {
 			render: (record: SavedBasketsObject) => (
 				<Flex flex="1" justify="flex-end" key={record.id + record.ticker}>
 					<Typography.Text
-						style={
-							{
-								//color: record.error ? token.colorError : '#000',
-							}
-						}
+						style={{
+							color: record.error ? token.colorError : '#000',
+						}}
 					>
 						{record.ticker}
 					</Typography.Text>
@@ -208,11 +187,9 @@ const Index = () => {
 							type="text"
 							icon={<FormOutlined />}
 							onClick={() => onHandleBasketEdit(record.id)}
-							style={
-								{
-									//color: record.error ? token.colorError : '',
-								}
-							}
+							style={{
+								color: record.error ? token.colorError : '',
+							}}
 						/>
 					</Tooltip>
 					<Tooltip title="Duplicate">
@@ -223,11 +200,9 @@ const Index = () => {
 							onClick={() =>
 								onHandleBasketDuplicate(record.id, record.name || '')
 							}
-							style={
-								{
-									//color: record.error ? token.colorError : '',
-								}
-							}
+							style={{
+								color: record.error ? token.colorError : '',
+							}}
 						/>
 					</Tooltip>
 					<Tooltip title="Save">
@@ -236,11 +211,9 @@ const Index = () => {
 							type="text"
 							icon={<SnippetsOutlined />}
 							onClick={() => onHandleBaskeSave(record.id)}
-							style={
-								{
-									//color: record.error ? token.colorError : '',
-								}
-							}
+							style={{
+								color: record.error ? token.colorError : '',
+							}}
 						/>
 					</Tooltip>
 					<Tooltip title="Delete">
@@ -249,11 +222,9 @@ const Index = () => {
 							type="text"
 							icon={<DeleteOutlined />}
 							onClick={() => onHandleBaskeDelete(record.id)}
-							style={
-								{
-									//color: record.error ? token.colorError : '',
-								}
-							}
+							style={{
+								color: record.error ? token.colorError : '',
+							}}
 						/>
 					</Tooltip>
 				</Flex>

@@ -84,6 +84,7 @@ export interface SavedBasketsObject {
 	key: string
 	id: string
 	name?: string
+	error?: boolean
 	identifier: number
 	exchange: string
 	ticker: string

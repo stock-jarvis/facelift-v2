@@ -2,20 +2,22 @@ import { create } from 'zustand'
 import { SavedBasketsObject } from '../types/types'
 import { devtools } from 'zustand/middleware'
 import { immer } from 'zustand/middleware/immer'
+import { defaultBasketData } from '../constants/data'
+import { generateUniqueId } from '../utils/randomizer'
 
 type BasketState = {
 	endDate: string
 	exchange: string
 	startDate: string
 	timeError: boolean
-	positionCopy: boolean
+
 	duplicateError: boolean
 	isEditModalOpen: boolean
 	emptyBasketError: boolean
 	timeErrorModalOpen: boolean
 	isAddBasketModalOpen: boolean
 	closeModalConfirmation: boolean
-	//selectedBaskets: SavedBasketsObject[] & { seleceted: boolean }
+	selectedBaskets: SavedBasketsObject[]
 	runtimeBasketList: SavedBasketsObject[]
 	editableBasketData: SavedBasketsObject
 	/* complete json of runtime genetrated baskets */
@@ -31,8 +33,9 @@ type BasketStateActions = {
 		isAddBasketModalOpen: BasketState['isAddBasketModalOpen']
 	) => void
 	setExchange: (val: string) => void
+	setRuntimeError: (id: string) => void
 	deleteStoredBasket: (id: string) => void
-	addToStoredBaskets: (basket: SavedBasketsObject) => void
+	addToStoredBaskets: (id: string) => void
 	addToSavedBasket: (basket: SavedBasketsObject) => void
 	toggleTimeErrorModalOpen: (timeErrorModalOpen: boolean) => void
 	handleDateChange: (startDate: string, endDate: string) => void
@@ -40,15 +43,14 @@ type BasketStateActions = {
 	closeEditConfirmation: (value: boolean) => void
 	updateRuntimeBasketData: (basket: SavedBasketsObject) => void
 	addNewRuntimeBasket: (basket: SavedBasketsObject) => void
-	//updateSelection: (id: string) => void
+	addBasketToSelectedBaskets: (id: string) => void
 	deleteRuntimeBasket: (id: string) => void
 	setDuplicateError: (error: BasketState['duplicateError']) => void
 	toogleEditModal: (open: boolean) => void
 	setEditableBasket: (id: string) => void
 	toogleSaveError: (id: string, error: boolean) => void
-	setPositionCopy: (val: boolean) => void
-	updateSelectedBasket: () => void
-	//	selectAllBaskets: (value: boolean) => void
+	selectAllBaskets: () => void
+	updateRuntimeError: (id: string) => void
 }
 
 const defaultState: BasketState = {
@@ -69,63 +71,17 @@ const defaultState: BasketState = {
 			},
 		},
 	],
-	storedBaskets: [
-		{
-			id: '1',
-			key: '1',
-			name: 'Apple',
-			identifier: 1,
-			exchange: 'NSE',
-			atm: 'spot',
-			ticker: 'ticker-1',
-			type: 'INTRA',
-			exitCondition: {
-				type: 'SQOL',
-				totalLoss: 0,
-				totalProfit: 0,
-			},
-		},
-		{
-			id: '2',
-			key: '2',
-			name: 'Apple',
-			identifier: 0,
-			exchange: 'NSE',
-			atm: 'spot',
-			ticker: 'ticker-1',
-			type: 'INTRA',
-			exitCondition: {
-				type: 'SQOL',
-				totalLoss: 0,
-				totalProfit: 0,
-			},
-		},
-	],
+	storedBaskets: [],
 	exchange: 'NSE',
 	startDate: '',
 	endDate: '',
-	//selectedBaskets: [],
+	selectedBaskets: [],
 	duplicateError: false,
 	isEditModalOpen: false,
-	positionCopy: false,
 	isAddBasketModalOpen: false,
 	timeErrorModalOpen: false,
 	closeModalConfirmation: false,
-	editableBasketData: {
-		id: '',
-		key: '',
-		name: '',
-		exchange: '',
-		ticker: '',
-		identifier: 0,
-		type: 'INTRA',
-		atm: 'spot',
-		exitCondition: {
-			type: 'SQOL',
-			totalLoss: 0,
-			totalProfit: 0,
-		},
-	},
+	editableBasketData: defaultBasketData,
 	savedBaskets: [],
 	timeError: false,
 	emptyBasketError: false,
@@ -135,64 +91,43 @@ export const useBasketStore = create<BasketState & BasketStateActions>()(
 	immer(
 		devtools((set) => ({
 			...defaultState,
-			updateSelectedBasket: () =>
-				set(() => {
-					// state.selectedBaskets = state.runtimeBasketList.filter(
-					// 	(b) => b.selected === true
-					// )
-				}),
-			addToStoredBaskets: (basket: SavedBasketsObject) =>
+			addToStoredBaskets: (id: string) =>
 				set((state) => {
-					const checkIfExists = state.storedBaskets.find(
-						(b) => b.id === basket.id
-					)
-
-					if (checkIfExists) {
-						state.storedBaskets = state.storedBaskets.map((b) => {
-							if (b.id === basket.id) {
-								return { ...basket, identifier: b.identifier }
-							} else {
-								return b
-							}
-						})
-					} else {
-						const checkNames = state.storedBaskets.filter(
-							(b) => b.name === basket.name
+					const basket = state.runtimeBasketList.find((b) => b.id === id)
+					if (basket) {
+						const checkIfExists = state.storedBaskets.find(
+							(b) => b.id === basket.id
 						)
 
-						if (checkNames && checkNames.length > 0) {
-							const maxIdentifier = Math.max(
-								...checkNames.map((b) => b.identifier)
-							)
-
-							void state.storedBaskets.push({
-								...basket,
-								identifier: maxIdentifier + 1,
+						if (checkIfExists) {
+							state.storedBaskets = state.storedBaskets.map((b) => {
+								if (b.id === basket.id) {
+									return { ...basket, identifier: b.identifier }
+								} else {
+									return b
+								}
 							})
 						} else {
-							void state.storedBaskets.push(basket)
+							const checkNames = state.storedBaskets.filter(
+								(b) => b.name === basket.name
+							)
+
+							if (checkNames && checkNames.length > 0) {
+								const maxIdentifier = Math.max(
+									...checkNames.map((b) => b.identifier)
+								)
+
+								void state.storedBaskets.push({
+									...basket,
+									id: generateUniqueId(),
+									identifier: maxIdentifier + 1,
+								})
+							} else {
+								void state.storedBaskets.push(basket)
+							}
 						}
 					}
 				}),
-
-			// selectAllBaskets: (value: boolean) =>
-			// 	set(() => {
-			// 		// void (state.runtimeBasketList = state.runtimeBasketList.map(
-			// 		// 	(basket) => {
-			// 		// 		return {
-			// 		// 			...basket,
-			// 		// 			selected: value,
-			// 		// 		}
-			// 		// 	}
-			// 		// ))
-			// 		// if (value) {
-			// 		// 	state.selectedBaskets = state.runtimeBasketList.map(
-			// 		// 		(basket) => basket
-			// 		// 	)
-			// 		// } else {
-			// 		// 	state.selectedBaskets = []
-			// 		// }
-			// 	}),
 			setExchange: (exchange) => set({ exchange }),
 			updateRuntimeBasketData: (basket: SavedBasketsObject) =>
 				set((state) => {
@@ -201,16 +136,6 @@ export const useBasketStore = create<BasketState & BasketStateActions>()(
 					)
 					state.runtimeBasketList[index] = basket
 				}),
-			// updateSelection: (id: string) =>
-			// 	set((state) => {
-			// 		state.runtimeBasketList = state.runtimeBasketList.map((b) => {
-			// 			if (b.id === id) {
-			// 				return { ...b, selected: !b.selected }
-			// 			} else {
-			// 				return b
-			// 			}
-			// 		})
-			// 	}),
 			addToSavedBasket: (basket: SavedBasketsObject) =>
 				set((state) => {
 					const checkIfExists = state.savedBaskets.find(
@@ -228,29 +153,45 @@ export const useBasketStore = create<BasketState & BasketStateActions>()(
 						void state.savedBaskets.push(basket)
 					}
 				}),
+			addBasketToSelectedBaskets: (id) =>
+				set((state) => {
+					const basket = state.runtimeBasketList.find((b) => b.id === id)
+					if (basket) {
+						const data = state.selectedBaskets.find((b) => b.id === id)
+						if (!data) {
+							void state.selectedBaskets.push(basket)
+						} else {
+							state.selectedBaskets = state.selectedBaskets.filter(
+								(b) => b.id !== id
+							)
+						}
+					}
+				}),
 
+			selectAllBaskets: () =>
+				set((state) => {
+					if (state.runtimeBasketList.length !== state.selectedBaskets.length) {
+						state.selectedBaskets = state.runtimeBasketList
+					} else {
+						state.selectedBaskets = []
+					}
+				}),
+			setRuntimeError: (id) =>
+				set((state) => {
+					state.runtimeBasketList = state.runtimeBasketList.map((b) =>
+						b.id === id ? { ...b, error: true } : b
+					)
+				}),
+			updateRuntimeError: (id) =>
+				set((state) => {
+					state.runtimeBasketList = state.runtimeBasketList.map((b) =>
+						b.id === id ? { ...b, error: false } : b
+					)
+				}),
 			setTimeError: (timeError) => set({ timeError }),
 			setEmptyBasketError: (emptyBasketError) => set({ emptyBasketError }),
 			resetEditablebasket: () =>
-				set(
-					(state) =>
-						void (state.editableBasketData = {
-							key: '',
-							id: '',
-							identifier: 0,
-							name: '',
-							ticker: '',
-							exchange: '',
-							type: '',
-							atm: '',
-							exitCondition: {
-								type: 'SQOL',
-								totalLoss: 0,
-								totalProfit: 0,
-							},
-						})
-				),
-			setPositionCopy: (positionCopy) => set({ positionCopy }),
+				set((state) => void (state.editableBasketData = defaultBasketData)),
 			toggleSetBasketModalOpen: (isAddBasketModalOpen) =>
 				set({ isAddBasketModalOpen }),
 			toogleEditModal: (isEditModalOpen) => set({ isEditModalOpen }),
