@@ -9,8 +9,9 @@ import {
 import dayjs from 'dayjs'
 import { Exchange } from 'src/common/enums'
 import { SavedBasketsObject } from '../../../types/types'
+import { useBasketStore } from 'src/components/basket/store/basket-store'
 const format = 'HH:mm'
-
+import { useValidateTimes } from '../modal-hooks/useValidateTimes'
 import { getDisabledTimeByExchange } from 'src/common/utils/date-time-utils'
 interface EntryExitProps {
 	basketData: SavedBasketsObject
@@ -18,6 +19,7 @@ interface EntryExitProps {
 }
 const EntryExit: React.FC<EntryExitProps> = ({ basketData, setBasketData }) => {
 	const { token } = theme.useToken()
+	const { setTimeError, timeError } = useBasketStore()
 
 	const handleEntryTimeChange: TimePickerProps['onChange'] = (val) => {
 		const date = val?.format(format).toString()
@@ -40,6 +42,9 @@ const EntryExit: React.FC<EntryExitProps> = ({ basketData, setBasketData }) => {
 			},
 		})
 	}
+
+	useValidateTimes(basketData.entryCondition, setTimeError)
+
 	return (
 		<Flex flex={1} justify="space-around">
 			<Card
@@ -57,6 +62,10 @@ const EntryExit: React.FC<EntryExitProps> = ({ basketData, setBasketData }) => {
 			>
 				<Flex flex="1" justify="center">
 					<TimePicker
+						style={{ border: timeError ? '1px solid red' : '' }}
+						disabledTime={getDisabledTimeByExchange(
+							basketData.exchange as Exchange
+						)}
 						value={dayjs(basketData.entryCondition?.entryTime, format)}
 						format={format}
 						onChange={handleEntryTimeChange}
@@ -79,6 +88,7 @@ const EntryExit: React.FC<EntryExitProps> = ({ basketData, setBasketData }) => {
 			>
 				<Flex flex="1" justify="center">
 					<TimePicker
+						style={{ border: timeError ? '1px solid red' : '' }}
 						disabledTime={getDisabledTimeByExchange(
 							basketData.exchange as Exchange
 						)}
