@@ -13,8 +13,12 @@ import {
 
 const Index = () => {
 	const { token } = theme.useToken()
-	const { storedBaskets, addToStoredBaskets, deleteStoredBasket, exchange } =
-		useBasketStore()
+	const {
+		exchange,
+		storedBaskets,
+		deleteStoredBasket,
+		createDuplicateStoredBasket,
+	} = useBasketStore()
 
 	const onHandleBaskeDelete = (id: string) => {
 		deleteStoredBasket(id)
@@ -23,7 +27,10 @@ const Index = () => {
 		console.log(id)
 	}
 	const onHandleBasketDuplicate = (id: string) => {
-		addToStoredBaskets(id)
+		const basket = storedBaskets.find((basket) => basket.id === id)
+		if (basket) {
+			createDuplicateStoredBasket({ ...basket, id: generateUniqueId() })
+		}
 	}
 	const onHandleBaskeMove = (id: string) => {
 		console.log('move', id)
