@@ -28,8 +28,14 @@ const Index = () => {
 	}
 	const onHandleBasketDuplicate = (id: string) => {
 		const basket = storedBaskets.find((basket) => basket.id === id)
+
 		if (basket) {
-			createDuplicateStoredBasket({ ...basket, id: generateUniqueId() })
+			const baskets = storedBaskets.filter((b) => b.name === basket.name)
+			createDuplicateStoredBasket({
+				...basket,
+				id: generateUniqueId(),
+				identifier: baskets[baskets.length - 1].identifier + 1,
+			})
 		}
 	}
 	const onHandleBaskeMove = (id: string) => {

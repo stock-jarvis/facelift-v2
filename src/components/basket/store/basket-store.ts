@@ -49,6 +49,13 @@ type BasketStateActions = {
 }
 
 const defaultState: BasketState = {
+	endDate: '',
+	startDate: '',
+	exchange: 'NSE',
+	savedBaskets: [],
+	timeError: false,
+	storedBaskets: [],
+	selectedBaskets: [],
 	runtimeBasketList: [
 		{
 			key: '1',
@@ -66,20 +73,13 @@ const defaultState: BasketState = {
 			},
 		},
 	],
-	storedBaskets: [],
-	exchange: 'NSE',
-	startDate: '',
-	endDate: '',
-	selectedBaskets: [],
 	duplicateError: false,
 	isEditModalOpen: false,
-	isAddBasketModalOpen: false,
+	emptyBasketError: false,
 	timeErrorModalOpen: false,
+	isAddBasketModalOpen: false,
 	closeModalConfirmation: false,
 	editableBasketData: defaultBasketData,
-	savedBaskets: [],
-	timeError: false,
-	emptyBasketError: false,
 }
 
 export const useBasketStore = create<BasketState & BasketStateActions>()(
