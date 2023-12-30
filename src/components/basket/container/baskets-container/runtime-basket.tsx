@@ -26,22 +26,22 @@ const Index = () => {
 	const { token } = theme.useToken()
 
 	const {
-		runtimeBasketList,
-		deleteRuntimeBasket,
-		toogleEditModal,
-		setEditableBasket,
 		selectedBaskets,
-		addNewRuntimeBasket,
-		toggleSetBasketModalOpen,
-		addBasketToSelectedBaskets,
-		selectAllBaskets,
+		runtimeBasketList,
 		setRuntimeError,
+		toogleEditModal,
+		selectAllBaskets,
+		setEditableBasket,
 		updateRuntimeError,
 		addToStoredBaskets,
+		addNewRuntimeBasket,
+		deleteRuntimeBasket,
+		toggleSetBasketModalOpen,
+		addBasketToSelectedBaskets,
 	} = useBasketStore()
 
 	const onHandleBasketEdit = (id: string) => {
-		setEditableBasket(id)
+		setEditableBasket(id, 'runtime')
 		updateRuntimeError(id)
 		toogleEditModal(true)
 	}

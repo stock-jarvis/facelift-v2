@@ -39,9 +39,9 @@ const EditBasketModal = ({ open }: EditModalProps) => {
 	)
 
 	const handleAfterClose = () => {
+		setBasket([])
 		resetEditablebasket()
 		setBasketData(defaultBasketData)
-		setBasket([])
 		updatedBasketData(defaultInitialLegValues)
 	}
 

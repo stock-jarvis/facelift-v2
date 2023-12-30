@@ -7,6 +7,7 @@ import { defaultBasketData } from '../constants/data'
 type BasketState = {
 	endDate: string
 	exchange: string
+	editType: string
 	startDate: string
 	timeError: boolean
 	duplicateError: boolean
@@ -28,7 +29,6 @@ type BasketStateActions = {
 	setExchange: (val: string) => void
 	setRuntimeError: (id: string) => void
 	setTimeError: (error: boolean) => void
-	setEditableBasket: (id: string) => void
 	toogleEditModal: (open: boolean) => void
 	deleteStoredBasket: (id: string) => void
 	addToStoredBaskets: (id: string) => void
@@ -38,6 +38,7 @@ type BasketStateActions = {
 	setEmptyBasketError: (error: boolean) => void
 	closeEditConfirmation: (value: boolean) => void
 	addBasketToSelectedBaskets: (id: string) => void
+	setEditableBasket: (id: string, type: string) => void
 	toogleSaveError: (id: string, error: boolean) => void
 	addToSavedBasket: (basket: SavedBasketsObject) => void
 	addNewRuntimeBasket: (basket: SavedBasketsObject) => void
@@ -50,6 +51,7 @@ type BasketStateActions = {
 
 const defaultState: BasketState = {
 	endDate: '',
+	editType: '',
 	startDate: '',
 	exchange: 'NSE',
 	savedBaskets: [],
@@ -102,7 +104,10 @@ export const useBasketStore = create<BasketState & BasketStateActions>()(
 				set({ timeErrorModalOpen }),
 
 			resetEditablebasket: () =>
-				set((state) => void (state.editableBasketData = defaultBasketData)),
+				set((state) => {
+					state.editType = ''
+					void (state.editableBasketData = defaultBasketData)
+				}),
 
 			closeEditConfirmation: (value: boolean) =>
 				set((state) => {
@@ -117,10 +122,17 @@ export const useBasketStore = create<BasketState & BasketStateActions>()(
 
 			updateRuntimeBasketData: (basket: SavedBasketsObject) =>
 				set((state) => {
-					const index = state.runtimeBasketList.findIndex(
-						(b) => b.id === basket.id
-					)
-					state.runtimeBasketList[index] = basket
+					if (state.editType === 'runtime') {
+						const index = state.runtimeBasketList.findIndex(
+							(b) => b.id === basket.id
+						)
+						state.runtimeBasketList[index] = basket
+					} else {
+						const index = state.storedBaskets.findIndex(
+							(b) => b.id === basket.id
+						)
+						state.storedBaskets[index] = basket
+					}
 				}),
 
 			setRuntimeError: (id) =>
@@ -210,11 +222,12 @@ export const useBasketStore = create<BasketState & BasketStateActions>()(
 					})
 				}),
 
-			setEditableBasket: (id: string) =>
+			setEditableBasket: (id: string, type: string) =>
 				set((state) => {
-					const data = state.runtimeBasketList.find(
-						(basket) => basket.id === id
-					)
+					state.editType = type
+					const dataToBeExtracted =
+						type === 'runtime' ? state.runtimeBasketList : state.storedBaskets
+					const data = dataToBeExtracted.find((basket) => basket.id === id)
 					if (data) {
 						state.editableBasketData = data
 					}
@@ -256,6 +269,7 @@ export const useBasketStore = create<BasketState & BasketStateActions>()(
 						}
 					}
 				}),
+
 			createDuplicateStoredBasket: (basket: SavedBasketsObject) =>
 				set((state) => {
 					void state.storedBaskets.push(basket)

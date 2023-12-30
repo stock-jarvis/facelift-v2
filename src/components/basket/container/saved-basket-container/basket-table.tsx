@@ -16,6 +16,8 @@ const Index = () => {
 	const {
 		exchange,
 		storedBaskets,
+		toogleEditModal,
+		setEditableBasket,
 		deleteStoredBasket,
 		createDuplicateStoredBasket,
 	} = useBasketStore()
@@ -24,7 +26,8 @@ const Index = () => {
 		deleteStoredBasket(id)
 	}
 	const onHandleBasketEdit = (id: string) => {
-		console.log(id)
+		setEditableBasket(id, 'saved')
+		toogleEditModal(true)
 	}
 	const onHandleBasketDuplicate = (id: string) => {
 		const basket = storedBaskets.find((basket) => basket.id === id)
@@ -39,7 +42,7 @@ const Index = () => {
 		}
 	}
 	const onHandleBaskeMove = (id: string) => {
-		console.log('move', id)
+		console.log(id)
 	}
 
 	const columns = [
