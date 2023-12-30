@@ -19,6 +19,8 @@ const Basket = () => {
 		toggleTimeErrorModalOpen,
 		setEmptyBasketError,
 		emptyBasketError,
+		runtimeDuplicate,
+		closeDuplicateConfirmModal,
 	} = useBasketStore()
 
 	const handleCloseConfirmModal = (val: boolean) => {
@@ -83,6 +85,15 @@ const Basket = () => {
 					handleCancel={handleEmptyBasketErrorModalClose}
 					header={'Cannot Save Basket'}
 					message="Basket should have atleast one position element to save."
+				/>
+			)}
+			{runtimeDuplicate && (
+				<ConfirmModal
+					open={runtimeDuplicate}
+					handleOpen={() => closeDuplicateConfirmModal(false)}
+					handleCancel={() => closeDuplicateConfirmModal(false)}
+					header={'Basket Exists'}
+					message="This Basket Already exits in runtime section."
 				/>
 			)}
 		</>

@@ -20,6 +20,7 @@ const Index = () => {
 		setEditableBasket,
 		deleteStoredBasket,
 		createDuplicateStoredBasket,
+		moveStoredToRuntimeBasket,
 	} = useBasketStore()
 
 	const onHandleBaskeDelete = (id: string) => {
@@ -42,7 +43,7 @@ const Index = () => {
 		}
 	}
 	const onHandleBaskeMove = (id: string) => {
-		console.log(id)
+		moveStoredToRuntimeBasket(id)
 	}
 
 	const columns = [

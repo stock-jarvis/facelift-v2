@@ -3,14 +3,21 @@ import { PlayCircleOutlined, PlusOutlined } from '@ant-design/icons'
 import { IoCalendarOutline } from 'react-icons/io5'
 
 import { TimeRangePickerProps } from 'antd'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useBasketStore } from '../../store/basket-store'
 
 const { RangePicker } = DatePicker
 const Index = () => {
 	const { token } = theme.useToken()
-	const { toggleSetBasketModalOpen, handleDateChange } = useBasketStore()
-	const [disabledButton /* setDisabledButton*/] = useState<boolean>(true)
+	const {
+		toggleSetBasketModalOpen,
+		clearSelectedBaskets,
+		handleDateChange,
+		selectedBaskets,
+		startDate,
+		endDate,
+	} = useBasketStore()
+	const [disabledButton, setDisabledButton] = useState<boolean>(true)
 
 	const handleDateChanged: TimeRangePickerProps['onChange'] = (e) => {
 		const startDate = e?.[0]?.format('DD-MM-YYYY') || ''
@@ -18,13 +25,17 @@ const Index = () => {
 		handleDateChange(startDate, endDate)
 	}
 
-	// useEffect(() => {
-	// 	if (startDate && endDate && selectedBaskets.length > 0) {
-	// 		setDisabledButton(false)
-	// 	} else {
-	// 		setDisabledButton(true)
-	// 	}
-	// }, [startDate, endDate, selectedBaskets, setDisabledButton])
+	const handleBackTestingButtonClicked = () => {
+		clearSelectedBaskets()
+	}
+
+	useEffect(() => {
+		if (startDate && endDate && selectedBaskets.length > 0) {
+			setDisabledButton(false)
+		} else {
+			setDisabledButton(true)
+		}
+	}, [startDate, endDate, selectedBaskets, setDisabledButton])
 
 	return (
 		<Flex
@@ -53,6 +64,7 @@ const Index = () => {
 					type="default"
 					disabled={disabledButton}
 					icon={<PlayCircleOutlined />}
+					onClick={handleBackTestingButtonClicked}
 				>
 					Start Back Testing
 				</Button>
