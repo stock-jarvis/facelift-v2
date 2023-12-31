@@ -34,6 +34,7 @@ const EditBasketModal = ({ open }: EditModalProps) => {
 	const [basketData, setBasketData] = useImmer<SavedBasketsObject>({
 		...editableBasketData,
 	})
+	console.log(editableBasketData)
 	const [basket, setBasket] = useState<BasketDataProps[]>(
 		editableBasketData.positions || []
 	)

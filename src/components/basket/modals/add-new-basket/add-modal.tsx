@@ -44,10 +44,6 @@ const Index: React.FC<ModalProps> = ({ open }) => {
 					type: 'INTRA',
 					atm: 'spot',
 					positions: [],
-					entryCondition: {
-						entryTime: '00:00:00',
-						exitTime: '00:00:00',
-					},
 					exitCondition: {
 						type: 'SQOL',
 						totalLoss: 0,
