@@ -2,9 +2,9 @@ import { theme } from 'antd'
 import React from 'react'
 import { NavLink, NavLinkProps } from 'react-router-dom'
 
-type StockJarvisNavLinkProps = NavLinkProps
+type SystemTradeNavLinkProps = NavLinkProps
 
-const StockJarvisNavLink: React.FC<StockJarvisNavLinkProps> = (props) => {
+const SystemTradeNavLink: React.FC<SystemTradeNavLinkProps> = (props) => {
 	const { style, children, ...rest } = props
 
 	const { token } = theme.useToken()
@@ -24,4 +24,4 @@ const StockJarvisNavLink: React.FC<StockJarvisNavLinkProps> = (props) => {
 	)
 }
 
-export default StockJarvisNavLink
+export default SystemTradeNavLink

@@ -49,3 +49,10 @@ export enum Resolution {
 	'1 Hour' = '60',
 	'1 Day' = '1D',
 }
+
+export enum OptionContractType {
+	// Put Option
+	PE = 'PE',
+	// Call Option
+	CE = 'CE',
+}

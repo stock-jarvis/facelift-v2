@@ -7,8 +7,7 @@ import {
 	getTimeAsStringFromDayjs,
 } from 'src/common/utils/date-time-utils'
 
-import { TradeAction } from 'src/common/enums'
-import { positionsMockData } from '../mock-data'
+import { OptionContractType, TradeAction } from 'src/common/enums'
 
 import Footer from './footer'
 import ExitLots from '../exit-lots'
@@ -20,6 +19,8 @@ export type Position = {
 	entryDate: Dayjs
 	entryTime: Dayjs
 	instrument: string
+	strikePrice: number
+	contractType: OptionContractType
 	expiry: Dayjs
 	entryPrice: number
 	lastTradedPrice: number
@@ -32,7 +33,11 @@ export type Position = {
 
 export type PositionsAntdTableProps = TableProps<Position>
 
-const PositionsTable = () => {
+type PositionsTableProps = {
+	positions: Position[]
+}
+
+const PositionsTable: React.FC<PositionsTableProps> = ({ positions }) => {
 	const columns: PositionsAntdTableProps['columns'] = [
 		{
 			/** No title in table header */
@@ -66,10 +71,11 @@ const PositionsTable = () => {
 			align: 'center',
 		},
 		{
-			key: 'instrument',
-			title: 'Instrument',
-			dataIndex: 'instrument',
+			key: 'strikePrice',
+			title: 'Strike Price',
+			dataIndex: 'strikePrice',
 			align: 'center',
+			render: (strikePrice, record) => `${strikePrice} ${record.contractType}`,
 		},
 		{
 			key: 'expiry',
@@ -117,9 +123,8 @@ const PositionsTable = () => {
 		<Table
 			columns={columns}
 			pagination={false}
-			dataSource={positionsMockData}
-			scroll={{ y: 'calc(100vh - 340px)' }}
-			footer={Footer}
+			dataSource={positions}
+			scroll={{ y: 'calc(100vh - 635px)' }}
 		/>
 	)
 }

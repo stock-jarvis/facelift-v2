@@ -1,6 +1,6 @@
 import { HighchartsOscillatorType, HighchartsOverlayType } from './types'
 
-export const PRIMARY_CHART_ID = 'stock-jarvis-primary-chart'
+export const PRIMARY_CHART_ID = 'system-trade-primary-chart'
 
 export const OverlayIndicators: Record<string, HighchartsOverlayType> = {
 	'Acceleration Bands': 'abands',
