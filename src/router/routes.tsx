@@ -1,11 +1,14 @@
+/* eslint-disable react-refresh/only-export-components */
 // TODO: Fix up this file after merging
 
 import { Spin } from 'antd'
 import { Suspense, lazy } from 'react'
 import { RouteObject } from 'react-router-dom'
+import Signup from 'src/components/signup'
 
 const App = lazy(() => import('src/app'))
 
+const Login = lazy(() => import('src/components/login'))
 const HomePage = lazy(() => import('src/components/home/views/home-page'))
 const Pricing = lazy(() => import('src/components/home/views/pricing'))
 const Contact = lazy(() => import('src/components/home/views/contact'))
@@ -21,6 +24,10 @@ const FullscreenSpinner = () => <Spin fullscreen />
 
 const routes: RouteObject[] = [
 	{
+		path: '/signup',
+		element: <Signup />,
+	},
+	{
 		path: '/',
 		element: (
 			<Suspense fallback={<FullscreenSpinner />}>
@@ -35,6 +42,10 @@ const routes: RouteObject[] = [
 						<HomePage />
 					</Suspense>
 				),
+			},
+			{
+				path: '/login',
+				element: <Login />,
 			},
 			{
 				path: '/pricing',

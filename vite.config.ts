@@ -8,6 +8,8 @@ export default defineConfig({
 	resolve: {
 		alias: {
 			src: '/src',
+			api: '/src/api',
+			common: '/src/common',
 		},
 	},
 })

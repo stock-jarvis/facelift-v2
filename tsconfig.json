@@ -22,9 +22,11 @@
 		"forceConsistentCasingInFileNames": true,
 
 		/** Absolute Imports */
-		"baseUrl": "./",
+		"baseUrl": "./src",
 		"paths": {
-			"src/*": ["./src/*"]
+			"src/*": ["*"],
+			"api/*": ["api/*"],
+			"common/*": ["common/*"]
 		}
 	},
 	"include": ["src"],

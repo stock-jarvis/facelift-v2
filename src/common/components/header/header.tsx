@@ -1,6 +1,7 @@
 import { Button, Flex, theme } from 'antd'
 import StockJarvisNavLink from '../stock-jarvis-nav-link'
 import { UserOutlined } from '@ant-design/icons'
+import Logo from '../logo'
 
 const Header = () => {
 	const { token } = theme.useToken()
@@ -24,26 +25,7 @@ const Header = () => {
 				<StockJarvisNavLink to="/not-found">AI Strategies</StockJarvisNavLink>
 			</Flex>
 			<Flex flex={2} align="center" justify="center">
-				<Flex gap={8}>
-					<Flex
-						style={{
-							color: 'black',
-							fontSize: token.fontSizeHeading4,
-							fontWeight: token.fontWeightStrong,
-						}}
-					>
-						STOCK
-					</Flex>
-					<Flex
-						style={{
-							color: '#2C9AFF',
-							fontSize: token.fontSizeHeading4,
-							fontWeight: token.fontWeightStrong,
-						}}
-					>
-						JARVIS
-					</Flex>
-				</Flex>
+				<Logo />
 			</Flex>
 			<Flex flex={2} align="center" justify="space-between">
 				<StockJarvisNavLink to="/not-found">Indicator</StockJarvisNavLink>
