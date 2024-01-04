@@ -52,7 +52,7 @@ const Header: React.FC<HeaderProps> = ({ basketData, setBasketData }) => {
 			),
 
 			key: 'exhange',
-
+			span: { xs: 2, sm: 2, md: 2, lg: 2, xl: 2 },
 			children: (
 				<Flex flex={1} justify="center">
 					<Select
@@ -68,6 +68,30 @@ const Header: React.FC<HeaderProps> = ({ basketData, setBasketData }) => {
 				</Flex>
 			),
 		},
+
+		{
+			label: (
+				<Flex flex={1} justify="center">
+					<Typography.Text style={{ fontWeight: token.fontWeightStrong }}>
+						Position
+					</Typography.Text>
+				</Flex>
+			),
+			key: 'position',
+			span: { xs: 2, sm: 2, md: 2, lg: 2, xl: 2 },
+			children: (
+				<Flex flex={1} justify="center">
+					<Toggle
+						label1="INTRADAY"
+						label2="POSITIONAL"
+						toogle1="INTRA"
+						toogle2="POS"
+						setToogleValue={handleBasketTypeChange}
+						value={basketData.type}
+					/>
+				</Flex>
+			),
+		},
 		{
 			label: (
 				<Flex flex={1} justify="center">
@@ -77,7 +101,7 @@ const Header: React.FC<HeaderProps> = ({ basketData, setBasketData }) => {
 				</Flex>
 			),
 			key: 'instrument',
-
+			span: { xs: 2, sm: 2, md: 2, lg: 2, xl: 2 },
 			children: (
 				<Flex flex={1} justify="center">
 					<Select
@@ -98,35 +122,12 @@ const Header: React.FC<HeaderProps> = ({ basketData, setBasketData }) => {
 			label: (
 				<Flex flex={1} justify="center">
 					<Typography.Text style={{ fontWeight: token.fontWeightStrong }}>
-						Position
-					</Typography.Text>
-				</Flex>
-			),
-			key: 'position',
-
-			children: (
-				<Flex flex={1} justify="center">
-					<Toggle
-						label1="INTRADAY"
-						label2="POSITIONAL"
-						toogle1="INTRA"
-						toogle2="POS"
-						setToogleValue={handleBasketTypeChange}
-						value={basketData.type}
-					/>
-				</Flex>
-			),
-		},
-		{
-			label: (
-				<Flex flex={1} justify="center">
-					<Typography.Text style={{ fontWeight: token.fontWeightStrong }}>
 						ATM
 					</Typography.Text>
 				</Flex>
 			),
 			key: 'atm',
-
+			span: { xs: 2, sm: 2, md: 2, lg: 2, xl: 2 },
 			children: (
 				<Flex flex={1} justify="center">
 					<Toggle
@@ -156,7 +157,7 @@ const Header: React.FC<HeaderProps> = ({ basketData, setBasketData }) => {
 					{basketData.identifier > 0 ? ` - ${basketData.identifier}` : ''}
 				</Typography.Text>
 			</Divider>
-			<Descriptions items={items} bordered layout="vertical" />
+			<Descriptions items={items} bordered column={4} />
 		</Flex>
 	)
 }
