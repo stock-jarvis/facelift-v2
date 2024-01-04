@@ -1,11 +1,13 @@
-import { Flex, Menu, MenuProps } from 'antd'
+import { Flex, Menu, MenuProps, Spin, theme } from 'antd'
 
 // import './styles/antd-styles-override.css'
-import Positions from './positions'
+// import Positions from './positions'
 import Greeks from './greeks'
-import { useEffect, useMemo, useState } from 'react'
+import { Suspense, lazy, useEffect, useMemo, useState } from 'react'
 import { useSimulatorParamsStore } from '../../store/simulator-params-store'
 import { convertValuesToItemType } from 'src/common/utils/conversion-utils'
+import Charts from './charts'
+import { BANK_NIFTY_TICKER } from 'src/common/constants'
 
 enum MenuItem {
 	Positions = 'Positions',
@@ -21,26 +23,36 @@ type MenuContentProps = {
 const MenuContent: React.FC<MenuContentProps> = ({ selectedItemKey }) => {
 	switch (selectedItemKey) {
 		case MenuItem.Positions:
-			return <Positions />
+			// eslint-disable-next-line no-case-declarations
+			const Positions = lazy(() => import('./positions'))
+			return (
+				<Suspense fallback={<Spin />}>
+					<Positions />
+				</Suspense>
+			)
 		case MenuItem.Greeks:
 			return <Greeks />
 		case MenuItem['Payoff Charts']:
 			return <div>Payoff charts under construction</div>
 		case MenuItem.Charts:
-			return <div>Charts under construction</div>
+			return <Charts />
 		default:
 			return <div>You are not supposed to be here.</div>
 	}
 }
 
 const RightContent = () => {
+	const { token } = theme.useToken()
+
 	const { selectedInstruments, setActiveInstrument } = useSimulatorParamsStore()
 
 	const [selectedMenuItem, setSelectedMenuItem] = useState<MenuItem>(
-		MenuItem.Positions
+		// Dev: Change to Positions
+		MenuItem.Charts
 	)
 
-	const [tabInstrument, setTabInstrument] = useState<string>()
+	// Dev: Remove BANK_NIFTY_TICKER
+	const [tabInstrument, setTabInstrument] = useState<string>(BANK_NIFTY_TICKER)
 
 	const items: MenuProps['items'] = useMemo(
 		() =>
@@ -113,7 +125,13 @@ const RightContent = () => {
 	}, [setActiveInstrument, tabInstrument])
 
 	return (
-		<Flex className="w-full h-full" vertical>
+		<Flex
+			className="w-full h-full"
+			style={{
+				marginLeft: token.margin,
+			}}
+			vertical
+		>
 			<Menu
 				items={items}
 				mode="horizontal"
