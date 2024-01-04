@@ -62,7 +62,6 @@ const Toggle: React.FC<ToggleProps> = ({
 	const handleSegmentsChanged: SegmentedProps['onChange'] = (
 		tagVal: SegmentedValue
 	) => {
-		console.log(tagVal)
 		if (toogleValue !== tagVal.toLocaleString()) {
 			setValue(tagVal.toLocaleString())
 			setToogleValue(tagVal.toLocaleString())

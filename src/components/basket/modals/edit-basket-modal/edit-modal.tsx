@@ -1,9 +1,10 @@
 import { useState } from 'react'
-import { Modal, theme, Flex, Typography } from 'antd'
+import { Modal, theme, Flex } from 'antd'
 import { CloseOutlined } from '@ant-design/icons'
 import { useImmer } from 'use-immer'
 import Header from './modal-containers/header'
 import Footer from './modal-containers/footer'
+import Title from './modal-containers/title-section'
 import ExitCondition from './modal-containers/exit-condition'
 import DetailsContainer from './modal-containers/detail-container'
 import { generateUniqueId } from '../../utils/randomizer'
@@ -34,7 +35,6 @@ const EditBasketModal = ({ open }: EditModalProps) => {
 	const [basketData, setBasketData] = useImmer<SavedBasketsObject>({
 		...editableBasketData,
 	})
-	console.log(editableBasketData)
 	const [basket, setBasket] = useState<BasketDataProps[]>(
 		editableBasketData.positions || []
 	)
@@ -128,12 +128,13 @@ const EditBasketModal = ({ open }: EditModalProps) => {
 			footer={<Footer basketData={basketData} basket={basket} />}
 			title={
 				<Flex style={{ padding: token.paddingXS }}>
-					<Typography.Text>Edit Baskets</Typography.Text>
+					<Title {...basketData} />
 				</Flex>
 			}
 			styles={{
 				content: {
 					padding: 0,
+					margin: -50,
 				},
 			}}
 		>
@@ -142,7 +143,7 @@ const EditBasketModal = ({ open }: EditModalProps) => {
 				gap={'middle'}
 				style={{
 					padding: token.paddingMD,
-					height: '500px',
+					height: '600px',
 					overflowY: 'scroll',
 					scrollBehavior: 'smooth',
 				}}

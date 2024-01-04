@@ -21,7 +21,6 @@ const ExitCondition: React.FC<ExitConditionProps> = ({
 }) => {
 	useEffect(() => {
 		if (!basketData.entryCondition) {
-			console.log('hello world')
 			setBasketData({
 				...basketData,
 				entryCondition: {
@@ -29,8 +28,6 @@ const ExitCondition: React.FC<ExitConditionProps> = ({
 					exitTime: getTimes(basketData.exchange as Exchanges, 'end'),
 				},
 			})
-		} else {
-			console.log(basketData.entryCondition)
 		}
 	}, [basketData, setBasketData])
 	const { token } = theme.useToken()
