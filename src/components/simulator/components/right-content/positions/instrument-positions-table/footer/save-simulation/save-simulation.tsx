@@ -1,7 +1,8 @@
 import { SaveOutlined } from '@ant-design/icons'
-import { Button, Tooltip } from 'antd'
+import { Tooltip } from 'antd'
 
 import { useToggle } from 'src/common/utils/state-utils'
+import Button from 'src/common/components/button'
 import SaveSimulationModal from './save-simulation-modal'
 
 const SaveSimulation = () => {
@@ -12,7 +13,7 @@ const SaveSimulation = () => {
 		<>
 			<Tooltip title="Save simulation">
 				<Button
-					type="text"
+					type="text-bordered"
 					size="large"
 					shape="circle"
 					onClick={toggleIsSaveSimulationModalOpen}

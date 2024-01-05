@@ -49,3 +49,5 @@ export type TimeBoundary = {
 	start: TimeByUnit
 	end: TimeByUnit
 }
+/** Timestamp, Open, High, Low, Close */
+export type OHLC = [number, number, number, number, number]

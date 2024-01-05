@@ -9,7 +9,8 @@ type SimulatorParams = {
 	time: Dayjs
 	date: Dayjs
 	exchange: Exchange
-	activeInstrument?: string
+	// TODO: Default active instrument in other Exchanges
+	activeInstrument: string
 	selectedInstruments: string[]
 }
 

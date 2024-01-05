@@ -1,7 +1,7 @@
 import { SaveOutlined } from '@ant-design/icons'
-import { Button } from 'antd'
 import { useToggle } from 'src/common/utils/state-utils'
 import SavedSimulationsModal from './saved-simulations-modal'
+import Button from 'src/common/components/button'
 
 const SavedSimulations = () => {
 	const [isSavedSimulationsModalOpen, toggleSavedSimulationsModalOpen] =
@@ -10,7 +10,7 @@ const SavedSimulations = () => {
 	return (
 		<>
 			<Button
-				type="primary"
+				type="primary-bordered"
 				onClick={toggleSavedSimulationsModalOpen}
 				icon={<SaveOutlined />}
 			>
