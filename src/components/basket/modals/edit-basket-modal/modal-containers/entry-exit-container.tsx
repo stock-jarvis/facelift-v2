@@ -68,6 +68,8 @@ const EntryExit: React.FC<EntryExitProps> = ({ basketData, setBasketData }) => {
 						disabledTime={disabledHours}
 						value={dayjs(basketData.entryCondition?.entryTime, format)}
 						format={format}
+						hideDisabledOptions
+						showNow={false}
 						onChange={handleEntryTimeChange}
 					/>
 				</Flex>
@@ -92,6 +94,8 @@ const EntryExit: React.FC<EntryExitProps> = ({ basketData, setBasketData }) => {
 						disabledTime={disabledHours}
 						value={dayjs(basketData.entryCondition?.exitTime, format)}
 						format={format}
+						showNow={false}
+						hideDisabledOptions
 						onChange={handleExitTimeChange}
 					/>
 				</Flex>
