@@ -1,4 +1,9 @@
-import { MutationFunction, UseMutationOptions, useMutation } from 'react-query'
+import {
+	MutationFunction,
+	useMutation,
+	useQuery,
+	QueryFunction,
+} from 'react-query'
 
 import axios from '../axios'
 import { AuthUrl } from 'api/auth'
@@ -69,7 +74,7 @@ type ResendOTPPayload = Pick<VerifyPayload, 'nonce'>
 const resendOTP: MutationFunction<unknown, ResendOTPPayload> = async (
 	resendOTPPayload
 ) => {
-	// return (await axios.post(AuthUrl.Resend)).data
+	// return (await axios.post(AuthUrl.Resend, resendOTPPayload)).data
 
 	// Dev
 	return new Promise((resolve) => setTimeout(() => resolve({}), 1000))
@@ -79,4 +84,25 @@ export const useResendOTPMutation = () =>
 	useMutation({
 		mutationFn: resendOTP,
 		mutationKey: AuthUrl.Resend,
+	})
+
+/************************* Login ***************************/
+type LoginPayload = {
+	phone: string
+	password: string
+}
+
+// TODO: Define Response
+
+const login: MutationFunction<unknown, LoginPayload> = async (loginPayload) => {
+	// return (await axios.post(AuthUrl.Login, loginPayload)).data
+
+	// Dev
+	return new Promise((resolve) => setTimeout(() => resolve({}), 1000))
+}
+
+export const useLoginMutation = () =>
+	useMutation({
+		mutationFn: login,
+		mutationKey: AuthUrl.Login,
 	})

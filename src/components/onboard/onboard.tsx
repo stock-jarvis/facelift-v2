@@ -14,7 +14,7 @@ import Loader from 'src/common/components/loader'
 import Logo from 'src/common/components/logo'
 import Verify from './verify'
 
-type SignupFormFields = {
+type OnboardFormFields = {
 	email: string
 	phone: string
 	password: string
@@ -24,10 +24,10 @@ type SignupFormFields = {
 	lastName?: string
 }
 
-type FormProps = AntdFormProps<SignupFormFields>
+type FormProps = AntdFormProps<OnboardFormFields>
 
-const FormItem = Form.Item<SignupFormFields>
-type FormItemProps = AntdFormItemProps<SignupFormFields>
+const FormItem = Form.Item<OnboardFormFields>
+type FormItemProps = AntdFormItemProps<OnboardFormFields>
 
 const confirmPasswordRule: Rule = ({ getFieldValue }) => ({
 	validator: (_, confirmPassword) => {
@@ -41,17 +41,17 @@ const confirmPasswordRule: Rule = ({ getFieldValue }) => ({
 	},
 })
 
-const signupFormFields: Array<FormItemProps> = [
+const onboardFormFields: Array<FormItemProps> = [
 	{
 		name: 'firstName',
 		label: 'First Name',
 		children: <Input />,
-		// rules: [
-		// 	{
-		// 		required: true,
-		// 		message: 'Please specify your First Name!',
-		// 	},
-		// ],
+		rules: [
+			{
+				required: true,
+				message: 'Please specify your First Name!',
+			},
+		],
 	},
 	{
 		name: 'lastName',
@@ -62,62 +62,58 @@ const signupFormFields: Array<FormItemProps> = [
 		name: 'email',
 		label: 'Email',
 		children: <Input />,
-		// rules: [
-		// 	{
-		// 		required: true,
-		// 		message: 'Please enter a valid email address',
-		// 	},
-		// ],
+		rules: [
+			{
+				required: true,
+				message: 'Please enter a valid email address',
+			},
+		],
 	},
 	{
 		name: 'phone',
 		label: 'Phone',
 		children: <Input />,
-		// rules: [
-		// 	{
-		// 		required: true,
-		// 		message: 'Please enter a valid phone number',
-		// 	},
-		// ],
+		rules: [
+			{
+				required: true,
+				message: 'Please enter a valid phone number',
+			},
+		],
 	},
 	{
 		name: 'password',
 		label: 'Password',
 		children: <Input.Password />,
-		// rules: [
-		// 	{
-		// 		required: true,
-		// 		message: 'Please enter a password',
-		// 	},
-		// ],
+		rules: [
+			{
+				required: true,
+				message: 'Please enter a password',
+			},
+		],
 	},
 	{
 		name: 'confirmPassord',
 		label: 'Confirm Password',
 		children: <Input.Password />,
-		// rules: [
-		// 	{
-		// 		required: true,
-		// 		message: 'Please re-enter your password',
-		// 	},
-		// 	confirmPasswordRule,
-		// ],
+		rules: [
+			{
+				required: true,
+				message: 'Please re-enter your password',
+			},
+			confirmPasswordRule,
+		],
 	},
 ]
 
-const Signup = () => {
+const Onboard = () => {
 	const { token } = theme.useToken()
 
-	const {
-		mutate: signup,
-		isLoading,
-		data: signUpResponse,
-	} = useOnboardMutation()
+	const { mutate: onboard, isLoading, data } = useOnboardMutation()
 
 	const handleFinish: FormProps['onFinish'] = (formData) => {
 		const { email, firstName, lastName, phone, password, refCode } = formData
 
-		signup({
+		onboard({
 			email,
 			phone,
 			refCode,
@@ -142,17 +138,17 @@ const Signup = () => {
 					vertical
 				>
 					<Logo />
-					{signUpResponse?.nonce ? (
-						<Verify nonce={signUpResponse.nonce} />
+					{data?.nonce ? (
+						<Verify nonce={data.nonce} />
 					) : (
 						<Form
-							name="signup"
+							name="onboard"
 							colon={false}
 							autoComplete="off"
 							labelCol={{ span: 9 }}
 							onFinish={handleFinish}
 						>
-							{signupFormFields.map((field) => (
+							{onboardFormFields.map((field) => (
 								<FormItem key={field.name as string} {...field} />
 							))}
 							<FormItem>
@@ -168,4 +164,4 @@ const Signup = () => {
 	)
 }
 
-export default Signup
+export default Onboard

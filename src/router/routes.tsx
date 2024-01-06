@@ -4,28 +4,40 @@
 import { Spin } from 'antd'
 import { Suspense, lazy } from 'react'
 import { RouteObject } from 'react-router-dom'
-import Signup from 'src/components/signup'
 
 const App = lazy(() => import('src/app'))
 
-const Login = lazy(() => import('src/components/login'))
-const HomePage = lazy(() => import('src/components/home/views/home-page'))
-const Pricing = lazy(() => import('src/components/home/views/pricing'))
-const Contact = lazy(() => import('src/components/home/views/contact'))
-const Privacy = lazy(() => import('src/components/home/views/privacy'))
 const Terms = lazy(() => import('src/components/home/views/terms-conditions'))
+const Login = lazy(() => import('src/components/login'))
+const Contact = lazy(() => import('src/components/home/views/contact'))
+const Pricing = lazy(() => import('src/components/home/views/pricing'))
+const Onboard = lazy(() => import('src/components/onboard'))
+const Privacy = lazy(() => import('src/components/home/views/privacy'))
+const HomePage = lazy(() => import('src/components/home/views/home-page'))
+const Simulator = lazy(() => import('src/components/simulator'))
+
 const RefundPolicy = lazy(
 	() => import('src/components/home/views/refund-policy')
 )
-// const Home = lazy(() => import('src/components/home'))
-const Simulator = lazy(() => import('src/components/simulator'))
 
 const FullscreenSpinner = () => <Spin fullscreen />
 
 const routes: RouteObject[] = [
 	{
-		path: '/signup',
-		element: <Signup />,
+		path: '/onboard',
+		element: (
+			<Suspense fallback={<FullscreenSpinner />}>
+				<Onboard />
+			</Suspense>
+		),
+	},
+	{
+		path: '/login',
+		element: (
+			<Suspense fallback={<FullscreenSpinner />}>
+				<Login />
+			</Suspense>
+		),
 	},
 	{
 		path: '/',
@@ -42,10 +54,6 @@ const routes: RouteObject[] = [
 						<HomePage />
 					</Suspense>
 				),
-			},
-			{
-				path: '/login',
-				element: <Login />,
 			},
 			{
 				path: '/pricing',
