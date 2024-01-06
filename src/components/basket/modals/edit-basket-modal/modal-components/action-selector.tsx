@@ -1,10 +1,10 @@
 import { Flex, Typography, theme, Segmented, SegmentedProps } from 'antd'
 import { SegmentedValue } from 'antd/es/segmented'
 import { useState } from 'react'
-
+import { TradeAction, OptionType } from 'src/common/enums'
 interface ActionSelectorProps {
-	action1: string
-	action2: string
+	action1: TradeAction | OptionType
+	action2: TradeAction | OptionType
 	color1: string
 	color2: string
 	baseActionValue: string | undefined

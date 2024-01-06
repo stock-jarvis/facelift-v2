@@ -15,11 +15,9 @@ import QuantityInput from '../modal-components/quantity-input'
 import YeildButton from '../modal-components/yeild-button'
 import ExpirySelector from '../modal-components/expiry-selector'
 import StrikeSelector from '../modal-components/strike-selector'
-import { useValueChange } from '../modal-hooks/useValueChange'
 import { useActionChange } from '../modal-hooks/useActionChange'
-import { useTypeChange } from '../modal-hooks/useTypeChange'
 import { useExitTypeChange } from '../modal-hooks/useExitTypeChange'
-import { useExitValueChange } from '../modal-hooks/useExitValueChange'
+import { TradeAction, OptionType } from 'src/common/enums'
 import {
 	OptionDetailsProps,
 	OptionsBasketData,
@@ -48,7 +46,7 @@ const OptionBasketDetail: React.FC<OptionDetailsProps> = ({
 		{
 			quantityValue: individualBasket.entryCondition.quantity,
 			actionValue: individualBasket.entryCondition.actionType,
-			optionType: individualBasket.entryCondition.optionType,
+			optionType: individualBasket.entryCondition.optionType ?? OptionType.CALL,
 			expiry: individualBasket.entryCondition.expiry,
 			stopLossType: individualBasket.exitCondition.stopLoss.type,
 			stopLossValue: individualBasket.exitCondition.stopLoss.value,
@@ -120,8 +118,8 @@ const OptionBasketDetail: React.FC<OptionDetailsProps> = ({
 			children: (
 				<Flex flex={1} justify="center">
 					<ActionSelector
-						action1="B"
-						action2="S"
+						action1={TradeAction.Buy}
+						action2={TradeAction.Sell}
 						color1="green"
 						color2="red"
 						baseActionValue={optionsBasketData.actionValue}
@@ -149,8 +147,8 @@ const OptionBasketDetail: React.FC<OptionDetailsProps> = ({
 			children: (
 				<Flex flex={1} justify="center">
 					<ActionSelector
-						action1="CE"
-						action2="PE"
+						action1={OptionType.CALL}
+						action2={OptionType.PUT}
 						color1="black"
 						color2="purple"
 						baseActionValue={optionsBasketData.optionType}
@@ -332,84 +330,96 @@ const OptionBasketDetail: React.FC<OptionDetailsProps> = ({
 			),
 		},
 	]
-
-	useValueChange(
+	useActionChange<number>(
 		optionsBasketData.quantityValue,
 		individualBasket.id,
 		basket,
 		handleEditBasket,
+		'entryCondition',
 		'quantity'
 	)
-	useValueChange(
+	useActionChange<number | undefined>(
 		optionsBasketData.tradeValue,
 		individualBasket.id,
 		basket,
 		handleEditBasket,
+		'entryCondition',
 		'tradeTypeValue'
 	)
-	useActionChange(
+
+	useActionChange<TradeAction>(
 		optionsBasketData.actionValue,
 		individualBasket.id,
 		basket,
 		handleEditBasket,
+		'entryCondition',
 		'actionType'
 	)
-	useActionChange(
+	useActionChange<OptionType>(
 		optionsBasketData.optionType,
 		individualBasket.id,
 		basket,
 		handleEditBasket,
+		'entryCondition',
 		'optionType'
 	)
-	useTypeChange(
+	useActionChange<string | undefined>(
 		optionsBasketData.tradeOption,
 		individualBasket.id,
 		basket,
 		handleEditBasket,
+		'entryCondition',
 		'tradeType'
 	)
-	useTypeChange(
+
+	useActionChange<string | undefined>(
 		optionsBasketData.expiry,
 		individualBasket.id,
 		basket,
 		handleEditBasket,
+		'entryCondition',
 		'expiry'
 	)
-	useTypeChange(
+	useActionChange<string | undefined>(
 		optionsBasketData.subTradeOption,
 		individualBasket.id,
 		basket,
 		handleEditBasket,
+		'entryCondition',
 		'tradeTypeParams'
 	)
 
-	useExitValueChange(
+	useExitTypeChange<number>(
 		optionsBasketData.totalProfitValue,
 		individualBasket.id,
 		basket,
 		handleEditBasket,
-		'totalProfit'
+		'totalProfit',
+		'value'
 	)
-	useExitValueChange(
+	useExitTypeChange<number>(
 		optionsBasketData.stopLossValue,
 		individualBasket.id,
 		basket,
 		handleEditBasket,
-		'stopLoss'
+		'stopLoss',
+		'value'
 	)
-	useExitTypeChange(
+	useExitTypeChange<string>(
 		optionsBasketData.stopLossType,
 		individualBasket.id,
 		basket,
 		handleEditBasket,
-		'stopLoss'
+		'stopLoss',
+		'type'
 	)
-	useExitTypeChange(
+	useExitTypeChange<string>(
 		optionsBasketData.totalProfitType,
 		individualBasket.id,
 		basket,
 		handleEditBasket,
-		'totalProfit'
+		'totalProfit',
+		'type'
 	)
 
 	return (

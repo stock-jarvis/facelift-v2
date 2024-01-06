@@ -2,30 +2,31 @@ import { useEffect } from 'react'
 import { BasketDataProps } from 'src/components/basket/types/types'
 
 type keyValue = 'stopLoss' | 'totalProfit'
-
-export const useExitTypeChange = (
-	value: string,
+type valueType = 'type' | 'value'
+export const useExitTypeChange = <T,>(
+	value: T,
 	id: string,
 	basket: BasketDataProps[],
 	editBasket: (data: BasketDataProps[]) => void,
-	key: keyValue
+	key: keyValue,
+	data: valueType
 ) => {
 	useEffect(() => {
 		const basketItem = basket.findIndex((b) => b.id === id)
 
 		if (basketItem !== -1) {
-			if (basket[basketItem].exitCondition[key].type !== value) {
+			if (basket[basketItem].exitCondition[key][data] !== value) {
 				editBasket(
 					basket.map((bask) => {
 						if (bask.id === id) {
-							if (bask.exitCondition[key].type !== value) {
+							if (bask.exitCondition[key][data] !== value) {
 								const updatedBasket: BasketDataProps = {
 									...bask,
 									exitCondition: {
 										...bask.exitCondition,
 										[key]: {
 											...bask.exitCondition[key],
-											type: value,
+											[data]: value,
 										},
 									},
 								}
@@ -39,5 +40,5 @@ export const useExitTypeChange = (
 				)
 			}
 		}
-	}, [id, basket, value, editBasket, key])
+	}, [id, basket, value, editBasket, key, data])
 }

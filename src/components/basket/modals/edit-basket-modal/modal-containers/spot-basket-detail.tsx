@@ -3,6 +3,7 @@ import QuantityInput from '../modal-components/quantity-input'
 import ActionSelector from '../modal-components/action-selector'
 import YeildButton from '../modal-components/yeild-button'
 import { CopyOutlined, DeleteOutlined } from '@ant-design/icons'
+import { TradeAction } from 'src/common/enums'
 import { useImmer } from 'use-immer'
 import {
 	Flex,
@@ -23,9 +24,7 @@ import {
 	spotLossOptions,
 	totalProfitOptions,
 } from 'src/components/basket/constants/data'
-import { useValueChange } from '../modal-hooks/useValueChange'
 import { useActionChange } from '../modal-hooks/useActionChange'
-import { useExitValueChange } from '../modal-hooks/useExitValueChange'
 import { useExitTypeChange } from '../modal-hooks/useExitTypeChange'
 
 const SpotBasketDetail: React.FC<SpotDetailsProps> = ({
@@ -92,8 +91,8 @@ const SpotBasketDetail: React.FC<SpotDetailsProps> = ({
 			children: (
 				<Flex flex={1} justify="center">
 					<ActionSelector
-						action1="B"
-						action2="S"
+						action1={TradeAction.Buy}
+						action2={TradeAction.Sell}
 						color1="green"
 						color2="red"
 						baseActionValue={spotBasketData.actionValue}
@@ -223,47 +222,53 @@ const SpotBasketDetail: React.FC<SpotDetailsProps> = ({
 		},
 	]
 
-	useValueChange(
+	useActionChange<number>(
 		spotBasketData.quantityValue,
 		individualBasket.id,
 		basket,
 		handleEditBasket,
+		'entryCondition',
 		'quantity'
 	)
-	useActionChange(
+	useActionChange<TradeAction>(
 		spotBasketData.actionValue,
 		individualBasket.id,
 		basket,
 		handleEditBasket,
+		'entryCondition',
 		'actionType'
 	)
-	useExitValueChange(
+	useExitTypeChange<number>(
 		spotBasketData.totalProfitValue,
 		individualBasket.id,
 		basket,
 		handleEditBasket,
-		'totalProfit'
+		'totalProfit',
+		'value'
 	)
-	useExitValueChange(
+	useExitTypeChange<number>(
 		spotBasketData.stopLossValue,
 		individualBasket.id,
 		basket,
 		handleEditBasket,
-		'stopLoss'
+		'stopLoss',
+		'value'
 	)
-	useExitTypeChange(
+	useExitTypeChange<string>(
 		spotBasketData.stopLossType,
 		individualBasket.id,
 		basket,
 		handleEditBasket,
-		'stopLoss'
+		'stopLoss',
+		'type'
 	)
-	useExitTypeChange(
+	useExitTypeChange<string>(
 		spotBasketData.totalProfitType,
 		individualBasket.id,
 		basket,
 		handleEditBasket,
-		'totalProfit'
+		'totalProfit',
+		'type'
 	)
 
 	return (

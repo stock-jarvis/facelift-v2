@@ -15,11 +15,8 @@ import ActionSelector from '../modal-components/action-selector'
 import QuantityInput from '../modal-components/quantity-input'
 import YeildButton from '../modal-components/yeild-button'
 import ExpirySelector from '../modal-components/expiry-selector'
-import { useValueChange } from '../modal-hooks/useValueChange'
 import { useActionChange } from '../modal-hooks/useActionChange'
-import { useTypeChange } from '../modal-hooks/useTypeChange'
 import { useExitTypeChange } from '../modal-hooks/useExitTypeChange'
-import { useExitValueChange } from '../modal-hooks/useExitValueChange'
 import { futureExpiry } from 'src/components/basket/constants/data'
 import {
 	FututreDetailsProps,
@@ -31,7 +28,7 @@ import {
 	spotLossOptions,
 	totalProfitOptions,
 } from 'src/components/basket/constants/data'
-
+import { TradeAction } from 'src/common/enums'
 const FututeBasketDetails: React.FC<FututreDetailsProps> = ({
 	dark,
 	basket,
@@ -60,54 +57,62 @@ const FututeBasketDetails: React.FC<FututreDetailsProps> = ({
 		setFutureBasketData({ ...futureBasketData, [key]: val })
 	}
 
-	useValueChange(
+	useActionChange<number>(
 		futureBasketData.quantityValue,
 		individualBasket.id,
 		basket,
 		handleEditBasket,
+		'entryCondition',
 		'quantity'
 	)
-	useActionChange(
+	useActionChange<TradeAction>(
 		futureBasketData.actionValue,
 		individualBasket.id,
 		basket,
 		handleEditBasket,
+		'entryCondition',
 		'actionType'
 	)
-	useTypeChange(
+	useActionChange<string | undefined>(
 		futureBasketData.expiry,
 		individualBasket.id,
 		basket,
 		handleEditBasket,
+		'entryCondition',
 		'expiry'
 	)
-	useExitValueChange(
+
+	useExitTypeChange<number>(
 		futureBasketData.totalProfitValue,
 		individualBasket.id,
 		basket,
 		handleEditBasket,
-		'totalProfit'
+		'totalProfit',
+		'value'
 	)
-	useExitValueChange(
+	useExitTypeChange<number>(
 		futureBasketData.stopLossValue,
 		individualBasket.id,
 		basket,
 		handleEditBasket,
-		'stopLoss'
+		'stopLoss',
+		'value'
 	)
-	useExitTypeChange(
+	useExitTypeChange<string>(
 		futureBasketData.stopLossType,
 		individualBasket.id,
 		basket,
 		handleEditBasket,
-		'stopLoss'
+		'stopLoss',
+		'type'
 	)
-	useExitTypeChange(
+	useExitTypeChange<string>(
 		futureBasketData.totalProfitType,
 		individualBasket.id,
 		basket,
 		handleEditBasket,
-		'totalProfit'
+		'totalProfit',
+		'type'
 	)
 
 	const item: DescriptionsProps['items'] = [
@@ -148,8 +153,8 @@ const FututeBasketDetails: React.FC<FututreDetailsProps> = ({
 			children: (
 				<Flex flex={1} justify="center">
 					<ActionSelector
-						action1="B"
-						action2="S"
+						action1={TradeAction.Buy}
+						action2={TradeAction.Sell}
 						color1="green"
 						color2="red"
 						baseActionValue={futureBasketData.actionValue}

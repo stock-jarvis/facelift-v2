@@ -8,6 +8,7 @@ import QuantityInput from '../modal-components/quantity-input'
 import ExpirySelector from '../modal-components/expiry-selector'
 import ActionSelector from '../modal-components/action-selector'
 import { optionExpiry } from '../../../constants/data'
+import { TradeAction, OptionType } from 'src/common/enums'
 interface BasketProps {
 	basketInitialData: BasketDataValues
 	handleAddBasket: (val: string) => void
@@ -59,8 +60,8 @@ const OptionsBasketSelector: React.FC<BasketProps> = ({
 			children: (
 				<Flex flex={1} justify="center">
 					<ActionSelector
-						action1="B"
-						action2="S"
+						action1={TradeAction.Buy}
+						action2={TradeAction.Sell}
 						color1="green"
 						color2="red"
 						baseActionValue={basketInitialData.action}
@@ -80,8 +81,8 @@ const OptionsBasketSelector: React.FC<BasketProps> = ({
 			children: (
 				<Flex flex={1} justify="center">
 					<ActionSelector
-						action1="CE"
-						action2="PE"
+						action1={OptionType.CALL}
+						action2={OptionType.PUT}
 						color1="black"
 						color2="purple"
 						baseActionValue={basketInitialData.option || 'CE'}
@@ -106,7 +107,7 @@ const OptionsBasketSelector: React.FC<BasketProps> = ({
 						setTradeOption={handleBaseTradeChange}
 						subTradeOption={basketInitialData.subTradeOption || ''}
 						setSubTradeOption={handleBaseSubTradeChange}
-						subTradeOptionList={basketInitialData.subTradeOptionList || []}
+						subTradeOptionList={basketInitialData.subTradeOptionList ?? []}
 					/>
 				</Flex>
 			),

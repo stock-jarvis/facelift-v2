@@ -6,6 +6,7 @@ import ActionSelector from '../modal-components/action-selector'
 import PositionHolder from './position-holder'
 import QuantityInput from '../modal-components/quantity-input'
 import ExpirySelector from '../modal-components/expiry-selector'
+import { TradeAction } from 'src/common/enums'
 import { BasketDataValues } from 'src/components/basket/types/types'
 interface BasketProps {
 	basketInitialData: BasketDataValues
@@ -48,8 +49,8 @@ const FutureBasketSelector: React.FC<BasketProps> = ({
 			children: (
 				<Flex flex={1} justify="center">
 					<ActionSelector
-						action1="B"
-						action2="S"
+						action1={TradeAction.Buy}
+						action2={TradeAction.Sell}
 						color1="green"
 						color2="red"
 						baseActionValue={basketInitialData.action}

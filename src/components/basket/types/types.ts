@@ -1,5 +1,5 @@
 import { exchangeType } from '../constants/data'
-
+import { OptionType, TradeAction } from 'src/common/enums'
 export type ExchangeType = (typeof exchangeType)[number]
 export type Exchanges = 'NSE' | 'CUR' | 'MCX'
 export interface OptionObject {
@@ -48,16 +48,6 @@ export interface TimeHours {
 	minutes: Time[]
 }
 
-export interface PersistedValues {
-	quantityValue: number
-	actionValue: string
-	optionType: string
-	tradeOption: string
-	subTradeOption: string
-	tradeValue: number
-	expiry: string
-}
-
 export interface SavedBasketsEntryCondition {
 	entryTime: string
 	exitTime: string
@@ -100,8 +90,8 @@ export interface BasketDataProps {
 	count: number
 	entryCondition: {
 		quantity: number
-		actionType: string
-		optionType?: string
+		actionType: TradeAction
+		optionType?: OptionType
 		expiry?: string
 		tradeType?: string
 		tradeTypeParams?: string
@@ -112,9 +102,9 @@ export interface BasketDataProps {
 export interface BasketDataValues {
 	id: string
 	quantity: number
-	action: string
+	action: TradeAction
 	expiry?: string
-	option?: string
+	option?: OptionType
 	tradeValue?: number
 	tradeOption: string
 	subTradeOption?: string
@@ -124,7 +114,7 @@ export interface BasketDataValues {
 
 export interface SpotBasketData {
 	quantityValue: number
-	actionValue: string
+	actionValue: TradeAction
 	totalProfitType: string
 	stopLossType: string
 	totalProfitValue: number
@@ -143,7 +133,7 @@ export interface FututreDetailsProps {
 
 export interface FutureBasketData {
 	quantityValue: number
-	actionValue: string
+	actionValue: TradeAction
 	totalProfitType: string
 	stopLossType: string
 	expiry: string | undefined
@@ -188,9 +178,9 @@ export interface OptionDetailsProps {
 }
 export interface OptionsBasketData {
 	quantityValue: number
-	actionValue: string
+	actionValue: TradeAction
 	totalProfitType: string
-	optionType: string | undefined
+	optionType: OptionType
 	stopLossType: string
 	expiry: string | undefined
 	totalProfitValue: number
