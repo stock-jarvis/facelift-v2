@@ -1,5 +1,5 @@
 import { Button, Flex, theme } from 'antd'
-import StockJarvisNavLink from '../stock-jarvis-nav-link'
+import SystemTradeNavLink from '../system-trade-nav-link'
 import { UserOutlined } from '@ant-design/icons'
 import Logo from '../logo'
 
@@ -18,19 +18,19 @@ const Header = () => {
 			}}
 		>
 			<Flex flex={2} align="center" justify="space-between">
-				<StockJarvisNavLink to="/simulator">Simulation</StockJarvisNavLink>
+				<SystemTradeNavLink to="/simulator">Simulation</SystemTradeNavLink>
 
-				<StockJarvisNavLink to="/not-found">Basket</StockJarvisNavLink>
+				<SystemTradeNavLink to="/not-found">Basket</SystemTradeNavLink>
 
-				<StockJarvisNavLink to="/not-found">AI Strategies</StockJarvisNavLink>
+				<SystemTradeNavLink to="/not-found">AI Strategies</SystemTradeNavLink>
 			</Flex>
 			<Flex flex={2} align="center" justify="center">
 				<Logo />
 			</Flex>
 			<Flex flex={2} align="center" justify="space-between">
-				<StockJarvisNavLink to="/not-found">Indicator</StockJarvisNavLink>
-				<StockJarvisNavLink to="/not-found">Learn</StockJarvisNavLink>
-				<StockJarvisNavLink to="/not-found">Pricing</StockJarvisNavLink>
+				<SystemTradeNavLink to="/not-found">Indicator</SystemTradeNavLink>
+				<SystemTradeNavLink to="/not-found">Learn</SystemTradeNavLink>
+				<SystemTradeNavLink to="/not-found">Pricing</SystemTradeNavLink>
 				<Button size="small" shape="circle">
 					<UserOutlined />
 				</Button>

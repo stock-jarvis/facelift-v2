@@ -43,43 +43,49 @@ const DerivatiesParamSelection: React.FC<DerivatiesParamSelectionProps> = ({
 
 	return (
 		<Flex className="w-full" justify="space-between">
-			{/* // TODO: Wire up value and spot price link */}
-			<Space size="small">
-				<Text strong>Spot Price :</Text>
-				<Space>
-					<Text>38725</Text>
-					<AddPositionButton tooltipTitle="Add position" />
+			<Flex flex={1} justify="flex-start">
+				{/* // TODO: Wire up value and spot price link */}
+				<Space size="small">
+					<Text strong>Spot Price :</Text>
+					<Space>
+						<Text>38725</Text>
+						<AddPositionButton tooltipTitle="Add position" />
+					</Space>
 				</Space>
-			</Space>
+			</Flex>
 
-			<Select
-				allowClear
-				value={selectedDerivativeMetric}
-				options={derivativeMetricOptions}
-				bordered={false}
-				// TODO: Triangle instead of Delta
-				placeholder="IV, Δ, OI"
-				onChange={handleChangeOption}
-				style={{
-					width: 95,
-					borderBottom: `${token.lineWidthBold}px solid ${token.colorPrimary}`,
-				}}
-			/>
+			<Flex flex={1} justify="center">
+				<Select
+					allowClear
+					value={selectedDerivativeMetric}
+					options={derivativeMetricOptions}
+					bordered={false}
+					// TODO: Triangle instead of Delta
+					placeholder="IV, Δ, OI"
+					onChange={handleChangeOption}
+					style={{
+						width: 95,
+						borderBottom: `${token.lineWidthBold}px solid ${token.colorPrimary}`,
+					}}
+				/>
+			</Flex>
 
-			{/* // TODO: Wire up value and futures link */}
-			<Space size="small">
-				<Text strong>Futures :</Text>
-				<Flex>
-					<Select
-						// TODO: Wire up with real data and memoize the conversion
-						options={convertValuesToDefaultOptions(mockFutures)}
-						value={selectedFuture}
-						bordered={false}
-						onChange={setSelectedFuture}
-					/>
-					<AddPositionButton tooltipTitle="Add position" />
-				</Flex>
-			</Space>
+			<Flex flex={1} justify="flex-end">
+				{/* // TODO: Wire up value and futures link */}
+				<Space size="small">
+					<Text strong>Futures :</Text>
+					<Flex>
+						<Select
+							// TODO: Wire up with real data and memoize the conversion
+							options={convertValuesToDefaultOptions(mockFutures)}
+							value={selectedFuture}
+							bordered={false}
+							onChange={setSelectedFuture}
+						/>
+						<AddPositionButton tooltipTitle="Add position" />
+					</Flex>
+				</Space>
+			</Flex>
 		</Flex>
 	)
 }

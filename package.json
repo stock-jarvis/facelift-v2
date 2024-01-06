@@ -15,6 +15,8 @@
 		"antd": "^5.12.1",
 		"axios": "^1.6.3",
 		"dayjs": "^1.11.10",
+		"highcharts": "^11.2.0",
+		"highcharts-react-official": "^3.2.1",
 		"immer": "^10.0.3",
 		"localforage": "^1.10.0",
 		"match-sorter": "^6.3.1",
@@ -29,8 +31,10 @@
 		"zustand": "^4.4.7"
 	},
 	"devDependencies": {
+		"@types/highcharts": "^7.0.0",
 		"@types/react": "^18.2.37",
 		"@types/react-dom": "^18.2.15",
+		"@types/react-highcharts": "^16.0.6",
 		"@typescript-eslint/eslint-plugin": "^6.10.0",
 		"@typescript-eslint/parser": "^6.10.0",
 		"@vitejs/plugin-react": "^4.2.0",

@@ -1,5 +1,5 @@
 import { TimePickerProps } from 'antd'
-import { Dayjs } from 'dayjs'
+import dayjs, { Dayjs } from 'dayjs'
 import { range } from 'radash'
 import { Exchange } from '../enums'
 import { timeBoundariesByExchange } from '../constants'
@@ -52,3 +52,5 @@ export const getDisabledTimeByExchange =
 			},
 		}
 	}
+export const combineDateTime = (date: Dayjs, time: Dayjs) =>
+	dayjs(`${date.format('YYYY-MM-DD')} ${time.format('HH:mm:ss')}`)

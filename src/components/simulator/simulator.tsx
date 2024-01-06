@@ -1,11 +1,16 @@
-import { Flex, theme } from 'antd'
+import { Flex, theme, Layout, Typography } from 'antd'
 
 import LeftContent from './components/left-content'
 import RightContent from './components/right-content'
 import ParamSelection from './components/param-selection'
+import { useToggle } from 'src/common/utils/state-utils'
+
+const { Sider } = Layout
 
 const Simulator = () => {
 	const { token } = theme.useToken()
+	const [collapsed, toggleCollapsed] = useToggle(false)
+
 	return (
 		<Flex
 			vertical
@@ -16,20 +21,48 @@ const Simulator = () => {
 			gap={token.margin}
 		>
 			<ParamSelection />
-			<Flex className="h-full">
-				<Flex className="w-1/3 h-full">
-					<LeftContent />
-				</Flex>
-				<Flex
-					className="w-2/3 h-full pl-6"
+
+			<Layout className="h-full w-full">
+				<Sider
+					width="30vw"
+					theme="light"
+					collapsible
+					collapsed={collapsed}
+					collapsedWidth={token.size}
+					onCollapse={toggleCollapsed}
+				>
+					{collapsed ? (
+						<Flex
+							className="h-full"
+							vertical
+							align="center"
+							justify="center"
+							onClick={toggleCollapsed}
+						>
+							<Typography.Title
+								style={{
+									transform: 'rotate(90deg)',
+									width: 'max-content',
+									color: token.colorTextPlaceholder,
+									cursor: 'pointer',
+								}}
+								level={4}
+							>
+								Option Chain
+							</Typography.Title>
+						</Flex>
+					) : (
+						<LeftContent />
+					)}
+				</Sider>
+				<Layout
 					style={{
-						/** To align the lines of menu in right content and tabs in left content */
-						marginTop: '-7px',
+						backgroundColor: token.colorWhite,
 					}}
 				>
 					<RightContent />
-				</Flex>
-			</Flex>
+				</Layout>
+			</Layout>
 		</Flex>
 	)
 }
