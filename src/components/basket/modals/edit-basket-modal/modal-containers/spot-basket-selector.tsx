@@ -4,13 +4,13 @@ import ActionSelector from '../modal-components/action-selector'
 import PositionHolder from './position-holder'
 import QuantityInput from '../modal-components/quantity-input'
 import { BasketDataValues } from 'src/components/basket/types/types'
-import { TradeAction } from 'src/common/enums'
+import { BasketLegType, TradeAction } from 'src/common/enums'
 interface BasketProps {
 	basketInitialData: BasketDataValues
 	baseInstrumentValue: string
-	handleAddBasket: (val: string) => void
+	handleAddBasket: (val: BasketLegType) => void
 	handleBaseQuantityChange: (value: number) => void
-	handleBaseActionChange: (val: string) => void
+	handleBaseActionChange: (val: TradeAction) => void
 }
 const SpotBasketSelector: React.FC<BasketProps> = ({
 	basketInitialData,
@@ -101,7 +101,10 @@ const SpotBasketSelector: React.FC<BasketProps> = ({
 	]
 
 	return (
-		<PositionHolder onClick={handleAddBasket} basketType="spot">
+		<PositionHolder
+			handleAddClick={handleAddBasket}
+			basketType={BasketLegType.SPOT}
+		>
 			<Descriptions
 				className="w-full"
 				items={mainItem}

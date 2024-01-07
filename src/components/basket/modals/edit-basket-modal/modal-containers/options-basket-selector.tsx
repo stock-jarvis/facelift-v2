@@ -8,13 +8,13 @@ import QuantityInput from '../modal-components/quantity-input'
 import ExpirySelector from '../modal-components/expiry-selector'
 import ActionSelector from '../modal-components/action-selector'
 import { optionExpiry } from '../../../constants/data'
-import { TradeAction, OptionType } from 'src/common/enums'
+import { TradeAction, OptionType, BasketLegType } from 'src/common/enums'
 interface BasketProps {
 	basketInitialData: BasketDataValues
-	handleAddBasket: (val: string) => void
+	handleAddBasket: (val: BasketLegType) => void
+	handleBaseActionChange: (val: TradeAction) => void
+	handleBaseOptionChange: (val: OptionType) => void
 	handleBaseTradeChange: (val: string) => void
-	handleBaseActionChange: (val: string) => void
-	handleBaseOptionChange: (val: string) => void
 	handleBaseExpiryChange: (val: string) => void
 	handleBaseSubTradeChange: (val: string) => void
 	handleBaseQuantityChange: (value: number) => void
@@ -188,7 +188,10 @@ const OptionsBasketSelector: React.FC<BasketProps> = ({
 		},
 	]
 	return (
-		<PositionHolder onClick={handleAddBasket} basketType="options">
+		<PositionHolder
+			handleAddClick={handleAddBasket}
+			basketType={BasketLegType.OPTIONS}
+		>
 			<Descriptions
 				className="w-full"
 				items={mainItems}

@@ -7,7 +7,7 @@ interface ActionSelectorProps<T> {
 	color1: string
 	color2: string
 	baseActionValue: string | undefined
-	handleBaseActionChange: (val: string) => void
+	handleBaseActionChange: (val: T) => void
 }
 
 const ActionSelector = <T,>({
@@ -56,7 +56,7 @@ const ActionSelector = <T,>({
 	) => {
 		if (tagVal.toLocaleString() !== tag) {
 			setTag(tagVal.toLocaleString())
-			handleBaseActionChange(tagVal.toLocaleString())
+			handleBaseActionChange(tagVal as T)
 		}
 	}
 

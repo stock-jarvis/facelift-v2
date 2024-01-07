@@ -50,11 +50,11 @@ const EditBasketModal = ({ open }: EditModalProps) => {
 	const setOptionValue = () => {
 		updatedBasketData(defaultInitialLegValues)
 	}
-	const handleAddBasket = (value: string) => {
+	const handleAddBasket = (value: BasketLegType) => {
 		const uniqueId = generateUniqueId()
 		setBasket((prev) => [
 			...prev,
-			value === 'spot'
+			value === BasketLegType.SPOT
 				? {
 						id: uniqueId,
 						type: BasketLegType.SPOT,
@@ -65,7 +65,7 @@ const EditBasketModal = ({ open }: EditModalProps) => {
 						count: basket.length + 1,
 						exitCondition: defaultLegsEXitCondition,
 					}
-				: value === 'future'
+				: value === BasketLegType.FUTURE
 					? {
 							type: BasketLegType.FUTURE,
 							id: uniqueId,

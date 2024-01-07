@@ -6,15 +6,15 @@ import ActionSelector from '../modal-components/action-selector'
 import PositionHolder from './position-holder'
 import QuantityInput from '../modal-components/quantity-input'
 import ExpirySelector from '../modal-components/expiry-selector'
-import { TradeAction } from 'src/common/enums'
+import { TradeAction, BasketLegType } from 'src/common/enums'
 import { BasketDataValues } from 'src/components/basket/types/types'
 interface BasketProps {
 	basketInitialData: BasketDataValues
 	baseInstrumentValue: string
-	handleAddBasket: (val: string) => void
+	handleAddBasket: (leg: BasketLegType) => void
 	handleBaseQuantityChange: (value: number) => void
 	handleBaseExpiryChange: (val: string) => void
-	handleBaseActionChange: (val: string) => void
+	handleBaseActionChange: (val: TradeAction) => void
 }
 const FutureBasketSelector: React.FC<BasketProps> = ({
 	basketInitialData,
@@ -125,7 +125,10 @@ const FutureBasketSelector: React.FC<BasketProps> = ({
 	]
 
 	return (
-		<PositionHolder onClick={handleAddBasket} basketType="future">
+		<PositionHolder
+			handleAddClick={handleAddBasket}
+			basketType={BasketLegType.FUTURE}
+		>
 			<Descriptions
 				className="w-full"
 				items={mainItems}

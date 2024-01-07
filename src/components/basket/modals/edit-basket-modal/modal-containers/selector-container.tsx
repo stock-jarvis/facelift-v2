@@ -5,6 +5,7 @@ import OptionsBasketSelector from './options-basket-selector'
 import { tradeTypeData } from 'src/components/basket/constants/data'
 import { BasketDataValues } from 'src/components/basket/types/types'
 import { useState } from 'react'
+import { BasketLegType } from 'src/common/enums'
 
 type NumberedKeys = 'quantity' | 'tradeValue'
 type Keys = 'action' | 'expiry' | 'option' | 'tradeOption' | 'subTradeOption'
@@ -12,7 +13,7 @@ interface SelectProps {
 	instrument: string
 	basketInitialData: BasketDataValues
 	setOptionValue: () => void
-	handleAddBasket: (val: string) => void
+	handleAddBasket: (val: BasketLegType) => void
 	updatedBasketData: (val: BasketDataValues) => void
 }
 

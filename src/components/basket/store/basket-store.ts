@@ -1,5 +1,5 @@
 import { create } from 'zustand'
-import { SavedBasket } from '../types/types'
+import { SavedBasket, EditType } from '../types/types'
 import { devtools } from 'zustand/middleware'
 import { immer } from 'zustand/middleware/immer'
 import { defaultBasketData } from '../constants/data'
@@ -7,7 +7,7 @@ import { Exchange } from 'src/common/enums'
 type BasketState = {
 	endDate: string
 	exchange: Exchange
-	editType: string
+	editType: EditType
 	startDate: string
 	timeError: boolean
 	duplicateError: boolean
@@ -42,7 +42,7 @@ type BasketStateActions = {
 	closeEditConfirmation: (value: boolean) => void
 	addBasketToSelectedBaskets: (id: string) => void
 	closeDuplicateConfirmModal: (value: boolean) => void
-	setEditableBasket: (id: string, type: string) => void
+	setEditableBasket: (id: string, type: EditType) => void
 	toogleSaveError: (id: string, error: boolean) => void
 	addToSavedBasket: (basket: SavedBasket) => void
 	addNewRuntimeBasket: (basket: SavedBasket) => void
@@ -55,7 +55,7 @@ type BasketStateActions = {
 
 const defaultState: BasketState = {
 	endDate: '',
-	editType: '',
+	editType: EditType.NILL,
 	startDate: '',
 	exchange: Exchange.NSE,
 	savedBaskets: [],
@@ -102,7 +102,7 @@ export const useBasketStore = create<BasketState & BasketStateActions>()(
 
 			resetEditablebasket: () =>
 				set((state) => {
-					state.editType = ''
+					state.editType = EditType.NILL
 					void (state.editableBasketData = defaultBasketData)
 				}),
 
@@ -219,11 +219,13 @@ export const useBasketStore = create<BasketState & BasketStateActions>()(
 					})
 				}),
 
-			setEditableBasket: (id: string, type: string) =>
+			setEditableBasket: (id: string, type: EditType) =>
 				set((state) => {
 					state.editType = type
 					const dataToBeExtracted =
-						type === 'runtime' ? state.runtimeBasketList : state.storedBaskets
+						type === EditType.RUNTIME
+							? state.runtimeBasketList
+							: state.storedBaskets
 					const data = dataToBeExtracted.find((basket) => basket.id === id)
 					if (data) {
 						state.editableBasketData = data

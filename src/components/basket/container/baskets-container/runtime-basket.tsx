@@ -20,7 +20,7 @@ import BasketNav from '../basket-nav'
 
 import { useBasketStore } from '../../store/basket-store'
 import { generateUniqueId } from '../../utils/randomizer'
-import { SavedBasket } from '../../types/types'
+import { SavedBasket, EditType } from '../../types/types'
 
 const Index = () => {
 	const { token } = theme.useToken()
@@ -41,7 +41,7 @@ const Index = () => {
 	} = useBasketStore()
 
 	const onHandleBasketEdit = (id: string) => {
-		setEditableBasket(id, 'runtime')
+		setEditableBasket(id, EditType.RUNTIME)
 		updateRuntimeError(id)
 		toogleEditModal(true)
 	}

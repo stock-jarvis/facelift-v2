@@ -1,19 +1,19 @@
 import { Button, Flex, Tooltip } from 'antd'
 import { PlusOutlined } from '@ant-design/icons'
 import { ButtonProps } from 'antd'
+import { BasketLegType } from 'src/common/enums'
 interface PositionHolderProps {
-	onClick: (val: string) => void
+	handleAddClick: (leg: BasketLegType) => void
 	children: React.ReactNode
-
-	basketType: string
+	basketType: BasketLegType
 }
 const PositionHolder: React.FC<PositionHolderProps> = ({
-	onClick,
+	handleAddClick,
 	children,
 	basketType,
 }) => {
 	const handleClick: ButtonProps['onClick'] = () => {
-		onClick(basketType)
+		handleAddClick(basketType)
 	}
 	return (
 		<Flex vertical flex={1} gap="middle">

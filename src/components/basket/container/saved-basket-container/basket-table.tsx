@@ -1,5 +1,5 @@
 import { Flex, theme, Typography, Button, Tooltip, Empty } from 'antd'
-import { SavedBasket } from '../../types/types'
+import { SavedBasket, EditType } from '../../types/types'
 import { useBasketStore } from '../../store/basket-store'
 import { generateUniqueId } from '../../utils/randomizer'
 import { Table } from 'antd'
@@ -27,7 +27,7 @@ const Index = () => {
 		deleteStoredBasket(id)
 	}
 	const onHandleBasketEdit = (id: string) => {
-		setEditableBasket(id, 'saved')
+		setEditableBasket(id, EditType.SAVED)
 		toogleEditModal(true)
 	}
 	const onHandleBasketDuplicate = (id: string) => {

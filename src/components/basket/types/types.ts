@@ -8,6 +8,11 @@ import {
 	BasketLegType,
 } from 'src/common/enums'
 
+export enum EditType {
+	RUNTIME = 'runtime',
+	SAVED = 'saved',
+	NILL = '',
+}
 export interface OptionObject {
 	id: number
 	value: string
