@@ -1,16 +1,17 @@
-import { Flex, Select } from 'antd'
+import { Flex, Select, SelectProps } from 'antd'
 
 import { exchangeType } from '../../../../constants/data'
+import { Exchange } from 'src/common/enums'
 
 interface TradeSelectorProps {
-	exchangeValue: string
-	handleTradeChange: (val: string) => void
+	exchangeValue: Exchange
+	handleTradeChange: (val: Exchange) => void
 }
 const TradeSelector: React.FC<TradeSelectorProps> = ({
 	handleTradeChange,
 	exchangeValue,
 }) => {
-	const handleTradeClick = (val: string) => {
+	const handleTradeClick: SelectProps<Exchange>['onChange'] = (val) => {
 		handleTradeChange(val)
 	}
 	return (

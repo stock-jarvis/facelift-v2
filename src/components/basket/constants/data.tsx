@@ -1,7 +1,15 @@
 import {
+	BasketAtm,
+	BasketType,
+	Exchange,
+	OptionType,
+	TradeAction,
+	BasketExitType,
+} from 'src/common/enums'
+import {
 	OptionObject,
 	BasketDataValues,
-	SavedBasketsObject,
+	SavedBasket,
 	PositionExitCondition,
 } from '../types/types'
 
@@ -89,9 +97,9 @@ export const basketOptions: OptionObject[] = [
 	},
 ]
 export const exchangeType = [
-	{ type: 'NSE', id: 1, value: 'NSE', label: 'NSE' },
-	{ type: 'MCX', id: 2, value: 'MCX', label: 'MCX' },
-	{ type: 'CUR', id: 3, value: 'CUR', label: 'CUR' },
+	{ type: 'NSE', id: 1, value: Exchange.NSE, label: 'NSE' },
+	{ type: 'MCX', id: 2, value: Exchange.MCX, label: 'MCX' },
+	{ type: 'CUR', id: 3, value: Exchange.CUR, label: 'CUR' },
 ]
 
 export const tradeTypeData = [
@@ -213,8 +221,8 @@ export const totalProfitOptions: OptionObject[] = [
 export const defaultInitialLegValues: BasketDataValues = {
 	id: '',
 	quantity: 1,
-	action: 'B',
-	option: 'CE',
+	action: TradeAction.Buy,
+	option: OptionType.CALL,
 	expiry: 'Monthly',
 	tradeValue: 1,
 	tradeOption: tradeTypeData[0].value,
@@ -223,21 +231,21 @@ export const defaultInitialLegValues: BasketDataValues = {
 	subTradeOptionList: tradeTypeData[0].children,
 }
 
-export const defaultBasketData: SavedBasketsObject = {
+export const defaultBasketData: SavedBasket = {
 	name: '',
-	exchange: '',
+	exchange: Exchange.NSE,
 	ticker: '',
 	id: '',
 	key: '',
-	type: '',
+	type: BasketType.INTRADAY,
 	identifier: 0,
-	atm: '',
+	atm: BasketAtm.SPOT,
 	exitCondition: {
 		totalLoss: 0,
 		totalProfit: 0,
 		move: false,
 		repeat: '',
-		type: '',
+		type: BasketExitType.SQOL,
 	},
 }
 

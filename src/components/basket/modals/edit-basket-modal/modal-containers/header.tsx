@@ -8,26 +8,24 @@ import {
 	DescriptionsProps,
 } from 'antd'
 import Toggle from '../modal-components/toggle'
-import {
-	Exchanges,
-	SavedBasketsObject,
-} from 'src/components/basket/types/types'
+import { SavedBasket } from 'src/components/basket/types/types'
 import { getTimes } from 'src/components/basket/utils/get-times'
-
+import { Exchange, BasketType, BasketAtm } from 'src/common/enums'
+import { exchangeType } from 'src/components/basket/constants/data'
 interface HeaderProps {
-	basketData: SavedBasketsObject
-	setBasketData: (val: SavedBasketsObject) => void
+	basketData: SavedBasket
+	setBasketData: (val: SavedBasket) => void
 }
 const Header: React.FC<HeaderProps> = ({ basketData, setBasketData }) => {
 	const { token } = theme.useToken()
 
-	const handleBasketExchangeChange = (val: string) => {
+	const handleBasketExchangeChange = (val: Exchange) => {
 		setBasketData({
 			...basketData,
 			exchange: val,
 			entryCondition: {
-				exitTime: getTimes(val as Exchanges, 'end'),
-				entryTime: getTimes(val as Exchanges, 'start'),
+				exitTime: getTimes(val, 'end'),
+				entryTime: getTimes(val, 'start'),
 			},
 		})
 	}
@@ -35,10 +33,10 @@ const Header: React.FC<HeaderProps> = ({ basketData, setBasketData }) => {
 	const handleBasketTickerChange = (val: string) => {
 		setBasketData({ ...basketData, ticker: val })
 	}
-	const handleBasketTypeChange = (val: string) => {
+	const handleBasketTypeChange = (val: BasketType) => {
 		setBasketData({ ...basketData, type: val })
 	}
-	const handleBasketAtmChange = (val: string) => {
+	const handleBasketAtmChange = (val: BasketAtm) => {
 		setBasketData({ ...basketData, atm: val })
 	}
 	const items: DescriptionsProps['items'] = [
@@ -59,11 +57,7 @@ const Header: React.FC<HeaderProps> = ({ basketData, setBasketData }) => {
 						value={basketData.exchange}
 						size="large"
 						onChange={handleBasketExchangeChange}
-						options={[
-							{ id: 1, label: 'NSE', value: 'NSE' },
-							{ id: 2, label: 'MCX', value: 'MCX' },
-							{ id: 3, label: 'CUR', value: 'CUR' },
-						]}
+						options={exchangeType}
 					/>
 				</Flex>
 			),
@@ -81,11 +75,11 @@ const Header: React.FC<HeaderProps> = ({ basketData, setBasketData }) => {
 			span: { xs: 2, sm: 2, md: 2, lg: 2, xl: 2 },
 			children: (
 				<Flex flex={1} justify="center">
-					<Toggle
+					<Toggle<BasketType>
 						label1="INTRADAY"
 						label2="POSITIONAL"
-						toogle1="INTRA"
-						toogle2="POS"
+						toogle1={BasketType.INTRADAY}
+						toogle2={BasketType.POSITIONAL}
 						setToogleValue={handleBasketTypeChange}
 						value={basketData.type}
 					/>
@@ -130,11 +124,11 @@ const Header: React.FC<HeaderProps> = ({ basketData, setBasketData }) => {
 			span: { xs: 2, sm: 2, md: 2, lg: 2, xl: 2 },
 			children: (
 				<Flex flex={1} justify="center">
-					<Toggle
+					<Toggle<BasketAtm>
 						label1="Spot as ATM"
 						label2="Future as ATM"
-						toogle1="spot"
-						toogle2="future"
+						toogle1={BasketAtm.SPOT}
+						toogle2={BasketAtm.FUTURE}
 						setToogleValue={handleBasketAtmChange}
 						value={basketData.atm}
 					/>

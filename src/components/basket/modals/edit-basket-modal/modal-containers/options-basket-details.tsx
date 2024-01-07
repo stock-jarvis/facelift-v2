@@ -117,7 +117,7 @@ const OptionBasketDetail: React.FC<OptionDetailsProps> = ({
 			),
 			children: (
 				<Flex flex={1} justify="center">
-					<ActionSelector
+					<ActionSelector<TradeAction>
 						action1={TradeAction.Buy}
 						action2={TradeAction.Sell}
 						color1="green"
@@ -146,7 +146,7 @@ const OptionBasketDetail: React.FC<OptionDetailsProps> = ({
 			),
 			children: (
 				<Flex flex={1} justify="center">
-					<ActionSelector
+					<ActionSelector<OptionType>
 						action1={OptionType.CALL}
 						action2={OptionType.PUT}
 						color1="black"

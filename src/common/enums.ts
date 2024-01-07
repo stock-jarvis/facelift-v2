@@ -56,3 +56,24 @@ export enum OptionContractType {
 	// Call Option
 	CE = 'CE',
 }
+
+export enum BasketType {
+	INTRADAY = 'INTRA',
+	POSITIONAL = 'POS',
+}
+
+export enum BasketAtm {
+	SPOT = 'spot',
+	FUTURE = 'future',
+}
+
+export enum BasketExitType {
+	SQOL = 'SQOL',
+	SQAL = 'SQAL',
+}
+
+export enum BasketLegType {
+	SPOT = 'spot',
+	FUTURE = 'future',
+	OPTIONS = 'options',
+}

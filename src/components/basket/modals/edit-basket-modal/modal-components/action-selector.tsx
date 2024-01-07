@@ -1,24 +1,23 @@
 import { Flex, Typography, theme, Segmented, SegmentedProps } from 'antd'
 import { SegmentedValue } from 'antd/es/segmented'
 import { useState } from 'react'
-import { TradeAction, OptionType } from 'src/common/enums'
-interface ActionSelectorProps {
-	action1: TradeAction | OptionType
-	action2: TradeAction | OptionType
+interface ActionSelectorProps<T> {
+	action1: T
+	action2: T
 	color1: string
 	color2: string
 	baseActionValue: string | undefined
 	handleBaseActionChange: (val: string) => void
 }
 
-const ActionSelector: React.FC<ActionSelectorProps> = ({
+const ActionSelector = <T,>({
 	handleBaseActionChange,
 	action1,
 	action2,
 	color1,
 	color2,
 	baseActionValue,
-}) => {
+}: ActionSelectorProps<T>) => {
 	const [tag, setTag] = useState<string | undefined>(baseActionValue)
 	const { token } = theme.useToken()
 
@@ -32,10 +31,10 @@ const ActionSelector: React.FC<ActionSelectorProps> = ({
 						fontWeight: token.fontWeightStrong,
 					}}
 				>
-					{action1}
+					{action1 as SegmentedValue}
 				</Typography.Text>
 			),
-			value: action1,
+			value: action1 as SegmentedValue,
 		},
 		{
 			label: (
@@ -46,10 +45,10 @@ const ActionSelector: React.FC<ActionSelectorProps> = ({
 						fontWeight: token.fontWeightStrong,
 					}}
 				>
-					{action2}
+					{action2 as SegmentedValue}
 				</Typography.Text>
 			),
-			value: action2,
+			value: action2 as SegmentedValue,
 		},
 	]
 	const handleTagChange: SegmentedProps['onChange'] = (

@@ -5,13 +5,19 @@ import { useBasketStore } from '../../store/basket-store'
 import { useState, ChangeEvent } from 'react'
 import { SelectProps, InputProps } from 'antd'
 import { generateUniqueId } from '../../utils/randomizer'
+import {
+	BasketType,
+	Exchange,
+	BasketAtm,
+	BasketExitType,
+} from 'src/common/enums'
 interface ModalProps {
 	open: boolean
 }
 
 const Index: React.FC<ModalProps> = ({ open }) => {
 	const { token } = theme.useToken()
-	const [exhange, setExchange] = useState<string>('NSE')
+	const [exhange, setExchange] = useState<Exchange>(Exchange.NSE)
 	const {
 		toggleSetBasketModalOpen,
 		addNewRuntimeBasket,
@@ -41,11 +47,11 @@ const Index: React.FC<ModalProps> = ({ open }) => {
 					ticker: instrument,
 					exchange: exhange,
 					identifier: 0,
-					type: 'INTRA',
-					atm: 'spot',
+					type: BasketType.INTRADAY,
+					atm: BasketAtm.SPOT,
 					positions: [],
 					exitCondition: {
-						type: 'SQOL',
+						type: BasketExitType.SQAL,
 						totalLoss: 0,
 						totalProfit: 0,
 					},
@@ -84,7 +90,7 @@ const Index: React.FC<ModalProps> = ({ open }) => {
 		setInstrument(undefined)
 		setBasketNameError(false)
 		setBasketInstrumentError(false)
-		setExchange('NSE')
+		setExchange(Exchange.NSE)
 	}
 
 	return (

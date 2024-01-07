@@ -8,14 +8,14 @@ import {
 } from 'antd'
 import dayjs from 'dayjs'
 import { Exchange } from 'src/common/enums'
-import { SavedBasketsObject } from '../../../types/types'
+import { SavedBasket } from '../../../types/types'
 import { useBasketStore } from 'src/components/basket/store/basket-store'
 import { useValidateTimes } from '../modal-hooks/useValidateTimes'
 import { getDisabledTimeByExchange } from 'src/common/utils/date-time-utils'
 const format = 'HH:mm'
 interface EntryExitProps {
-	basketData: SavedBasketsObject
-	setBasketData: (val: SavedBasketsObject) => void
+	basketData: SavedBasket
+	setBasketData: (val: SavedBasket) => void
 }
 const EntryExit: React.FC<EntryExitProps> = ({ basketData, setBasketData }) => {
 	const { token } = theme.useToken()

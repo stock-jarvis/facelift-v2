@@ -152,7 +152,7 @@ const FututeBasketDetails: React.FC<FututreDetailsProps> = ({
 			),
 			children: (
 				<Flex flex={1} justify="center">
-					<ActionSelector
+					<ActionSelector<TradeAction>
 						action1={TradeAction.Buy}
 						action2={TradeAction.Sell}
 						color1="green"

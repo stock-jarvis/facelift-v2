@@ -44,7 +44,7 @@ const SpotBasketSelector: React.FC<BasketProps> = ({
 			),
 			children: (
 				<Flex flex={1} justify="center" className="w-full">
-					<ActionSelector
+					<ActionSelector<TradeAction>
 						action1={TradeAction.Buy}
 						action2={TradeAction.Sell}
 						color1="green"

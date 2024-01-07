@@ -1,12 +1,12 @@
 import { create } from 'zustand'
-import { SavedBasketsObject } from '../types/types'
+import { SavedBasket } from '../types/types'
 import { devtools } from 'zustand/middleware'
 import { immer } from 'zustand/middleware/immer'
 import { defaultBasketData } from '../constants/data'
-
+import { Exchange } from 'src/common/enums'
 type BasketState = {
 	endDate: string
-	exchange: string
+	exchange: Exchange
 	editType: string
 	startDate: string
 	timeError: boolean
@@ -17,18 +17,18 @@ type BasketState = {
 	timeErrorModalOpen: boolean
 	isAddBasketModalOpen: boolean
 	closeModalConfirmation: boolean
-	savedBaskets: SavedBasketsObject[]
-	storedBaskets: SavedBasketsObject[]
-	selectedBaskets: SavedBasketsObject[]
-	editableBasketData: SavedBasketsObject
-	runtimeBasketList: SavedBasketsObject[]
+	savedBaskets: SavedBasket[]
+	storedBaskets: SavedBasket[]
+	selectedBaskets: SavedBasket[]
+	editableBasketData: SavedBasket
+	runtimeBasketList: SavedBasket[]
 }
 
 type BasketStateActions = {
 	selectAllBaskets: () => void
 	resetEditablebasket: () => void
 	clearSelectedBaskets: () => void
-	setExchange: (val: string) => void
+	setExchange: (exchange: Exchange) => void
 	setRuntimeError: (id: string) => void
 	setTimeError: (error: boolean) => void
 	toogleEditModal: (open: boolean) => void
@@ -44,20 +44,20 @@ type BasketStateActions = {
 	closeDuplicateConfirmModal: (value: boolean) => void
 	setEditableBasket: (id: string, type: string) => void
 	toogleSaveError: (id: string, error: boolean) => void
-	addToSavedBasket: (basket: SavedBasketsObject) => void
-	addNewRuntimeBasket: (basket: SavedBasketsObject) => void
-	updateRuntimeBasketData: (basket: SavedBasketsObject) => void
+	addToSavedBasket: (basket: SavedBasket) => void
+	addNewRuntimeBasket: (basket: SavedBasket) => void
+	updateRuntimeBasketData: (basket: SavedBasket) => void
 	handleDateChange: (startDate: string, endDate: string) => void
 	toggleTimeErrorModalOpen: (timeErrorModalOpen: boolean) => void
 	toggleSetBasketModalOpen: (isAddBasketModalOpen: boolean) => void
-	createDuplicateStoredBasket: (basket: SavedBasketsObject) => void
+	createDuplicateStoredBasket: (basket: SavedBasket) => void
 }
 
 const defaultState: BasketState = {
 	endDate: '',
 	editType: '',
 	startDate: '',
-	exchange: 'NSE',
+	exchange: Exchange.NSE,
 	savedBaskets: [],
 	timeError: false,
 	storedBaskets: [],
@@ -117,7 +117,7 @@ export const useBasketStore = create<BasketState & BasketStateActions>()(
 					state.endDate = endDate
 				}),
 
-			updateRuntimeBasketData: (basket: SavedBasketsObject) =>
+			updateRuntimeBasketData: (basket: SavedBasket) =>
 				set((state) => {
 					if (state.editType === 'runtime') {
 						const index = state.runtimeBasketList.findIndex(
@@ -151,12 +151,12 @@ export const useBasketStore = create<BasketState & BasketStateActions>()(
 					state.duplicateError = err
 				}),
 
-			addNewRuntimeBasket: (newBasket: SavedBasketsObject) =>
+			addNewRuntimeBasket: (newBasket: SavedBasket) =>
 				set((state) => {
 					void state.runtimeBasketList.push(newBasket)
 				}),
 
-			addToSavedBasket: (basket: SavedBasketsObject) =>
+			addToSavedBasket: (basket: SavedBasket) =>
 				set((state) => {
 					const checkIfExists = state.savedBaskets.find(
 						(b) => b.id === basket.id
@@ -267,7 +267,7 @@ export const useBasketStore = create<BasketState & BasketStateActions>()(
 					}
 				}),
 
-			createDuplicateStoredBasket: (basket: SavedBasketsObject) =>
+			createDuplicateStoredBasket: (basket: SavedBasket) =>
 				set((state) => {
 					void state.storedBaskets.push(basket)
 				}),

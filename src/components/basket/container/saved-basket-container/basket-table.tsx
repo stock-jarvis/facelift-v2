@@ -1,5 +1,5 @@
 import { Flex, theme, Typography, Button, Tooltip, Empty } from 'antd'
-import { SavedBasketsObject } from '../../types/types'
+import { SavedBasket } from '../../types/types'
 import { useBasketStore } from '../../store/basket-store'
 import { generateUniqueId } from '../../utils/randomizer'
 import { Table } from 'antd'
@@ -53,7 +53,7 @@ const Index = () => {
 					Name
 				</Flex>
 			),
-			render: (record: SavedBasketsObject) => (
+			render: (record: SavedBasket) => (
 				<Flex flex="1" justify="flex-start" key={generateUniqueId()}>
 					<Typography.Text>
 						{record.name}
@@ -66,7 +66,7 @@ const Index = () => {
 		{
 			title: <Flex justify="flex-end">Actions</Flex>,
 			key: generateUniqueId(),
-			render: (record: SavedBasketsObject) => (
+			render: (record: SavedBasket) => (
 				<Flex justify="flex-end" align="center" key={generateUniqueId()}>
 					<Tooltip title="Edit">
 						<Button

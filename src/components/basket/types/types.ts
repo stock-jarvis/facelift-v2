@@ -1,7 +1,13 @@
-import { exchangeType } from '../constants/data'
-import { OptionType, TradeAction } from 'src/common/enums'
-export type ExchangeType = (typeof exchangeType)[number]
-export type Exchanges = 'NSE' | 'CUR' | 'MCX'
+import {
+	Exchange,
+	OptionType,
+	TradeAction,
+	BasketType,
+	BasketAtm,
+	BasketExitType,
+	BasketLegType,
+} from 'src/common/enums'
+
 export interface OptionObject {
 	id: number
 	value: string
@@ -24,7 +30,7 @@ export interface RunTimeBasketData {
 	key: string
 	id: string
 	name: string
-	exchange: string
+	exchange: Exchange
 	instrument: string
 	identifier: number
 	error: boolean
@@ -37,23 +43,12 @@ export interface Date {
 	string: string
 }
 
-export interface Time {
-	label: string
-	value: number
-}
-
-export interface TimeHours {
-	label: string
-	value: number
-	minutes: Time[]
-}
-
 export interface SavedBasketsEntryCondition {
 	entryTime: string
 	exitTime: string
 }
 export interface SavedBasketsExitCondition {
-	type: string
+	type: BasketExitType
 	move?: boolean
 	repeat?: string
 	totalProfit: number
@@ -70,33 +65,34 @@ export interface PositionExitCondition {
 	stopLoss: ProfitLossObject
 }
 
-export interface SavedBasketsObject {
+export interface SavedBasket {
 	key: string
 	id: string
 	name?: string
 	error?: boolean
 	identifier: number
-	exchange: string
+	exchange: Exchange
 	ticker: string
-	type: string
-	atm: string
+	type: BasketType
+	atm: BasketAtm
 	positions?: BasketDataProps[]
 	entryCondition?: SavedBasketsEntryCondition
 	exitCondition: SavedBasketsExitCondition
 }
+export interface PositionEntryCondition {
+	quantity: number
+	actionType: TradeAction
+	optionType?: OptionType
+	expiry?: string
+	tradeType?: string
+	tradeTypeParams?: string
+	tradeTypeValue?: number
+}
 export interface BasketDataProps {
-	type: string
+	type: BasketLegType
 	id: string
 	count: number
-	entryCondition: {
-		quantity: number
-		actionType: TradeAction
-		optionType?: OptionType
-		expiry?: string
-		tradeType?: string
-		tradeTypeParams?: string
-		tradeTypeValue?: number
-	}
+	entryCondition: PositionEntryCondition
 	exitCondition: PositionExitCondition
 }
 export interface BasketDataValues {

@@ -2,17 +2,13 @@ import { Divider, Flex, theme, Typography } from 'antd'
 import ProfitLoss from './profit-loss-section'
 import EntryExit from './entry-exit-container'
 import TradeSection from './trade-section'
-import {
-	BasketDataProps,
-	SavedBasketsObject,
-	Exchanges,
-} from 'src/components/basket/types/types'
+import { BasketDataProps, SavedBasket } from 'src/components/basket/types/types'
 import { getTimes } from 'src/components/basket/utils/get-times'
 import { useEffect } from 'react'
 interface ExitConditionProps {
 	basket: BasketDataProps[]
-	basketData: SavedBasketsObject
-	setBasketData: (val: SavedBasketsObject) => void
+	basketData: SavedBasket
+	setBasketData: (val: SavedBasket) => void
 }
 const ExitCondition: React.FC<ExitConditionProps> = ({
 	basket,
@@ -24,8 +20,8 @@ const ExitCondition: React.FC<ExitConditionProps> = ({
 			setBasketData({
 				...basketData,
 				entryCondition: {
-					entryTime: getTimes(basketData.exchange as Exchanges, 'start'),
-					exitTime: getTimes(basketData.exchange as Exchanges, 'end'),
+					entryTime: getTimes(basketData.exchange, 'start'),
+					exitTime: getTimes(basketData.exchange, 'end'),
 				},
 			})
 		}

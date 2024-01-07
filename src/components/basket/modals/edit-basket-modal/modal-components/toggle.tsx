@@ -1,25 +1,25 @@
 import { useState, useEffect } from 'react'
 import { theme, Typography, Segmented, SegmentedProps } from 'antd'
 import { SegmentedValue } from 'antd/es/segmented'
-interface ToggleProps {
+interface ToggleProps<T> {
 	label1: string
 	label2: string
-	toogle1: string
-	toogle2: string
-	value: string
-	setToogleValue: (val: string) => void
+	toogle1: T
+	toogle2: T
+	value: T
+	setToogleValue: (val: T) => void
 }
 
-const Toggle: React.FC<ToggleProps> = ({
+const Toggle = <T,>({
 	label1,
 	label2,
 	toogle1,
 	toogle2,
 	value,
 	setToogleValue,
-}) => {
+}: ToggleProps<T>) => {
 	const { token } = theme.useToken()
-	const [toogleValue, setValue] = useState('')
+	const [toogleValue, setValue] = useState<T>()
 
 	useEffect(() => {
 		if (!toogleValue) {
@@ -41,7 +41,7 @@ const Toggle: React.FC<ToggleProps> = ({
 					{label1}
 				</Typography.Text>
 			),
-			value: toogle1,
+			value: toogle1 as SegmentedValue,
 		},
 
 		{
@@ -55,7 +55,7 @@ const Toggle: React.FC<ToggleProps> = ({
 					{label2}
 				</Typography.Text>
 			),
-			value: toogle2,
+			value: toogle2 as SegmentedValue,
 		},
 	]
 
@@ -63,8 +63,8 @@ const Toggle: React.FC<ToggleProps> = ({
 		tagVal: SegmentedValue
 	) => {
 		if (toogleValue !== tagVal.toLocaleString()) {
-			setValue(tagVal.toLocaleString())
-			setToogleValue(tagVal.toLocaleString())
+			setValue(tagVal as T)
+			setToogleValue(tagVal as T)
 		}
 	}
 
@@ -77,7 +77,7 @@ const Toggle: React.FC<ToggleProps> = ({
 				backgroundColor: token.colorBgContainerDisabled,
 			}}
 			className="w-fit"
-			value={toogleValue}
+			value={toogleValue as SegmentedValue}
 		/>
 	)
 }

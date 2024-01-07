@@ -10,6 +10,7 @@ import DetailsContainer from './modal-containers/detail-container'
 import { generateUniqueId } from '../../utils/randomizer'
 import { useBasketStore } from '../../store/basket-store'
 import Selectors from './modal-containers/selector-container'
+import { BasketLegType } from 'src/common/enums'
 import {
 	defaultInitialLegValues,
 	defaultBasketData,
@@ -18,7 +19,7 @@ import {
 import {
 	BasketDataProps,
 	BasketDataValues,
-	SavedBasketsObject,
+	SavedBasket,
 } from '../../types/types'
 
 interface EditModalProps {
@@ -32,7 +33,7 @@ const EditBasketModal = ({ open }: EditModalProps) => {
 	const [basketInitialData, updatedBasketData] = useImmer<BasketDataValues>(
 		defaultInitialLegValues
 	)
-	const [basketData, setBasketData] = useImmer<SavedBasketsObject>({
+	const [basketData, setBasketData] = useImmer<SavedBasket>({
 		...editableBasketData,
 	})
 	const [basket, setBasket] = useState<BasketDataProps[]>(
@@ -56,7 +57,7 @@ const EditBasketModal = ({ open }: EditModalProps) => {
 			value === 'spot'
 				? {
 						id: uniqueId,
-						type: 'spot',
+						type: BasketLegType.SPOT,
 						entryCondition: {
 							quantity: basketInitialData.quantity,
 							actionType: basketInitialData.action,
@@ -66,7 +67,7 @@ const EditBasketModal = ({ open }: EditModalProps) => {
 					}
 				: value === 'future'
 					? {
-							type: 'future',
+							type: BasketLegType.FUTURE,
 							id: uniqueId,
 							count: basket.length + 1,
 							entryCondition: {
@@ -77,7 +78,7 @@ const EditBasketModal = ({ open }: EditModalProps) => {
 							exitCondition: defaultLegsEXitCondition,
 						}
 					: {
-							type: 'options',
+							type: BasketLegType.OPTIONS,
 							id: uniqueId,
 							count: basket.length + 1,
 							entryCondition: {

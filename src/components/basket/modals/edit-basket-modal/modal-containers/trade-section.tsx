@@ -8,11 +8,12 @@ import {
 } from 'antd'
 import Toggle from '../modal-components/toggle'
 import { useState } from 'react'
-import { SavedBasketsObject } from 'src/components/basket/types/types'
+import { SavedBasket } from 'src/components/basket/types/types'
+import { BasketExitType } from 'src/common/enums'
 
 interface TradeProps {
-	basketData: SavedBasketsObject
-	setBasketData: (val: SavedBasketsObject) => void
+	basketData: SavedBasket
+	setBasketData: (val: SavedBasket) => void
 }
 const TradeSecion: React.FC<TradeProps> = ({
 	basketData,
@@ -25,7 +26,7 @@ const TradeSecion: React.FC<TradeProps> = ({
 	const [repeatTrade, setRepeatTrade] = useState<boolean>(
 		basketData.exitCondition.repeat === 'Trade'
 	)
-	const [tradeValue, setTradeValue] = useState<string>(
+	const [tradeValue, setTradeValue] = useState<BasketExitType>(
 		basketData.exitCondition.type
 	)
 
@@ -62,7 +63,7 @@ const TradeSecion: React.FC<TradeProps> = ({
 		}
 	}
 
-	const handleTypeChange = (val: string) => {
+	const handleTypeChange = (val: BasketExitType) => {
 		setTradeValue(val)
 		setBasketData({
 			...basketData,
@@ -133,11 +134,11 @@ const TradeSecion: React.FC<TradeProps> = ({
 			children: (
 				<Flex vertical gap="large">
 					<Flex flex="1" justify="center">
-						<Toggle
+						<Toggle<BasketExitType>
 							label1="Exit legs individually"
 							label2="Exit legs to all square"
-							toogle1="SQOL"
-							toogle2="SQAL"
+							toogle1={BasketExitType.SQOL}
+							toogle2={BasketExitType.SQAL}
 							value={basketData.exitCondition.type}
 							setToogleValue={handleTypeChange}
 						/>

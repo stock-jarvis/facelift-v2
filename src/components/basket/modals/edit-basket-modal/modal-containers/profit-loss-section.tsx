@@ -1,9 +1,9 @@
 import { Flex } from 'antd'
 import CappedButton from '../modal-components/capped-button'
-import { SavedBasketsObject } from 'src/components/basket/types/types'
+import { SavedBasket } from 'src/components/basket/types/types'
 interface ProfitLossProps {
-	basketData: SavedBasketsObject
-	setBasketData: (val: SavedBasketsObject) => void
+	basketData: SavedBasket
+	setBasketData: (val: SavedBasket) => void
 	profitLabel: string
 	lossLabel: string
 }

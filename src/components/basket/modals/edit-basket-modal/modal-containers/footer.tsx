@@ -5,13 +5,13 @@ import {
 	BasketDataProps,
 	SavedBasketsExitCondition,
 	SavedBasketsEntryCondition,
-	SavedBasketsObject,
+	SavedBasket,
 } from 'src/components/basket/types/types'
 import { SnippetsOutlined } from '@ant-design/icons'
 import { useEffect, useState } from 'react'
 import { generateUniqueId } from 'src/components/basket/utils/randomizer'
 interface FooterProps {
-	basketData: SavedBasketsObject
+	basketData: SavedBasket
 	basket: BasketDataProps[]
 }
 
@@ -31,7 +31,7 @@ const Footer: React.FC<FooterProps> = ({ basket, basketData }) => {
 		useState<SavedBasketsEntryCondition>()
 	const [basketExitConditions, setBasketExitConditions] =
 		useState<SavedBasketsExitCondition>()
-	const [savedBasket, setSavedBasket] = useState<SavedBasketsObject>()
+	const [savedBasket, setSavedBasket] = useState<SavedBasket>()
 
 	useEffect(() => {
 		if (

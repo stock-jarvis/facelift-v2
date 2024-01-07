@@ -20,7 +20,7 @@ import BasketNav from '../basket-nav'
 
 import { useBasketStore } from '../../store/basket-store'
 import { generateUniqueId } from '../../utils/randomizer'
-import { SavedBasketsObject } from '../../types/types'
+import { SavedBasket } from '../../types/types'
 
 const Index = () => {
 	const { token } = theme.useToken()
@@ -95,7 +95,7 @@ const Index = () => {
 				</Flex>
 			),
 			dataIndex: '',
-			render: (record: SavedBasketsObject) => (
+			render: (record: SavedBasket) => (
 				<Flex flex={1} key={record.id}>
 					<Checkbox
 						checked={
@@ -114,7 +114,7 @@ const Index = () => {
 					Name
 				</Flex>
 			),
-			render: (record: SavedBasketsObject) => (
+			render: (record: SavedBasket) => (
 				<Flex flex="1" justify="flex-start" key={record.id + record.name}>
 					<Typography.Text
 						style={{
@@ -134,7 +134,7 @@ const Index = () => {
 					Exchange
 				</Flex>
 			),
-			render: (record: SavedBasketsObject) => (
+			render: (record: SavedBasket) => (
 				<Flex flex="1" justify="flex-end" key={record.id + record.exchange}>
 					<Typography.Text
 						style={{
@@ -154,7 +154,7 @@ const Index = () => {
 					Istrument
 				</Flex>
 			),
-			render: (record: SavedBasketsObject) => (
+			render: (record: SavedBasket) => (
 				<Flex flex="1" justify="flex-end" key={record.id + record.ticker}>
 					<Typography.Text
 						style={{
@@ -174,7 +174,7 @@ const Index = () => {
 				</Flex>
 			),
 			dataIndex: '',
-			render: (record: SavedBasketsObject) => (
+			render: (record: SavedBasket) => (
 				<Flex
 					gap={'small'}
 					flex={1}
