@@ -31,7 +31,7 @@ const Index = () => {
 		selectAllBaskets,
 		setEditableBasket,
 		updateRuntimeError,
-		addToStoredBaskets,
+		addToSavedBasket,
 		addNewRuntimeBasket,
 		deleteRuntimeBasket,
 		//toggleSetBasketModalOpen,
@@ -62,7 +62,7 @@ const Index = () => {
 		const basket = runtimeBasketList.find((b) => b.id === id)
 		if (basket) {
 			if (basket.positions && basket.entryCondition) {
-				addToStoredBaskets(id)
+				addToSavedBasket(id)
 			} else {
 				setRuntimeError(id)
 			}
@@ -147,7 +147,7 @@ const Index = () => {
 		{
 			title: (
 				<Flex flex={1} justify="flex-end">
-					Istrument
+					Instrument
 				</Flex>
 			),
 			render: (record) => (

@@ -47,7 +47,7 @@ const Index = () => {
 					atm: BasketAtm.SPOT,
 					positions: [],
 					exitCondition: {
-						type: BasketExitType.SQAL,
+						type: BasketExitType.SQOL,
 						totalLoss: 0,
 						totalProfit: 0,
 					},

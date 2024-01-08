@@ -7,7 +7,10 @@ import PositionHolder from './position-holder'
 import QuantityInput from '../modal-components/quantity-input'
 import ExpirySelector from '../modal-components/expiry-selector'
 import { TradeAction, BasketLegType } from 'src/common/enums'
-import { BasketDataValues } from 'src/components/basket/types/types'
+import {
+	BasketDataValues,
+	futureStrKeys,
+} from 'src/components/basket/types/types'
 interface BasketProps {
 	basketInitialData: BasketDataValues
 	baseInstrumentValue: string
@@ -84,7 +87,8 @@ const FutureBasketSelector: React.FC<BasketProps> = ({
 			),
 			children: (
 				<Flex flex={1} justify="center">
-					<ExpirySelector
+					<ExpirySelector<futureStrKeys>
+						keyType={'expiry'}
 						handleExpiryChange={handleBaseExpiryChange}
 						expiryValue={basketInitialData.expiry || 'Monthly'}
 						expiryOptions={futureExpiry}

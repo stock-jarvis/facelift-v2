@@ -29,16 +29,16 @@ import {
 	totalProfitOptions,
 } from 'src/components/basket/constants/data'
 import { TradeAction } from 'src/common/enums'
-interface FututreDetailsProps {
+interface FutureDetailsProps {
 	dark: boolean
 	individualBasket: BasketDataProps
 	baseInstrumentValue: string
 	basket: BasketDataProps[]
-	handleDeleteBasket: (val: string) => void
-	handleCopyBasket: (val: string) => void
+	handleDeleteBasket: (id: string) => void
+	handleCopyBasket: (id: string) => void
 	handleEditBasket: (basket: BasketDataProps[]) => void
 }
-const FututeBasketDetails: React.FC<FututreDetailsProps> = ({
+const FutureBasketDetails: React.FC<FutureDetailsProps> = ({
 	dark,
 	basket,
 	individualBasket,
@@ -59,10 +59,10 @@ const FututeBasketDetails: React.FC<FututreDetailsProps> = ({
 		totalProfitValue: individualBasket.exitCondition.totalProfit.value,
 	})
 
-	const handleChangeNumberValue = (val: number, key: futureNumberedKeys) => {
-		setFutureBasketData({ ...futureBasketData, [key]: val })
-	}
-	const handleChangeStrValue = (val: string, key: futureStrKeys) => {
+	const handleChangeValue = <T,>(
+		val: T,
+		key: futureNumberedKeys | futureStrKeys
+	) => {
 		setFutureBasketData({ ...futureBasketData, [key]: val })
 	}
 
@@ -168,7 +168,7 @@ const FututeBasketDetails: React.FC<FututreDetailsProps> = ({
 						color2="red"
 						baseActionValue={futureBasketData.actionValue}
 						handleBaseActionChange={(val) =>
-							handleChangeStrValue(val, 'actionValue')
+							handleChangeValue<TradeAction>(val, 'actionValue')
 						}
 					/>
 				</Flex>
@@ -193,7 +193,7 @@ const FututeBasketDetails: React.FC<FututreDetailsProps> = ({
 					<QuantityInput
 						baseQuantityValue={futureBasketData.quantityValue}
 						handleQantityChange={(val) =>
-							handleChangeNumberValue(val, 'quantityValue')
+							handleChangeValue<number>(val, 'quantityValue')
 						}
 					/>
 				</Flex>
@@ -246,10 +246,11 @@ const FututeBasketDetails: React.FC<FututreDetailsProps> = ({
 			),
 			children: (
 				<Flex flex={1} justify="center">
-					<ExpirySelector
+					<ExpirySelector<futureStrKeys>
+						keyType={'expiry'}
 						expiryOptions={futureExpiry}
 						expiryValue={futureBasketData.expiry}
-						handleExpiryChange={(val) => handleChangeStrValue(val, 'expiry')}
+						handleExpiryChange={handleChangeValue<string>}
 					/>
 				</Flex>
 			),
@@ -275,10 +276,10 @@ const FututeBasketDetails: React.FC<FututreDetailsProps> = ({
 						targetType={futureBasketData.totalProfitType}
 						targetValue={futureBasketData.totalProfitValue}
 						handleTargetValueChange={(val) =>
-							handleChangeNumberValue(val, 'totalProfitValue')
+							handleChangeValue<number>(val, 'totalProfitValue')
 						}
 						handleTargetTypeChange={(val) => {
-							handleChangeStrValue(val, 'totalProfitType')
+							handleChangeValue<string>(val, 'totalProfitType')
 						}}
 					/>
 				</Flex>
@@ -305,10 +306,10 @@ const FututeBasketDetails: React.FC<FututreDetailsProps> = ({
 						targetType={futureBasketData.stopLossType}
 						targetValue={futureBasketData.stopLossValue}
 						handleTargetValueChange={(val) =>
-							handleChangeNumberValue(val, 'stopLossValue')
+							handleChangeValue<number>(val, 'stopLossValue')
 						}
 						handleTargetTypeChange={(val) => {
-							handleChangeStrValue(val, 'stopLossType')
+							handleChangeValue<string>(val, 'stopLossType')
 						}}
 					/>
 				</Flex>
@@ -334,4 +335,4 @@ const FututeBasketDetails: React.FC<FututreDetailsProps> = ({
 	)
 }
 
-export default FututeBasketDetails
+export default FutureBasketDetails

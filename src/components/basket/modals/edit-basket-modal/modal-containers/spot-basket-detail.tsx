@@ -31,8 +31,8 @@ interface SpotDetailsProps {
 	basket: BasketDataProps[]
 	baseInstrumentValue: string
 	individualBasket: BasketDataProps
-	handleDeleteBasket: (val: string) => void
-	handleCopyBasket: (val: string) => void
+	handleDeleteBasket: (id: string) => void
+	handleCopyBasket: (id: string) => void
 	handleEditBasket: (basket: BasketDataProps[]) => void
 }
 const SpotBasketDetail: React.FC<SpotDetailsProps> = ({
@@ -54,10 +54,10 @@ const SpotBasketDetail: React.FC<SpotDetailsProps> = ({
 		totalProfitValue: individualBasket.exitCondition.totalProfit.value,
 	})
 
-	const handleChangeNumberValue = (val: number, key: spotNumberedKeys) => {
-		setSpotBasketData({ ...spotBasketData, [key]: val })
-	}
-	const handleChangeStrValue = (val: string, key: spotStrKeys) => {
+	const handleChangeValue = <T,>(
+		val: T,
+		key: spotNumberedKeys | spotStrKeys
+	) => {
 		setSpotBasketData({ ...spotBasketData, [key]: val })
 	}
 
@@ -105,7 +105,7 @@ const SpotBasketDetail: React.FC<SpotDetailsProps> = ({
 						color2="red"
 						baseActionValue={spotBasketData.actionValue}
 						handleBaseActionChange={(val) =>
-							handleChangeStrValue(val, 'actionValue')
+							handleChangeValue<TradeAction>(val, 'actionValue')
 						}
 					/>
 				</Flex>
@@ -130,7 +130,7 @@ const SpotBasketDetail: React.FC<SpotDetailsProps> = ({
 					<QuantityInput
 						baseQuantityValue={spotBasketData.quantityValue}
 						handleQantityChange={(val) =>
-							handleChangeNumberValue(val, 'quantityValue')
+							handleChangeValue<number>(val, 'quantityValue')
 						}
 					/>
 				</Flex>
@@ -157,10 +157,10 @@ const SpotBasketDetail: React.FC<SpotDetailsProps> = ({
 						targetType={spotBasketData.totalProfitType}
 						targetValue={spotBasketData.totalProfitValue}
 						handleTargetValueChange={(val) =>
-							handleChangeNumberValue(val, 'totalProfitValue')
+							handleChangeValue<number>(val, 'totalProfitValue')
 						}
 						handleTargetTypeChange={(val) =>
-							handleChangeStrValue(val, 'totalProfitType')
+							handleChangeValue<string>(val, 'totalProfitType')
 						}
 					/>
 				</Flex>
@@ -187,10 +187,10 @@ const SpotBasketDetail: React.FC<SpotDetailsProps> = ({
 						targetType={spotBasketData.stopLossType}
 						targetValue={spotBasketData.stopLossValue}
 						handleTargetValueChange={(val) =>
-							handleChangeNumberValue(val, 'stopLossValue')
+							handleChangeValue<number>(val, 'stopLossValue')
 						}
 						handleTargetTypeChange={(val) =>
-							handleChangeStrValue(val, 'stopLossType')
+							handleChangeValue<string>(val, 'stopLossType')
 						}
 					/>
 				</Flex>

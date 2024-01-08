@@ -36,8 +36,8 @@ interface OptionDetailsProps {
 	dark: boolean
 	basket: BasketDataProps[]
 	baseInstrumentValue: string
-	handleDeleteBasket: (val: string) => void
-	handleCopyBasket: (val: string) => void
+	handleDeleteBasket: (id: string) => void
+	handleCopyBasket: (id: string) => void
 	handleEditBasket: (basket: BasketDataProps[]) => void
 }
 const OptionBasketDetail: React.FC<OptionDetailsProps> = ({
@@ -70,10 +70,10 @@ const OptionBasketDetail: React.FC<OptionDetailsProps> = ({
 		}
 	)
 
-	const handleChangeNumberValue = (val: number, key: optionNumberedKeys) => {
-		setOptionsBasketData({ ...optionsBasketData, [key]: val })
-	}
-	const handleChangeStrValue = (val: string, key: optionsStrKeys) => {
+	const handleChangeValue = <T,>(
+		val: T,
+		key: optionNumberedKeys | optionsStrKeys
+	) => {
 		setOptionsBasketData({ ...optionsBasketData, [key]: val })
 	}
 
@@ -133,7 +133,7 @@ const OptionBasketDetail: React.FC<OptionDetailsProps> = ({
 						color2="red"
 						baseActionValue={optionsBasketData.actionValue}
 						handleBaseActionChange={(val) =>
-							handleChangeStrValue(val, 'actionValue')
+							handleChangeValue<TradeAction>(val, 'actionValue')
 						}
 					/>
 				</Flex>
@@ -162,7 +162,7 @@ const OptionBasketDetail: React.FC<OptionDetailsProps> = ({
 						color2="purple"
 						baseActionValue={optionsBasketData.optionType}
 						handleBaseActionChange={(val) =>
-							handleChangeStrValue(val, 'optionType')
+							handleChangeValue<OptionType>(val, 'optionType')
 						}
 					/>
 				</Flex>
@@ -187,7 +187,7 @@ const OptionBasketDetail: React.FC<OptionDetailsProps> = ({
 					<QuantityInput
 						baseQuantityValue={optionsBasketData.quantityValue}
 						handleQantityChange={(val) =>
-							handleChangeNumberValue(val, 'quantityValue')
+							handleChangeValue<number>(val, 'quantityValue')
 						}
 					/>
 				</Flex>
@@ -243,11 +243,11 @@ const OptionBasketDetail: React.FC<OptionDetailsProps> = ({
 					<StrikeSelector
 						tradeOption={optionsBasketData.tradeOption}
 						tradeValue={optionsBasketData.tradeValue}
-						setTradeValue={(val) => handleChangeNumberValue(val, 'tradeValue')}
+						setTradeValue={(val) => handleChangeValue(val, 'tradeValue')}
 						setTradeOption={handleTradeOptionChange}
 						subTradeOption={optionsBasketData.subTradeOption}
 						setSubTradeOption={(val) =>
-							handleChangeStrValue(val, 'subTradeOption')
+							handleChangeValue<string>(val, 'subTradeOption')
 						}
 						subTradeOptionList={optionsBasketData.subTradeOptionList}
 					/>
@@ -270,9 +270,10 @@ const OptionBasketDetail: React.FC<OptionDetailsProps> = ({
 			),
 			children: (
 				<Flex flex={1} justify="center">
-					<ExpirySelector
+					<ExpirySelector<optionsStrKeys>
+						keyType={'expiry'}
 						expiryValue={optionsBasketData.expiry}
-						handleExpiryChange={(val) => handleChangeStrValue(val, 'expiry')}
+						handleExpiryChange={handleChangeValue<string>}
 						expiryOptions={optionExpiry}
 					/>
 				</Flex>
@@ -299,10 +300,10 @@ const OptionBasketDetail: React.FC<OptionDetailsProps> = ({
 						targetType={optionsBasketData.totalProfitType}
 						targetValue={optionsBasketData.totalProfitValue}
 						handleTargetValueChange={(val) =>
-							handleChangeNumberValue(val, 'totalProfitValue')
+							handleChangeValue<number>(val, 'totalProfitValue')
 						}
 						handleTargetTypeChange={(val) =>
-							handleChangeStrValue(val, 'totalProfitType')
+							handleChangeValue<string>(val, 'totalProfitType')
 						}
 					/>
 				</Flex>
@@ -329,10 +330,10 @@ const OptionBasketDetail: React.FC<OptionDetailsProps> = ({
 						targetType={optionsBasketData.stopLossType}
 						targetValue={optionsBasketData.stopLossValue}
 						handleTargetValueChange={(val) =>
-							handleChangeNumberValue(val, 'stopLossValue')
+							handleChangeValue<number>(val, 'stopLossValue')
 						}
 						handleTargetTypeChange={(val) =>
-							handleChangeStrValue(val, 'stopLossType')
+							handleChangeValue<string>(val, 'stopLossType')
 						}
 					/>
 				</Flex>

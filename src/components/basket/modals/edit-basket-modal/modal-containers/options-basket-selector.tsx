@@ -1,5 +1,5 @@
 import { Flex, Descriptions, DescriptionsProps, Typography, theme } from 'antd'
-import { BasketDataValues } from '../../../types/types'
+import { BasketDataValues, optionsStrKeys } from '../../../types/types'
 import StrikeRadioSelector from '../modal-components/strike-radio-selector'
 import PositionHolder from './position-holder'
 import StrikeSelector from '../modal-components/strike-selector'
@@ -137,7 +137,8 @@ const OptionsBasketSelector: React.FC<BasketProps> = ({
 			),
 			children: (
 				<Flex flex={1} justify="center">
-					<ExpirySelector
+					<ExpirySelector<optionsStrKeys>
+						keyType="expiry"
 						handleExpiryChange={handleBaseExpiryChange}
 						expiryValue={basketInitialData.expiry || 'Monthly'}
 						expiryOptions={optionExpiry}

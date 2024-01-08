@@ -18,10 +18,11 @@ const Index = () => {
 		startDate,
 		endDate,
 	} = useBasketStore()
-	const [disabledButton, setDisabledButton] = useState<boolean>(true)
+	const [isButtonDisabled, setIsButtonDisabled] = useState<boolean>(true)
 
 	const handleDateChanged: TimeRangePickerProps['onChange'] = (e) => {
-		const [startDate, endDate] = e ?? ''
+		const [startDate, endDate] = e ?? ['', '']
+		console.log('hello world')
 		handleDateChange(dayjs(startDate), dayjs(endDate))
 	}
 
@@ -30,12 +31,16 @@ const Index = () => {
 	}
 
 	useEffect(() => {
-		if (startDate && endDate && selectedBaskets.length > 0) {
-			setDisabledButton(false)
+		if (
+			startDate.isValid() &&
+			endDate.isValid() &&
+			selectedBaskets.length > 0
+		) {
+			setIsButtonDisabled(false)
 		} else {
-			setDisabledButton(true)
+			setIsButtonDisabled(true)
 		}
-	}, [startDate, endDate, selectedBaskets, setDisabledButton])
+	}, [startDate, endDate, selectedBaskets, setIsButtonDisabled])
 
 	return (
 		<Flex
@@ -61,8 +66,7 @@ const Index = () => {
 					Add New Basket
 				</Button>
 				<Button
-					type="default"
-					disabled={disabledButton}
+					disabled={isButtonDisabled}
 					icon={<PlayCircleOutlined />}
 					onClick={handleBackTestingButtonClicked}
 				>

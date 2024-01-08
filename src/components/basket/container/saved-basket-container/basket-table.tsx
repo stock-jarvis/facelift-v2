@@ -14,7 +14,7 @@ import {
 const Index = () => {
 	const {
 		exchange,
-		storedBaskets,
+		savedBasket,
 		setEditableBasket,
 		deleteStoredBasket,
 		createDuplicateStoredBasket,
@@ -28,10 +28,10 @@ const Index = () => {
 		setEditableBasket(id, EditType.SAVED)
 	}
 	const onHandleBasketDuplicate = (id: string) => {
-		const basket = storedBaskets.find((basket) => basket.id === id)
+		const basket = savedBasket.find((basket) => basket.id === id)
 
 		if (basket) {
-			const baskets = storedBaskets.filter((b) => b.name === basket.name)
+			const baskets = savedBasket.filter((b) => b.name === basket.name)
 			createDuplicateStoredBasket({
 				...basket,
 				id: generateUniqueId(),
@@ -111,7 +111,7 @@ const Index = () => {
 			<Table
 				locale={EmptyIndicator('No Saved Basket')}
 				rowKey="id"
-				dataSource={storedBaskets.filter((b) => b.exchange === exchange)}
+				dataSource={savedBasket.filter((b) => b.exchange === exchange)}
 				columns={columns}
 				pagination={false}
 				scroll={{ y: 'calc(100vh - 230px)' }}

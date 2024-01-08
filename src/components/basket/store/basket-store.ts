@@ -17,8 +17,7 @@ type BasketState = {
 	timeErrorModalOpen: boolean
 	isAddBasketModalOpen: boolean
 	closeModalConfirmation: boolean
-	savedBaskets: SavedBasket[]
-	storedBaskets: SavedBasket[]
+	savedBasket: SavedBasket[]
 	selectedBaskets: SavedBasket[]
 	editableBasketData: SavedBasket
 	runtimeBasketList: SavedBasket[]
@@ -32,7 +31,7 @@ type BasketStateActions = {
 	setRuntimeError: (id: string) => void
 	setTimeError: (error: boolean) => void
 	deleteStoredBasket: (id: string) => void
-	addToStoredBaskets: (id: string) => void
+	addToSavedBasket: (id: string) => void
 	updateRuntimeError: (id: string) => void
 	deleteRuntimeBasket: (id: string) => void
 	setDuplicateError: (error: boolean) => void
@@ -43,7 +42,7 @@ type BasketStateActions = {
 	closeDuplicateConfirmModal: (value: boolean) => void
 	setEditableBasket: (id: string, type: EditType) => void
 	toogleSaveError: (id: string, error: boolean) => void
-	addToSavedBasket: (basket: SavedBasket) => void
+
 	addNewRuntimeBasket: (basket: SavedBasket) => void
 	updateRuntimeBasketData: (basket: SavedBasket) => void
 	handleDateChange: (startDate: Dayjs, endDate: Dayjs) => void
@@ -57,9 +56,8 @@ const defaultState: BasketState = {
 	editType: EditType.NILL,
 	startDate: dayjs(''),
 	exchange: Exchange.NSE,
-	savedBaskets: [],
 	timeError: false,
-	storedBaskets: [],
+	savedBasket: [],
 	selectedBaskets: [],
 	runtimeDuplicate: false,
 	runtimeBasketList: [],
@@ -121,10 +119,8 @@ export const useBasketStore = create<BasketState & BasketStateActions>()(
 						)
 						state.runtimeBasketList[index] = basket
 					} else {
-						const index = state.storedBaskets.findIndex(
-							(b) => b.id === basket.id
-						)
-						state.storedBaskets[index] = basket
+						const index = state.savedBasket.findIndex((b) => b.id === basket.id)
+						state.savedBasket[index] = basket
 					}
 				}),
 
@@ -150,24 +146,6 @@ export const useBasketStore = create<BasketState & BasketStateActions>()(
 			addNewRuntimeBasket: (newBasket: SavedBasket) =>
 				set((state) => {
 					void state.runtimeBasketList.push(newBasket)
-				}),
-
-			addToSavedBasket: (basket: SavedBasket) =>
-				set((state) => {
-					const checkIfExists = state.savedBaskets.find(
-						(b) => b.id === basket.id
-					)
-					if (checkIfExists) {
-						state.savedBaskets = state.savedBaskets.map((b) => {
-							if (b.id === basket.id) {
-								return basket
-							} else {
-								return b
-							}
-						})
-					} else {
-						void state.savedBaskets.push(basket)
-					}
 				}),
 
 			addBasketToSelectedBaskets: (id) =>
@@ -203,7 +181,7 @@ export const useBasketStore = create<BasketState & BasketStateActions>()(
 
 			deleteStoredBasket: (id: string) =>
 				set((state) => {
-					state.storedBaskets = state.storedBaskets.filter((basket) => {
+					state.savedBasket = state.savedBasket.filter((basket) => {
 						return basket.id !== id
 					})
 				}),
@@ -221,23 +199,23 @@ export const useBasketStore = create<BasketState & BasketStateActions>()(
 					const dataToBeExtracted =
 						type === EditType.RUNTIME
 							? state.runtimeBasketList
-							: state.storedBaskets
+							: state.savedBasket
 					const data = dataToBeExtracted.find((basket) => basket.id === id)
 					if (data) {
 						state.editableBasketData = data
 					}
 				}),
 
-			addToStoredBaskets: (id: string) =>
+			addToSavedBasket: (id: string) =>
 				set((state) => {
 					const basket = state.runtimeBasketList.find((b) => b.id === id)
 					if (basket) {
-						const checkIfExists = state.storedBaskets.find(
+						const checkIfExists = state.savedBasket.find(
 							(b) => b.id === basket.id
 						)
 
 						if (checkIfExists) {
-							state.storedBaskets = state.storedBaskets.map((b) => {
+							state.savedBasket = state.savedBasket.map((b) => {
 								if (b.id === basket.id) {
 									return { ...basket, identifier: b.identifier }
 								} else {
@@ -245,7 +223,7 @@ export const useBasketStore = create<BasketState & BasketStateActions>()(
 								}
 							})
 						} else {
-							const checkNames = state.storedBaskets.filter(
+							const checkNames = state.savedBasket.filter(
 								(b) => b.name === basket.name
 							)
 
@@ -254,12 +232,12 @@ export const useBasketStore = create<BasketState & BasketStateActions>()(
 									...checkNames.map((b) => b.identifier)
 								)
 
-								void state.storedBaskets.push({
+								void state.savedBasket.push({
 									...basket,
 									identifier: maxIdentifier + 1,
 								})
 							} else {
-								void state.storedBaskets.push(basket)
+								void state.savedBasket.push(basket)
 							}
 						}
 					}
@@ -267,13 +245,13 @@ export const useBasketStore = create<BasketState & BasketStateActions>()(
 
 			createDuplicateStoredBasket: (basket: SavedBasket) =>
 				set((state) => {
-					void state.storedBaskets.push(basket)
+					void state.savedBasket.push(basket)
 				}),
 			moveStoredToRuntimeBasket: (id: string) =>
 				set((state) => {
 					const checkIfExists = state.runtimeBasketList.find((b) => b.id === id)
 					if (!checkIfExists) {
-						const basket = state.storedBaskets.find((b) => b.id === id)
+						const basket = state.savedBasket.find((b) => b.id === id)
 						if (basket) {
 							const newBasket = state.runtimeBasketList.filter(
 								(b) => b.name === basket.name
