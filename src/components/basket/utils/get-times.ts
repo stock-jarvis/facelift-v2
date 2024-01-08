@@ -1,7 +1,7 @@
 import { timeBoundariesByExchange } from 'src/common/constants'
-import { Exchanges } from '../types/types'
+import { Exchange } from 'src/common/enums'
 type timeRange = 'start' | 'end'
-export const getTimes = (exchange: Exchanges, time: timeRange) => {
+export const getTimes = (exchange: Exchange, time: timeRange) => {
 	return (time =
 		timeBoundariesByExchange[exchange][time].hour.toString() +
 		':' +

@@ -33,13 +33,6 @@ export interface OptionObject {
 	label: string
 }
 
-export interface IconActions {
-	key: string
-	icon: React.ReactNode
-	toolTipLabel: string
-	actionName: string
-}
-
 // TODO: STRICT TYPING
 export interface TradeOptions {
 	id: number
