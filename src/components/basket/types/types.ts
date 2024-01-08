@@ -19,6 +19,14 @@ export enum EditType {
 	SAVED = 'saved',
 	NILL = '',
 }
+
+export enum YeildType {
+	PERCENT = 'percent',
+	POINTS = 'points',
+	RUPEES = 'rupees',
+}
+
+//TODO: Strict Typing
 export interface OptionObject {
 	id: number
 	value: string
@@ -31,12 +39,15 @@ export interface IconActions {
 	toolTipLabel: string
 	actionName: string
 }
+
+// TODO: STRICT TYPING
 export interface TradeOptions {
 	id: number
 	label: string
 	value: string
 }
 
+// TODO: STRICT TYPING
 export interface SavedBasketsEntryCondition {
 	entryTime: string
 	exitTime: string
@@ -51,7 +62,7 @@ export interface SavedBasketsExitCondition {
 
 export interface ProfitLossObject {
 	value: number
-	type: string
+	type: YeildType
 }
 
 export interface PositionExitCondition {
@@ -104,8 +115,8 @@ export interface BasketDataValues {
 export interface SpotBasketData {
 	quantityValue: number
 	actionValue: TradeAction
-	totalProfitType: string
-	stopLossType: string
+	totalProfitType: YeildType
+	stopLossType: YeildType
 	totalProfitValue: number
 	stopLossValue: number
 }
@@ -113,35 +124,19 @@ export interface SpotBasketData {
 export interface FutureBasketData {
 	quantityValue: number
 	actionValue: TradeAction
-	totalProfitType: string
-	stopLossType: string
+	totalProfitType: YeildType
+	stopLossType: YeildType
 	expiry: string | undefined
 	totalProfitValue: number
 	stopLossValue: number
 }
 
-export type futureStrKeys =
-	| 'actionValue'
-	| 'expiry'
-	| 'stopLossType'
-	| 'totalProfitType'
-export type futureNumberedKeys =
-	| 'quantityValue'
-	| 'totalProfitValue'
-	| 'stopLossValue'
-
-export type spotStrKeys = 'actionValue' | 'stopLossType' | 'totalProfitType'
-export type spotNumberedKeys =
-	| 'quantityValue'
-	| 'totalProfitValue'
-	| 'stopLossValue'
-
 export interface OptionsBasketData {
 	quantityValue: number
 	actionValue: TradeAction
-	totalProfitType: string
+	totalProfitType: YeildType
 	optionType: OptionType
-	stopLossType: string
+	stopLossType: YeildType
 	expiry: string | undefined
 	totalProfitValue: number
 	stopLossValue: number
@@ -151,15 +146,38 @@ export interface OptionsBasketData {
 	subTradeOptionList: TradeOptions[] | undefined
 }
 
-export type optionsStrKeys =
-	| 'actionValue'
-	| 'optionType'
-	| 'expiry'
-	| 'stopLossType'
-	| 'totalProfitType'
-	| 'subTradeOption'
-export type optionNumberedKeys =
-	| 'quantityValue'
-	| 'totalProfitValue'
-	| 'stopLossValue'
-	| 'tradeValue'
+export enum OptionsKey {
+	ACTION = 'actionValue',
+	OPTION = 'optionType',
+	EXPIRY = 'expiry',
+	LOSSTYPE = 'stopLossType',
+	LOSSVALUE = 'stopLossValue',
+	PROFITTYPE = 'totalProfitType',
+	PROFITVALUE = 'totalProfitValue',
+	QUANTITY = 'quantityValue',
+	TRADEVALUE = 'tradeValue',
+	SUBTRADEOPTION = 'subTradeOption',
+}
+
+export enum SpotKey {
+	ACTION = 'actionValue',
+	LOSSTYPE = 'stopLossType',
+	LOSSVALUE = 'stopLossValue',
+	PROFITTYPE = 'totalProfitType',
+	PROFITVALUE = 'totalProfitValue',
+	QUANTITY = 'quantityValue',
+}
+
+export enum FutureKey {
+	ACTION = 'actionValue',
+	EXPIRY = 'expiry',
+	LOSSTYPE = 'stopLossType',
+	LOSSVALUE = 'stopLossValue',
+	PROFITTYPE = 'totalProfitType',
+	PROFITVALUE = 'totalProfitValue',
+	QUANTITY = 'quantityValue',
+}
+export enum YeildLabel {
+	LOSS = 'SL',
+	PROFIT = 'TP',
+}

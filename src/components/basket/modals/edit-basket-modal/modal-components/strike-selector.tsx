@@ -5,47 +5,51 @@ import { InputProps } from 'antd'
 import { SelectProps } from 'antd/es/select'
 import { TradeOptions } from '../../../types/types'
 
-interface StrikeSelectorProps {
+interface StrikeSelectorProps<T> {
 	tradeOption: string | undefined
 	subTradeOption: string | undefined
 	subTradeOptionList: TradeOptions[] | undefined
 	tradeValue: number | undefined
+	paramValue: T
+	paramType: T
 	setTradeOption: (val: string) => void
-	setSubTradeOption: (val: string) => void
-	setTradeValue: (val: number) => void
+	setSubTradeOption: (val: string, paramType: T) => void
+	setTradeValue: (val: number, paramValue: T) => void
 }
 
-const StrikeSelector: React.FC<StrikeSelectorProps> = ({
+const StrikeSelector = <T,>({
 	tradeOption,
 	subTradeOption,
 	subTradeOptionList,
 	tradeValue,
+	paramValue,
+	paramType,
 	setTradeOption,
 	setSubTradeOption,
 	setTradeValue,
-}) => {
+}: StrikeSelectorProps<T>) => {
 	const handleTradeChange: SelectProps['onChange'] = (value: string) => {
 		setTradeOption(value)
 	}
 
 	const handleSubTradeChange: SelectProps['onChange'] = (value: string) => {
-		setSubTradeOption(value)
+		setSubTradeOption(value, paramType)
 	}
 
 	const handleInputChange: InputProps['onChange'] = (
 		e: ChangeEvent<HTMLInputElement>
 	) => {
 		if (+e.target.value <= 0) {
-			setTradeValue(1)
+			setTradeValue(1, paramValue)
 		} else {
 			if (tradeOption !== 'CP') {
 				if (+e.target.value > 100) {
-					setTradeValue(100)
+					setTradeValue(100, paramValue)
 				} else {
-					setTradeValue(+e.target.value)
+					setTradeValue(+e.target.value, paramValue)
 				}
 			} else {
-				setTradeValue(+e.target.value)
+				setTradeValue(+e.target.value, paramValue)
 			}
 		}
 	}

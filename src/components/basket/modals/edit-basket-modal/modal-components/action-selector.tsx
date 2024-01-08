@@ -1,23 +1,25 @@
 import { Flex, Typography, theme, Segmented, SegmentedProps } from 'antd'
 import { SegmentedValue } from 'antd/es/segmented'
 import { useState } from 'react'
-interface ActionSelectorProps<T> {
+interface ActionSelectorProps<T, U> {
 	action1: T
 	action2: T
 	color1: string
 	color2: string
+	paramType: U
 	baseActionValue: string | undefined
-	handleBaseActionChange: (val: T) => void
+	handleBaseActionChange: (action: T, paramType: U) => void
 }
 
-const ActionSelector = <T,>({
+const ActionSelector = <T, U>({
 	handleBaseActionChange,
 	action1,
 	action2,
 	color1,
 	color2,
+	paramType,
 	baseActionValue,
-}: ActionSelectorProps<T>) => {
+}: ActionSelectorProps<T, U>) => {
 	const [tag, setTag] = useState<string | undefined>(baseActionValue)
 	const { token } = theme.useToken()
 
@@ -56,7 +58,7 @@ const ActionSelector = <T,>({
 	) => {
 		if (tagVal.toLocaleString() !== tag) {
 			setTag(tagVal.toLocaleString())
-			handleBaseActionChange(tagVal as T)
+			handleBaseActionChange(tagVal as T, paramType)
 		}
 	}
 

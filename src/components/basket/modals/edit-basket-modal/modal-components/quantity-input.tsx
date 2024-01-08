@@ -3,15 +3,17 @@ import { InputProps } from 'antd'
 import { ChangeEvent } from 'react'
 import { useState, useEffect } from 'react'
 
-interface QuantityProps {
-	handleQantityChange: (value: number) => void
+interface QuantityProps<T> {
+	handleQantityChange: (value: number, paramType: T) => void
 	baseQuantityValue: number
+	paramType: T
 }
 
-const QuantityInput: React.FC<QuantityProps> = ({
+const QuantityInput = <T,>({
 	baseQuantityValue,
 	handleQantityChange,
-}) => {
+	paramType,
+}: QuantityProps<T>) => {
 	const [quantityValue, setQuantityValue] = useState<number>()
 
 	useEffect(() => {
@@ -25,10 +27,10 @@ const QuantityInput: React.FC<QuantityProps> = ({
 	) => {
 		if (+e.target.value <= 0) {
 			setQuantityValue(1)
-			handleQantityChange(1)
+			handleQantityChange(1, paramType)
 		} else {
 			setQuantityValue(+e.target.value)
-			handleQantityChange(+e.target.value)
+			handleQantityChange(+e.target.value, paramType)
 		}
 	}
 

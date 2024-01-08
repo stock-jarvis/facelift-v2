@@ -1,5 +1,5 @@
 import { Flex, Descriptions, DescriptionsProps, Typography, theme } from 'antd'
-import { BasketDataValues, optionsStrKeys } from '../../../types/types'
+import { BasketDataValues, OptionsKey } from '../../../types/types'
 import StrikeRadioSelector from '../modal-components/strike-radio-selector'
 import PositionHolder from './position-holder'
 import StrikeSelector from '../modal-components/strike-selector'
@@ -59,9 +59,10 @@ const OptionsBasketSelector: React.FC<BasketProps> = ({
 
 			children: (
 				<Flex flex={1} justify="center">
-					<ActionSelector
+					<ActionSelector<TradeAction, OptionsKey>
 						action1={TradeAction.Buy}
 						action2={TradeAction.Sell}
+						paramType={OptionsKey.ACTION}
 						color1="green"
 						color2="red"
 						baseActionValue={basketInitialData.action}
@@ -80,9 +81,10 @@ const OptionsBasketSelector: React.FC<BasketProps> = ({
 			),
 			children: (
 				<Flex flex={1} justify="center">
-					<ActionSelector
+					<ActionSelector<OptionType, OptionsKey>
 						action1={OptionType.CALL}
 						action2={OptionType.PUT}
+						paramType={OptionsKey.OPTION}
 						color1="black"
 						color2="purple"
 						baseActionValue={basketInitialData.option || 'CE'}
@@ -100,7 +102,9 @@ const OptionsBasketSelector: React.FC<BasketProps> = ({
 			),
 			children: (
 				<Flex flex={1} justify="center">
-					<StrikeSelector
+					<StrikeSelector<OptionsKey>
+						paramValue={OptionsKey.TRADEVALUE}
+						paramType={OptionsKey.SUBTRADEOPTION}
 						tradeOption={basketInitialData.tradeOption}
 						tradeValue={basketInitialData.tradeValue || 1}
 						setTradeValue={handleBaseTradeValueChange}
@@ -121,7 +125,8 @@ const OptionsBasketSelector: React.FC<BasketProps> = ({
 			),
 			children: (
 				<Flex flex={1} justify="center">
-					<QuantityInput
+					<QuantityInput<OptionsKey>
+						paramType={OptionsKey.QUANTITY}
 						baseQuantityValue={basketInitialData.quantity}
 						handleQantityChange={handleBaseQuantityChange}
 					/>
@@ -137,8 +142,7 @@ const OptionsBasketSelector: React.FC<BasketProps> = ({
 			),
 			children: (
 				<Flex flex={1} justify="center">
-					<ExpirySelector<optionsStrKeys>
-						keyType="expiry"
+					<ExpirySelector<OptionsKey>
 						handleExpiryChange={handleBaseExpiryChange}
 						expiryValue={basketInitialData.expiry || 'Monthly'}
 						expiryOptions={optionExpiry}

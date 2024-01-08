@@ -11,7 +11,7 @@ const { RangePicker } = DatePicker
 const Index = () => {
 	const { token } = theme.useToken()
 	const {
-		toggleSetBasketModalOpen,
+		toggleBasketModal,
 		clearSelectedBaskets,
 		handleDateChange,
 		selectedBaskets,
@@ -22,7 +22,6 @@ const Index = () => {
 
 	const handleDateChanged: TimeRangePickerProps['onChange'] = (e) => {
 		const [startDate, endDate] = e ?? ['', '']
-		console.log('hello world')
 		handleDateChange(dayjs(startDate), dayjs(endDate))
 	}
 
@@ -61,7 +60,7 @@ const Index = () => {
 				<Button
 					type="primary"
 					icon={<PlusOutlined />}
-					onClick={() => toggleSetBasketModalOpen(true)}
+					onClick={() => toggleBasketModal()}
 				>
 					Add New Basket
 				</Button>

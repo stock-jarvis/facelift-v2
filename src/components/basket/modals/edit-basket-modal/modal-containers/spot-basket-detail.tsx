@@ -13,17 +13,14 @@ import {
 	Button,
 	Divider,
 	Typography,
+	ButtonProps,
 } from 'antd'
 import {
 	SpotBasketData,
 	BasketDataProps,
-	spotStrKeys,
-	spotNumberedKeys,
+	SpotKey,
+	YeildLabel,
 } from 'src/components/basket/types/types'
-import {
-	spotLossOptions,
-	totalProfitOptions,
-} from 'src/components/basket/constants/data'
 import { useActionChange } from '../modal-hooks/useActionChange'
 import { useExitTypeChange } from '../modal-hooks/useExitTypeChange'
 interface SpotDetailsProps {
@@ -54,11 +51,15 @@ const SpotBasketDetail: React.FC<SpotDetailsProps> = ({
 		totalProfitValue: individualBasket.exitCondition.totalProfit.value,
 	})
 
-	const handleChangeValue = <T,>(
-		val: T,
-		key: spotNumberedKeys | spotStrKeys
-	) => {
+	const handleChangeValue = <T,>(val: T, key: SpotKey) => {
 		setSpotBasketData({ ...spotBasketData, [key]: val })
+	}
+
+	const copyBasket: ButtonProps['onClick'] = () => {
+		handleCopyBasket(individualBasket.id)
+	}
+	const deleteBasket: ButtonProps['onClick'] = () => {
+		handleDeleteBasket(individualBasket.id)
 	}
 
 	const item: DescriptionsProps['items'] = [
@@ -98,15 +99,14 @@ const SpotBasketDetail: React.FC<SpotDetailsProps> = ({
 			),
 			children: (
 				<Flex flex={1} justify="center">
-					<ActionSelector<TradeAction>
+					<ActionSelector<TradeAction, SpotKey>
 						action1={TradeAction.Buy}
 						action2={TradeAction.Sell}
+						paramType={SpotKey.ACTION}
 						color1="green"
 						color2="red"
 						baseActionValue={spotBasketData.actionValue}
-						handleBaseActionChange={(val) =>
-							handleChangeValue<TradeAction>(val, 'actionValue')
-						}
+						handleBaseActionChange={handleChangeValue<TradeAction>}
 					/>
 				</Flex>
 			),
@@ -127,11 +127,10 @@ const SpotBasketDetail: React.FC<SpotDetailsProps> = ({
 			),
 			children: (
 				<Flex flex={1} justify="center">
-					<QuantityInput
+					<QuantityInput<SpotKey>
+						paramType={SpotKey.QUANTITY}
 						baseQuantityValue={spotBasketData.quantityValue}
-						handleQantityChange={(val) =>
-							handleChangeValue<number>(val, 'quantityValue')
-						}
+						handleQantityChange={handleChangeValue<number>}
 					/>
 				</Flex>
 			),
@@ -152,16 +151,14 @@ const SpotBasketDetail: React.FC<SpotDetailsProps> = ({
 			),
 			children: (
 				<Flex flex={1} justify="center">
-					<YeildButton
-						options={totalProfitOptions}
+					<YeildButton<SpotKey>
+						targetOn={YeildLabel.PROFIT}
 						targetType={spotBasketData.totalProfitType}
 						targetValue={spotBasketData.totalProfitValue}
-						handleTargetValueChange={(val) =>
-							handleChangeValue<number>(val, 'totalProfitValue')
-						}
-						handleTargetTypeChange={(val) =>
-							handleChangeValue<string>(val, 'totalProfitType')
-						}
+						paramType={SpotKey.PROFITTYPE}
+						paramValue={SpotKey.PROFITVALUE}
+						handleTargetValueChange={handleChangeValue<number>}
+						handleTargetTypeChange={handleChangeValue<string>}
 					/>
 				</Flex>
 			),
@@ -182,16 +179,14 @@ const SpotBasketDetail: React.FC<SpotDetailsProps> = ({
 			),
 			children: (
 				<Flex flex={1} justify="center">
-					<YeildButton
-						options={spotLossOptions}
+					<YeildButton<SpotKey>
+						targetOn={YeildLabel.LOSS}
 						targetType={spotBasketData.stopLossType}
 						targetValue={spotBasketData.stopLossValue}
-						handleTargetValueChange={(val) =>
-							handleChangeValue<number>(val, 'stopLossValue')
-						}
-						handleTargetTypeChange={(val) =>
-							handleChangeValue<string>(val, 'stopLossType')
-						}
+						paramType={SpotKey.LOSSTYPE}
+						paramValue={SpotKey.LOSSVALUE}
+						handleTargetValueChange={handleChangeValue<number>}
+						handleTargetTypeChange={handleChangeValue<string>}
 					/>
 				</Flex>
 			),
@@ -217,13 +212,13 @@ const SpotBasketDetail: React.FC<SpotDetailsProps> = ({
 						shape="circle"
 						icon={<CopyOutlined />}
 						type="text"
-						onClick={() => handleCopyBasket(individualBasket.id)}
+						onClick={copyBasket}
 					/>
 					<Button
 						shape="circle"
 						icon={<DeleteOutlined />}
 						type="text"
-						onClick={() => handleDeleteBasket(individualBasket.id)}
+						onClick={deleteBasket}
 					/>
 				</Flex>
 			),

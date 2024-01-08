@@ -7,10 +7,7 @@ import PositionHolder from './position-holder'
 import QuantityInput from '../modal-components/quantity-input'
 import ExpirySelector from '../modal-components/expiry-selector'
 import { TradeAction, BasketLegType } from 'src/common/enums'
-import {
-	BasketDataValues,
-	futureStrKeys,
-} from 'src/components/basket/types/types'
+import { BasketDataValues, FutureKey } from 'src/components/basket/types/types'
 interface BasketProps {
 	basketInitialData: BasketDataValues
 	baseInstrumentValue: string
@@ -51,9 +48,10 @@ const FutureBasketSelector: React.FC<BasketProps> = ({
 			),
 			children: (
 				<Flex flex={1} justify="center">
-					<ActionSelector<TradeAction>
+					<ActionSelector<TradeAction, FutureKey>
 						action1={TradeAction.Buy}
 						action2={TradeAction.Sell}
+						paramType={FutureKey.ACTION}
 						color1="green"
 						color2="red"
 						baseActionValue={basketInitialData.action}
@@ -71,7 +69,8 @@ const FutureBasketSelector: React.FC<BasketProps> = ({
 			),
 			children: (
 				<Flex flex={1} justify="center">
-					<QuantityInput
+					<QuantityInput<FutureKey>
+						paramType={FutureKey.QUANTITY}
 						baseQuantityValue={basketInitialData.quantity}
 						handleQantityChange={handleBaseQuantityChange}
 					/>
@@ -87,8 +86,7 @@ const FutureBasketSelector: React.FC<BasketProps> = ({
 			),
 			children: (
 				<Flex flex={1} justify="center">
-					<ExpirySelector<futureStrKeys>
-						keyType={'expiry'}
+					<ExpirySelector<FutureKey>
 						handleExpiryChange={handleBaseExpiryChange}
 						expiryValue={basketInitialData.expiry || 'Monthly'}
 						expiryOptions={futureExpiry}

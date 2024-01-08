@@ -16,7 +16,7 @@ const Index = () => {
 	const { token } = theme.useToken()
 	const [exhange, setExchange] = useState<Exchange>(Exchange.NSE)
 	const {
-		toggleSetBasketModalOpen,
+		toggleBasketModal,
 		addNewRuntimeBasket,
 		runtimeBasketList,
 		setDuplicateError,
@@ -28,7 +28,7 @@ const Index = () => {
 		useState<boolean>(false)
 
 	const onModalClose = () => {
-		toggleSetBasketModalOpen(false)
+		toggleBasketModal()
 	}
 
 	const onOkSelect = () => {
@@ -56,7 +56,7 @@ const Index = () => {
 				setDuplicateError(true)
 			}
 
-			toggleSetBasketModalOpen(false)
+			toggleBasketModal()
 		} else {
 			if (!basketName) {
 				setBasketNameError(true)
@@ -90,74 +90,76 @@ const Index = () => {
 	}
 
 	return (
-		<Modal
-			afterClose={handleAfterClose}
-			title={
-				<Flex
-					flex="1"
-					justify="space-between"
-					style={{
-						padding: token.paddingXS,
-					}}
-				>
-					<Typography.Text>Add New Basket</Typography.Text>
-					<CloseOutlined onClick={onModalClose} />
-				</Flex>
-			}
-			footer={
-				<Flex style={{ padding: token.paddingSM }} justify="flex-end">
-					<Button onClick={onModalClose} type="default">
-						Cancel
-					</Button>
-					<Button onClick={onOkSelect} type="primary">
-						Ok
-					</Button>
-				</Flex>
-			}
-			open={true}
-			width={500}
-			okButtonProps={{ type: 'default' }}
-			closeIcon={null}
-			destroyOnClose
-			styles={{
-				content: { marginTop: '80px', padding: 0 },
-				body: { padding: token.paddingXS, paddingTop: 0, paddingBottom: 0 },
-			}}
-		>
-			<Flex vertical gap={'small'}>
-				<Flex>
-					<ExhchangeSelector
-						exchangeValue={exhange}
-						handleTradeChange={setExchange}
+		<>
+			<Modal
+				afterClose={handleAfterClose}
+				title={
+					<Flex
+						flex="1"
+						justify="space-between"
+						style={{
+							padding: token.paddingXS,
+						}}
+					>
+						<Typography.Text>Add New Basket</Typography.Text>
+						<CloseOutlined onClick={onModalClose} />
+					</Flex>
+				}
+				footer={
+					<Flex style={{ padding: token.paddingSM }} justify="flex-end">
+						<Button onClick={onModalClose} type="default">
+							Cancel
+						</Button>
+						<Button onClick={onOkSelect} type="primary">
+							Ok
+						</Button>
+					</Flex>
+				}
+				open={true}
+				width={500}
+				okButtonProps={{ type: 'default' }}
+				closeIcon={null}
+				destroyOnClose
+				styles={{
+					content: { marginTop: '80px', padding: 0 },
+					body: { padding: token.paddingXS, paddingTop: 0, paddingBottom: 0 },
+				}}
+			>
+				<Flex vertical gap={'small'}>
+					<Flex>
+						<ExhchangeSelector
+							exchangeValue={exhange}
+							handleTradeChange={setExchange}
+						/>
+					</Flex>
+
+					<Input
+						style={{
+							borderColor: basketNameError ? 'red' : '',
+						}}
+						placeholder="Enter Basket Name"
+						value={basketName}
+						onChange={handleInputChange}
+					/>
+
+					<Select
+						style={{
+							outline: basketInstrumentError ? 'red' : 'black',
+						}}
+						value={instrument}
+						onChange={handleInstrumentChange}
+						className="w-full"
+						placeholder="Select an intument"
+						options={[
+							{ value: 'Ticker-1', label: 'Ticker-1' },
+							{ value: 'Ticker-2', label: 'Ticker-2' },
+							{ value: 'Ticker-3', label: 'Ticker-3' },
+							{ value: 'Ticker-4', label: 'Ticker-4' },
+						]}
 					/>
 				</Flex>
-
-				<Input
-					style={{
-						borderColor: basketNameError ? 'red' : '',
-					}}
-					placeholder="Enter Basket Name"
-					value={basketName}
-					onChange={handleInputChange}
-				/>
-
-				<Select
-					style={{
-						outline: basketInstrumentError ? 'red' : 'black',
-					}}
-					value={instrument}
-					onChange={handleInstrumentChange}
-					className="w-full"
-					placeholder="Select an intument"
-					options={[
-						{ value: 'Ticker-1', label: 'Ticker-1' },
-						{ value: 'Ticker-2', label: 'Ticker-2' },
-						{ value: 'Ticker-3', label: 'Ticker-3' },
-						{ value: 'Ticker-4', label: 'Ticker-4' },
-					]}
-				/>
-			</Flex>
-		</Modal>
+			</Modal>
+		</>
 	)
 }
 

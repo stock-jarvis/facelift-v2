@@ -32,12 +32,12 @@ const EditBasketModal = () => {
 	const [basketData, setBasketData] = useImmer<SavedBasket>({
 		...editableBasketData,
 	})
-	const [basket, setBasket] = useState<BasketDataProps[]>(
+	const [position, setPosition] = useState<BasketDataProps[]>(
 		editableBasketData.positions || []
 	)
 
 	const handleAfterClose = () => {
-		setBasket([])
+		setPosition([])
 		resetEditablebasket()
 		setBasketData(defaultBasketData)
 		updatedBasketData(defaultInitialLegValues)
@@ -48,7 +48,7 @@ const EditBasketModal = () => {
 	}
 	const handleAddBasket = (value: BasketLegType) => {
 		const uniqueId = generateUniqueId()
-		setBasket((prev) => [
+		setPosition((prev) => [
 			...prev,
 			value === BasketLegType.SPOT
 				? {
@@ -58,14 +58,14 @@ const EditBasketModal = () => {
 							quantity: basketInitialData.quantity,
 							actionType: basketInitialData.action,
 						},
-						count: basket.length + 1,
+						count: position.length + 1,
 						exitCondition: defaultLegsEXitCondition,
 					}
 				: value === BasketLegType.FUTURE
 					? {
 							type: BasketLegType.FUTURE,
 							id: uniqueId,
-							count: basket.length + 1,
+							count: position.length + 1,
 							entryCondition: {
 								quantity: basketInitialData.quantity,
 								actionType: basketInitialData.action,
@@ -76,7 +76,7 @@ const EditBasketModal = () => {
 					: {
 							type: BasketLegType.OPTIONS,
 							id: uniqueId,
-							count: basket.length + 1,
+							count: position.length + 1,
 							entryCondition: {
 								quantity: basketInitialData.quantity,
 								actionType: basketInitialData.action,
@@ -92,22 +92,22 @@ const EditBasketModal = () => {
 	}
 
 	const handleDeleteBasket = (id: string) => {
-		const filteredBaskets = basket.filter((basket) => basket.id !== id)
+		const filteredBaskets = position.filter((basket) => basket.id !== id)
 		const refinedBaskets = filteredBaskets.map((basket, index) => ({
 			...basket,
 			count: index + 1,
 		}))
-		setBasket(refinedBaskets)
+		setPosition(refinedBaskets)
 	}
 
 	const handleCopyBasket = (id: string) => {
-		const basketToBeCopied = basket.find((basket) => basket.id === id)
+		const basketToBeCopied = position.find((basket) => basket.id === id)
 		if (basketToBeCopied) {
-			setBasket((prev) => [
+			setPosition((prev) => [
 				...prev,
 				{
 					...basketToBeCopied,
-					count: basket.length + 1,
+					count: position.length + 1,
 					id: generateUniqueId(),
 				},
 			])
@@ -122,7 +122,7 @@ const EditBasketModal = () => {
 			closeIcon={<CloseOutlined />}
 			afterClose={handleAfterClose}
 			onCancel={() => closeEditConfirmation(true)}
-			footer={<Footer basketData={basketData} basket={basket} />}
+			footer={<Footer basketData={basketData} basket={position} />}
 			title={
 				<Flex style={{ padding: token.paddingXS }}>
 					<Title {...basketData} />
@@ -154,15 +154,15 @@ const EditBasketModal = () => {
 					handleAddBasket={handleAddBasket}
 				/>
 				<DetailsContainer
-					basket={basket}
-					setBasket={setBasket}
+					basket={position}
+					setBasket={setPosition}
 					basketInitialData={basketInitialData}
 					instrument={basketData.ticker}
 					handleCopyBasket={handleCopyBasket}
 					handleDeleteBasket={handleDeleteBasket}
 				/>
 				<ExitCondition
-					basket={basket}
+					basket={position}
 					basketData={basketData}
 					setBasketData={setBasketData}
 				/>

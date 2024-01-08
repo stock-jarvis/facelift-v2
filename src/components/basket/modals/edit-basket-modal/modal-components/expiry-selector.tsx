@@ -5,17 +5,17 @@ import { SelectProps } from 'antd'
 interface ExpirySelectorProps<U> {
 	expiryOptions: OptionObject[]
 	expiryValue: string | undefined
-	keyType: U
+
 	handleExpiryChange: (val: string, type: U) => void
 }
 const ExpirySelector = <U,>({
 	expiryOptions,
 	expiryValue,
-	keyType,
+
 	handleExpiryChange,
 }: ExpirySelectorProps<U>) => {
 	const onHandleExpiryChange: SelectProps['onChange'] = (val: string) => {
-		handleExpiryChange(val, keyType)
+		handleExpiryChange(val, 'expiry' as U)
 	}
 
 	return (

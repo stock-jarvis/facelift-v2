@@ -12,6 +12,7 @@ import {
 	SavedBasket,
 	RepeatType,
 	PositionExitCondition,
+	YeildType,
 } from '../types/types'
 
 export const futureExpiry: OptionObject[] = [
@@ -251,11 +252,11 @@ export const defaultBasketData: SavedBasket = {
 
 export const defaultLegsEXitCondition: PositionExitCondition = {
 	stopLoss: {
-		type: 'percent',
+		type: YeildType.PERCENT,
 		value: 0,
 	},
 	totalProfit: {
-		type: 'percent',
+		type: YeildType.PERCENT,
 		value: 0,
 	},
 }

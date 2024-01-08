@@ -21,15 +21,12 @@ import { TradeAction, OptionType } from 'src/common/enums'
 import {
 	BasketDataProps,
 	OptionsBasketData,
-	optionsStrKeys,
-	optionNumberedKeys,
+	OptionsKey,
+	YeildLabel,
 } from 'src/components/basket/types/types'
 import { optionExpiry } from 'src/components/basket/constants/data'
-import {
-	spotLossOptions,
-	totalProfitOptions,
-	tradeTypeData,
-} from 'src/components/basket/constants/data'
+import { tradeTypeData } from 'src/components/basket/constants/data'
+import { ButtonProps } from 'src/common/components/button/button'
 
 interface OptionDetailsProps {
 	individualBasket: BasketDataProps
@@ -70,11 +67,14 @@ const OptionBasketDetail: React.FC<OptionDetailsProps> = ({
 		}
 	)
 
-	const handleChangeValue = <T,>(
-		val: T,
-		key: optionNumberedKeys | optionsStrKeys
-	) => {
+	const handleChangeValue = <T,>(val: T, key: OptionsKey) => {
 		setOptionsBasketData({ ...optionsBasketData, [key]: val })
+	}
+	const copyBasket: ButtonProps['onClick'] = () => {
+		handleCopyBasket(individualBasket.id)
+	}
+	const deleteBasket: ButtonProps['onClick'] = () => {
+		handleDeleteBasket(individualBasket.id)
 	}
 
 	const handleTradeOptionChange = (val: string) => {
@@ -126,15 +126,14 @@ const OptionBasketDetail: React.FC<OptionDetailsProps> = ({
 			),
 			children: (
 				<Flex flex={1} justify="center">
-					<ActionSelector<TradeAction>
+					<ActionSelector<TradeAction, OptionsKey>
 						action1={TradeAction.Buy}
 						action2={TradeAction.Sell}
+						paramType={OptionsKey.ACTION}
 						color1="green"
 						color2="red"
 						baseActionValue={optionsBasketData.actionValue}
-						handleBaseActionChange={(val) =>
-							handleChangeValue<TradeAction>(val, 'actionValue')
-						}
+						handleBaseActionChange={handleChangeValue<TradeAction>}
 					/>
 				</Flex>
 			),
@@ -155,15 +154,14 @@ const OptionBasketDetail: React.FC<OptionDetailsProps> = ({
 			),
 			children: (
 				<Flex flex={1} justify="center">
-					<ActionSelector<OptionType>
+					<ActionSelector<OptionType, OptionsKey>
 						action1={OptionType.CALL}
 						action2={OptionType.PUT}
+						paramType={OptionsKey.OPTION}
 						color1="black"
 						color2="purple"
 						baseActionValue={optionsBasketData.optionType}
-						handleBaseActionChange={(val) =>
-							handleChangeValue<OptionType>(val, 'optionType')
-						}
+						handleBaseActionChange={handleChangeValue<OptionType>}
 					/>
 				</Flex>
 			),
@@ -184,11 +182,10 @@ const OptionBasketDetail: React.FC<OptionDetailsProps> = ({
 			),
 			children: (
 				<Flex flex={1} justify="center">
-					<QuantityInput
+					<QuantityInput<OptionsKey>
 						baseQuantityValue={optionsBasketData.quantityValue}
-						handleQantityChange={(val) =>
-							handleChangeValue<number>(val, 'quantityValue')
-						}
+						paramType={OptionsKey.QUANTITY}
+						handleQantityChange={handleChangeValue<number>}
 					/>
 				</Flex>
 			),
@@ -213,13 +210,13 @@ const OptionBasketDetail: React.FC<OptionDetailsProps> = ({
 						shape="circle"
 						icon={<CopyOutlined />}
 						type="text"
-						onClick={() => handleCopyBasket(individualBasket.id)}
+						onClick={copyBasket}
 					/>
 					<Button
 						shape="circle"
 						icon={<DeleteOutlined />}
 						type="text"
-						onClick={() => handleDeleteBasket(individualBasket.id)}
+						onClick={deleteBasket}
 					/>
 				</Flex>
 			),
@@ -240,15 +237,15 @@ const OptionBasketDetail: React.FC<OptionDetailsProps> = ({
 			),
 			children: (
 				<Flex flex={1} justify="center">
-					<StrikeSelector
+					<StrikeSelector<OptionsKey>
 						tradeOption={optionsBasketData.tradeOption}
 						tradeValue={optionsBasketData.tradeValue}
-						setTradeValue={(val) => handleChangeValue(val, 'tradeValue')}
+						setTradeValue={handleChangeValue}
+						paramValue={OptionsKey.TRADEVALUE}
+						paramType={OptionsKey.SUBTRADEOPTION}
 						setTradeOption={handleTradeOptionChange}
 						subTradeOption={optionsBasketData.subTradeOption}
-						setSubTradeOption={(val) =>
-							handleChangeValue<string>(val, 'subTradeOption')
-						}
+						setSubTradeOption={handleChangeValue<string>}
 						subTradeOptionList={optionsBasketData.subTradeOptionList}
 					/>
 				</Flex>
@@ -270,8 +267,7 @@ const OptionBasketDetail: React.FC<OptionDetailsProps> = ({
 			),
 			children: (
 				<Flex flex={1} justify="center">
-					<ExpirySelector<optionsStrKeys>
-						keyType={'expiry'}
+					<ExpirySelector
 						expiryValue={optionsBasketData.expiry}
 						handleExpiryChange={handleChangeValue<string>}
 						expiryOptions={optionExpiry}
@@ -295,16 +291,14 @@ const OptionBasketDetail: React.FC<OptionDetailsProps> = ({
 			),
 			children: (
 				<Flex flex={1} justify="center">
-					<YeildButton
-						options={totalProfitOptions}
+					<YeildButton<OptionsKey>
+						targetOn={YeildLabel.PROFIT}
+						paramType={OptionsKey.PROFITTYPE}
+						paramValue={OptionsKey.PROFITVALUE}
 						targetType={optionsBasketData.totalProfitType}
 						targetValue={optionsBasketData.totalProfitValue}
-						handleTargetValueChange={(val) =>
-							handleChangeValue<number>(val, 'totalProfitValue')
-						}
-						handleTargetTypeChange={(val) =>
-							handleChangeValue<string>(val, 'totalProfitType')
-						}
+						handleTargetValueChange={handleChangeValue<number>}
+						handleTargetTypeChange={handleChangeValue<string>}
 					/>
 				</Flex>
 			),
@@ -325,16 +319,14 @@ const OptionBasketDetail: React.FC<OptionDetailsProps> = ({
 			),
 			children: (
 				<Flex flex={1} justify="center">
-					<YeildButton
-						options={spotLossOptions}
+					<YeildButton<OptionsKey>
+						targetOn={YeildLabel.PROFIT}
 						targetType={optionsBasketData.stopLossType}
 						targetValue={optionsBasketData.stopLossValue}
-						handleTargetValueChange={(val) =>
-							handleChangeValue<number>(val, 'stopLossValue')
-						}
-						handleTargetTypeChange={(val) =>
-							handleChangeValue<string>(val, 'stopLossType')
-						}
+						paramType={OptionsKey.LOSSTYPE}
+						paramValue={OptionsKey.LOSSVALUE}
+						handleTargetValueChange={handleChangeValue<number>}
+						handleTargetTypeChange={handleChangeValue<string>}
 					/>
 				</Flex>
 			),

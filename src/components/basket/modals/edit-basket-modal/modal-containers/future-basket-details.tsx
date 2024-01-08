@@ -7,6 +7,7 @@ import {
 	theme,
 	Descriptions,
 	DescriptionsProps,
+	ButtonProps,
 } from 'antd'
 
 import { useImmer } from 'use-immer'
@@ -21,13 +22,10 @@ import { futureExpiry } from 'src/components/basket/constants/data'
 import {
 	BasketDataProps,
 	FutureBasketData,
-	futureStrKeys,
-	futureNumberedKeys,
+	FutureKey,
+	YeildLabel,
 } from 'src/components/basket/types/types'
-import {
-	spotLossOptions,
-	totalProfitOptions,
-} from 'src/components/basket/constants/data'
+
 import { TradeAction } from 'src/common/enums'
 interface FutureDetailsProps {
 	dark: boolean
@@ -59,11 +57,15 @@ const FutureBasketDetails: React.FC<FutureDetailsProps> = ({
 		totalProfitValue: individualBasket.exitCondition.totalProfit.value,
 	})
 
-	const handleChangeValue = <T,>(
-		val: T,
-		key: futureNumberedKeys | futureStrKeys
-	) => {
+	const handleChangeValue = <T,>(val: T, key: FutureKey) => {
 		setFutureBasketData({ ...futureBasketData, [key]: val })
+	}
+
+	const copyBasket: ButtonProps['onClick'] = () => {
+		handleCopyBasket(individualBasket.id)
+	}
+	const deleteBasket: ButtonProps['onClick'] = () => {
+		handleDeleteBasket(individualBasket.id)
 	}
 
 	useActionChange<number>(
@@ -161,15 +163,14 @@ const FutureBasketDetails: React.FC<FutureDetailsProps> = ({
 			),
 			children: (
 				<Flex flex={1} justify="center">
-					<ActionSelector<TradeAction>
+					<ActionSelector<TradeAction, FutureKey>
 						action1={TradeAction.Buy}
 						action2={TradeAction.Sell}
 						color1="green"
 						color2="red"
+						paramType={FutureKey.ACTION}
 						baseActionValue={futureBasketData.actionValue}
-						handleBaseActionChange={(val) =>
-							handleChangeValue<TradeAction>(val, 'actionValue')
-						}
+						handleBaseActionChange={handleChangeValue<TradeAction>}
 					/>
 				</Flex>
 			),
@@ -190,11 +191,10 @@ const FutureBasketDetails: React.FC<FutureDetailsProps> = ({
 			),
 			children: (
 				<Flex flex={1} justify="center">
-					<QuantityInput
+					<QuantityInput<FutureKey>
+						paramType={FutureKey.QUANTITY}
 						baseQuantityValue={futureBasketData.quantityValue}
-						handleQantityChange={(val) =>
-							handleChangeValue<number>(val, 'quantityValue')
-						}
+						handleQantityChange={handleChangeValue<number>}
 					/>
 				</Flex>
 			),
@@ -219,13 +219,13 @@ const FutureBasketDetails: React.FC<FutureDetailsProps> = ({
 						shape="circle"
 						icon={<CopyOutlined />}
 						type="text"
-						onClick={() => handleCopyBasket(individualBasket.id)}
+						onClick={copyBasket}
 					/>
 					<Button
 						shape="circle"
 						icon={<DeleteOutlined />}
 						type="text"
-						onClick={() => handleDeleteBasket(individualBasket.id)}
+						onClick={deleteBasket}
 					/>
 				</Flex>
 			),
@@ -246,8 +246,7 @@ const FutureBasketDetails: React.FC<FutureDetailsProps> = ({
 			),
 			children: (
 				<Flex flex={1} justify="center">
-					<ExpirySelector<futureStrKeys>
-						keyType={'expiry'}
+					<ExpirySelector<FutureKey>
 						expiryOptions={futureExpiry}
 						expiryValue={futureBasketData.expiry}
 						handleExpiryChange={handleChangeValue<string>}
@@ -271,16 +270,14 @@ const FutureBasketDetails: React.FC<FutureDetailsProps> = ({
 			),
 			children: (
 				<Flex flex={1} justify="center">
-					<YeildButton
-						options={totalProfitOptions}
+					<YeildButton<FutureKey>
+						targetOn={YeildLabel.PROFIT}
+						paramType={FutureKey.PROFITTYPE}
+						paramValue={FutureKey.PROFITVALUE}
 						targetType={futureBasketData.totalProfitType}
 						targetValue={futureBasketData.totalProfitValue}
-						handleTargetValueChange={(val) =>
-							handleChangeValue<number>(val, 'totalProfitValue')
-						}
-						handleTargetTypeChange={(val) => {
-							handleChangeValue<string>(val, 'totalProfitType')
-						}}
+						handleTargetValueChange={handleChangeValue<number>}
+						handleTargetTypeChange={handleChangeValue<string>}
 					/>
 				</Flex>
 			),
@@ -301,16 +298,14 @@ const FutureBasketDetails: React.FC<FutureDetailsProps> = ({
 			),
 			children: (
 				<Flex flex={1} justify="center">
-					<YeildButton
-						options={spotLossOptions}
+					<YeildButton<FutureKey>
+						targetOn={YeildLabel.LOSS}
+						paramType={FutureKey.LOSSTYPE}
+						paramValue={FutureKey.LOSSVALUE}
 						targetType={futureBasketData.stopLossType}
 						targetValue={futureBasketData.stopLossValue}
-						handleTargetValueChange={(val) =>
-							handleChangeValue<number>(val, 'stopLossValue')
-						}
-						handleTargetTypeChange={(val) => {
-							handleChangeValue<string>(val, 'stopLossType')
-						}}
+						handleTargetValueChange={handleChangeValue<number>}
+						handleTargetTypeChange={handleChangeValue<string>}
 					/>
 				</Flex>
 			),

@@ -8,7 +8,7 @@ import { useBasketStore } from './store/basket-store'
 
 const Basket = () => {
 	const {
-		isAddBasketModalOpen,
+		isAddModalOpen,
 		duplicateError,
 		editableBasketData,
 		setDuplicateError,
@@ -17,13 +17,15 @@ const Basket = () => {
 		timeErrorModalOpen,
 		toggleTimeErrorModalOpen,
 		setEmptyBasketError,
+		resetEditablebasket,
 		emptyBasketError,
 		runtimeDuplicate,
 		closeDuplicateConfirmModal,
 	} = useBasketStore()
 
 	const handleCloseConfirmModal = (val: boolean) => {
-		closeEditConfirmation(val)
+		// TODO: Change logic
+		resetEditablebasket(), closeEditConfirmation(val)
 	}
 	const handleCancelConfirmModal = (val: boolean) => {
 		closeEditConfirmation(val)
@@ -48,7 +50,7 @@ const Basket = () => {
 				</Flex>
 			</Flex>
 			{editableBasketData.id && <EditBasketModal />}
-			{isAddBasketModalOpen && <AddBasketModal />}
+			{isAddModalOpen && <AddBasketModal />}
 			{duplicateError && (
 				<ConfirmModal
 					open={duplicateError}
