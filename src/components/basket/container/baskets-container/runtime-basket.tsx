@@ -28,7 +28,6 @@ const Index = () => {
 		selectedBaskets,
 		runtimeBasketList,
 		setRuntimeError,
-		toogleEditModal,
 		selectAllBaskets,
 		setEditableBasket,
 		updateRuntimeError,
@@ -42,7 +41,6 @@ const Index = () => {
 	const onHandleBasketEdit = (id: string) => {
 		setEditableBasket(id, EditType.RUNTIME)
 		updateRuntimeError(id)
-		toogleEditModal(true)
 	}
 
 	const onHandleBasketDuplicate = (id: string, name: string) => {

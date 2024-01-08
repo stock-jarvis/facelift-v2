@@ -12,7 +12,6 @@ type BasketState = {
 	editType: EditType
 	timeError: boolean
 	duplicateError: boolean
-	isEditModalOpen: boolean
 	emptyBasketError: boolean
 	runtimeDuplicate: boolean
 	timeErrorModalOpen: boolean
@@ -32,7 +31,6 @@ type BasketStateActions = {
 	setExchange: (exchange: Exchange) => void
 	setRuntimeError: (id: string) => void
 	setTimeError: (error: boolean) => void
-	toogleEditModal: (open: boolean) => void
 	deleteStoredBasket: (id: string) => void
 	addToStoredBaskets: (id: string) => void
 	updateRuntimeError: (id: string) => void
@@ -66,7 +64,6 @@ const defaultState: BasketState = {
 	runtimeDuplicate: false,
 	runtimeBasketList: [],
 	duplicateError: false,
-	isEditModalOpen: false,
 	emptyBasketError: false,
 	timeErrorModalOpen: false,
 	isAddBasketModalOpen: false,
@@ -82,8 +79,6 @@ export const useBasketStore = create<BasketState & BasketStateActions>()(
 			setExchange: (exchange) => set({ exchange }),
 
 			setTimeError: (timeError) => set({ timeError }),
-
-			toogleEditModal: (isEditModalOpen) => set({ isEditModalOpen }),
 
 			setEmptyBasketError: (emptyBasketError) => set({ emptyBasketError }),
 

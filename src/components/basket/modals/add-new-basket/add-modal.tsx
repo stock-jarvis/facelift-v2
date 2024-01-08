@@ -11,11 +11,8 @@ import {
 	BasketAtm,
 	BasketExitType,
 } from 'src/common/enums'
-interface ModalProps {
-	open: boolean
-}
 
-const Index: React.FC<ModalProps> = ({ open }) => {
+const Index = () => {
 	const { token } = theme.useToken()
 	const [exhange, setExchange] = useState<Exchange>(Exchange.NSE)
 	const {
@@ -117,7 +114,7 @@ const Index: React.FC<ModalProps> = ({ open }) => {
 					</Button>
 				</Flex>
 			}
-			open={open}
+			open={true}
 			width={500}
 			okButtonProps={{ type: 'default' }}
 			closeIcon={null}

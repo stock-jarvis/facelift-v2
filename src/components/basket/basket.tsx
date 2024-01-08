@@ -10,11 +10,10 @@ const Basket = () => {
 	const {
 		isAddBasketModalOpen,
 		duplicateError,
-		isEditModalOpen,
+		editableBasketData,
 		setDuplicateError,
 		closeModalConfirmation,
 		closeEditConfirmation,
-		toogleEditModal,
 		timeErrorModalOpen,
 		toggleTimeErrorModalOpen,
 		setEmptyBasketError,
@@ -24,7 +23,6 @@ const Basket = () => {
 	} = useBasketStore()
 
 	const handleCloseConfirmModal = (val: boolean) => {
-		toogleEditModal(false)
 		closeEditConfirmation(val)
 	}
 	const handleCancelConfirmModal = (val: boolean) => {
@@ -49,8 +47,8 @@ const Basket = () => {
 					<BasketContainer />
 				</Flex>
 			</Flex>
-			{isEditModalOpen && <EditBasketModal open={isEditModalOpen} />}
-			{isAddBasketModalOpen && <AddBasketModal open={isAddBasketModalOpen} />}
+			{editableBasketData.id && <EditBasketModal />}
+			{isAddBasketModalOpen && <AddBasketModal />}
 			{duplicateError && (
 				<ConfirmModal
 					open={duplicateError}

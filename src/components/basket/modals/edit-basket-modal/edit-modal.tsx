@@ -22,11 +22,7 @@ import {
 	SavedBasket,
 } from '../../types/types'
 
-interface EditModalProps {
-	open: boolean
-}
-
-const EditBasketModal = ({ open }: EditModalProps) => {
+const EditBasketModal = () => {
 	const { token } = theme.useToken()
 	const { editableBasketData, resetEditablebasket, closeEditConfirmation } =
 		useBasketStore()
@@ -120,7 +116,7 @@ const EditBasketModal = ({ open }: EditModalProps) => {
 
 	return (
 		<Modal
-			open={open}
+			open={true}
 			width={window.innerWidth * 0.9}
 			destroyOnClose={true}
 			closeIcon={<CloseOutlined />}

@@ -23,7 +23,6 @@ const Footer: React.FC<FooterProps> = ({ basket, basketData }) => {
 		setEmptyBasketError,
 		resetEditablebasket,
 		updateRuntimeBasketData,
-		toogleEditModal,
 	} = useBasketStore()
 
 	const [basketEntryConditions, setBasketEntryConditions] =
@@ -113,7 +112,6 @@ const Footer: React.FC<FooterProps> = ({ basket, basketData }) => {
 				if (savedBasket) {
 					updateRuntimeBasketData(savedBasket)
 					resetEditablebasket()
-					toogleEditModal(false)
 				}
 			}
 		} else {
