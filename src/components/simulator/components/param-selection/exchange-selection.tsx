@@ -14,7 +14,10 @@ const ExchangeSelection = () => {
 	const { exchange, setExchange } = useSimulatorParamsStore()
 
 	const exchangeOptions = useMemo(
-		() => convertValuesToDefaultOptions(Object.values(Exchange)),
+		() =>
+			convertValuesToDefaultOptions(
+				Object.values(Exchange).map((exchange) => exchange.toUpperCase())
+			),
 		[]
 	)
 

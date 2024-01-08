@@ -1,10 +1,7 @@
 import { Table, TableProps as AntdTableProps } from 'antd'
 import { Dayjs } from 'dayjs'
 import { TradeAction } from 'src/common/enums'
-import {
-	getDateAsStringFromDayjs,
-	getTimeAsStringFromDayjs,
-} from 'src/common/utils/date-time-utils'
+import { formatDate, formatTime } from 'src/common/utils/date-time-utils'
 import { greekMockData } from './mock-data'
 import { renderTradeAction } from 'src/common/utils/render-utils'
 
@@ -40,13 +37,13 @@ const GreeksTable = () => {
 			key: 'entryDate',
 			title: 'Entry Date',
 			dataIndex: 'entryDate',
-			render: (entryDate) => getDateAsStringFromDayjs(entryDate),
+			render: (entryDate) => formatDate(entryDate),
 		},
 		{
 			key: 'entryTime',
 			title: 'Entry Time',
 			dataIndex: 'entryTime',
-			render: (entryTime) => getTimeAsStringFromDayjs(entryTime),
+			render: (entryTime) => formatTime(entryTime),
 		},
 		{
 			key: 'instrument',

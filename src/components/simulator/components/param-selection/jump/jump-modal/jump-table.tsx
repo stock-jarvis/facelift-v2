@@ -3,7 +3,7 @@ import { Dayjs } from 'dayjs'
 import { ComparisonOperator, OptionType, TradeAction } from 'src/common/enums'
 import { TriggerPoint } from 'src/common/types'
 import { alertsMockData } from './mock-data'
-import { getDateAsStringFromDayjs } from 'src/common/utils/date-time-utils'
+import { formatDate } from 'src/common/utils/date-time-utils'
 import { renderTradeAction } from 'src/common/utils/render-utils'
 
 export type Jump = {
@@ -48,7 +48,7 @@ const JumpTable = () => {
 			key: 'expiry',
 			title: 'Expiry',
 			dataIndex: 'expiry',
-			render: (expiry) => getDateAsStringFromDayjs(expiry),
+			render: (expiry) => formatDate(expiry),
 		},
 		{
 			key: 'entryPrice',

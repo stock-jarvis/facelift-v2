@@ -10,9 +10,9 @@ export enum TradeAction {
 }
 
 export enum Exchange {
-	NSE = 'NSE',
-	MCX = 'MCX',
-	CUR = 'CUR',
+	NSE = 'nse',
+	MCX = 'mcx',
+	CUR = 'cur',
 }
 
 export enum Outcome {

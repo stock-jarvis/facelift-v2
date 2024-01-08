@@ -1,12 +1,8 @@
-import {
-	MutationFunction,
-	useMutation,
-	useQuery,
-	QueryFunction,
-} from 'react-query'
+import { MutationFunction, useMutation } from 'react-query'
 
-import axios from '../axios'
+import axios from '../axios/axios'
 import { AuthUrl } from 'api/auth'
+import { LoginError } from 'src/common/errors'
 
 /************************* Onboard ***************************/
 type OnboardPayload = {
@@ -19,23 +15,12 @@ type OnboardPayload = {
 
 type OnboardResponse = {
 	nonce: string
+	status: number
 }
 
 const onboard: MutationFunction<OnboardResponse, OnboardPayload> = async (
 	onboardPayload
-) => {
-	// return (
-	// 	await axios.post<OnboardResponse>(
-	// 		AuthUrl.Onboard,
-	// 		onboardPayload
-	// 	)
-	// ).data
-
-	// Dev
-	return new Promise((resolve) =>
-		setTimeout(() => resolve({ nonce: 'nonce-value' }), 1000)
-	)
-}
+) => (await axios.post<OnboardResponse>(AuthUrl.Onboard, onboardPayload)).data
 
 export const useOnboardMutation = () =>
 	useMutation({
@@ -49,16 +34,13 @@ type VerifyPayload = {
 	nonce: string
 }
 
-// TODO: Define Verify Response
-
-const verify: MutationFunction<unknown, VerifyPayload> = async (
-	verifyPayload
-) => {
-	// return (await axios.post(AuthUrl.Verify, verifyPayload)).data
-
-	// Dev
-	return new Promise((resolve) => setTimeout(() => resolve({}), 1000))
+type VerifyResponse = {
+	Status: number
 }
+
+const verify: MutationFunction<VerifyResponse, VerifyPayload> = async (
+	verifyPayload
+) => (await axios.post(AuthUrl.Verify, verifyPayload)).data
 
 export const useVerifyMutation = () =>
 	useMutation({
@@ -69,16 +51,14 @@ export const useVerifyMutation = () =>
 /************************* Verify ***************************/
 type ResendOTPPayload = Pick<VerifyPayload, 'nonce'>
 
-// TODO: Define Resend OTP Response
-
-const resendOTP: MutationFunction<unknown, ResendOTPPayload> = async (
-	resendOTPPayload
-) => {
-	// return (await axios.post(AuthUrl.Resend, resendOTPPayload)).data
-
-	// Dev
-	return new Promise((resolve) => setTimeout(() => resolve({}), 1000))
+type ResendResponse = {
+	Status: number
+	nonce: string
 }
+
+const resendOTP: MutationFunction<ResendResponse, ResendOTPPayload> = async (
+	resendOTPPayload
+) => (await axios.post(AuthUrl.Resend, resendOTPPayload)).data
 
 export const useResendOTPMutation = () =>
 	useMutation({
@@ -92,13 +72,28 @@ type LoginPayload = {
 	password: string
 }
 
-// TODO: Define Response
+export type LoginResponse = {
+	Token: string
+	Status: number
+}
 
-const login: MutationFunction<unknown, LoginPayload> = async (loginPayload) => {
-	// return (await axios.post(AuthUrl.Login, loginPayload)).data
-
-	// Dev
-	return new Promise((resolve) => setTimeout(() => resolve({}), 1000))
+const login: MutationFunction<LoginResponse | undefined, LoginPayload> = async (
+	loginPayload
+) => {
+	try {
+		const response = await axios.post<LoginResponse>(
+			AuthUrl.Login,
+			loginPayload
+		)
+		if (response.data.Status !== 200) {
+			throw new LoginError()
+		} else {
+			return response.data
+		}
+	} catch (e) {
+		console.error(e)
+		throw new LoginError()
+	}
 }
 
 export const useLoginMutation = () =>

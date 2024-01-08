@@ -3,35 +3,31 @@ import { TriggerPointMetric } from './enums'
 
 export type OptionsByExpiry = Record<string, Option[]>
 
+export type Greeks = {
+	/** Call Exercise */
+	ceOpenInterest: number
+	ceLastTradedQuantity: number
+	/** Put Exercise */
+	peOpenInterest: number
+	peLastTradedQuantity: number
+}
+
 export type Option = {
-	strikePrice: number
-	expiry: Dayjs
+	strike: number
+	greeks: Greeks
+	/** Call Exercise */
+	ceLastTradedTime?: Dayjs
+	ceLastTradedPrice: number
+	/** Put Exercise */
+	peLastTradedTime?: Dayjs
+	peLastTradedPrice: number
+}
 
-	/** CALL option Last Traded Price */
-	ceLTP: number
-	/** CALL option Last Traded Quantity */
-	ceLTQ: number
-	/** CALL option Open Interest */
-	ceOI: number
-	/**
-	 * CALL option Last Traded Time
-	 *
-	 * Value exists only when Last Traded Time is different that the one selected by user.
-	 */
-	ceLTT?: Dayjs
-
-	/** PUT option Last Traded Price*/
-	peLTP: number
-	/** PUT option Last Traded Quantity*/
-	peLTQ: number
-	/** PUT option Open Interest */
-	peOI: number
-	/**
-	 * PUT option Last Traded Time
-	 *
-	 * Value exists only when Last Traded Time is different that the one selected by user.
-	 */
-	peLTT?: Dayjs
+export type Future = {
+	openInterest: number
+	lastTradedTime?: Dayjs
+	lastTradedPrice: number
+	lastTradedQuantity: number
 }
 
 export type TriggerPoint = {

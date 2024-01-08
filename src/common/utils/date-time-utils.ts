@@ -10,13 +10,10 @@ const DATE_TEMPLATE = 'DD-MM-YYYY'
 
 export const DATE_TEMPLATE_WITH_DAY = `ddd ${DATE_TEMPLATE}`
 
-export const getDateAsStringFromDayjs = (
-	dayjsDate: Dayjs,
-	showDayOfWeek?: boolean
-) => dayjsDate.format(showDayOfWeek ? DATE_TEMPLATE_WITH_DAY : DATE_TEMPLATE)
+export const formatDate = (dayjsDate: Dayjs, showDayOfWeek?: boolean) =>
+	dayjsDate.format(showDayOfWeek ? DATE_TEMPLATE_WITH_DAY : DATE_TEMPLATE)
 
-export const getTimeAsStringFromDayjs = (dayjsTime: Dayjs) =>
-	dayjsTime.format(TIME_TEMPLATE)
+export const formatTime = (dayjsTime: Dayjs) => dayjsTime.format(TIME_TEMPLATE)
 
 export const getDisabledTimeByExchange =
 	(exchange: Exchange): TimePickerProps['disabledTime'] =>
@@ -54,3 +51,10 @@ export const getDisabledTimeByExchange =
 	}
 export const combineDateTime = (date: Dayjs, time: Dayjs) =>
 	dayjs(`${date.format('YYYY-MM-DD')} ${time.format('HH:mm:ss')}`)
+
+export const convertEpochInSecondsToDayJS = (
+	epochInSeconds: number | undefined
+) =>
+	epochInSeconds && epochInSeconds >= 0
+		? dayjs(epochInSeconds * 1000)
+		: undefined

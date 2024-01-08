@@ -2,10 +2,7 @@ import { Table, TableProps, Space, Button, Tooltip } from 'antd'
 import { Dayjs } from 'dayjs'
 import { RxTrash } from 'react-icons/rx'
 
-import {
-	getDateAsStringFromDayjs,
-	getTimeAsStringFromDayjs,
-} from 'src/common/utils/date-time-utils'
+import { formatDate, formatTime } from 'src/common/utils/date-time-utils'
 
 import { OptionContractType, TradeAction } from 'src/common/enums'
 
@@ -58,7 +55,7 @@ const PositionsTable: React.FC<PositionsTableProps> = ({ positions }) => {
 			key: 'entryDate',
 			title: 'Entry Date',
 			dataIndex: 'entryDate',
-			render: (entryDate: Dayjs) => getDateAsStringFromDayjs(entryDate),
+			render: (entryDate: Dayjs) => formatDate(entryDate),
 			width: 120,
 			align: 'center',
 		},
@@ -66,7 +63,7 @@ const PositionsTable: React.FC<PositionsTableProps> = ({ positions }) => {
 			key: 'entryTime',
 			title: 'Entry Time',
 			dataIndex: 'entryTime',
-			render: (entryTime: Dayjs) => getTimeAsStringFromDayjs(entryTime),
+			render: (entryTime: Dayjs) => formatTime(entryTime),
 			width: 120,
 			align: 'center',
 		},
@@ -81,7 +78,7 @@ const PositionsTable: React.FC<PositionsTableProps> = ({ positions }) => {
 			key: 'expiry',
 			title: 'Expiry',
 			dataIndex: 'expiry',
-			render: (expiry: Dayjs) => getDateAsStringFromDayjs(expiry),
+			render: (expiry: Dayjs) => formatDate(expiry),
 			width: 120,
 			align: 'center',
 		},

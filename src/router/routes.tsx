@@ -4,6 +4,7 @@
 import { Spin } from 'antd'
 import { Suspense, lazy } from 'react'
 import { RouteObject } from 'react-router-dom'
+import ProtectedRoute from './components/protected-route'
 
 const App = lazy(() => import('src/app'))
 
@@ -99,7 +100,9 @@ const routes: RouteObject[] = [
 				path: '/simulator',
 				element: (
 					<Suspense fallback={<FullscreenSpinner />}>
-						<Simulator />
+						<ProtectedRoute>
+							<Simulator />
+						</ProtectedRoute>
 					</Suspense>
 				),
 			},

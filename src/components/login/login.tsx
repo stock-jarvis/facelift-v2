@@ -5,15 +5,18 @@ import {
 	FormProps as AntdFormProps,
 	theme,
 	Input,
+	Alert,
+	Checkbox,
 } from 'antd'
-import { useNavigate } from 'react-router-dom'
-import { useLoginMutation } from 'src/api/auth/auth'
+import { LoginResponse, useLoginMutation } from 'src/api/auth/auth'
 import Loader from 'src/common/components/loader'
 import Logo from 'src/common/components/logo'
+import useLoginManager from 'src/common/hooks/useLogin'
 
 type LoginFormFields = {
 	phone: string
 	password: string
+	remember: boolean
 }
 
 type FormProps = AntdFormProps<LoginFormFields>
@@ -23,20 +26,23 @@ const FormItem = Form.Item<LoginFormFields>
 const Login = () => {
 	const { token } = theme.useToken()
 
-	const navigate = useNavigate()
+	const { login } = useLoginManager()
 
-	const { mutate, isLoading } = useLoginMutation()
+	const { mutate, isError, isLoading } = useLoginMutation()
 
-	const handleLogin: FormProps['onFinish'] = ({ phone, password }) =>
+	const handleLoginSuccess = (
+		data: LoginResponse | undefined,
+		remember: boolean
+	) => login(data?.Token ?? '', remember)
+
+	const handleLogin: FormProps['onFinish'] = ({ phone, password, remember }) =>
 		mutate(
 			{
 				phone,
 				password,
 			},
 			{
-				onSuccess() {
-					navigate('/')
-				},
+				onSuccess: (data) => handleLoginSuccess(data, remember),
 			}
 		)
 
@@ -46,6 +52,7 @@ const Login = () => {
 				<Flex
 					align="center"
 					style={{
+						width: '350px',
 						border: '1px',
 						padding: token.paddingXL,
 						borderStyle: 'solid',
@@ -57,9 +64,19 @@ const Login = () => {
 				>
 					<Logo />
 
+					{isError && (
+						<Alert
+							className="w-full"
+							type="error"
+							message="Unable to login, Please try again."
+							showIcon
+						/>
+					)}
+
 					<Form
 						name="signup"
 						colon={false}
+						layout="vertical"
 						autoComplete="off"
 						labelCol={{ span: 9 }}
 						onFinish={handleLogin}
@@ -71,14 +88,21 @@ const Login = () => {
 								{ required: true, message: 'Please enter you mobile number' },
 							]}
 						>
-							<Input type="number" />
+							<Input type="tel" />
 						</FormItem>
 						<FormItem
 							name="password"
 							label="Password"
 							rules={[{ required: true, message: 'Please enter you password' }]}
 						>
-							<Input />
+							<Input.Password />
+						</FormItem>
+						<FormItem
+							name="remember"
+							// label="Remember me"
+							valuePropName="checked"
+						>
+							<Checkbox>Remember me</Checkbox>
 						</FormItem>
 						<FormItem>
 							<Button className="w-full" type="primary" htmlType="submit">

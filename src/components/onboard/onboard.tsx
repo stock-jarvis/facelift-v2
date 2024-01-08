@@ -122,6 +122,8 @@ const Onboard = () => {
 		})
 	}
 
+	console.log(data)
+
 	return (
 		<Flex className="w-full h-full" align="center" justify="center">
 			<Loader spinning={isLoading}>

@@ -19,7 +19,7 @@ const ExchangeSelection = () => {
 		>
 			{Object.values(Exchange).map((exchange) => (
 				<Radio.Button key={exchange} value={exchange}>
-					{exchange}
+					{exchange.toUpperCase()}
 				</Radio.Button>
 			))}
 		</Radio.Group>

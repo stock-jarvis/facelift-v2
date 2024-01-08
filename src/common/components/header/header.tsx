@@ -1,10 +1,29 @@
-import { Button, Flex, theme } from 'antd'
+import { Button, Dropdown, Flex, MenuProps, theme } from 'antd'
 import SystemTradeNavLink from '../system-trade-nav-link'
 import { UserOutlined } from '@ant-design/icons'
 import Logo from '../logo'
+import useLoginManager from 'src/auth/useLoginManager'
+
+enum ProfileMenuKey {
+	Logout = 'logout',
+}
+
+const profileMenuItems: MenuProps['items'] = [
+	{
+		key: ProfileMenuKey.Logout,
+		label: 'Logout',
+	},
+]
 
 const Header = () => {
 	const { token } = theme.useToken()
+	const { logout } = useLoginManager()
+
+	const handleProfileMenuItemClick: MenuProps['onClick'] = ({ key }) => {
+		if (key === ProfileMenuKey.Logout) {
+			logout()
+		}
+	}
 
 	return (
 		<Flex
@@ -31,9 +50,16 @@ const Header = () => {
 				<SystemTradeNavLink to="/not-found">Indicator</SystemTradeNavLink>
 				<SystemTradeNavLink to="/not-found">Learn</SystemTradeNavLink>
 				<SystemTradeNavLink to="/not-found">Pricing</SystemTradeNavLink>
-				<Button size="small" shape="circle">
-					<UserOutlined />
-				</Button>
+				<Dropdown
+					menu={{
+						items: profileMenuItems,
+						onClick: handleProfileMenuItemClick,
+					}}
+				>
+					<Button size="small" shape="circle">
+						<UserOutlined />
+					</Button>
+				</Dropdown>
 			</Flex>
 		</Flex>
 	)

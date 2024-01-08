@@ -2,7 +2,7 @@ import { Exchange } from './enums'
 import { TimeBoundary } from './types'
 
 export const timeBoundariesByExchange: Record<Exchange, TimeBoundary> = {
-	CUR: {
+	[Exchange.CUR]: {
 		start: {
 			hour: 9,
 			minute: 0,
@@ -14,7 +14,7 @@ export const timeBoundariesByExchange: Record<Exchange, TimeBoundary> = {
 			second: 0,
 		},
 	},
-	MCX: {
+	[Exchange.MCX]: {
 		start: {
 			hour: 9,
 			minute: 0,
@@ -26,7 +26,7 @@ export const timeBoundariesByExchange: Record<Exchange, TimeBoundary> = {
 			second: 0,
 		},
 	},
-	NSE: {
+	[Exchange.NSE]: {
 		start: {
 			hour: 9,
 			minute: 0,

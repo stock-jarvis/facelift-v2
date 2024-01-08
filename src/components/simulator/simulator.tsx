@@ -4,12 +4,27 @@ import LeftContent from './components/left-content'
 import RightContent from './components/right-content'
 import ParamSelection from './components/param-selection'
 import { useToggle } from 'src/common/utils/state-utils'
+import { useGetInstrumentsMutation } from 'src/api/simulator/simulator'
+import { useEffect } from 'react'
 
 const { Sider } = Layout
 
 const Simulator = () => {
 	const { token } = theme.useToken()
 	const [collapsed, toggleCollapsed] = useToggle(false)
+
+	const { mutate } = useGetInstrumentsMutation()
+
+	useEffect(() => {
+		mutate(
+			{ date: '16-03-2020' },
+			{
+				onSuccess(data) {
+					console.log(data)
+				},
+			}
+		)
+	}, [])
 
 	return (
 		<Flex
