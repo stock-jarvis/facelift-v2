@@ -19,7 +19,7 @@ import { useActionChange } from '../modal-hooks/useActionChange'
 import { useExitTypeChange } from '../modal-hooks/useExitTypeChange'
 import { futureExpiry } from 'src/components/basket/constants/data'
 import {
-	FututreDetailsProps,
+	BasketDataProps,
 	FutureBasketData,
 	futureStrKeys,
 	futureNumberedKeys,
@@ -29,6 +29,15 @@ import {
 	totalProfitOptions,
 } from 'src/components/basket/constants/data'
 import { TradeAction } from 'src/common/enums'
+interface FututreDetailsProps {
+	dark: boolean
+	individualBasket: BasketDataProps
+	baseInstrumentValue: string
+	basket: BasketDataProps[]
+	handleDeleteBasket: (val: string) => void
+	handleCopyBasket: (val: string) => void
+	handleEditBasket: (basket: BasketDataProps[]) => void
+}
 const FututeBasketDetails: React.FC<FututreDetailsProps> = ({
 	dark,
 	basket,

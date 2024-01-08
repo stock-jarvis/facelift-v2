@@ -16,7 +16,7 @@ import {
 } from 'antd'
 import {
 	SpotBasketData,
-	SpotDetailsProps,
+	BasketDataProps,
 	spotStrKeys,
 	spotNumberedKeys,
 } from 'src/components/basket/types/types'
@@ -26,7 +26,15 @@ import {
 } from 'src/components/basket/constants/data'
 import { useActionChange } from '../modal-hooks/useActionChange'
 import { useExitTypeChange } from '../modal-hooks/useExitTypeChange'
-
+interface SpotDetailsProps {
+	dark: boolean
+	basket: BasketDataProps[]
+	baseInstrumentValue: string
+	individualBasket: BasketDataProps
+	handleDeleteBasket: (val: string) => void
+	handleCopyBasket: (val: string) => void
+	handleEditBasket: (basket: BasketDataProps[]) => void
+}
 const SpotBasketDetail: React.FC<SpotDetailsProps> = ({
 	dark,
 	basket,

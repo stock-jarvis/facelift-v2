@@ -6,9 +6,8 @@ import {
 	Checkbox,
 	Typography,
 	Tooltip,
-	Empty,
+	TableProps,
 } from 'antd'
-import { PlusOutlined } from '@ant-design/icons'
 
 import {
 	FormOutlined,
@@ -17,7 +16,7 @@ import {
 	SnippetsOutlined,
 } from '@ant-design/icons'
 import BasketNav from '../basket-nav'
-
+import EmptyIndicator from '../common/empty-indicator'
 import { useBasketStore } from '../../store/basket-store'
 import { generateUniqueId } from '../../utils/randomizer'
 import { SavedBasket, EditType } from '../../types/types'
@@ -36,7 +35,7 @@ const Index = () => {
 		addToStoredBaskets,
 		addNewRuntimeBasket,
 		deleteRuntimeBasket,
-		toggleSetBasketModalOpen,
+		//toggleSetBasketModalOpen,
 		addBasketToSelectedBaskets,
 	} = useBasketStore()
 
@@ -55,7 +54,6 @@ const Index = () => {
 				...duplicateBasket[
 					duplicateBasket.findIndex((basket) => basket.id === id)
 				],
-				key: generateUniqueId(),
 				id: generateUniqueId(),
 				identifier: duplicateBasket[duplicateBasket.length - 1].identifier + 1,
 			})
@@ -84,7 +82,7 @@ const Index = () => {
 	const selectAllBasket = () => {
 		selectAllBaskets()
 	}
-	const columns = [
+	const columns: TableProps<SavedBasket>['columns'] = [
 		{
 			title: (
 				<Flex flex={1}>
@@ -95,8 +93,8 @@ const Index = () => {
 				</Flex>
 			),
 			dataIndex: '',
-			render: (record: SavedBasket) => (
-				<Flex flex={1} key={record.id}>
+			render: (record) => (
+				<Flex flex={1}>
 					<Checkbox
 						checked={
 							selectedBaskets.find((b) => b.id === record.id) ? true : false
@@ -114,8 +112,8 @@ const Index = () => {
 					Name
 				</Flex>
 			),
-			render: (record: SavedBasket) => (
-				<Flex flex="1" justify="flex-start" key={record.id + record.name}>
+			render: (record) => (
+				<Flex flex="1" justify="flex-start">
 					<Typography.Text
 						style={{
 							color: record.error ? token.colorError : '#000',
@@ -134,8 +132,8 @@ const Index = () => {
 					Exchange
 				</Flex>
 			),
-			render: (record: SavedBasket) => (
-				<Flex flex="1" justify="flex-end" key={record.id + record.exchange}>
+			render: (record) => (
+				<Flex flex="1" justify="flex-end">
 					<Typography.Text
 						style={{
 							color: record.error ? token.colorError : token.colorPrimary,
@@ -154,8 +152,8 @@ const Index = () => {
 					Istrument
 				</Flex>
 			),
-			render: (record: SavedBasket) => (
-				<Flex flex="1" justify="flex-end" key={record.id + record.ticker}>
+			render: (record) => (
+				<Flex flex="1" justify="flex-end">
 					<Typography.Text
 						style={{
 							color: record.error ? token.colorError : '#000',
@@ -174,13 +172,8 @@ const Index = () => {
 				</Flex>
 			),
 			dataIndex: '',
-			render: (record: SavedBasket) => (
-				<Flex
-					gap={'small'}
-					flex={1}
-					justify="flex-end"
-					key={record.id + generateUniqueId()}
-				>
+			render: (record) => (
+				<Flex gap={'small'} flex={1} justify="flex-end">
 					<Tooltip title="Edit">
 						<Button
 							shape="circle"
@@ -234,40 +227,20 @@ const Index = () => {
 	]
 
 	return (
-		<Flex
-			style={{
-				overflowY: 'scroll',
-				height: '100%',
-				padding: token.paddingXS,
-			}}
-			flex="1"
-			vertical
-		>
-			{runtimeBasketList.length > 0 ? (
-				<>
-					<Flex>
-						<BasketNav />
-					</Flex>
+		<Flex flex="1" vertical>
+			<Flex>
+				<BasketNav />
+			</Flex>
 
-					<Table
-						scroll={{ y: 'calc(100vh - 175px)' }}
-						columns={columns}
-						dataSource={runtimeBasketList}
-						pagination={false}
-					/>
-				</>
-			) : (
-				<Flex justify="center" flex={1} align="center" vertical gap="large">
-					<Empty />
-					<Button
-						type="primary"
-						icon={<PlusOutlined />}
-						onClick={() => toggleSetBasketModalOpen(true)}
-					>
-						Add New Basket
-					</Button>
-				</Flex>
-			)}
+			<Table
+				style={{ height: '800px' }}
+				locale={EmptyIndicator('No Baskets Available')}
+				scroll={{ y: 'calc(100vh - 165px)' }}
+				columns={columns}
+				dataSource={runtimeBasketList}
+				pagination={false}
+				rowKey="id"
+			/>
 		</Flex>
 	)
 }

@@ -4,11 +4,12 @@ import { devtools } from 'zustand/middleware'
 import { immer } from 'zustand/middleware/immer'
 import { defaultBasketData } from '../constants/data'
 import { Exchange } from 'src/common/enums'
+import dayjs, { Dayjs } from 'dayjs'
 type BasketState = {
-	endDate: string
+	endDate: Dayjs
+	startDate: Dayjs
 	exchange: Exchange
 	editType: EditType
-	startDate: string
 	timeError: boolean
 	duplicateError: boolean
 	isEditModalOpen: boolean
@@ -47,16 +48,16 @@ type BasketStateActions = {
 	addToSavedBasket: (basket: SavedBasket) => void
 	addNewRuntimeBasket: (basket: SavedBasket) => void
 	updateRuntimeBasketData: (basket: SavedBasket) => void
-	handleDateChange: (startDate: string, endDate: string) => void
+	handleDateChange: (startDate: Dayjs, endDate: Dayjs) => void
 	toggleTimeErrorModalOpen: (timeErrorModalOpen: boolean) => void
 	toggleSetBasketModalOpen: (isAddBasketModalOpen: boolean) => void
 	createDuplicateStoredBasket: (basket: SavedBasket) => void
 }
 
 const defaultState: BasketState = {
-	endDate: '',
+	endDate: dayjs(''),
 	editType: EditType.NILL,
-	startDate: '',
+	startDate: dayjs(''),
 	exchange: Exchange.NSE,
 	savedBaskets: [],
 	timeError: false,
@@ -111,7 +112,7 @@ export const useBasketStore = create<BasketState & BasketStateActions>()(
 					state.closeModalConfirmation = value
 				}),
 
-			handleDateChange: (startDate: string, endDate: string) =>
+			handleDateChange: (startDate: Dayjs, endDate: Dayjs) =>
 				set((state) => {
 					state.startDate = startDate
 					state.endDate = endDate

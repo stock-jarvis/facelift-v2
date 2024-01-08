@@ -9,7 +9,6 @@ import {
 } from 'src/components/basket/types/types'
 import { SnippetsOutlined } from '@ant-design/icons'
 import { useEffect, useState } from 'react'
-import { generateUniqueId } from 'src/components/basket/utils/randomizer'
 interface FooterProps {
 	basketData: SavedBasket
 	basket: BasketDataProps[]
@@ -85,7 +84,6 @@ const Footer: React.FC<FooterProps> = ({ basket, basketData }) => {
 		) {
 			if (basketExitConditions) {
 				setSavedBasket({
-					key: generateUniqueId(),
 					ticker: basketData.ticker,
 					id: basketData.id,
 					name: basketData.name,

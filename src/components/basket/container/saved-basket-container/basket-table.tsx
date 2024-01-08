@@ -1,9 +1,9 @@
-import { Flex, theme, Typography, Button, Tooltip, Empty } from 'antd'
+import { Flex, Typography, Button, Tooltip, TableProps } from 'antd'
 import { SavedBasket, EditType } from '../../types/types'
 import { useBasketStore } from '../../store/basket-store'
 import { generateUniqueId } from '../../utils/randomizer'
 import { Table } from 'antd'
-
+import EmptyIndicator from '../common/empty-indicator'
 import {
 	DeleteOutlined,
 	CopyOutlined,
@@ -12,7 +12,6 @@ import {
 } from '@ant-design/icons'
 
 const Index = () => {
-	const { token } = theme.useToken()
 	const {
 		exchange,
 		storedBaskets,
@@ -46,15 +45,15 @@ const Index = () => {
 		moveStoredToRuntimeBasket(id)
 	}
 
-	const columns = [
+	const columns: TableProps<SavedBasket>['columns'] = [
 		{
 			title: (
 				<Flex flex={1} justify="flex-start">
 					Name
 				</Flex>
 			),
-			render: (record: SavedBasket) => (
-				<Flex flex="1" justify="flex-start" key={generateUniqueId()}>
+			render: (record) => (
+				<Flex flex="1" justify="flex-start">
 					<Typography.Text>
 						{record.name}
 						{record.identifier > 0 ? ` - ${record.identifier}` : ''}
@@ -66,8 +65,8 @@ const Index = () => {
 		{
 			title: <Flex justify="flex-end">Actions</Flex>,
 			key: generateUniqueId(),
-			render: (record: SavedBasket) => (
-				<Flex justify="flex-end" align="center" key={generateUniqueId()}>
+			render: (record) => (
+				<Flex justify="flex-end" align="center">
 					<Tooltip title="Edit">
 						<Button
 							size="small"
@@ -110,20 +109,15 @@ const Index = () => {
 	]
 
 	return (
-		<Flex vertical style={{ gap: token.paddingXS }} flex="1">
-			{storedBaskets.length > 0 ? (
-				<Table
-					key={generateUniqueId()}
-					dataSource={storedBaskets.filter((b) => b.exchange === exchange)}
-					columns={columns}
-					pagination={false}
-					scroll={{ y: 'calc(100vh - 230px)' }}
-				/>
-			) : (
-				<Flex className="w-full h-[300px]" justify="center" align="center">
-					<Empty />
-				</Flex>
-			)}
+		<Flex vertical flex="1">
+			<Table
+				locale={EmptyIndicator('No Saved Basket')}
+				rowKey="id"
+				dataSource={storedBaskets.filter((b) => b.exchange === exchange)}
+				columns={columns}
+				pagination={false}
+				scroll={{ y: 'calc(100vh - 230px)' }}
+			/>
 		</Flex>
 	)
 }

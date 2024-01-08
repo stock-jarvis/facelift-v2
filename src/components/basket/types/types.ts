@@ -8,6 +8,12 @@ import {
 	BasketLegType,
 } from 'src/common/enums'
 
+export enum RepeatType {
+	CONDITION = 'Condition',
+	TRADE = 'Trade',
+	NA = 'NA',
+}
+
 export enum EditType {
 	RUNTIME = 'runtime',
 	SAVED = 'saved',
@@ -31,23 +37,6 @@ export interface TradeOptions {
 	value: string
 }
 
-export interface RunTimeBasketData {
-	key: string
-	id: string
-	name: string
-	exchange: Exchange
-	instrument: string
-	identifier: number
-	error: boolean
-	selected?: boolean
-	positions?: BasketDataProps[]
-}
-export interface Date {
-	day: string
-	month: string
-	string: string
-}
-
 export interface SavedBasketsEntryCondition {
 	entryTime: string
 	exitTime: string
@@ -55,7 +44,7 @@ export interface SavedBasketsEntryCondition {
 export interface SavedBasketsExitCondition {
 	type: BasketExitType
 	move?: boolean
-	repeat?: string
+	repeat?: RepeatType
 	totalProfit: number
 	totalLoss: number
 }
@@ -71,7 +60,6 @@ export interface PositionExitCondition {
 }
 
 export interface SavedBasket {
-	key: string
 	id: string
 	name?: string
 	error?: boolean
@@ -122,16 +110,6 @@ export interface SpotBasketData {
 	stopLossValue: number
 }
 
-export interface FututreDetailsProps {
-	dark: boolean
-	individualBasket: BasketDataProps
-	baseInstrumentValue: string
-	basket: BasketDataProps[]
-	handleDeleteBasket: (val: string) => void
-	handleCopyBasket: (val: string) => void
-	handleEditBasket: (basket: BasketDataProps[]) => void
-}
-
 export interface FutureBasketData {
 	quantityValue: number
 	actionValue: TradeAction
@@ -152,31 +130,12 @@ export type futureNumberedKeys =
 	| 'totalProfitValue'
 	| 'stopLossValue'
 
-export interface SpotDetailsProps {
-	dark: boolean
-	basket: BasketDataProps[]
-	baseInstrumentValue: string
-	individualBasket: BasketDataProps
-	handleDeleteBasket: (val: string) => void
-	handleCopyBasket: (val: string) => void
-	handleEditBasket: (basket: BasketDataProps[]) => void
-}
-
 export type spotStrKeys = 'actionValue' | 'stopLossType' | 'totalProfitType'
 export type spotNumberedKeys =
 	| 'quantityValue'
 	| 'totalProfitValue'
 	| 'stopLossValue'
 
-export interface OptionDetailsProps {
-	individualBasket: BasketDataProps
-	dark: boolean
-	basket: BasketDataProps[]
-	baseInstrumentValue: string
-	handleDeleteBasket: (val: string) => void
-	handleCopyBasket: (val: string) => void
-	handleEditBasket: (basket: BasketDataProps[]) => void
-}
 export interface OptionsBasketData {
 	quantityValue: number
 	actionValue: TradeAction

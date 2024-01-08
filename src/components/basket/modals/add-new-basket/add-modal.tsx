@@ -41,7 +41,6 @@ const Index: React.FC<ModalProps> = ({ open }) => {
 			)
 			if (!checkDuplicateBasketName) {
 				addNewRuntimeBasket({
-					key: generateUniqueId(),
 					id: generateUniqueId(),
 					name: basketName,
 					ticker: instrument,

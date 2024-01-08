@@ -5,6 +5,7 @@ import { IoCalendarOutline } from 'react-icons/io5'
 import { TimeRangePickerProps } from 'antd'
 import { useState, useEffect } from 'react'
 import { useBasketStore } from '../../store/basket-store'
+import dayjs from 'dayjs'
 
 const { RangePicker } = DatePicker
 const Index = () => {
@@ -20,9 +21,8 @@ const Index = () => {
 	const [disabledButton, setDisabledButton] = useState<boolean>(true)
 
 	const handleDateChanged: TimeRangePickerProps['onChange'] = (e) => {
-		const startDate = e?.[0]?.format('DD-MM-YYYY') || ''
-		const endDate = e?.[1]?.format('DD-MM-YYYY') || ''
-		handleDateChange(startDate, endDate)
+		const [startDate, endDate] = e ?? ''
+		handleDateChange(dayjs(startDate), dayjs(endDate))
 	}
 
 	const handleBackTestingButtonClicked = () => {

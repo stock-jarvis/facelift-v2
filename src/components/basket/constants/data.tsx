@@ -10,6 +10,7 @@ import {
 	OptionObject,
 	BasketDataValues,
 	SavedBasket,
+	RepeatType,
 	PositionExitCondition,
 } from '../types/types'
 
@@ -236,7 +237,6 @@ export const defaultBasketData: SavedBasket = {
 	exchange: Exchange.NSE,
 	ticker: '',
 	id: '',
-	key: '',
 	type: BasketType.INTRADAY,
 	identifier: 0,
 	atm: BasketAtm.SPOT,
@@ -244,7 +244,7 @@ export const defaultBasketData: SavedBasket = {
 		totalLoss: 0,
 		totalProfit: 0,
 		move: false,
-		repeat: '',
+		repeat: RepeatType.NA,
 		type: BasketExitType.SQOL,
 	},
 }

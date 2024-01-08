@@ -19,7 +19,7 @@ import { useActionChange } from '../modal-hooks/useActionChange'
 import { useExitTypeChange } from '../modal-hooks/useExitTypeChange'
 import { TradeAction, OptionType } from 'src/common/enums'
 import {
-	OptionDetailsProps,
+	BasketDataProps,
 	OptionsBasketData,
 	optionsStrKeys,
 	optionNumberedKeys,
@@ -31,6 +31,15 @@ import {
 	tradeTypeData,
 } from 'src/components/basket/constants/data'
 
+interface OptionDetailsProps {
+	individualBasket: BasketDataProps
+	dark: boolean
+	basket: BasketDataProps[]
+	baseInstrumentValue: string
+	handleDeleteBasket: (val: string) => void
+	handleCopyBasket: (val: string) => void
+	handleEditBasket: (basket: BasketDataProps[]) => void
+}
 const OptionBasketDetail: React.FC<OptionDetailsProps> = ({
 	dark,
 	basket,
