@@ -2,13 +2,12 @@ import { Flex, Select, Input } from 'antd'
 import { ChangeEvent } from 'react'
 import { tradeTypeData } from '../../../constants/data'
 import { InputProps } from 'antd'
-import { SelectProps } from 'antd/es/select'
-import { TradeOptions } from '../../../types/types'
+import { DefaultOptionType, SelectProps } from 'antd/es/select'
 
 interface StrikeSelectorProps<T> {
 	tradeOption: string | undefined
 	subTradeOption: string | undefined
-	subTradeOptionList: TradeOptions[] | undefined
+	subTradeOptionList: DefaultOptionType[] | undefined
 	tradeValue: number | undefined
 	paramValue: T
 	paramType: T

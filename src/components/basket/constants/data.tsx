@@ -7,15 +7,15 @@ import {
 	BasketExitType,
 } from 'src/common/enums'
 import {
-	OptionObject,
 	BasketDataValues,
 	SavedBasket,
 	RepeatType,
 	PositionExitCondition,
 	YeildType,
 } from '../types/types'
+import { DefaultOptionType } from 'antd/es/select'
 
-export const futureExpiry: OptionObject[] = [
+export const futureExpiry: DefaultOptionType[] = [
 	{
 		id: 1,
 		value: 'Monthly',
@@ -33,7 +33,7 @@ export const futureExpiry: OptionObject[] = [
 	},
 ]
 
-export const optionExpiry: OptionObject[] = [
+export const optionExpiry: DefaultOptionType[] = [
 	{
 		id: 1,
 		value: 'Weekly',
@@ -81,24 +81,7 @@ export const optionExpiry: OptionObject[] = [
 	},
 ]
 
-export const basketOptions: OptionObject[] = [
-	{
-		id: 1,
-		value: 'spot',
-		label: 'Spot',
-	},
-	{
-		id: 2,
-		value: 'future',
-		label: 'Future',
-	},
-	{
-		id: 3,
-		value: 'options',
-		label: 'Options',
-	},
-]
-export const exchangeType = [
+export const exchangeType: DefaultOptionType[] = [
 	{ type: 'NSE', id: 1, value: Exchange.NSE, label: 'NSE' },
 	{ type: 'MCX', id: 2, value: Exchange.MCX, label: 'MCX' },
 	{ type: 'CUR', id: 3, value: Exchange.CUR, label: 'CUR' },
@@ -181,42 +164,6 @@ export const tradeTypeData = [
 			{ id: 1, label: '+', value: '+' },
 			{ id: 2, label: '-', value: '-' },
 		],
-	},
-]
-
-export const spotLossOptions: OptionObject[] = [
-	{
-		id: 1,
-		value: 'percent',
-		label: 'SL %',
-	},
-	{
-		id: 2,
-		value: 'rupees',
-		label: 'SL ₹',
-	},
-	{
-		id: 3,
-		value: 'points',
-		label: 'SL Pt',
-	},
-]
-
-export const totalProfitOptions: OptionObject[] = [
-	{
-		id: 1,
-		value: 'percent',
-		label: 'TP %',
-	},
-	{
-		id: 2,
-		value: 'rupees',
-		label: 'TP ₹',
-	},
-	{
-		id: 3,
-		value: 'points',
-		label: 'TP Pt',
 	},
 ]
 

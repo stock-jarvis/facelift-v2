@@ -248,7 +248,7 @@ const FutureBasketDetails: React.FC<FutureDetailsProps> = ({
 				<Flex flex={1} justify="center">
 					<ExpirySelector<FutureKey>
 						expiryOptions={futureExpiry}
-						expiryValue={futureBasketData.expiry}
+						expiryValue={futureBasketData.expiry!}
 						handleExpiryChange={handleChangeValue<string>}
 					/>
 				</Flex>

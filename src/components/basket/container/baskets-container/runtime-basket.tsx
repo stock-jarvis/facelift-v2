@@ -34,16 +34,15 @@ const Index = () => {
 		addToSavedBasket,
 		addNewRuntimeBasket,
 		deleteRuntimeBasket,
-		//toggleSetBasketModalOpen,
 		addBasketToSelectedBaskets,
 	} = useBasketStore()
 
-	const onHandleBasketEdit = (id: string) => {
+	const handleBasketEdit = (id: string) => {
 		setEditableBasket(id, EditType.RUNTIME)
 		updateRuntimeError(id)
 	}
 
-	const onHandleBasketDuplicate = (id: string, name: string) => {
+	const handleBasketDuplicate = (id: string, name: string) => {
 		const duplicateBasket = runtimeBasketList.filter(
 			(basket) => basket.name === name
 		)
@@ -54,11 +53,12 @@ const Index = () => {
 				],
 				id: generateUniqueId(),
 				identifier: duplicateBasket[duplicateBasket.length - 1].identifier + 1,
+				error: false,
 			})
 		}
 	}
 
-	const onHandleBaskeSave = (id: string) => {
+	const handleBaskeSave = (id: string) => {
 		const basket = runtimeBasketList.find((b) => b.id === id)
 		if (basket) {
 			if (basket.positions && basket.entryCondition) {
@@ -69,7 +69,7 @@ const Index = () => {
 		}
 	}
 
-	const onHandleBaskeDelete = (id: string) => {
+	const handleBaskeDelete = (id: string) => {
 		deleteRuntimeBasket(id)
 	}
 
@@ -177,7 +177,7 @@ const Index = () => {
 							shape="circle"
 							type="text"
 							icon={<FormOutlined />}
-							onClick={() => onHandleBasketEdit(record.id)}
+							onClick={handleBasketEdit.bind(this, record.id)}
 							style={{
 								color: record.error ? token.colorError : '',
 							}}
@@ -188,9 +188,11 @@ const Index = () => {
 							shape="circle"
 							type="text"
 							icon={<CopyOutlined />}
-							onClick={() =>
-								onHandleBasketDuplicate(record.id, record.name || '')
-							}
+							onClick={handleBasketDuplicate.bind(
+								this,
+								record.id,
+								record.name!
+							)}
 							style={{
 								color: record.error ? token.colorError : '',
 							}}
@@ -201,7 +203,7 @@ const Index = () => {
 							shape="circle"
 							type="text"
 							icon={<SnippetsOutlined />}
-							onClick={() => onHandleBaskeSave(record.id)}
+							onClick={handleBaskeSave.bind(this, record.id)}
 							style={{
 								color: record.error ? token.colorError : '',
 							}}
@@ -212,7 +214,7 @@ const Index = () => {
 							shape="circle"
 							type="text"
 							icon={<DeleteOutlined />}
-							onClick={() => onHandleBaskeDelete(record.id)}
+							onClick={handleBaskeDelete.bind(this, record.id)}
 							style={{
 								color: record.error ? token.colorError : '',
 							}}

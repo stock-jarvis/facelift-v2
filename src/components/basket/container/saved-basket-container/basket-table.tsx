@@ -21,13 +21,13 @@ const Index = () => {
 		moveStoredToRuntimeBasket,
 	} = useBasketStore()
 
-	const onHandleBaskeDelete = (id: string) => {
+	const handleBaskeDelete = (id: string) => {
 		deleteStoredBasket(id)
 	}
-	const onHandleBasketEdit = (id: string) => {
+	const handleBasketEdit = (id: string) => {
 		setEditableBasket(id, EditType.SAVED)
 	}
-	const onHandleBasketDuplicate = (id: string) => {
+	const handleBasketDuplicate = (id: string) => {
 		const basket = savedBasket.find((basket) => basket.id === id)
 
 		if (basket) {
@@ -39,7 +39,7 @@ const Index = () => {
 			})
 		}
 	}
-	const onHandleBaskeMove = (id: string) => {
+	const handleBaskeMove = (id: string) => {
 		moveStoredToRuntimeBasket(id)
 	}
 
@@ -71,7 +71,7 @@ const Index = () => {
 							icon={<FormOutlined />}
 							type="text"
 							shape="circle"
-							onClick={() => onHandleBasketEdit(record.id)}
+							onClick={handleBasketEdit.bind(this, record.id)}
 						/>
 					</Tooltip>
 					<Tooltip title="Duplicate">
@@ -80,7 +80,7 @@ const Index = () => {
 							icon={<CopyOutlined />}
 							type="text"
 							shape="circle"
-							onClick={() => onHandleBasketDuplicate(record.id)}
+							onClick={handleBasketDuplicate.bind(this, record.id)}
 						/>
 					</Tooltip>
 					<Tooltip title="Delete">
@@ -89,7 +89,7 @@ const Index = () => {
 							icon={<DeleteOutlined />}
 							type="text"
 							shape="circle"
-							onClick={() => onHandleBaskeDelete(record.id)}
+							onClick={handleBaskeDelete.bind(this, record.id)}
 						/>
 					</Tooltip>
 					<Tooltip title="Move">
@@ -98,7 +98,7 @@ const Index = () => {
 							icon={<ArrowRightOutlined />}
 							type="text"
 							shape="circle"
-							onClick={() => onHandleBaskeMove(record.id)}
+							onClick={handleBaskeMove.bind(this, record.id)}
 						/>
 					</Tooltip>
 				</Flex>

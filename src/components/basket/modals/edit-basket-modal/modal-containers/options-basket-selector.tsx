@@ -111,7 +111,7 @@ const OptionsBasketSelector: React.FC<BasketProps> = ({
 						setTradeOption={handleBaseTradeChange}
 						subTradeOption={basketInitialData.subTradeOption || ''}
 						setSubTradeOption={handleBaseSubTradeChange}
-						subTradeOptionList={basketInitialData.subTradeOptionList ?? []}
+						subTradeOptionList={basketInitialData.subTradeOptionList!}
 					/>
 				</Flex>
 			),

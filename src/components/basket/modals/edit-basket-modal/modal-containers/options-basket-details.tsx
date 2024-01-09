@@ -268,7 +268,7 @@ const OptionBasketDetail: React.FC<OptionDetailsProps> = ({
 			children: (
 				<Flex flex={1} justify="center">
 					<ExpirySelector
-						expiryValue={optionsBasketData.expiry}
+						expiryValue={optionsBasketData.expiry!}
 						handleExpiryChange={handleChangeValue<string>}
 						expiryOptions={optionExpiry}
 					/>

@@ -7,7 +7,7 @@ interface ActionSelectorProps<T, U> {
 	color1: string
 	color2: string
 	paramType: U
-	baseActionValue: string | undefined
+	baseActionValue: string
 	handleBaseActionChange: (action: T, paramType: U) => void
 }
 
@@ -20,7 +20,7 @@ const ActionSelector = <T, U>({
 	paramType,
 	baseActionValue,
 }: ActionSelectorProps<T, U>) => {
-	const [tag, setTag] = useState<string | undefined>(baseActionValue)
+	const [tag, setTag] = useState<string>(baseActionValue!)
 	const { token } = theme.useToken()
 
 	const items = [

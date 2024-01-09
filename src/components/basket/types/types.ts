@@ -1,3 +1,4 @@
+import { DefaultOptionType } from 'antd/es/select'
 import { Dayjs } from 'dayjs'
 import {
 	Exchange,
@@ -25,20 +26,6 @@ export enum YeildType {
 	PERCENT = 'percent',
 	POINTS = 'points',
 	RUPEES = 'rupees',
-}
-
-//TODO: Strict Typing
-export interface OptionObject {
-	id: number
-	value: string
-	label: string
-}
-
-// TODO: STRICT TYPING
-export interface TradeOptions {
-	id: number
-	label: string
-	value: string
 }
 
 export interface SavedBasketsEntryCondition {
@@ -102,7 +89,7 @@ export interface BasketDataValues {
 	tradeOption: string
 	subTradeOption?: string
 	instrument: string
-	subTradeOptionList?: OptionObject[]
+	subTradeOptionList?: DefaultOptionType[]
 }
 
 export interface SpotBasketData {
@@ -136,7 +123,7 @@ export interface OptionsBasketData {
 	tradeOption: string | undefined
 	subTradeOption: string | undefined
 	tradeValue: number | undefined
-	subTradeOptionList: TradeOptions[] | undefined
+	subTradeOptionList: DefaultOptionType[] | undefined
 }
 
 export enum OptionsKey {

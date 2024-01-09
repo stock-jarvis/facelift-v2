@@ -1,10 +1,11 @@
 import { Select } from 'antd'
-import { OptionObject } from 'src/components/basket/types/types'
+
 import { SelectProps } from 'antd'
+import { DefaultOptionType } from 'antd/es/select'
 
 interface ExpirySelectorProps<U> {
-	expiryOptions: OptionObject[]
-	expiryValue: string | undefined
+	expiryOptions: DefaultOptionType[]
+	expiryValue: string
 
 	handleExpiryChange: (val: string, type: U) => void
 }
@@ -14,14 +15,14 @@ const ExpirySelector = <U,>({
 
 	handleExpiryChange,
 }: ExpirySelectorProps<U>) => {
-	const onHandleExpiryChange: SelectProps['onChange'] = (val: string) => {
+	const handleExpiryChanged: SelectProps['onChange'] = (val: string) => {
 		handleExpiryChange(val, 'expiry' as U)
 	}
 
 	return (
 		<Select
 			value={expiryValue}
-			onChange={onHandleExpiryChange}
+			onChange={handleExpiryChanged}
 			style={{ width: '140px' }}
 			size="large"
 			options={expiryOptions}
