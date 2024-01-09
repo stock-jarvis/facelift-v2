@@ -11,10 +11,14 @@ import {
 	theme,
 } from 'antd'
 import { PlusOutlined } from '@ant-design/icons'
-import { useMemo, useState } from 'react'
-import { convertValuesToDefaultOptions } from 'src/common/utils/conversion-utils'
+import { useEffect, useMemo, useState } from 'react'
+import {
+	convertToDefaultOption,
+	convertValuesToDefaultOptions,
+} from 'src/common/utils/conversion-utils'
 import { DerivativesMetric } from '../../../../common/enums'
 import { mockFutures } from './mock-data'
+import { useAIOCContext } from '../../context/aioc-context'
 
 const { Text } = Typography
 
@@ -30,16 +34,29 @@ const DerivatiesParamSelection: React.FC<DerivatiesParamSelectionProps> = ({
 	setSelectedDerivativeMetric,
 }) => {
 	const { token } = theme.useToken()
+	const { futures, isLoading } = useAIOCContext()
 
-	const [selectedFuture, setSelectedFuture] = useState<number>(38750)
+	const [selectedFuture, setSelectedFuture] = useState<number>()
 
 	const derivativeMetricOptions = useMemo(
 		() => convertValuesToDefaultOptions(Object.values(DerivativesMetric)),
 		[]
 	)
 
+	const futuresOptions = useMemo(
+		() =>
+			Object.values(futures).map((future) =>
+				convertToDefaultOption(future.lastTradedPrice)
+			),
+		[futures]
+	)
+
 	const handleChangeOption: SelectProps['onChange'] = (value) =>
 		setSelectedDerivativeMetric(value)
+
+	useEffect(() => {
+		setSelectedFuture(futuresOptions[0]?.value as number)
+	}, [futuresOptions])
 
 	return (
 		<Flex className="w-full" justify="space-between">
@@ -76,10 +93,15 @@ const DerivatiesParamSelection: React.FC<DerivatiesParamSelectionProps> = ({
 					<Text strong>Futures :</Text>
 					<Flex>
 						<Select
-							// TODO: Wire up with real data and memoize the conversion
-							options={convertValuesToDefaultOptions(mockFutures)}
+							loading={isLoading}
 							value={selectedFuture}
+							// TODO: Wire up with real data and memoize the conversion
+							options={futuresOptions}
 							bordered={false}
+							placeholder="Loading..."
+							dropdownStyle={{
+								width: '110px',
+							}}
 							onChange={setSelectedFuture}
 						/>
 						<AddPositionButton tooltipTitle="Add position" />

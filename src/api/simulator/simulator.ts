@@ -1,47 +1,73 @@
-import { MutationFunction, useMutation } from 'react-query'
-import axios from '../axios'
-import { SimulatorUrl } from './urls'
-import { Exchange } from 'src/common/enums'
 import { Dayjs } from 'dayjs'
+import { HttpStatusCode } from 'axios'
+import { QueryFunction, useQuery } from 'react-query'
+
+import axios from '../axios'
+
+import { Exchange } from 'src/common/enums'
+import { SimulatorUrl } from './urls'
 import { Future, Option } from 'common/types'
 import {
-	convertEpochInSecondsToDayJS,
 	formatDate,
 	formatTime,
+	convertEpochInSecondsToDayJS,
+	convertDateFromServer,
 } from 'src/common/utils/date-time-utils'
 
 /************************* Get Instruments List ***************************/
 type GetInstrumentsListPayload = {
+	date: Dayjs
+}
+
+type Server_GetInstrumentsListPayload = {
 	date: string
 }
 
 type GetInstrumentsListResponse = {
-	/**
-	 * Backend sends InstrumentsList but it is be parsed to camel case in the fetch method.
-	 */
-	instrumentList: Array<string>
+	instrumentList: string[]
 }
 
-const getInstrumentsList: MutationFunction<
+type Server_GetInstrumentsListResponse = {
+	InstrumentList: string[]
+}
+
+const translateGetInstrumentsListPayload = (
+	getInstrumentsListPayload: GetInstrumentsListPayload
+): Server_GetInstrumentsListPayload => ({
+	date: formatDate(getInstrumentsListPayload.date),
+})
+
+const translateGetInstrumentsListResponse = ({
+	InstrumentList,
+}: Server_GetInstrumentsListResponse): GetInstrumentsListResponse => ({
+	instrumentList: InstrumentList,
+})
+
+const getInstrumentsList: QueryFunction<
 	GetInstrumentsListResponse | undefined,
-	GetInstrumentsListPayload
-> = async (getInstrumentsListPayload) => {
-	const response = await axios.post(
-		SimulatorUrl.GetInstrumentsList,
-		getInstrumentsListPayload
+	[string, GetInstrumentsListPayload]
+> = async (context) => {
+	const getInstrumentsListPayload = translateGetInstrumentsListPayload(
+		context.queryKey[1]
 	)
 
-	if (response.status === 200) {
-		return {
-			instrumentList: response.data.InstrumentList,
-		} as GetInstrumentsListResponse
+	const response = await axios.get(SimulatorUrl.GetInstrumentsList, {
+		data: getInstrumentsListPayload,
+	})
+
+	if (response.status === HttpStatusCode.Ok) {
+		return translateGetInstrumentsListResponse(response.data)
 	}
 }
 
-export const useGetInstrumentsMutation = () =>
-	useMutation({
-		mutationFn: getInstrumentsList,
-		mutationKey: SimulatorUrl.GetInstrumentsList,
+export const useGetInstrumentsListQuery = ({
+	variables,
+}: {
+	variables: GetInstrumentsListPayload
+}) =>
+	useQuery({
+		queryFn: getInstrumentsList,
+		queryKey: [SimulatorUrl.GetInstrumentsList, variables],
 	})
 
 /************************* Get AIOC ***************************/
@@ -64,7 +90,48 @@ type Server_AIOCPayload = {
 	exps?: string[]
 }
 
-const translateAIOCPayloadToServer = ({
+export type AIOCResponse = {
+	/** {"ddmmyy: Future"} */
+	futures: Record<string, Future>
+	expiryList: Dayjs[]
+	optionChain: Record<string, Option[]>
+}
+
+type Server_AIOCResponse = {
+	expList: string[]
+	Futures: Record<
+		string,
+		{
+			oi: number
+			ltp: number
+			ltq: number
+			/** Epoch in Seconds */
+			ltt?: number
+		}
+	>
+	OptionChain: Record<
+		string,
+		{
+			OptionChain: Array<{
+				celtp: number
+				/** Epoch in Seconds */
+				celtt?: number
+				peltp: number
+				/** Epoch in Seconds */
+				peltt?: number
+				strike: number
+				greeks: {
+					celtq: number
+					ceoi: number
+					peltq: number
+					peoi: number
+				}
+			}>
+		}
+	>
+}
+
+const translateAIOCPayload = ({
 	date,
 	time,
 	expiries,
@@ -78,88 +145,74 @@ const translateAIOCPayloadToServer = ({
 	exps: expiries,
 })
 
-type Server_Greeks = {
-	celtq: number
-	ceoi: number
-	peltq: number
-	peoi: number
-}
-
-type Server_Option = {
-	celtp: number
-	/** Epoch in Seconds */
-	celtt?: number
-	peltp: number
-	/** Epoch in Seconds */
-	peltt?: number
-	strike: number
-	greeks: Server_Greeks
-}
-
-type Server_Future = {
-	oi: number
-	ltp: number
-	ltq: number
-	/** Epoch in Seconds */
-	ltt?: number
-}
-
-type Server_AIOCResponse = {
-	expList: string[]
-	Futures: Record<string, Server_Future>
-	OptionChain: Record<string, { OptionChain: Server_Option[] }>
-}
-
-type AIOCResponse = {
-	/** {"ddmmyy: Future"} */
-	futures: Record<string, Future>
-	expiryList: string[]
-	optionChain: Record<string, Option[]>
-}
-
-const translateAIOCReponseToClient = ({
+const translateAIOCResponse = ({
 	expList,
 	Futures,
 	OptionChain,
-}: Server_AIOCResponse) => {
-	const aiocReponse = {} as AIOCResponse
+}: Server_AIOCResponse) =>
+	/** Using promise to prevent blocking the main thread */
+	new Promise<AIOCResponse>((resolve) => {
+		const aiocReponse = {} as AIOCResponse
 
-	aiocReponse.expiryList = expList
-	aiocReponse.optionChain = Object.entries(OptionChain).reduce(
-		(acc, [date, optionChain]) => {
-			acc[date] = optionChain.OptionChain.map(
-				({ celtp, celtt, greeks, peltp, peltt, strike }) =>
-					({
-						ceLastTradedTime: convertEpochInSecondsToDayJS(celtt),
-						ceLastTradedPrice: celtp,
-						peLastTradedTime: convertEpochInSecondsToDayJS(peltt),
-						peLastTradedPrice: peltp,
-						strike: strike,
-						greeks: {
-							ceOpenInterest: greeks.ceoi,
-							ceLastTradedQuantity: greeks.celtq,
-							peOpenInterest: greeks.peoi,
-							peLastTradedQuantity: greeks.peltq,
-						},
-					}) as Option
-			)
-			return acc
-		},
-		{} as AIOCResponse['optionChain']
-	)
-	aiocReponse.futures = Object.entries(Futures).reduce(
-		(acc, [date, { oi, ltp, ltq, ltt }]) => {
-			acc[date] = {
-				openInterest: oi,
-				lastTradedTime: convertEpochInSecondsToDayJS(ltt),
-				lastTradedPrice: ltp,
-				lastTradedQuantity: ltq,
-			}
+		aiocReponse.expiryList = expList.map((expiry) =>
+			convertDateFromServer(expiry)
+		)
+		aiocReponse.optionChain = Object.entries(OptionChain).reduce(
+			(acc, [date, optionChain]) => {
+				acc[date] = optionChain.OptionChain.map(
+					({ celtp, celtt, greeks, peltp, peltt, strike }) =>
+						({
+							date: convertDateFromServer(date),
+							ceLastTradedTime: convertEpochInSecondsToDayJS(celtt),
+							ceLastTradedPrice: celtp,
+							peLastTradedTime: convertEpochInSecondsToDayJS(peltt),
+							peLastTradedPrice: peltp,
+							strike: strike,
+							greeks: {
+								ceOpenInterest: greeks.ceoi,
+								ceLastTradedQuantity: greeks.celtq,
+								peOpenInterest: greeks.peoi,
+								peLastTradedQuantity: greeks.peltq,
+							},
+						}) as Option
+				)
+				return acc
+			},
+			{} as AIOCResponse['optionChain']
+		)
+		aiocReponse.futures = Object.entries(Futures).reduce(
+			(acc, [date, { oi, ltp, ltq, ltt }]) => {
+				acc[date] = {
+					date: convertDateFromServer(date),
+					openInterest: oi,
+					lastTradedTime: convertEpochInSecondsToDayJS(ltt),
+					lastTradedPrice: ltp,
+					lastTradedQuantity: ltq,
+				}
 
-			return acc
-		},
-		{} as AIOCResponse['futures']
-	)
+				return acc
+			},
+			{} as AIOCResponse['futures']
+		)
 
-	return aiocReponse
+		resolve(aiocReponse)
+	})
+
+const getAIOC: QueryFunction<
+	AIOCResponse | undefined,
+	[string, AIOCPayload]
+> = async (context) => {
+	const aiocPayload = translateAIOCPayload(context.queryKey[1])
+
+	const response = await axios.post(SimulatorUrl.AIOC, aiocPayload)
+
+	if (response.status === HttpStatusCode.Ok) {
+		return translateAIOCResponse(response.data)
+	}
 }
+
+export const useGetAIOCQuery = ({ variables }: { variables: AIOCPayload }) =>
+	useQuery({
+		queryFn: getAIOC,
+		queryKey: [SimulatorUrl.AIOC, variables],
+	})

@@ -58,3 +58,16 @@ export const convertEpochInSecondsToDayJS = (
 	epochInSeconds && epochInSeconds >= 0
 		? dayjs(epochInSeconds * 1000)
 		: undefined
+
+/**
+ * Converts to DayJs
+ *
+ * @param date Server sends date in format ddmmyy
+ */
+export const convertDateFromServer = (date: string) => {
+	const day = parseInt(date.substring(0, 2))
+	const month = parseInt(date.substring(2, 4))
+	const year = 2000 + parseInt(date.substring(4, 6))
+
+	return dayjs(new Date(year, month, day))
+}

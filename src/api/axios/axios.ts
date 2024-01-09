@@ -1,5 +1,5 @@
-import axiosLib from 'axios'
-// import { setAxiosMocks } from './mocks'
+import axiosLib, { HttpStatusCode } from 'axios'
+import { setAxiosMocks } from './mocks'
 
 const axios = axiosLib.create({
 	baseURL: import.meta.env.SYSTEM_TRADE_BASE_URL,
@@ -12,16 +12,29 @@ export const setAuthorizationHeader = (authorizationHeader: string | null) => {
 	})
 }
 
+export const invalidateToken = (afterTokenInvalidate: () => void) => {
+	axios.interceptors.response.use(
+		(config) => config,
+		(err) => {
+			if (err.response.status === HttpStatusCode.Unauthorized) {
+				setAuthorizationHeader(null)
+				afterTokenInvalidate()
+			}
+			return err
+		}
+	)
+}
+
 /** Enable to mock request response for development */
 
-// if (import.meta.env.MODE === 'development') {
-// 	const mockAdapterPromise = import('axios-mock-adapter')
+if (import.meta.env.MODE === 'development') {
+	const mockAdapterPromise = import('axios-mock-adapter')
 
-// 	mockAdapterPromise.then(({ default: MockAdapter }) => {
-// 		const mockAdapter = new MockAdapter(axios)
+	mockAdapterPromise.then(({ default: MockAdapter }) => {
+		const mockAdapter = new MockAdapter(axios)
 
-// 		setAxiosMocks(mockAdapter)
-// 	})
-// }
+		setAxiosMocks(mockAdapter)
+	})
+}
 
 export default axios

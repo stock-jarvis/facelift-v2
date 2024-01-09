@@ -40,6 +40,6 @@ export const timeBoundariesByExchange: Record<Exchange, TimeBoundary> = {
 	},
 }
 
-export const BANK_NIFTY_TICKER = 'NIFTY BANK' as const
+export const BANK_NIFTY_TICKER = 'banknifty' as const
 
 export const MAX_INSTRUMENTS_ALLOWED = 3

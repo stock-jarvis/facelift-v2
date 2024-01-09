@@ -3,7 +3,10 @@ import { immer } from 'zustand/middleware/immer'
 import dayjs, { Dayjs } from 'dayjs'
 
 import { Exchange } from '../../../common/enums'
-import { BANK_NIFTY_TICKER } from 'src/common/constants'
+import {
+	BANK_NIFTY_TICKER,
+	timeBoundariesByExchange,
+} from 'src/common/constants'
 
 type SimulatorParams = {
 	time: Dayjs
@@ -35,9 +38,14 @@ type SimulatorParamsActions = {
 	) => void
 }
 
+const exchangeStartTime = timeBoundariesByExchange[Exchange.NSE].start
+
 const defaultState: SimulatorParams = {
-	time: dayjs().startOf('day'),
-	date: dayjs(),
+	time: dayjs(
+		`${exchangeStartTime.hour}-${exchangeStartTime.minute}-${exchangeStartTime.second}`,
+		'hh-mm-ss'
+	),
+	date: dayjs('06-01-2021', 'DD-MM-YYYY'),
 	exchange: Exchange.NSE,
 	activeInstrument: BANK_NIFTY_TICKER,
 	selectedInstruments: [BANK_NIFTY_TICKER],

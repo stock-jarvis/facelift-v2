@@ -10,7 +10,7 @@ const convertToItemType = (value: string | number) =>
 export const convertValuesToItemType = (values: (string | number)[]) =>
 	values.map(convertToItemType)
 
-const convertToDefaultOption = (value: DefaultOptionType['value']) =>
+export const convertToDefaultOption = (value: DefaultOptionType['value']) =>
 	({
 		label: value,
 		value,

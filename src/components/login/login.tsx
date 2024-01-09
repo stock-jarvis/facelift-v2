@@ -9,9 +9,9 @@ import {
 	Checkbox,
 } from 'antd'
 import { LoginResponse, useLoginMutation } from 'src/api/auth/auth'
+import useLoginManager from 'src/auth/useLoginManager'
 import Loader from 'src/common/components/loader'
 import Logo from 'src/common/components/logo'
-import useLoginManager from 'src/common/hooks/useLogin'
 
 type LoginFormFields = {
 	phone: string

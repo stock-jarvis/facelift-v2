@@ -13,6 +13,7 @@ export type Greeks = {
 }
 
 export type Option = {
+	date: Dayjs
 	strike: number
 	greeks: Greeks
 	/** Call Exercise */
@@ -24,6 +25,7 @@ export type Option = {
 }
 
 export type Future = {
+	date: Dayjs
 	openInterest: number
 	lastTradedTime?: Dayjs
 	lastTradedPrice: number
