@@ -3,7 +3,7 @@ import SpotBasketSelector from './spot-basket-selector'
 import FutureBasketSelector from './future-basket-selector'
 import OptionsBasketSelector from './options-basket-selector'
 import { tradeTypeData } from 'src/components/basket/constants/data'
-import { BasketDataValues } from 'src/components/basket/types/types'
+import { SavedPosition } from 'src/components/basket/types/types'
 import { useState } from 'react'
 import { BasketLegType } from 'src/common/enums'
 
@@ -11,10 +11,10 @@ type NumberedKeys = 'quantity' | 'tradeValue'
 type Keys = 'action' | 'expiry' | 'option' | 'tradeOption' | 'subTradeOption'
 interface SelectProps {
 	instrument: string
-	basketInitialData: BasketDataValues
+	basketInitialData: SavedPosition
 	setOptionValue: () => void
 	handleAddBasket: (val: BasketLegType) => void
-	updatedBasketData: (val: BasketDataValues) => void
+	updatedBasketData: (val: SavedPosition) => void
 }
 
 const Selectors: React.FC<SelectProps> = ({

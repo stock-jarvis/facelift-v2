@@ -24,7 +24,6 @@ const Basket = () => {
 	} = useBasketStore()
 
 	const handleCloseConfirmModal = (val: boolean) => {
-		// TODO: Change logic
 		resetEditablebasket(), closeEditConfirmation(val)
 	}
 	const handleCancelConfirmModal = (val: boolean) => {

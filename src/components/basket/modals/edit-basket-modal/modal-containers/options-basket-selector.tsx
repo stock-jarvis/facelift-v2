@@ -1,5 +1,5 @@
 import { Flex, Descriptions, DescriptionsProps, Typography, theme } from 'antd'
-import { BasketDataValues, OptionsKey } from '../../../types/types'
+import { SavedPosition, OptionsKey } from '../../../types/types'
 import StrikeRadioSelector from '../modal-components/strike-radio-selector'
 import PositionHolder from './position-holder'
 import StrikeSelector from '../modal-components/strike-selector'
@@ -10,7 +10,7 @@ import ActionSelector from '../modal-components/action-selector'
 import { optionExpiry } from '../../../constants/data'
 import { TradeAction, OptionType, BasketLegType } from 'src/common/enums'
 interface BasketProps {
-	basketInitialData: BasketDataValues
+	basketInitialData: SavedPosition
 	handleAddBasket: (val: BasketLegType) => void
 	handleBaseActionChange: (val: TradeAction) => void
 	handleBaseOptionChange: (val: OptionType) => void

@@ -43,16 +43,17 @@ const Index = () => {
 	}
 
 	const handleBasketDuplicate = (id: string, name: string) => {
-		const duplicateBasket = runtimeBasketList.filter(
+		const duplicateBaskets = runtimeBasketList.filter(
 			(basket) => basket.name === name
 		)
-		if (duplicateBasket[duplicateBasket.length - 1]) {
+		if (duplicateBaskets[duplicateBaskets.length - 1]) {
 			addNewRuntimeBasket({
-				...duplicateBasket[
-					duplicateBasket.findIndex((basket) => basket.id === id)
+				...duplicateBaskets[
+					duplicateBaskets.findIndex((basket) => basket.id === id)
 				],
 				id: generateUniqueId(),
-				identifier: duplicateBasket[duplicateBasket.length - 1].identifier + 1,
+				identifier:
+					duplicateBaskets[duplicateBaskets.length - 1].identifier + 1,
 				error: false,
 			})
 		}

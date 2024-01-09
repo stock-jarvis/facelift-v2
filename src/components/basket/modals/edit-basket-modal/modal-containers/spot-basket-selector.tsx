@@ -3,10 +3,10 @@ import Instrument from '../modal-components/instrument'
 import ActionSelector from '../modal-components/action-selector'
 import PositionHolder from './position-holder'
 import QuantityInput from '../modal-components/quantity-input'
-import { BasketDataValues, SpotKey } from 'src/components/basket/types/types'
+import { SavedPosition, SpotKey } from 'src/components/basket/types/types'
 import { BasketLegType, TradeAction } from 'src/common/enums'
 interface BasketProps {
-	basketInitialData: BasketDataValues
+	basketInitialData: SavedPosition
 	baseInstrumentValue: string
 	handleAddBasket: (val: BasketLegType) => void
 	handleBaseQuantityChange: (value: number) => void

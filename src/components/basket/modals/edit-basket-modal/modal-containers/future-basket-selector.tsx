@@ -7,9 +7,9 @@ import PositionHolder from './position-holder'
 import QuantityInput from '../modal-components/quantity-input'
 import ExpirySelector from '../modal-components/expiry-selector'
 import { TradeAction, BasketLegType } from 'src/common/enums'
-import { BasketDataValues, FutureKey } from 'src/components/basket/types/types'
+import { SavedPosition, FutureKey } from 'src/components/basket/types/types'
 interface BasketProps {
-	basketInitialData: BasketDataValues
+	basketInitialData: SavedPosition
 	baseInstrumentValue: string
 	handleAddBasket: (leg: BasketLegType) => void
 	handleBaseQuantityChange: (value: number) => void

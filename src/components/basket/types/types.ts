@@ -79,7 +79,7 @@ export interface BasketDataProps {
 	entryCondition: PositionEntryCondition
 	exitCondition: PositionExitCondition
 }
-export interface BasketDataValues {
+export interface SavedPosition {
 	id: string
 	quantity: number
 	action: TradeAction

@@ -16,17 +16,13 @@ import {
 	defaultBasketData,
 	defaultLegsEXitCondition,
 } from '../../constants/data'
-import {
-	BasketDataProps,
-	BasketDataValues,
-	SavedBasket,
-} from '../../types/types'
+import { BasketDataProps, SavedPosition, SavedBasket } from '../../types/types'
 
 const EditBasketModal = () => {
 	const { token } = theme.useToken()
 	const { editableBasketData, resetEditablebasket, closeEditConfirmation } =
 		useBasketStore()
-	const [basketInitialData, updatedBasketData] = useImmer<BasketDataValues>(
+	const [basketInitialData, updatedBasketData] = useImmer<SavedPosition>(
 		defaultInitialLegValues
 	)
 	const [basketData, setBasketData] = useImmer<SavedBasket>({

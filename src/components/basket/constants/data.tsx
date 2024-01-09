@@ -7,7 +7,7 @@ import {
 	BasketExitType,
 } from 'src/common/enums'
 import {
-	BasketDataValues,
+	SavedPosition,
 	SavedBasket,
 	RepeatType,
 	PositionExitCondition,
@@ -90,7 +90,7 @@ export const exchangeType: DefaultOptionType[] = [
 export const tradeTypeData = [
 	{
 		id: 1,
-		label: 'ATM Pt',
+		label: 'Atm Points',
 		value: 'ATMPt',
 		children: [
 			{ id: 1, label: 'ATM', value: 'ATM' },
@@ -108,7 +108,7 @@ export const tradeTypeData = [
 	},
 	{
 		id: 2,
-		label: 'ATM + - n%',
+		label: 'Atm Percent',
 		value: 'ATMn',
 		children: [
 			{ id: 1, label: '+', value: '+' },
@@ -167,7 +167,7 @@ export const tradeTypeData = [
 	},
 ]
 
-export const defaultInitialLegValues: BasketDataValues = {
+export const defaultInitialLegValues: SavedPosition = {
 	id: '',
 	quantity: 1,
 	action: TradeAction.Buy,
@@ -181,17 +181,17 @@ export const defaultInitialLegValues: BasketDataValues = {
 }
 
 export const defaultBasketData: SavedBasket = {
-	name: '',
-	exchange: Exchange.NSE,
-	ticker: '',
 	id: '',
-	type: BasketType.INTRADAY,
+	name: '',
+	ticker: '',
 	identifier: 0,
 	atm: BasketAtm.SPOT,
+	exchange: Exchange.NSE,
+	type: BasketType.INTRADAY,
 	exitCondition: {
+		move: false,
 		totalLoss: 0,
 		totalProfit: 0,
-		move: false,
 		repeat: RepeatType.NA,
 		type: BasketExitType.SQOL,
 	},
@@ -199,11 +199,11 @@ export const defaultBasketData: SavedBasket = {
 
 export const defaultLegsEXitCondition: PositionExitCondition = {
 	stopLoss: {
-		type: YeildType.PERCENT,
 		value: 0,
+		type: YeildType.PERCENT,
 	},
 	totalProfit: {
-		type: YeildType.PERCENT,
 		value: 0,
+		type: YeildType.PERCENT,
 	},
 }
