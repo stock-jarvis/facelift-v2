@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Modal, theme, Flex } from 'antd'
 import { CloseOutlined } from '@ant-design/icons'
 import { useImmer } from 'use-immer'
@@ -100,6 +100,9 @@ const EditBasketModal = () => {
 		setPosition(refinedBaskets)
 	}
 
+	useEffect(() => {
+		//console.log(basketData)
+	}, [basketData])
 	const handleCopyBasket = (id: string) => {
 		const basketToBeCopied = position.find((basket) => basket.id === id)
 		if (basketToBeCopied) {

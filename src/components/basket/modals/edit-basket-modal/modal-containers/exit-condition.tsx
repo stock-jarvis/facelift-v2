@@ -16,12 +16,14 @@ const ExitCondition: React.FC<ExitConditionProps> = ({
 	setBasketData,
 }) => {
 	useEffect(() => {
+		const entryTime = getTimes(basketData.exchange, 'start')
+		const exitTime = getTimes(basketData.exchange, 'end')
 		if (!basketData.entryCondition) {
 			setBasketData({
 				...basketData,
 				entryCondition: {
-					entryTime: getTimes(basketData.exchange, 'start'),
-					exitTime: getTimes(basketData.exchange, 'end'),
+					entryTime: entryTime,
+					exitTime: exitTime,
 				},
 			})
 		}

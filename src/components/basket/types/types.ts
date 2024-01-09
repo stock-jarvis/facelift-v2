@@ -1,3 +1,4 @@
+import { Dayjs } from 'dayjs'
 import {
 	Exchange,
 	OptionType,
@@ -40,10 +41,9 @@ export interface TradeOptions {
 	value: string
 }
 
-// TODO: STRICT TYPING
 export interface SavedBasketsEntryCondition {
-	entryTime: string
-	exitTime: string
+	entryTime: Dayjs
+	exitTime: Dayjs
 }
 export interface SavedBasketsExitCondition {
 	type: BasketExitType

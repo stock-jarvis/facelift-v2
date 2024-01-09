@@ -7,11 +7,13 @@ import {
 	Descriptions,
 	DescriptionsProps,
 } from 'antd'
+import dayjs from 'dayjs'
 import Toggle from '../modal-components/toggle'
 import { SavedBasket } from 'src/components/basket/types/types'
 import { getTimes } from 'src/components/basket/utils/get-times'
 import { Exchange, BasketType, BasketAtm } from 'src/common/enums'
 import { exchangeType } from 'src/components/basket/constants/data'
+
 interface HeaderProps {
 	basketData: SavedBasket
 	setBasketData: (val: SavedBasket) => void
@@ -24,8 +26,8 @@ const Header: React.FC<HeaderProps> = ({ basketData, setBasketData }) => {
 			...basketData,
 			exchange: val,
 			entryCondition: {
-				exitTime: getTimes(val, 'end'),
-				entryTime: getTimes(val, 'start'),
+				exitTime: dayjs(getTimes(val, 'end')),
+				entryTime: dayjs(getTimes(val, 'start')),
 			},
 		})
 	}

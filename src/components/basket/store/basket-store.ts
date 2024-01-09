@@ -42,7 +42,6 @@ type BasketStateActions = {
 	closeDuplicateConfirmModal: (value: boolean) => void
 	setEditableBasket: (id: string, type: EditType) => void
 	toogleSaveError: (id: string, error: boolean) => void
-
 	addNewRuntimeBasket: (basket: SavedBasket) => void
 	updateRuntimeBasketData: (basket: SavedBasket) => void
 	handleDateChange: (startDate: Dayjs, endDate: Dayjs) => void

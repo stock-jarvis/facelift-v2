@@ -7,7 +7,6 @@ import {
 	TimePickerProps,
 } from 'antd'
 import dayjs from 'dayjs'
-import { Exchange } from 'src/common/enums'
 import { SavedBasket } from '../../../types/types'
 import { useBasketStore } from 'src/components/basket/store/basket-store'
 import { useValidateTimes } from '../modal-hooks/useValidateTimes'
@@ -20,32 +19,28 @@ interface EntryExitProps {
 const EntryExit: React.FC<EntryExitProps> = ({ basketData, setBasketData }) => {
 	const { token } = theme.useToken()
 	const { setTimeError, timeError } = useBasketStore()
-	const disabledHours = getDisabledTimeByExchange(
-		basketData.exchange as Exchange
-	)
-	const handleEntryTimeChange: TimePickerProps['onChange'] = (val) => {
-		const date = val?.format(format).toString()
+	const disabledHours = getDisabledTimeByExchange(basketData.exchange)
+	const handleEntryTimeChange: TimePickerProps['onChange'] = (time) => {
 		setBasketData({
 			...basketData,
 			entryCondition: {
-				exitTime: basketData.entryCondition?.exitTime || '',
-				entryTime: date || '',
+				exitTime: basketData.entryCondition?.exitTime ?? dayjs(''),
+				entryTime: time!,
 			},
 		})
 	}
 
-	const handleExitTimeChange: TimePickerProps['onChange'] = (val) => {
-		const date = val?.format(format).toString()
+	const handleExitTimeChange: TimePickerProps['onChange'] = (time) => {
 		setBasketData({
 			...basketData,
 			entryCondition: {
-				entryTime: basketData.entryCondition?.entryTime || '',
-				exitTime: date || '',
+				entryTime: basketData.entryCondition?.entryTime || dayjs(),
+				exitTime: time!,
 			},
 		})
 	}
 
-	useValidateTimes(basketData.entryCondition, setTimeError)
+	useValidateTimes(basketData.entryCondition!, setTimeError)
 
 	return (
 		<Flex flex={1} justify="space-around">
