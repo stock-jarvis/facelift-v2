@@ -1,14 +1,6 @@
-import {
-	Flex,
-	theme,
-	Table,
-	Button,
-	Checkbox,
-	Typography,
-	Tooltip,
-	TableProps,
-} from 'antd'
-
+import { Flex, theme, Table, Button, Typography, Tooltip } from 'antd'
+import type { TableRowSelection } from 'antd/es/table/interface'
+import type { ColumnsType } from 'antd/es/table'
 import {
 	FormOutlined,
 	DeleteOutlined,
@@ -18,14 +10,11 @@ import {
 import BasketNav from '../basket-nav'
 import EmptyIndicator from '../common/empty-indicator'
 import { useBasketStore } from '../../store/basket-store'
-import { generateUniqueId } from '../../utils/randomizer'
 import { SavedBasket, EditType } from '../../types/types'
-
+import { checkDuplicate } from '../../utils/duplicate-check'
 const Index = () => {
 	const { token } = theme.useToken()
-
 	const {
-		selectedBaskets,
 		runtimeBasketList,
 		setRuntimeError,
 		selectAllBaskets,
@@ -43,20 +32,8 @@ const Index = () => {
 	}
 
 	const handleBasketDuplicate = (id: string, name: string) => {
-		const duplicateBaskets = runtimeBasketList.filter(
-			(basket) => basket.name === name
-		)
-		if (duplicateBaskets[duplicateBaskets.length - 1]) {
-			addNewRuntimeBasket({
-				...duplicateBaskets[
-					duplicateBaskets.findIndex((basket) => basket.id === id)
-				],
-				id: generateUniqueId(),
-				identifier:
-					duplicateBaskets[duplicateBaskets.length - 1].identifier + 1,
-				error: false,
-			})
-		}
+		const isDuplicate = checkDuplicate(runtimeBasketList, id, name)
+		addNewRuntimeBasket(isDuplicate!)
 	}
 
 	const handleBaskeSave = (id: string) => {
@@ -74,37 +51,16 @@ const Index = () => {
 		deleteRuntimeBasket(id)
 	}
 
-	const handleIndividualSelectChange = (id: string) => {
-		addBasketToSelectedBaskets(id)
+	const rowSelection: TableRowSelection<SavedBasket> = {
+		onSelect: (record) => {
+			addBasketToSelectedBaskets(record.id)
+		},
+		onSelectAll: () => {
+			selectAllBaskets()
+		},
 	}
 
-	const selectAllBasket = () => {
-		selectAllBaskets()
-	}
-	const columns: TableProps<SavedBasket>['columns'] = [
-		{
-			title: (
-				<Flex flex={1}>
-					<Checkbox
-						checked={selectedBaskets.length === runtimeBasketList.length}
-						onChange={selectAllBasket}
-					/>
-				</Flex>
-			),
-			dataIndex: '',
-			render: (record) => (
-				<Flex flex={1}>
-					<Checkbox
-						checked={
-							selectedBaskets.find((b) => b.id === record.id) ? true : false
-						}
-						onChange={() => {
-							handleIndividualSelectChange(record.id)
-						}}
-					/>
-				</Flex>
-			),
-		},
+	const columns: ColumnsType<SavedBasket> = [
 		{
 			title: (
 				<Flex flex={1} justify="flex-start">
@@ -162,7 +118,7 @@ const Index = () => {
 					</Typography.Text>
 				</Flex>
 			),
-			key: 'identifier',
+			key: 'instrument',
 		},
 		{
 			title: (
@@ -226,7 +182,6 @@ const Index = () => {
 			key: 'actions',
 		},
 	]
-
 	return (
 		<Flex flex="1" vertical>
 			<Flex>
@@ -234,6 +189,7 @@ const Index = () => {
 			</Flex>
 
 			<Table
+				rowSelection={rowSelection}
 				style={{ height: '800px' }}
 				locale={EmptyIndicator('No Baskets Available')}
 				scroll={{ y: 'calc(100vh - 165px)' }}
@@ -241,6 +197,7 @@ const Index = () => {
 				dataSource={runtimeBasketList}
 				pagination={false}
 				rowKey="id"
+				onChange={() => console.log('hello')}
 			/>
 		</Flex>
 	)

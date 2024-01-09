@@ -2,6 +2,7 @@ import { Flex, Typography, Button, Tooltip, TableProps } from 'antd'
 import { SavedBasket, EditType } from '../../types/types'
 import { useBasketStore } from '../../store/basket-store'
 import { generateUniqueId } from '../../utils/randomizer'
+import { checkDuplicate } from '../../utils/duplicate-check'
 import { Table } from 'antd'
 import EmptyIndicator from '../common/empty-indicator'
 import {
@@ -28,16 +29,9 @@ const Index = () => {
 		setEditableBasket(id, EditType.SAVED)
 	}
 	const handleBasketDuplicate = (id: string) => {
-		const basket = savedBasket.find((basket) => basket.id === id)
-
-		if (basket) {
-			const baskets = savedBasket.filter((b) => b.name === basket.name)
-			createDuplicateStoredBasket({
-				...basket,
-				id: generateUniqueId(),
-				identifier: baskets[baskets.length - 1].identifier + 1,
-			})
-		}
+		const basket = savedBasket.find((basket) => basket.id === id)!
+		const isDuplicate = checkDuplicate(savedBasket, id, basket.name!)
+		createDuplicateStoredBasket(isDuplicate!)
 	}
 	const handleBaskeMove = (id: string) => {
 		moveStoredToRuntimeBasket(id)
