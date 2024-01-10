@@ -5,10 +5,10 @@ import { InputProps } from 'antd'
 import { DefaultOptionType, SelectProps } from 'antd/es/select'
 
 interface StrikeSelectorProps<T> {
-	tradeOption: string | undefined
-	subTradeOption: string | undefined
-	subTradeOptionList: DefaultOptionType[] | undefined
-	tradeValue: number | undefined
+	tradeOption: string
+	subTradeOption: string
+	subTradeOptionList: DefaultOptionType[]
+	tradeValue: number
 	paramValue: T
 	paramType: T
 	setTradeOption: (val: string) => void

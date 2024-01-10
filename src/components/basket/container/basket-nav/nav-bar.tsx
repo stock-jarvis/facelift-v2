@@ -44,7 +44,7 @@ const Index = () => {
 	return (
 		<Flex
 			flex="1"
-			style={{ padding: token.paddingSM }}
+			style={{ padding: token.paddingXS }}
 			justify="space-between"
 			align="center"
 		>

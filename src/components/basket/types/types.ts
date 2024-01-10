@@ -82,13 +82,13 @@ export interface BasketDataProps {
 export interface SavedPosition {
 	id: string
 	quantity: number
+	instrument: string
 	action: TradeAction
 	expiry?: string
 	option?: OptionType
 	tradeValue?: number
 	tradeOption: string
 	subTradeOption?: string
-	instrument: string
 	subTradeOptionList?: DefaultOptionType[]
 }
 
@@ -102,28 +102,28 @@ export interface SpotBasketData {
 }
 
 export interface FutureBasketData {
+	expiry: string
+	stopLossValue: number
 	quantityValue: number
+	stopLossType: YeildType
+	totalProfitValue: number
 	actionValue: TradeAction
 	totalProfitType: YeildType
-	stopLossType: YeildType
-	expiry: string | undefined
-	totalProfitValue: number
-	stopLossValue: number
 }
 
 export interface OptionsBasketData {
+	expiry: string
+	tradeValue: number
+	tradeOption: string
 	quantityValue: number
-	actionValue: TradeAction
-	totalProfitType: YeildType
+	stopLossValue: number
+	subTradeOption: string
 	optionType: OptionType
 	stopLossType: YeildType
-	expiry: string | undefined
+	actionValue: TradeAction
 	totalProfitValue: number
-	stopLossValue: number
-	tradeOption: string | undefined
-	subTradeOption: string | undefined
-	tradeValue: number | undefined
-	subTradeOptionList: DefaultOptionType[] | undefined
+	totalProfitType: YeildType
+	subTradeOptionList: DefaultOptionType[]
 }
 
 export enum OptionsKey {

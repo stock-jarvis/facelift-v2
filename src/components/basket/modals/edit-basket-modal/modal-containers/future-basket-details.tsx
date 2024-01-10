@@ -50,7 +50,7 @@ const FutureBasketDetails: React.FC<FutureDetailsProps> = ({
 	const [futureBasketData, setFutureBasketData] = useImmer<FutureBasketData>({
 		quantityValue: individualBasket.entryCondition.quantity,
 		actionValue: individualBasket.entryCondition.actionType,
-		expiry: individualBasket.entryCondition.expiry,
+		expiry: individualBasket.entryCondition.expiry!,
 		stopLossType: individualBasket.exitCondition.stopLoss.type,
 		stopLossValue: individualBasket.exitCondition.stopLoss.value,
 		totalProfitType: individualBasket.exitCondition.totalProfit.type,

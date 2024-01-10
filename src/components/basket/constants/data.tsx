@@ -90,7 +90,7 @@ export const exchangeType: DefaultOptionType[] = [
 export const tradeTypeData = [
 	{
 		id: 1,
-		label: 'Atm Points',
+		label: 'Atm Point',
 		value: 'ATMPt',
 		children: [
 			{ id: 1, label: 'ATM', value: 'ATM' },
@@ -108,7 +108,7 @@ export const tradeTypeData = [
 	},
 	{
 		id: 2,
-		label: 'Atm Percent',
+		label: 'Atm +- n%',
 		value: 'ATMn',
 		children: [
 			{ id: 1, label: '+', value: '+' },
@@ -117,7 +117,7 @@ export const tradeTypeData = [
 	},
 	{
 		id: 3,
-		label: 'CP of SP%',
+		label: 'CP of stradle %',
 		value: 'CPSP',
 		children: [
 			{ id: 1, label: '~', value: '~' },
@@ -127,7 +127,7 @@ export const tradeTypeData = [
 	},
 	{
 		id: 4,
-		label: 'CP',
+		label: 'Closest Premium',
 		value: 'CP',
 		children: [
 			{ id: 1, label: '~', value: '~' },

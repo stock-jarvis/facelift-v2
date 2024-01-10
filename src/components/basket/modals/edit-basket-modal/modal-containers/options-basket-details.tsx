@@ -29,10 +29,10 @@ import { tradeTypeData } from 'src/components/basket/constants/data'
 import { ButtonProps } from 'src/common/components/button/button'
 
 interface OptionDetailsProps {
-	individualBasket: BasketDataProps
 	dark: boolean
 	basket: BasketDataProps[]
 	baseInstrumentValue: string
+	individualBasket: BasketDataProps
 	handleDeleteBasket: (id: string) => void
 	handleCopyBasket: (id: string) => void
 	handleEditBasket: (basket: BasketDataProps[]) => void
@@ -53,17 +53,17 @@ const OptionBasketDetail: React.FC<OptionDetailsProps> = ({
 			quantityValue: individualBasket.entryCondition.quantity,
 			actionValue: individualBasket.entryCondition.actionType,
 			optionType: individualBasket.entryCondition.optionType ?? OptionType.CALL,
-			expiry: individualBasket.entryCondition.expiry,
+			expiry: individualBasket.entryCondition.expiry!,
 			stopLossType: individualBasket.exitCondition.stopLoss.type,
 			stopLossValue: individualBasket.exitCondition.stopLoss.value,
 			totalProfitType: individualBasket.exitCondition.totalProfit.type,
 			totalProfitValue: individualBasket.exitCondition.totalProfit.value,
-			tradeOption: individualBasket.entryCondition.tradeType,
-			subTradeOption: individualBasket.entryCondition.tradeTypeParams,
-			tradeValue: individualBasket.entryCondition.tradeTypeValue,
+			tradeOption: individualBasket.entryCondition.tradeType!,
+			subTradeOption: individualBasket.entryCondition.tradeTypeParams!,
+			tradeValue: individualBasket.entryCondition.tradeTypeValue!,
 			subTradeOptionList: tradeTypeData.find(
 				(trade) => individualBasket.entryCondition.tradeType === trade.value
-			)?.children,
+			)!.children,
 		}
 	)
 
@@ -238,15 +238,15 @@ const OptionBasketDetail: React.FC<OptionDetailsProps> = ({
 			children: (
 				<Flex flex={1} justify="center">
 					<StrikeSelector<OptionsKey>
-						tradeOption={optionsBasketData.tradeOption}
-						tradeValue={optionsBasketData.tradeValue}
-						setTradeValue={handleChangeValue}
 						paramValue={OptionsKey.TRADEVALUE}
 						paramType={OptionsKey.SUBTRADEOPTION}
-						setTradeOption={handleTradeOptionChange}
-						subTradeOption={optionsBasketData.subTradeOption}
+						tradeOption={optionsBasketData.tradeOption!}
+						tradeValue={optionsBasketData.tradeValue!}
+						subTradeOption={optionsBasketData.subTradeOption!}
+						subTradeOptionList={optionsBasketData.subTradeOptionList!}
+						setTradeValue={handleChangeValue}
 						setSubTradeOption={handleChangeValue<string>}
-						subTradeOptionList={optionsBasketData.subTradeOptionList}
+						setTradeOption={handleTradeOptionChange}
 					/>
 				</Flex>
 			),
@@ -268,9 +268,9 @@ const OptionBasketDetail: React.FC<OptionDetailsProps> = ({
 			children: (
 				<Flex flex={1} justify="center">
 					<ExpirySelector
+						expiryOptions={optionExpiry}
 						expiryValue={optionsBasketData.expiry!}
 						handleExpiryChange={handleChangeValue<string>}
-						expiryOptions={optionExpiry}
 					/>
 				</Flex>
 			),
@@ -321,10 +321,10 @@ const OptionBasketDetail: React.FC<OptionDetailsProps> = ({
 				<Flex flex={1} justify="center">
 					<YeildButton<OptionsKey>
 						targetOn={YeildLabel.PROFIT}
-						targetType={optionsBasketData.stopLossType}
-						targetValue={optionsBasketData.stopLossValue}
 						paramType={OptionsKey.LOSSTYPE}
 						paramValue={OptionsKey.LOSSVALUE}
+						targetType={optionsBasketData.stopLossType}
+						targetValue={optionsBasketData.stopLossValue}
 						handleTargetValueChange={handleChangeValue<number>}
 						handleTargetTypeChange={handleChangeValue<string>}
 					/>
@@ -365,8 +365,8 @@ const OptionBasketDetail: React.FC<OptionDetailsProps> = ({
 		'entryCondition',
 		'optionType'
 	)
-	useActionChange<string | undefined>(
-		optionsBasketData.tradeOption,
+	useActionChange<string>(
+		optionsBasketData.tradeOption!,
 		individualBasket.id,
 		basket,
 		handleEditBasket,
@@ -374,16 +374,16 @@ const OptionBasketDetail: React.FC<OptionDetailsProps> = ({
 		'tradeType'
 	)
 
-	useActionChange<string | undefined>(
-		optionsBasketData.expiry,
+	useActionChange<string>(
+		optionsBasketData.expiry!,
 		individualBasket.id,
 		basket,
 		handleEditBasket,
 		'entryCondition',
 		'expiry'
 	)
-	useActionChange<string | undefined>(
-		optionsBasketData.subTradeOption,
+	useActionChange<string>(
+		optionsBasketData.subTradeOption!,
 		individualBasket.id,
 		basket,
 		handleEditBasket,

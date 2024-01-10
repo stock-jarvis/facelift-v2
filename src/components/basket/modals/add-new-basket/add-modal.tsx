@@ -83,7 +83,7 @@ const Index = () => {
 
 	const handleAfterClose = () => {
 		setBasketName('')
-		setInstrument(undefined)
+		setInstrument('')
 		setBasketNameError(false)
 		setBasketInstrumentError(false)
 		setExchange(Exchange.NSE)

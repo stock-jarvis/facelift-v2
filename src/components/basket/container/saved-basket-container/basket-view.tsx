@@ -33,7 +33,7 @@ const Index = () => {
 	]
 
 	return (
-		<Flex flex="1" vertical style={{ padding: token.paddingXS }}>
+		<Flex flex="1" vertical>
 			<Divider>
 				<Typography.Text
 					style={{ color: token.colorPrimary, fontSize: token.fontSizeLG }}
