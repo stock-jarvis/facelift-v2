@@ -207,3 +207,19 @@ export const defaultLegsEXitCondition: PositionExitCondition = {
 		type: YeildType.PERCENT,
 	},
 }
+
+export const defaultNewBasket: SavedBasket = {
+	id: '',
+	name: '',
+	ticker: '',
+	exchange: Exchange.NSE,
+	identifier: 0,
+	type: BasketType.INTRADAY,
+	atm: BasketAtm.SPOT,
+	positions: [],
+	exitCondition: {
+		type: BasketExitType.SQOL,
+		totalLoss: 0,
+		totalProfit: 0,
+	},
+}

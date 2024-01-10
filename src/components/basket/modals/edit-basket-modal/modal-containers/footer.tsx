@@ -12,18 +12,18 @@ import { useEffect, useState } from 'react'
 interface FooterProps {
 	basketData: SavedBasket
 	basket: BasketDataProps[]
+	setPositionError: (error: boolean) => void
 }
 
-const Footer: React.FC<FooterProps> = ({ basket, basketData }) => {
+const Footer: React.FC<FooterProps> = ({
+	basket,
+	basketData,
+	setPositionError,
+}) => {
 	const { token } = theme.useToken()
 
-	const {
-		timeError,
-		toggleTimeErrorModalOpen,
-		setEmptyBasketError,
-		resetEditablebasket,
-		updateRuntimeBasketData,
-	} = useBasketStore()
+	const { timeError, resetEditablebasket, updateRuntimeBasketData } =
+		useBasketStore()
 
 	const [basketEntryConditions, setBasketEntryConditions] =
 		useState<SavedBasketsEntryCondition>()
@@ -107,7 +107,7 @@ const Footer: React.FC<FooterProps> = ({ basket, basketData }) => {
 	const handleSaveBasketClick = () => {
 		if (basket.length > 0) {
 			if (timeError) {
-				toggleTimeErrorModalOpen(true)
+				//todo: add notification
 			} else {
 				if (savedBasket) {
 					updateRuntimeBasketData(savedBasket)
@@ -115,7 +115,7 @@ const Footer: React.FC<FooterProps> = ({ basket, basketData }) => {
 				}
 			}
 		} else {
-			setEmptyBasketError(true)
+			setPositionError(true)
 		}
 	}
 

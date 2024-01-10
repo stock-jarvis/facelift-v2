@@ -1,7 +1,7 @@
 import { Flex, Button, DatePicker, theme } from 'antd'
 import { PlayCircleOutlined, PlusOutlined } from '@ant-design/icons'
 import { IoCalendarOutline } from 'react-icons/io5'
-
+import AddBasketModal from '../../modals/add-new-basket'
 import { TimeRangePickerProps } from 'antd'
 import { useState, useEffect } from 'react'
 import { useBasketStore } from '../../store/basket-store'
@@ -11,13 +11,13 @@ const { RangePicker } = DatePicker
 const Index = () => {
 	const { token } = theme.useToken()
 	const {
-		toggleBasketModal,
 		clearSelectedBaskets,
 		handleDateChange,
 		selectedBaskets,
 		startDate,
 		endDate,
 	} = useBasketStore()
+	const [isAddModalOpen, setAddModal] = useState<boolean>(false)
 	const [isButtonDisabled, setIsButtonDisabled] = useState<boolean>(true)
 
 	const handleDateChanged: TimeRangePickerProps['onChange'] = (e) => {
@@ -41,38 +41,47 @@ const Index = () => {
 		}
 	}, [startDate, endDate, selectedBaskets, setIsButtonDisabled])
 
-	return (
-		<Flex
-			flex="1"
-			style={{ padding: token.paddingXS }}
-			justify="space-between"
-			align="center"
-		>
-			<Flex>
-				<RangePicker
-					format={'DD-MM-YYYY'}
-					suffixIcon={<IoCalendarOutline />}
-					onChange={handleDateChanged}
-				/>
-			</Flex>
+	const handleModalToggle = () => {
+		setAddModal(!isAddModalOpen)
+	}
 
-			<Flex gap="middle" justify="flex-end">
-				<Button
-					type="primary"
-					icon={<PlusOutlined />}
-					onClick={() => toggleBasketModal()}
-				>
-					Add New Basket
-				</Button>
-				<Button
-					disabled={isButtonDisabled}
-					icon={<PlayCircleOutlined />}
-					onClick={handleBackTestingButtonClicked}
-				>
-					Start Back Testing
-				</Button>
+	return (
+		<>
+			{isAddModalOpen && (
+				<AddBasketModal handleModalToggle={handleModalToggle} />
+			)}
+			<Flex
+				flex="1"
+				style={{ padding: token.paddingXS }}
+				justify="space-between"
+				align="center"
+			>
+				<Flex>
+					<RangePicker
+						format={'DD-MM-YYYY'}
+						suffixIcon={<IoCalendarOutline />}
+						onChange={handleDateChanged}
+					/>
+				</Flex>
+
+				<Flex gap="middle" justify="flex-end">
+					<Button
+						type="primary"
+						icon={<PlusOutlined />}
+						onClick={handleModalToggle}
+					>
+						Add New Basket
+					</Button>
+					<Button
+						disabled={isButtonDisabled}
+						icon={<PlayCircleOutlined />}
+						onClick={handleBackTestingButtonClicked}
+					>
+						Start Back Testing
+					</Button>
+				</Flex>
 			</Flex>
-		</Flex>
+		</>
 	)
 }
 

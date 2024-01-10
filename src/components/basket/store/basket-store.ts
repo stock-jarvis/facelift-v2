@@ -5,18 +5,14 @@ import { immer } from 'zustand/middleware/immer'
 import { defaultBasketData } from '../constants/data'
 import { Exchange } from 'src/common/enums'
 import dayjs, { Dayjs } from 'dayjs'
+
 type BasketState = {
 	endDate: Dayjs
 	startDate: Dayjs
 	exchange: Exchange
 	editType: EditType
 	timeError: boolean
-	duplicateError: boolean
-	emptyBasketError: boolean
 	runtimeDuplicate: boolean
-	timeErrorModalOpen: boolean
-	isAddModalOpen: boolean
-	closeModalConfirmation: boolean
 	savedBasket: SavedBasket[]
 	selectedBaskets: SavedBasket[]
 	editableBasketData: SavedBasket
@@ -34,10 +30,7 @@ type BasketStateActions = {
 	addToSavedBasket: (id: string) => void
 	updateRuntimeError: (id: string) => void
 	deleteRuntimeBasket: (id: string) => void
-	setDuplicateError: (error: boolean) => void
-	setEmptyBasketError: (error: boolean) => void
 	moveStoredToRuntimeBasket: (id: string) => void
-	closeEditConfirmation: (value: boolean) => void
 	addBasketToSelectedBaskets: (id: string) => void
 	closeDuplicateConfirmModal: (value: boolean) => void
 	setEditableBasket: (id: string, type: EditType) => void
@@ -45,8 +38,6 @@ type BasketStateActions = {
 	addNewRuntimeBasket: (basket: SavedBasket) => void
 	updateRuntimeBasketData: (basket: SavedBasket) => void
 	handleDateChange: (startDate: Dayjs, endDate: Dayjs) => void
-	toggleTimeErrorModalOpen: (timeErrorModalOpen: boolean) => void
-	toggleBasketModal: () => void
 	createDuplicateStoredBasket: (basket: SavedBasket) => void
 }
 
@@ -60,11 +51,6 @@ const defaultState: BasketState = {
 	selectedBaskets: [],
 	runtimeDuplicate: false,
 	runtimeBasketList: [],
-	duplicateError: false,
-	emptyBasketError: false,
-	timeErrorModalOpen: false,
-	isAddModalOpen: false,
-	closeModalConfirmation: false,
 	editableBasketData: defaultBasketData,
 }
 
@@ -76,16 +62,6 @@ export const useBasketStore = create<BasketState & BasketStateActions>()(
 			setExchange: (exchange) => set({ exchange }),
 
 			setTimeError: (timeError) => set({ timeError }),
-
-			setEmptyBasketError: (emptyBasketError) => set({ emptyBasketError }),
-
-			toggleBasketModal: () =>
-				set((state) => {
-					state.isAddModalOpen = !state.isAddModalOpen
-				}),
-
-			toggleTimeErrorModalOpen: (timeErrorModalOpen) =>
-				set({ timeErrorModalOpen }),
 
 			closeDuplicateConfirmModal: (runtimeDuplicate) =>
 				set({ runtimeDuplicate }),
@@ -99,11 +75,6 @@ export const useBasketStore = create<BasketState & BasketStateActions>()(
 				set((state) => {
 					state.editType = EditType.NILL
 					void (state.editableBasketData = defaultBasketData)
-				}),
-
-			closeEditConfirmation: (value: boolean) =>
-				set((state) => {
-					state.closeModalConfirmation = value
 				}),
 
 			handleDateChange: (startDate: Dayjs, endDate: Dayjs) =>
@@ -137,11 +108,6 @@ export const useBasketStore = create<BasketState & BasketStateActions>()(
 					state.runtimeBasketList = state.runtimeBasketList.map((b) =>
 						b.id === id ? { ...b, error: false } : b
 					)
-				}),
-
-			setDuplicateError: (err: BasketState['duplicateError']) =>
-				set((state) => {
-					state.duplicateError = err
 				}),
 
 			addNewRuntimeBasket: (newBasket: SavedBasket) =>

@@ -5,26 +5,30 @@ import {
 	theme,
 	Typography,
 	TimePickerProps,
+	CardProps,
 } from 'antd'
 import dayjs from 'dayjs'
 import { SavedBasket } from '../../../types/types'
 import { useBasketStore } from 'src/components/basket/store/basket-store'
 import { useValidateTimes } from '../modal-hooks/useValidateTimes'
 import { getDisabledTimeByExchange } from 'src/common/utils/date-time-utils'
+
 const format = 'HH:mm'
 interface EntryExitProps {
 	basketData: SavedBasket
 	setBasketData: (val: SavedBasket) => void
 }
+
 const EntryExit: React.FC<EntryExitProps> = ({ basketData, setBasketData }) => {
 	const { token } = theme.useToken()
 	const { setTimeError, timeError } = useBasketStore()
 	const disabledHours = getDisabledTimeByExchange(basketData.exchange)
+
 	const handleEntryTimeChange: TimePickerProps['onChange'] = (time) => {
 		setBasketData({
 			...basketData,
 			entryCondition: {
-				exitTime: basketData.entryCondition?.exitTime ?? dayjs(''),
+				exitTime: basketData.entryCondition!.exitTime,
 				entryTime: time!,
 			},
 		})
@@ -34,7 +38,7 @@ const EntryExit: React.FC<EntryExitProps> = ({ basketData, setBasketData }) => {
 		setBasketData({
 			...basketData,
 			entryCondition: {
-				entryTime: basketData.entryCondition?.entryTime || dayjs(),
+				entryTime: basketData.entryCondition!.entryTime,
 				exitTime: time!,
 			},
 		})
@@ -42,57 +46,62 @@ const EntryExit: React.FC<EntryExitProps> = ({ basketData, setBasketData }) => {
 
 	useValidateTimes(basketData.entryCondition!, setTimeError)
 
+	const StartTimeProps: TimePickerProps = {
+		style: { border: timeError ? '1px solid red' : '' },
+		disabledTime: disabledHours,
+		value: dayjs(basketData.entryCondition?.entryTime, format),
+		format: format,
+		hideDisabledOptions: true,
+		showNow: false,
+		onChange: handleEntryTimeChange,
+	}
+
+	const ExitTimeProps: TimePickerProps = {
+		style: { border: timeError ? '1px solid red' : '' },
+		disabledTime: disabledHours,
+		value: dayjs(basketData.entryCondition?.exitTime, format),
+		format: format,
+		showNow: false,
+		hideDisabledOptions: true,
+		onChange: handleExitTimeChange,
+	}
+
+	const entryTitle: CardProps['title'] = (
+		<Typography.Text
+			style={{
+				fontSize: token.fontSizeSM,
+				color: token.colorPrimary,
+			}}
+			children="Entry Time"
+		/>
+	)
+
+	const exitTitle: CardProps['title'] = (
+		<Typography.Text
+			style={{
+				fontSize: token.fontSizeSM,
+				color: token.colorPrimary,
+			}}
+			children="Exit Time"
+		/>
+	)
+
+	const displayCardProps: CardProps = {
+		bordered: true,
+		size: 'small',
+	}
+
 	return (
 		<Flex flex={1} justify="space-around">
-			<Card
-				title={
-					<Flex flex={1} justify="center">
-						<Typography.Text
-							style={{ fontSize: token.fontSizeSM, color: token.colorPrimary }}
-						>
-							Entry Time
-						</Typography.Text>
-					</Flex>
-				}
-				bordered
-				size="small"
-			>
+			<Card {...displayCardProps} title={entryTitle}>
 				<Flex flex="1" justify="center">
-					<TimePicker
-						style={{ border: timeError ? '1px solid red' : '' }}
-						disabledTime={disabledHours}
-						value={dayjs(basketData.entryCondition?.entryTime, format)}
-						format={format}
-						hideDisabledOptions
-						showNow={false}
-						onChange={handleEntryTimeChange}
-					/>
+					<TimePicker {...StartTimeProps} />
 				</Flex>
 			</Card>
 
-			<Card
-				title={
-					<Flex flex={1} justify="center">
-						<Typography.Text
-							style={{ fontSize: token.fontSizeSM, color: token.colorPrimary }}
-						>
-							Exit Time
-						</Typography.Text>
-					</Flex>
-				}
-				bordered
-				size="small"
-			>
+			<Card title={exitTitle} {...displayCardProps}>
 				<Flex flex="1" justify="center">
-					<TimePicker
-						style={{ border: timeError ? '1px solid red' : '' }}
-						disabledTime={disabledHours}
-						value={dayjs(basketData.entryCondition?.exitTime, format)}
-						format={format}
-						showNow={false}
-						hideDisabledOptions
-						onChange={handleExitTimeChange}
-					/>
+					<TimePicker {...ExitTimeProps} />
 				</Flex>
 			</Card>
 		</Flex>

@@ -1,7 +1,7 @@
 import { Button, Modal, theme } from 'antd'
 import { CloseOutlined } from '@ant-design/icons'
 import { Typography, Flex } from 'antd'
-interface ModalProps {
+export interface ConfirmModalProps {
 	open: boolean
 	handleOpen: (val: boolean) => void
 	handleCancel: (val: boolean) => void
@@ -9,7 +9,7 @@ interface ModalProps {
 	header: string
 }
 
-const Index: React.FC<ModalProps> = ({
+const Index: React.FC<ConfirmModalProps> = ({
 	open,
 	handleOpen,
 	handleCancel,

@@ -1,6 +1,7 @@
-import { useEffect, useState } from 'react'
-import { Modal, theme, Flex } from 'antd'
+import { useState } from 'react'
+import { Modal, theme, Flex, ModalProps } from 'antd'
 import { CloseOutlined } from '@ant-design/icons'
+import ConfirmModal from '../confitm-modal'
 import { useImmer } from 'use-immer'
 import Header from './modal-containers/header'
 import Footer from './modal-containers/footer'
@@ -11,6 +12,7 @@ import { generateUniqueId } from '../../utils/randomizer'
 import { useBasketStore } from '../../store/basket-store'
 import Selectors from './modal-containers/selector-container'
 import { BasketLegType } from 'src/common/enums'
+import { ConfirmModalProps } from '../confitm-modal/modal-confirm'
 import {
 	defaultInitialLegValues,
 	defaultBasketData,
@@ -20,8 +22,9 @@ import { BasketDataProps, SavedPosition, SavedBasket } from '../../types/types'
 
 const EditBasketModal = () => {
 	const { token } = theme.useToken()
-	const { editableBasketData, resetEditablebasket, closeEditConfirmation } =
-		useBasketStore()
+	const [isPositionError, setPositionError] = useState<boolean>(false)
+	const [isCofirmModalOpen, setCofirmModal] = useState<boolean>(false)
+	const { editableBasketData, resetEditablebasket } = useBasketStore()
 	const [basketInitialData, updatedBasketData] = useImmer<SavedPosition>(
 		defaultInitialLegValues
 	)
@@ -39,51 +42,67 @@ const EditBasketModal = () => {
 		updatedBasketData(defaultInitialLegValues)
 	}
 
+	const togglePositionError = () => {
+		setPositionError(!isPositionError)
+	}
 	const setOptionValue = () => {
 		updatedBasketData(defaultInitialLegValues)
 	}
+
+	const createSpotBasket = (id: string, type: BasketLegType) => {
+		return {
+			id,
+			type,
+			entryCondition: {
+				quantity: basketInitialData.quantity,
+				actionType: basketInitialData.action,
+			},
+			count: position.length + 1,
+			exitCondition: defaultLegsEXitCondition,
+		}
+	}
+
+	const createFutureBasket = (id: string, type: BasketLegType) => {
+		return {
+			id,
+			type,
+			count: position.length + 1,
+			entryCondition: {
+				quantity: basketInitialData.quantity,
+				actionType: basketInitialData.action,
+				expiry: basketInitialData.expiry,
+			},
+			exitCondition: defaultLegsEXitCondition,
+		}
+	}
+
+	const createOptionsBasket = (id: string, type: BasketLegType) => {
+		return {
+			id,
+			type,
+			count: position.length + 1,
+			entryCondition: {
+				quantity: basketInitialData.quantity,
+				actionType: basketInitialData.action,
+				expiry: basketInitialData.expiry,
+				optionType: basketInitialData.option,
+				tradeType: basketInitialData.tradeOption,
+				tradeTypeParams: basketInitialData.subTradeOption,
+				tradeTypeValue: basketInitialData.tradeValue,
+			},
+			exitCondition: defaultLegsEXitCondition,
+		}
+	}
+
 	const handleAddBasket = (value: BasketLegType) => {
 		const uniqueId = generateUniqueId()
 		setPosition((prev) => [
 			...prev,
 			value === BasketLegType.SPOT
-				? {
-						id: uniqueId,
-						type: BasketLegType.SPOT,
-						entryCondition: {
-							quantity: basketInitialData.quantity,
-							actionType: basketInitialData.action,
-						},
-						count: position.length + 1,
-						exitCondition: defaultLegsEXitCondition,
-					}
+				? createSpotBasket(uniqueId, value)
 				: value === BasketLegType.FUTURE
-					? {
-							type: BasketLegType.FUTURE,
-							id: uniqueId,
-							count: position.length + 1,
-							entryCondition: {
-								quantity: basketInitialData.quantity,
-								actionType: basketInitialData.action,
-								expiry: basketInitialData.expiry,
-							},
-							exitCondition: defaultLegsEXitCondition,
-						}
-					: {
-							type: BasketLegType.OPTIONS,
-							id: uniqueId,
-							count: position.length + 1,
-							entryCondition: {
-								quantity: basketInitialData.quantity,
-								actionType: basketInitialData.action,
-								expiry: basketInitialData.expiry,
-								optionType: basketInitialData.option,
-								tradeType: basketInitialData.tradeOption,
-								tradeTypeParams: basketInitialData.subTradeOption,
-								tradeTypeValue: basketInitialData.tradeValue,
-							},
-							exitCondition: defaultLegsEXitCondition,
-						},
+					? createFutureBasket(uniqueId, value)
+					: createOptionsBasket(uniqueId, value),
 		])
 	}
 
@@ -96,9 +115,6 @@ const EditBasketModal = () => {
 		setPosition(refinedBaskets)
 	}
 
-	useEffect(() => {
-		//console.log(basketData)
-	}, [basketData])
 	const handleCopyBasket = (id: string) => {
 		const basketToBeCopied = position.find((basket) => basket.id === id)
 		if (basketToBeCopied) {
@@ -113,60 +129,95 @@ const EditBasketModal = () => {
 		}
 	}
 
-	return (
-		<Modal
-			open={true}
-			width={window.innerWidth * 0.9}
-			destroyOnClose={true}
-			closeIcon={<CloseOutlined />}
-			afterClose={handleAfterClose}
-			onCancel={() => closeEditConfirmation(true)}
-			footer={<Footer basketData={basketData} basket={position} />}
-			title={
-				<Flex style={{ padding: token.paddingXS }}>
-					<Title {...basketData} />
-				</Flex>
-			}
-			styles={{
-				content: {
-					padding: 0,
-					margin: -50,
-				},
-			}}
-		>
-			<Flex
-				vertical
-				gap={'middle'}
-				style={{
-					padding: token.paddingMD,
-					height: '600px',
-					overflowY: 'scroll',
-					scrollBehavior: 'smooth',
-				}}
-			>
-				<Header basketData={basketData} setBasketData={setBasketData} />
-				<Selectors
-					basketInitialData={basketInitialData}
-					updatedBasketData={updatedBasketData}
-					instrument={basketData.ticker}
-					setOptionValue={setOptionValue}
-					handleAddBasket={handleAddBasket}
-				/>
-				<DetailsContainer
-					basket={position}
-					setBasket={setPosition}
-					basketInitialData={basketInitialData}
-					instrument={basketData.ticker}
-					handleCopyBasket={handleCopyBasket}
-					handleDeleteBasket={handleDeleteBasket}
-				/>
-				<ExitCondition
-					basket={position}
-					basketData={basketData}
-					setBasketData={setBasketData}
-				/>
+	const handleCloseConfirmModal = () => {
+		resetEditablebasket(), setCofirmModal(false)
+	}
+	const handleCancelConfirmModal = () => {
+		setCofirmModal(false)
+	}
+
+	const modalProps: ModalProps = {
+		open: true,
+		destroyOnClose: true,
+		closeIcon: <CloseOutlined />,
+		afterClose: handleAfterClose,
+		onCancel: handleCancelConfirmModal,
+		footer: (
+			<Footer
+				setPositionError={setPositionError}
+				basketData={basketData}
+				basket={position}
+			/>
+		),
+		title: (
+			<Flex style={{ padding: token.paddingXS }}>
+				<Title {...basketData} />
 			</Flex>
-		</Modal>
+		),
+		styles: {
+			content: {
+				padding: 0,
+				margin: -50,
+			},
+		},
+		width: window.innerWidth * 0.9,
+	}
+
+	const positionErrorProps: ConfirmModalProps = {
+		open: isPositionError,
+		header: 'Cannot Save Basket',
+		message: 'Basket should have atleast one leg element to save.',
+		handleOpen: togglePositionError,
+		handleCancel: togglePositionError,
+	}
+
+	const closeModalProps: ConfirmModalProps = {
+		open: isCofirmModalOpen,
+		header: 'Alert!',
+		message: 'Are you sure you want to close? All data will be lost!',
+		handleOpen: handleCloseConfirmModal,
+		handleCancel: handleCancelConfirmModal,
+	}
+
+	return (
+		<>
+			<Modal {...modalProps}>
+				<Flex
+					vertical
+					gap="middle"
+					style={{
+						padding: token.paddingMD,
+						height: '600px',
+						overflowY: 'scroll',
+						scrollBehavior: 'smooth',
+					}}
+				>
+					<Header basketData={basketData} setBasketData={setBasketData} />
+					<Selectors
+						basketInitialData={basketInitialData}
+						updatedBasketData={updatedBasketData}
+						instrument={basketData.ticker}
+						setOptionValue={setOptionValue}
+						handleAddBasket={handleAddBasket}
+					/>
+					<DetailsContainer
+						basket={position}
+						setBasket={setPosition}
+						basketInitialData={basketInitialData}
+						instrument={basketData.ticker}
+						handleCopyBasket={handleCopyBasket}
+						handleDeleteBasket={handleDeleteBasket}
+					/>
+					<ExitCondition
+						basket={position}
+						basketData={basketData}
+						setBasketData={setBasketData}
+					/>
+				</Flex>
+			</Modal>
+			{isPositionError && <ConfirmModal {...positionErrorProps} />}
+			{isCofirmModalOpen && <ConfirmModal {...closeModalProps} />}
+		</>
 	)
 }
 export default EditBasketModal

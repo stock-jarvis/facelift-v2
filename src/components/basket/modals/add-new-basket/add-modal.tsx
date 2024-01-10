@@ -5,66 +5,45 @@ import { useBasketStore } from '../../store/basket-store'
 import { useState, ChangeEvent } from 'react'
 import { SelectProps, InputProps } from 'antd'
 import { generateUniqueId } from '../../utils/randomizer'
-import {
-	BasketType,
-	Exchange,
-	BasketAtm,
-	BasketExitType,
-} from 'src/common/enums'
+import { defaultNewBasket } from '../../constants/data'
+import { Exchange } from 'src/common/enums'
+import ConfirmModal from '../confitm-modal'
 
-const Index = () => {
+interface AddModalProps {
+	handleModalToggle: () => void
+}
+const Index = ({ handleModalToggle }: AddModalProps) => {
 	const { token } = theme.useToken()
-	const [exhange, setExchange] = useState<Exchange>(Exchange.NSE)
-	const {
-		toggleBasketModal,
-		addNewRuntimeBasket,
-		runtimeBasketList,
-		setDuplicateError,
-	} = useBasketStore()
+	const { addNewRuntimeBasket, runtimeBasketList } = useBasketStore()
 	const [basketName, setBasketName] = useState<string>()
 	const [instrument, setInstrument] = useState<string>()
+	const [exhange, setExchange] = useState<Exchange>(Exchange.NSE)
+	const [isDuplicate, setDuplicateError] = useState<boolean>(false)
 	const [basketNameError, setBasketNameError] = useState<boolean>(false)
-	const [basketInstrumentError, setBasketInstrumentError] =
-		useState<boolean>(false)
 
 	const onModalClose = () => {
-		toggleBasketModal()
+		handleModalToggle()
 	}
 
-	const onOkSelect = () => {
-		if (basketName && instrument) {
-			const checkDuplicateBasketName = runtimeBasketList.find(
-				(basket) => basket.name === basketName
-			)
-			if (!checkDuplicateBasketName) {
-				addNewRuntimeBasket({
-					id: generateUniqueId(),
-					name: basketName,
-					ticker: instrument,
-					exchange: exhange,
-					identifier: 0,
-					type: BasketType.INTRADAY,
-					atm: BasketAtm.SPOT,
-					positions: [],
-					exitCondition: {
-						type: BasketExitType.SQOL,
-						totalLoss: 0,
-						totalProfit: 0,
-					},
-				})
-			} else {
-				setDuplicateError(true)
-			}
+	const addNewBasket = () => {
+		addNewRuntimeBasket({
+			...defaultNewBasket,
+			id: generateUniqueId(),
+			name: basketName,
+			ticker: instrument!,
+			exchange: exhange,
+		})
+		handleModalToggle()
+	}
 
-			toggleBasketModal()
+	const handleAddClick = () => {
+		if (basketName && instrument) {
+			runtimeBasketList.find((basket) => basket.name === basketName)
+				? setDuplicateError(true)
+				: addNewBasket()
 		} else {
 			if (!basketName) {
 				setBasketNameError(true)
-				if (!instrument) {
-					setBasketInstrumentError(true)
-				}
-			} else {
-				setBasketInstrumentError(true)
 			}
 		}
 	}
@@ -77,7 +56,6 @@ const Index = () => {
 	}
 
 	const handleInstrumentChange: SelectProps['onChange'] = (value: string) => {
-		setBasketInstrumentError(false)
 		setInstrument(value)
 	}
 
@@ -85,7 +63,6 @@ const Index = () => {
 		setBasketName('')
 		setInstrument('')
 		setBasketNameError(false)
-		setBasketInstrumentError(false)
 		setExchange(Exchange.NSE)
 	}
 
@@ -110,14 +87,13 @@ const Index = () => {
 						<Button onClick={onModalClose} type="default">
 							Cancel
 						</Button>
-						<Button onClick={onOkSelect} type="primary">
+						<Button onClick={handleAddClick} type="primary">
 							Ok
 						</Button>
 					</Flex>
 				}
 				open={true}
 				width={500}
-				okButtonProps={{ type: 'default' }}
 				closeIcon={null}
 				destroyOnClose
 				styles={{
@@ -143,9 +119,6 @@ const Index = () => {
 					/>
 
 					<Select
-						style={{
-							outline: basketInstrumentError ? 'red' : 'black',
-						}}
 						value={instrument}
 						onChange={handleInstrumentChange}
 						className="w-full"
@@ -159,6 +132,15 @@ const Index = () => {
 					/>
 				</Flex>
 			</Modal>
+			{isDuplicate && (
+				<ConfirmModal
+					open={isDuplicate}
+					handleOpen={setDuplicateError}
+					handleCancel={setDuplicateError}
+					header={'Duplicate Alert'}
+					message="Basket with this name already exists"
+				/>
+			)}
 		</>
 	)
 }

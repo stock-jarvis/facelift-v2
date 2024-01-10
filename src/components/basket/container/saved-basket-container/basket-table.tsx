@@ -100,16 +100,17 @@ const Index = () => {
 		},
 	]
 
+	const tableProps: TableProps<SavedBasket> = {
+		columns,
+		rowKey: 'id',
+		pagination: false,
+		scroll: { y: 'calc(100vh - 230px)' },
+		locale: EmptyIndicator('No Saved Basket'),
+		dataSource: savedBasket.filter((b) => b.exchange === exchange),
+	}
 	return (
 		<Flex vertical flex="1">
-			<Table
-				locale={EmptyIndicator('No Saved Basket')}
-				rowKey="id"
-				dataSource={savedBasket.filter((b) => b.exchange === exchange)}
-				columns={columns}
-				pagination={false}
-				scroll={{ y: 'calc(100vh - 230px)' }}
-			/>
+			<Table {...tableProps} />
 		</Flex>
 	)
 }
