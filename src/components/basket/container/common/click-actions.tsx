@@ -2,35 +2,29 @@ import { SavedBasket } from '../../types/types'
 import { theme, ButtonProps, Tooltip, Button } from 'antd'
 
 export interface ActionsButtonProps {
-	record?: SavedBasket
-	handleButtonClick: (id: string, name: string) => void
-	icon: React.ReactNode
 	tooltipTitle: string
+	record?: SavedBasket
+	icon: React.ReactNode
+	handleButtonClick: (id: string, name: string) => void
 }
 
 const Actions: React.FC<ActionsButtonProps> = ({
-	record,
 	icon,
+	record,
 	tooltipTitle,
 	handleButtonClick,
 }) => {
 	const { token } = theme.useToken()
 	const actionButtonProps: ButtonProps = {
-		shape: 'circle',
+		icon: icon,
 		type: 'text',
+		shape: 'circle',
+		style: { color: record!.error ? token.colorError : '' },
+		onClick: handleButtonClick.bind(this, record!.id, record!.name!),
 	}
 	return (
 		<Tooltip title={tooltipTitle}>
-			<Button
-				{...actionButtonProps}
-				style={
-					record && {
-						color: record.error ? token.colorError : '',
-					}
-				}
-				icon={icon}
-				onClick={handleButtonClick.bind(this, record!.id, record!.name!)}
-			/>
+			<Button {...actionButtonProps} />
 		</Tooltip>
 	)
 }

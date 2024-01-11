@@ -42,15 +42,15 @@ type BasketStateActions = {
 }
 
 const defaultState: BasketState = {
-	endDate: dayjs(''),
-	editType: EditType.NILL,
-	startDate: dayjs(''),
-	exchange: Exchange.NSE,
-	timeError: false,
 	savedBasket: [],
+	timeError: false,
+	endDate: dayjs(''),
 	selectedBaskets: [],
-	runtimeDuplicate: false,
+	startDate: dayjs(''),
 	runtimeBasketList: [],
+	exchange: Exchange.NSE,
+	editType: EditType.NILL,
+	runtimeDuplicate: false,
 	editableBasketData: defaultBasketData,
 }
 
@@ -214,6 +214,7 @@ export const useBasketStore = create<BasketState & BasketStateActions>()(
 				set((state) => {
 					void state.savedBasket.push(basket)
 				}),
+
 			moveStoredToRuntimeBasket: (id: string) =>
 				set((state) => {
 					const checkIfExists = state.runtimeBasketList.find((b) => b.id === id)

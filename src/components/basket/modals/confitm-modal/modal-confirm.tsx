@@ -1,4 +1,4 @@
-import { Button, Modal, theme } from 'antd'
+import { Button, Modal, ModalProps, theme } from 'antd'
 import { CloseOutlined } from '@ant-design/icons'
 import { Typography, Flex } from 'antd'
 export interface ConfirmModalProps {
@@ -23,49 +23,49 @@ const Index: React.FC<ConfirmModalProps> = ({
 	const handleCancelSelect = () => {
 		handleCancel(false)
 	}
-	return (
-		<Modal
-			title={
-				<Flex
-					flex="1"
-					justify="space-between"
-					style={{
-						padding: token.paddingXS,
-					}}
-				>
-					<Typography.Text>{header}</Typography.Text>
 
-					<CloseOutlined
-						onClick={handleCancelSelect}
-						style={{ paddingInline: token.paddingSM }}
-					/>
-				</Flex>
-			}
-			footer={
-				<Flex style={{ padding: token.paddingSM }} justify="flex-end">
-					<Button onClick={handleOkSelect} type="primary">
-						Ok
-					</Button>
-				</Flex>
-			}
-			open={open}
-			okButtonProps={{ type: 'default' }}
-			closeIcon={null}
-			destroyOnClose
-			onOk={handleOkSelect}
-			styles={{
-				content: { marginTop: '80px', padding: 0 },
-				body: { padding: token.paddingSM },
-			}}
-		>
+	const confirmModalProps: ModalProps = {
+		open: open,
+		closeIcon: null,
+		onOk: handleOkSelect,
+		destroyOnClose: true,
+		okButtonProps: { type: 'default' },
+
+		styles: {
+			content: { marginTop: '80px', padding: 0 },
+			body: { padding: token.paddingSM },
+		},
+
+		title: (
+			<Flex
+				flex="1"
+				justify="space-between"
+				style={{
+					padding: token.paddingXS,
+				}}
+			>
+				<Typography.Text>{header}</Typography.Text>
+
+				<CloseOutlined
+					onClick={handleCancelSelect}
+					style={{ paddingInline: token.paddingSM }}
+				/>
+			</Flex>
+		),
+
+		footer: (
+			<Flex style={{ padding: token.paddingSM }} justify="flex-end">
+				<Button onClick={handleOkSelect} type="primary">
+					Ok
+				</Button>
+			</Flex>
+		),
+	}
+
+	return (
+		<Modal {...confirmModalProps}>
 			<Flex flex="1" justify="center" align="center">
-				<Typography.Text
-					style={{
-						textAlign: 'center',
-					}}
-				>
-					{message}
-				</Typography.Text>
+				<Typography.Text children={message} />
 			</Flex>
 		</Modal>
 	)

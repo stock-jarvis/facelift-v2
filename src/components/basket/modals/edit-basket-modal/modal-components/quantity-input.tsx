@@ -3,7 +3,7 @@ import { InputProps } from 'antd'
 import { ChangeEvent } from 'react'
 import { useState, useEffect } from 'react'
 
-interface QuantityProps<T> {
+export interface QuantityProps<T> {
 	handleQantityChange: (value: number, paramType: T) => void
 	baseQuantityValue: number
 	paramType: T

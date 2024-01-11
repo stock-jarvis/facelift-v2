@@ -4,7 +4,7 @@ import { tradeTypeData } from '../../../constants/data'
 import { InputProps } from 'antd'
 import { DefaultOptionType, SelectProps } from 'antd/es/select'
 
-interface StrikeSelectorProps<T> {
+export interface StrikeSelectorProps<T> {
 	tradeOption: string
 	subTradeOption: string
 	subTradeOptionList: DefaultOptionType[]

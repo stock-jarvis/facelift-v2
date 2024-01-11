@@ -81,11 +81,11 @@ export interface BasketDataProps {
 }
 export interface SavedPosition {
 	id: string
-	quantity: number
+	quantityValue: number
 	instrument: string
-	action: TradeAction
+	actionValue: TradeAction
 	expiry?: string
-	option?: OptionType
+	optionType?: OptionType
 	tradeValue?: number
 	tradeOption: string
 	subTradeOption?: string

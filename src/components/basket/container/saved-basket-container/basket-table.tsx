@@ -4,8 +4,8 @@ import { useBasketStore } from '../../store/basket-store'
 import { generateUniqueId } from '../../utils/randomizer'
 import { checkDuplicate } from '../../utils/duplicate-check'
 import Actions, { ActionsButtonProps } from '../common/click-actions'
-import { Table } from 'antd'
 import EmptyIndicator from '../common/empty-indicator'
+import { Table } from 'antd'
 import {
 	DeleteOutlined,
 	CopyOutlined,
@@ -23,6 +23,9 @@ const Index = () => {
 		moveStoredToRuntimeBasket,
 	} = useBasketStore()
 
+	const handleBaskeMove = (id: string) => {
+		moveStoredToRuntimeBasket(id)
+	}
 	const handleBaskeDelete = (id: string) => {
 		deleteStoredBasket(id)
 	}
@@ -33,9 +36,6 @@ const Index = () => {
 		const basket = savedBasket.find((basket) => basket.id === id)!
 		const isDuplicate = checkDuplicate(savedBasket, id, basket.name!)
 		createDuplicateStoredBasket(isDuplicate!)
-	}
-	const handleBaskeMove = (id: string) => {
-		moveStoredToRuntimeBasket(id)
 	}
 
 	const actions: ActionsButtonProps[] = [
@@ -64,6 +64,7 @@ const Index = () => {
 
 	const columns: TableProps<SavedBasket>['columns'] = [
 		{
+			key: generateUniqueId(),
 			title: (
 				<Flex flex={1} justify="flex-start">
 					Name
@@ -77,11 +78,14 @@ const Index = () => {
 					</Typography.Text>
 				</Flex>
 			),
-			key: generateUniqueId(),
 		},
 		{
-			title: <Flex justify="flex-end">Actions</Flex>,
 			key: generateUniqueId(),
+			title: (
+				<Flex justify="flex-end">
+					<Typography.Text>Actions</Typography.Text>
+				</Flex>
+			),
 			render: (record) => (
 				<Flex justify="flex-end" align="center">
 					{actions.map((action) => (

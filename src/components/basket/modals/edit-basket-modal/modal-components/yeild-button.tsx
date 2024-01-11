@@ -5,7 +5,7 @@ import { InputProps } from 'antd'
 import { YeildType, YeildLabel } from 'src/components/basket/types/types'
 import { DefaultOptionType, SelectProps } from 'antd/es/select'
 import { useMemo } from 'react'
-interface YeildButtonProps<T> {
+export interface YeildButtonProps<T> {
 	targetOn: YeildLabel
 	targetType: YeildType
 	targetValue: number

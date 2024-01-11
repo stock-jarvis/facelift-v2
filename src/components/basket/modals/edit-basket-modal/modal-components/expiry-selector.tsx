@@ -3,10 +3,9 @@ import { Select } from 'antd'
 import { SelectProps } from 'antd'
 import { DefaultOptionType } from 'antd/es/select'
 
-interface ExpirySelectorProps<U> {
+export interface ExpirySelectorProps<U> {
 	expiryOptions: DefaultOptionType[]
 	expiryValue: string
-
 	handleExpiryChange: (val: string, type: U) => void
 }
 const ExpirySelector = <U,>({

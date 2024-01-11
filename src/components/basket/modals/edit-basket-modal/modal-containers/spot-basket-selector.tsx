@@ -1,25 +1,39 @@
 import { Flex, Descriptions, DescriptionsProps, Typography, theme } from 'antd'
 import Instrument from '../modal-components/instrument'
-import ActionSelector from '../modal-components/action-selector'
+import ActionSelector, {
+	ActionSelectorProps,
+} from '../modal-components/action-selector'
 import PositionHolder from './position-holder'
 import QuantityInput from '../modal-components/quantity-input'
 import { SavedPosition, SpotKey } from 'src/components/basket/types/types'
 import { BasketLegType, TradeAction } from 'src/common/enums'
 interface BasketProps {
-	basketInitialData: SavedPosition
 	baseInstrumentValue: string
+	basketInitialData: SavedPosition
 	handleAddBasket: (val: BasketLegType) => void
-	handleBaseQuantityChange: (value: number) => void
-	handleBaseActionChange: (val: TradeAction) => void
+	updatedBasketData: (val: SavedPosition) => void
 }
 const SpotBasketSelector: React.FC<BasketProps> = ({
 	basketInitialData,
 	handleAddBasket,
-	handleBaseQuantityChange,
-	handleBaseActionChange,
 	baseInstrumentValue,
+	updatedBasketData,
 }) => {
 	const { token } = theme.useToken()
+
+	const valueChanged = <T,>(val: T, type: SpotKey) => {
+		updatedBasketData({ ...basketInitialData, [type]: val })
+	}
+
+	const actionTypeProps: ActionSelectorProps<TradeAction, SpotKey> = {
+		action1: TradeAction.Buy,
+		action2: TradeAction.Sell,
+		paramType: SpotKey.ACTION,
+		color1: 'green',
+		color2: 'red',
+		baseActionValue: basketInitialData.actionValue,
+		handleBaseActionChange: valueChanged<TradeAction>,
+	}
 
 	const items: DescriptionsProps['items'] = [
 		{
@@ -44,15 +58,7 @@ const SpotBasketSelector: React.FC<BasketProps> = ({
 			),
 			children: (
 				<Flex flex={1} justify="center" className="w-full">
-					<ActionSelector<TradeAction, SpotKey>
-						action1={TradeAction.Buy}
-						action2={TradeAction.Sell}
-						paramType={SpotKey.ACTION}
-						color1="green"
-						color2="red"
-						baseActionValue={basketInitialData.action}
-						handleBaseActionChange={handleBaseActionChange}
-					/>
+					<ActionSelector {...actionTypeProps} />
 				</Flex>
 			),
 		},
@@ -67,8 +73,8 @@ const SpotBasketSelector: React.FC<BasketProps> = ({
 				<Flex flex={1} justify="center">
 					<QuantityInput<SpotKey>
 						paramType={SpotKey.QUANTITY}
-						baseQuantityValue={basketInitialData.quantity}
-						handleQantityChange={handleBaseQuantityChange}
+						handleQantityChange={valueChanged<number>}
+						baseQuantityValue={basketInitialData.quantityValue}
 					/>
 				</Flex>
 			),

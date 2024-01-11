@@ -169,9 +169,9 @@ export const tradeTypeData = [
 
 export const defaultInitialLegValues: SavedPosition = {
 	id: '',
-	quantity: 1,
-	action: TradeAction.Buy,
-	option: OptionType.CALL,
+	quantityValue: 1,
+	actionValue: TradeAction.Buy,
+	optionType: OptionType.CALL,
 	expiry: 'Monthly',
 	tradeValue: 1,
 	tradeOption: tradeTypeData[0].value,
@@ -223,3 +223,11 @@ export const defaultNewBasket: SavedBasket = {
 		totalProfit: 0,
 	},
 }
+
+// Will be deleted when we recieve the data from api
+export const tickerData: DefaultOptionType[] = [
+	{ value: 'Ticker-1', label: 'Ticker-1' },
+	{ value: 'Ticker-2', label: 'Ticker-2' },
+	{ value: 'Ticker-3', label: 'Ticker-3' },
+	{ value: 'Ticker-4', label: 'Ticker-4' },
+]

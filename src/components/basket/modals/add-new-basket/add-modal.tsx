@@ -1,14 +1,27 @@
-import { Modal, Flex, Button, Select, Input, Typography, theme } from 'antd'
-import ExhchangeSelector from './modal-components/basket-exchange'
+import { useState, ChangeEvent } from 'react'
+import {
+	Modal,
+	Flex,
+	Button,
+	Select,
+	Input,
+	Typography,
+	theme,
+	ModalProps,
+} from 'antd'
+
+import ExhchangeSelector, {
+	ExchangeSelectorProps,
+} from './modal-components/basket-exchange'
 import { CloseOutlined } from '@ant-design/icons'
 import { useBasketStore } from '../../store/basket-store'
-import { useState, ChangeEvent } from 'react'
 import { SelectProps, InputProps } from 'antd'
 import { generateUniqueId } from '../../utils/randomizer'
 import { defaultNewBasket } from '../../constants/data'
 import { Exchange } from 'src/common/enums'
 import ConfirmModal from '../confitm-modal'
-
+import { tickerData } from '../../constants/data'
+import { ConfirmModalProps } from '../confitm-modal/modal-confirm'
 interface AddModalProps {
 	handleModalToggle: () => void
 }
@@ -66,82 +79,77 @@ const Index = ({ handleModalToggle }: AddModalProps) => {
 		setExchange(Exchange.NSE)
 	}
 
-	return (
-		<>
-			<Modal
-				afterClose={handleAfterClose}
-				title={
-					<Flex
-						flex="1"
-						justify="space-between"
-						style={{
-							padding: token.paddingXS,
-						}}
-					>
-						<Typography.Text>Add New Basket</Typography.Text>
-						<CloseOutlined onClick={onModalClose} />
-					</Flex>
-				}
-				footer={
-					<Flex style={{ padding: token.paddingSM }} justify="flex-end">
-						<Button onClick={onModalClose} type="default">
-							Cancel
-						</Button>
-						<Button onClick={handleAddClick} type="primary">
-							Ok
-						</Button>
-					</Flex>
-				}
-				open={true}
-				width={500}
-				closeIcon={null}
-				destroyOnClose
-				styles={{
-					content: { marginTop: '80px', padding: 0 },
-					body: { padding: token.paddingXS, paddingTop: 0, paddingBottom: 0 },
+	const addModalProps: ModalProps = {
+		afterClose: handleAfterClose,
+		title: (
+			<Flex
+				flex="1"
+				justify="space-between"
+				style={{
+					padding: token.paddingXS,
 				}}
 			>
-				<Flex vertical gap={'small'}>
-					<Flex>
-						<ExhchangeSelector
-							exchangeValue={exhange}
-							handleTradeChange={setExchange}
-						/>
-					</Flex>
+				<Typography.Text>Add New Basket</Typography.Text>
+				<CloseOutlined onClick={onModalClose} />
+			</Flex>
+		),
+		footer: (
+			<Flex style={{ padding: token.paddingSM }} justify="flex-end">
+				<Button onClick={onModalClose} type="default">
+					Cancel
+				</Button>
+				<Button onClick={handleAddClick} type="primary">
+					Ok
+				</Button>
+			</Flex>
+		),
+		open: true,
+		width: 500,
+		closeIcon: null,
+		destroyOnClose: true,
+		styles: {
+			content: { marginTop: '80px', padding: 0 },
+			body: { padding: token.paddingXS, paddingTop: 0, paddingBottom: 0 },
+		},
+	}
 
-					<Input
-						style={{
-							borderColor: basketNameError ? 'red' : '',
-						}}
-						placeholder="Enter Basket Name"
-						value={basketName}
-						onChange={handleInputChange}
-					/>
+	const duplicateModalProps: ConfirmModalProps = {
+		open: isDuplicate,
+		header: 'Duplicate Alert',
+		handleOpen: setDuplicateError,
+		handleCancel: setDuplicateError,
+		message: 'Basket with this name already exists',
+	}
 
-					<Select
-						value={instrument}
-						onChange={handleInstrumentChange}
-						className="w-full"
-						placeholder="Select an intument"
-						options={[
-							{ value: 'Ticker-1', label: 'Ticker-1' },
-							{ value: 'Ticker-2', label: 'Ticker-2' },
-							{ value: 'Ticker-3', label: 'Ticker-3' },
-							{ value: 'Ticker-4', label: 'Ticker-4' },
-						]}
-					/>
-				</Flex>
-			</Modal>
-			{isDuplicate && (
-				<ConfirmModal
-					open={isDuplicate}
-					handleOpen={setDuplicateError}
-					handleCancel={setDuplicateError}
-					header={'Duplicate Alert'}
-					message="Basket with this name already exists"
-				/>
-			)}
-		</>
+	const instrumentSelectProps: SelectProps = {
+		value: instrument,
+		className: 'w-full',
+		options: tickerData,
+		placeholder: 'Select an intument',
+		onChange: handleInstrumentChange,
+	}
+
+	const nameInputProps: InputProps = {
+		value: basketName,
+		onChange: handleInputChange,
+		placeholder: 'Enter Basket Name',
+		style: { borderColor: basketNameError ? 'red' : '' },
+	}
+
+	const exchangeProps: ExchangeSelectorProps = {
+		exchangeValue: exhange,
+		handleTradeChange: setExchange,
+	}
+
+	return (
+		<Modal {...addModalProps}>
+			<Flex vertical gap="small">
+				<ExhchangeSelector {...exchangeProps} />
+				<Input {...nameInputProps} />
+				<Select {...instrumentSelectProps} />
+			</Flex>
+			{isDuplicate && <ConfirmModal {...duplicateModalProps} />}
+		</Modal>
 	)
 }
 

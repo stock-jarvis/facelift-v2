@@ -2,16 +2,14 @@ import { Tabs, TabsProps, theme, Divider, Flex, Typography } from 'antd'
 import SpotBasketSelector from './spot-basket-selector'
 import FutureBasketSelector from './future-basket-selector'
 import OptionsBasketSelector from './options-basket-selector'
-import { tradeTypeData } from 'src/components/basket/constants/data'
 import { SavedPosition } from 'src/components/basket/types/types'
 import { useState } from 'react'
 import { BasketLegType } from 'src/common/enums'
 
-type NumberedKeys = 'quantity' | 'tradeValue'
-type Keys = 'action' | 'expiry' | 'option' | 'tradeOption' | 'subTradeOption'
 interface SelectProps {
 	instrument: string
 	basketInitialData: SavedPosition
+
 	setOptionValue: () => void
 	handleAddBasket: (val: BasketLegType) => void
 	updatedBasketData: (val: SavedPosition) => void
@@ -26,28 +24,26 @@ const Selectors: React.FC<SelectProps> = ({
 }) => {
 	const { token } = theme.useToken()
 	const [tabValue, setTabValue] = useState<string>('spot')
+
 	const handleTabChange: TabsProps['onChange'] = (e: string) => {
 		setOptionValue()
 		setTabValue(e)
 	}
-	const handleQuantityChange = (val: number, key: NumberedKeys) => {
-		updatedBasketData({ ...basketInitialData, [key]: val })
+
+	const legTabs: TabsProps = {
+		type: 'card',
+		tabBarGutter: 15,
+		className: 'w-full',
+		activeKey: tabValue,
+		onChange: handleTabChange,
+		destroyInactiveTabPane: true,
+		tabBarStyle: { width: '400px' },
+		style: {
+			padding: token.paddingXS,
+			borderRadius: token.borderRadiusLG,
+		},
 	}
-	const handleActionChange = (val: string, key: Keys) => {
-		updatedBasketData({ ...basketInitialData, [key]: val })
-	}
-	const handleTradeChange = (val: string) => {
-		const list = tradeTypeData.find((trade) => trade.value === val)?.children
-		if (list) {
-			updatedBasketData({
-				...basketInitialData,
-				tradeOption: val,
-				subTradeOption: list[0].value,
-				tradeValue: 1,
-				subTradeOptionList: list,
-			})
-		}
-	}
+
 	return (
 		<Flex flex={1} vertical gap="middle">
 			<Divider>
@@ -58,19 +54,7 @@ const Selectors: React.FC<SelectProps> = ({
 				</Typography.Text>
 			</Divider>
 			<Tabs
-				destroyInactiveTabPane={true}
-				type="card"
-				tabBarStyle={{ width: '400px' }}
-				activeKey={tabValue}
-				onChange={(e) => {
-					handleTabChange(e)
-				}}
-				style={{
-					padding: token.paddingXS,
-					borderRadius: token.borderRadiusLG,
-				}}
-				className="w-full"
-				tabBarGutter={15}
+				{...legTabs}
 				items={[
 					{
 						label: 'Spot',
@@ -79,13 +63,8 @@ const Selectors: React.FC<SelectProps> = ({
 							<SpotBasketSelector
 								basketInitialData={basketInitialData}
 								baseInstrumentValue={instrument}
-								handleBaseActionChange={(val) =>
-									handleActionChange(val, 'action')
-								}
+								updatedBasketData={updatedBasketData}
 								handleAddBasket={handleAddBasket}
-								handleBaseQuantityChange={(val) =>
-									handleQuantityChange(val, 'quantity')
-								}
 							/>
 						),
 					},
@@ -96,16 +75,8 @@ const Selectors: React.FC<SelectProps> = ({
 							<FutureBasketSelector
 								basketInitialData={basketInitialData}
 								baseInstrumentValue={instrument}
-								handleBaseActionChange={(val) =>
-									handleActionChange(val, 'action')
-								}
-								handleBaseExpiryChange={(val) =>
-									handleActionChange(val, 'expiry')
-								}
+								updatedBasketData={updatedBasketData}
 								handleAddBasket={handleAddBasket}
-								handleBaseQuantityChange={(val) =>
-									handleQuantityChange(val, 'quantity')
-								}
 							/>
 						),
 					},
@@ -116,31 +87,8 @@ const Selectors: React.FC<SelectProps> = ({
 							<OptionsBasketSelector
 								basketInitialData={basketInitialData}
 								baseInstrumentValue={instrument}
-								handleBaseExpiryChange={(val) =>
-									handleActionChange(val, 'expiry')
-								}
+								updatedBasketData={updatedBasketData}
 								handleAddBasket={handleAddBasket}
-								handleBaseQuantityChange={(val) =>
-									handleQuantityChange(val, 'quantity')
-								}
-								handleBaseActionChange={(val) =>
-									handleActionChange(val, 'action')
-								}
-								handleBaseOptionChange={(val) =>
-									handleActionChange(val, 'option')
-								}
-								handleBaseTradeValueChange={(val) =>
-									handleQuantityChange(val, 'tradeValue')
-								}
-								handleBaseTradeChange={(val) => {
-									handleTradeChange(val)
-								}}
-								handleBaseSubTradeChange={(val) =>
-									updatedBasketData({
-										...basketInitialData,
-										subTradeOption: val,
-									})
-								}
 							/>
 						),
 					},

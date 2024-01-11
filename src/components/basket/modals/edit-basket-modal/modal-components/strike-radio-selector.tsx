@@ -5,7 +5,6 @@ import { SegmentedValue } from 'antd/es/segmented'
 interface StrikeRadioProps {
 	tradeOption: string
 	setTradeOption: (val: string) => void
-	setSubTradeOption: (val: string) => void
 }
 const StrikeRadioSelector: React.FC<StrikeRadioProps> = ({
 	tradeOption,

@@ -2,7 +2,9 @@ import { Flex, Descriptions, DescriptionsProps, Typography, theme } from 'antd'
 
 import { futureExpiry } from 'src/components/basket/constants/data'
 import Instrument from '../modal-components/instrument'
-import ActionSelector from '../modal-components/action-selector'
+import ActionSelector, {
+	ActionSelectorProps,
+} from '../modal-components/action-selector'
 import PositionHolder from './position-holder'
 import QuantityInput from '../modal-components/quantity-input'
 import ExpirySelector from '../modal-components/expiry-selector'
@@ -11,20 +13,31 @@ import { SavedPosition, FutureKey } from 'src/components/basket/types/types'
 interface BasketProps {
 	basketInitialData: SavedPosition
 	baseInstrumentValue: string
+	updatedBasketData: (val: SavedPosition) => void
 	handleAddBasket: (leg: BasketLegType) => void
-	handleBaseQuantityChange: (value: number) => void
-	handleBaseExpiryChange: (val: string) => void
-	handleBaseActionChange: (val: TradeAction) => void
 }
 const FutureBasketSelector: React.FC<BasketProps> = ({
 	basketInitialData,
 	baseInstrumentValue,
+	updatedBasketData,
 	handleAddBasket,
-	handleBaseQuantityChange,
-	handleBaseActionChange,
-	handleBaseExpiryChange,
 }) => {
 	const { token } = theme.useToken()
+
+	const valueChanged = <T,>(val: T, type: FutureKey) => {
+		updatedBasketData({ ...basketInitialData, [type]: val })
+	}
+
+	const actionTypeProps: ActionSelectorProps<TradeAction, FutureKey> = {
+		action1: TradeAction.Buy,
+		action2: TradeAction.Sell,
+		paramType: FutureKey.ACTION,
+		color1: 'green',
+		color2: 'red',
+		baseActionValue: basketInitialData.actionValue,
+		handleBaseActionChange: valueChanged<TradeAction>,
+	}
+
 	const items: DescriptionsProps['items'] = [
 		{
 			key: 'instrument',
@@ -48,15 +61,7 @@ const FutureBasketSelector: React.FC<BasketProps> = ({
 			),
 			children: (
 				<Flex flex={1} justify="center">
-					<ActionSelector<TradeAction, FutureKey>
-						action1={TradeAction.Buy}
-						action2={TradeAction.Sell}
-						paramType={FutureKey.ACTION}
-						color1="green"
-						color2="red"
-						baseActionValue={basketInitialData.action}
-						handleBaseActionChange={handleBaseActionChange}
-					/>
+					<ActionSelector {...actionTypeProps} />
 				</Flex>
 			),
 		},
@@ -71,8 +76,8 @@ const FutureBasketSelector: React.FC<BasketProps> = ({
 				<Flex flex={1} justify="center">
 					<QuantityInput<FutureKey>
 						paramType={FutureKey.QUANTITY}
-						baseQuantityValue={basketInitialData.quantity}
-						handleQantityChange={handleBaseQuantityChange}
+						baseQuantityValue={basketInitialData.quantityValue}
+						handleQantityChange={valueChanged<number>}
 					/>
 				</Flex>
 			),
@@ -87,8 +92,8 @@ const FutureBasketSelector: React.FC<BasketProps> = ({
 			children: (
 				<Flex flex={1} justify="center">
 					<ExpirySelector<FutureKey>
-						handleExpiryChange={handleBaseExpiryChange}
-						expiryValue={basketInitialData.expiry || 'Monthly'}
+						handleExpiryChange={valueChanged<string>}
+						expiryValue={basketInitialData.expiry!}
 						expiryOptions={futureExpiry}
 					/>
 				</Flex>
