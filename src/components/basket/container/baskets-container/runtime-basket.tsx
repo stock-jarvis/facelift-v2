@@ -1,6 +1,6 @@
-import { Flex, theme, Table, Button, Typography, Tooltip } from 'antd'
+import { Flex, theme, Table, Typography } from 'antd'
 import type { TableRowSelection } from 'antd/es/table/interface'
-import type { ColumnsType } from 'antd/es/table'
+import type { ColumnsType, TableProps } from 'antd/es/table'
 import {
 	FormOutlined,
 	DeleteOutlined,
@@ -12,6 +12,8 @@ import EmptyIndicator from '../common/empty-indicator'
 import { useBasketStore } from '../../store/basket-store'
 import { SavedBasket, EditType } from '../../types/types'
 import { checkDuplicate } from '../../utils/duplicate-check'
+import { generateUniqueId } from '../../utils/randomizer'
+import Actions, { ActionsButtonProps } from '../common/click-actions'
 const Index = () => {
 	const { token } = theme.useToken()
 	const {
@@ -60,8 +62,32 @@ const Index = () => {
 		},
 	}
 
+	const actions: ActionsButtonProps[] = [
+		{
+			handleButtonClick: handleBasketEdit,
+			icon: <FormOutlined />,
+			tooltipTitle: 'Edit',
+		},
+		{
+			handleButtonClick: handleBasketDuplicate,
+			icon: <CopyOutlined />,
+			tooltipTitle: 'Duplicate',
+		},
+		{
+			handleButtonClick: handleBaskeSave,
+			icon: <SnippetsOutlined />,
+			tooltipTitle: 'Save',
+		},
+		{
+			handleButtonClick: handleBaskeDelete,
+			icon: <DeleteOutlined />,
+			tooltipTitle: 'Delete',
+		},
+	]
+
 	const columns: ColumnsType<SavedBasket> = [
 		{
+			key: 'name',
 			title: (
 				<Flex flex={1} justify="flex-start">
 					Name
@@ -79,9 +105,9 @@ const Index = () => {
 					</Typography.Text>
 				</Flex>
 			),
-			key: 'name',
 		},
 		{
+			key: 'exchange',
 			title: (
 				<Flex flex={1} justify="flex-end">
 					Exchange
@@ -98,10 +124,9 @@ const Index = () => {
 					</Typography.Text>
 				</Flex>
 			),
-			dataIndex: '',
-			key: 'exchange',
 		},
 		{
+			key: 'instrument',
 			title: (
 				<Flex flex={1} justify="flex-end">
 					Instrument
@@ -118,87 +143,38 @@ const Index = () => {
 					</Typography.Text>
 				</Flex>
 			),
-			key: 'instrument',
 		},
 		{
+			key: 'actions',
 			title: (
 				<Flex flex={1} justify="flex-end">
 					Actions
 				</Flex>
 			),
-			dataIndex: '',
 			render: (record) => (
 				<Flex gap={'small'} flex={1} justify="flex-end">
-					<Tooltip title="Edit">
-						<Button
-							shape="circle"
-							type="text"
-							icon={<FormOutlined />}
-							onClick={handleBasketEdit.bind(this, record.id)}
-							style={{
-								color: record.error ? token.colorError : '',
-							}}
-						/>
-					</Tooltip>
-					<Tooltip title="Duplicate">
-						<Button
-							shape="circle"
-							type="text"
-							icon={<CopyOutlined />}
-							onClick={handleBasketDuplicate.bind(
-								this,
-								record.id,
-								record.name!
-							)}
-							style={{
-								color: record.error ? token.colorError : '',
-							}}
-						/>
-					</Tooltip>
-					<Tooltip title="Save">
-						<Button
-							shape="circle"
-							type="text"
-							icon={<SnippetsOutlined />}
-							onClick={handleBaskeSave.bind(this, record.id)}
-							style={{
-								color: record.error ? token.colorError : '',
-							}}
-						/>
-					</Tooltip>
-					<Tooltip title="Delete">
-						<Button
-							shape="circle"
-							type="text"
-							icon={<DeleteOutlined />}
-							onClick={handleBaskeDelete.bind(this, record.id)}
-							style={{
-								color: record.error ? token.colorError : '',
-							}}
-						/>
-					</Tooltip>
+					{actions.map((action) => (
+						<Actions key={generateUniqueId()} {...action} record={record} />
+					))}
 				</Flex>
 			),
-			key: 'actions',
 		},
 	]
+
+	const tableDataProps: TableProps<SavedBasket> = {
+		rowKey: 'id',
+		columns: columns,
+		pagination: false,
+		style: { height: '800px' },
+		rowSelection: rowSelection,
+		dataSource: runtimeBasketList,
+		scroll: { y: 'calc(100vh - 165px)' },
+		locale: EmptyIndicator('No Baskets Available'),
+	}
 	return (
 		<Flex flex="1" vertical>
-			<Flex>
-				<BasketNav />
-			</Flex>
-
-			<Table
-				rowSelection={rowSelection}
-				style={{ height: '800px' }}
-				locale={EmptyIndicator('No Baskets Available')}
-				scroll={{ y: 'calc(100vh - 165px)' }}
-				columns={columns}
-				dataSource={runtimeBasketList}
-				pagination={false}
-				rowKey="id"
-				onChange={() => console.log('hello')}
-			/>
+			<BasketNav />
+			<Table {...tableDataProps} />
 		</Flex>
 	)
 }

@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Modal, theme, Flex, ModalProps } from 'antd'
+import { Modal, theme, Flex, ModalProps, FlexProps } from 'antd'
 import { CloseOutlined } from '@ant-design/icons'
 import ConfirmModal from '../confitm-modal'
 import { useImmer } from 'use-immer'
@@ -133,7 +133,7 @@ const EditBasketModal = () => {
 		resetEditablebasket(), setCofirmModal(false)
 	}
 	const handleCancelConfirmModal = () => {
-		setCofirmModal(false)
+		setCofirmModal(!isCofirmModalOpen)
 	}
 
 	const modalProps: ModalProps = {
@@ -179,32 +179,35 @@ const EditBasketModal = () => {
 		handleCancel: handleCancelConfirmModal,
 	}
 
+	const parentWrapper: FlexProps = {
+		vertical: true,
+		gap: 'middle',
+		style: {
+			padding: token.paddingMD,
+			height: '600px',
+			overflowY: 'scroll',
+			scrollBehavior: 'smooth',
+		},
+		children: null,
+	}
+
 	return (
 		<>
 			<Modal {...modalProps}>
-				<Flex
-					vertical
-					gap="middle"
-					style={{
-						padding: token.paddingMD,
-						height: '600px',
-						overflowY: 'scroll',
-						scrollBehavior: 'smooth',
-					}}
-				>
+				<Flex {...parentWrapper}>
 					<Header basketData={basketData} setBasketData={setBasketData} />
 					<Selectors
-						basketInitialData={basketInitialData}
-						updatedBasketData={updatedBasketData}
 						instrument={basketData.ticker}
+						basketInitialData={basketInitialData}
 						setOptionValue={setOptionValue}
 						handleAddBasket={handleAddBasket}
+						updatedBasketData={updatedBasketData}
 					/>
 					<DetailsContainer
 						basket={position}
-						setBasket={setPosition}
-						basketInitialData={basketInitialData}
 						instrument={basketData.ticker}
+						basketInitialData={basketInitialData}
+						setBasket={setPosition}
 						handleCopyBasket={handleCopyBasket}
 						handleDeleteBasket={handleDeleteBasket}
 					/>

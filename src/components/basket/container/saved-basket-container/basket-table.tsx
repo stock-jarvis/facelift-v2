@@ -1,8 +1,9 @@
-import { Flex, Typography, Button, Tooltip, TableProps } from 'antd'
+import { Flex, Typography, TableProps } from 'antd'
 import { SavedBasket, EditType } from '../../types/types'
 import { useBasketStore } from '../../store/basket-store'
 import { generateUniqueId } from '../../utils/randomizer'
 import { checkDuplicate } from '../../utils/duplicate-check'
+import Actions, { ActionsButtonProps } from '../common/click-actions'
 import { Table } from 'antd'
 import EmptyIndicator from '../common/empty-indicator'
 import {
@@ -37,6 +38,30 @@ const Index = () => {
 		moveStoredToRuntimeBasket(id)
 	}
 
+	const actions: ActionsButtonProps[] = [
+		{
+			handleButtonClick: handleBasketEdit,
+			icon: <FormOutlined />,
+			tooltipTitle: 'Edit',
+		},
+		{
+			handleButtonClick: handleBasketDuplicate,
+			icon: <CopyOutlined />,
+			tooltipTitle: 'Duplicate',
+		},
+
+		{
+			handleButtonClick: handleBaskeDelete,
+			icon: <DeleteOutlined />,
+			tooltipTitle: 'Delete',
+		},
+		{
+			handleButtonClick: handleBaskeMove,
+			icon: <ArrowRightOutlined />,
+			tooltipTitle: 'Save',
+		},
+	]
+
 	const columns: TableProps<SavedBasket>['columns'] = [
 		{
 			title: (
@@ -59,42 +84,9 @@ const Index = () => {
 			key: generateUniqueId(),
 			render: (record) => (
 				<Flex justify="flex-end" align="center">
-					<Tooltip title="Edit">
-						<Button
-							size="small"
-							icon={<FormOutlined />}
-							type="text"
-							shape="circle"
-							onClick={handleBasketEdit.bind(this, record.id)}
-						/>
-					</Tooltip>
-					<Tooltip title="Duplicate">
-						<Button
-							size="small"
-							icon={<CopyOutlined />}
-							type="text"
-							shape="circle"
-							onClick={handleBasketDuplicate.bind(this, record.id)}
-						/>
-					</Tooltip>
-					<Tooltip title="Delete">
-						<Button
-							size="small"
-							icon={<DeleteOutlined />}
-							type="text"
-							shape="circle"
-							onClick={handleBaskeDelete.bind(this, record.id)}
-						/>
-					</Tooltip>
-					<Tooltip title="Move">
-						<Button
-							size="small"
-							icon={<ArrowRightOutlined />}
-							type="text"
-							shape="circle"
-							onClick={handleBaskeMove.bind(this, record.id)}
-						/>
-					</Tooltip>
+					{actions.map((action) => (
+						<Actions key={generateUniqueId()} {...action} record={record} />
+					))}
 				</Flex>
 			),
 		},
