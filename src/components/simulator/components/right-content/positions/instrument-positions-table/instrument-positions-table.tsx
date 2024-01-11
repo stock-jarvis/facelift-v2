@@ -1,66 +1,52 @@
-import { Table, TableProps, Typography } from 'antd'
-import { Dayjs } from 'dayjs'
+import { Table, TableProps } from 'antd'
 import { group } from 'radash'
-
-import { OptionContractType, TradeAction } from 'src/common/enums'
-import { positionsMockData } from '../mock-data'
 
 import Footer from './footer'
 import { useMemo } from 'react'
-import PositionsTable from './positions-table'
-
-export type Position = {
-	tradeAction: TradeAction
-	lots: number
-	entryDate: Dayjs
-	entryTime: Dayjs
-	instrument: string
-	strikePrice: number
-	contractType: OptionContractType
-	expiry: Dayjs
-	entryPrice: number
-	lastTradedPrice: number
-	// TODO: Check data type from API
-	// profitAndLoss: {
-	// 	amount: number
-	// 	percentage: number
-	// }
-}
+import TakenPositionsTable from './taken-positions-table'
+import { useTakenPositionsStore } from 'src/components/simulator/store/taken-positions-store'
+import { TakenPosition } from 'src/common/types'
+import { ProfitLoss } from 'src/common/components'
 
 export type InstrumentPositionsAntdTableProps = TableProps<{
 	instrument: string
-	positions: Position[] | undefined
+	positions: TakenPosition[] | undefined
 	profitAndLoss: number
 }>
 
 const InstrumentPositionsTable = () => {
+	const { takenPositions } = useTakenPositionsStore()
+
+	const dataSource = useMemo(() => {
+		const positionsByInstrument = group(
+			takenPositions,
+			(takenPosition) => takenPosition.instrument
+		)
+
+		return Object.entries(positionsByInstrument).map(
+			([instrument, positions]) => ({
+				instrument,
+				positions,
+				// TODO: Wire Up
+				profitAndLoss: 100,
+			})
+		)
+	}, [takenPositions])
+
 	const columns: InstrumentPositionsAntdTableProps['columns'] = [
 		{
 			title: 'Instrument',
 			key: 'instrument',
 			dataIndex: 'instrument',
+			render: (instrument) => instrument.toUpperCase(),
 		},
 		{
 			title: 'Profit and Loss',
 			key: 'profitAndLoss',
 			dataIndex: 'profitAndLoss',
-			render: (profitAndLoss) => (
-				<Typography.Text type="success">{profitAndLoss}</Typography.Text>
-			),
+			render: (profitAndLoss) => <ProfitLoss value={profitAndLoss} />,
 		},
 	]
-
-	const dataSource = useMemo(
-		() =>
-			Object.entries(group(positionsMockData, (p) => p.instrument)).map(
-				([instrument, positions]) => ({
-					instrument,
-					profitAndLoss: 1000,
-					positions,
-				})
-			),
-		[]
-	)
 
 	return (
 		<Table
@@ -72,7 +58,7 @@ const InstrumentPositionsTable = () => {
 			scroll={{ y: 'calc(100vh - 425px)' }}
 			expandable={{
 				expandedRowRender: (record) => (
-					<PositionsTable positions={record.positions ?? []} />
+					<TakenPositionsTable positions={record.positions ?? []} />
 				),
 			}}
 			footer={Footer}

@@ -11,6 +11,7 @@
 /* For WebKit based browsers (Chrome, Safari) */
 ::-webkit-scrollbar {
 	width: 5px;
+	height: 5px;
 }
 
 /* Track */

@@ -17,7 +17,6 @@ import {
 	convertValuesToDefaultOptions,
 } from 'src/common/utils/conversion-utils'
 import { DerivativesMetric } from '../../../../common/enums'
-import { mockFutures } from './mock-data'
 import { useAIOCContext } from '../../context/aioc-context'
 
 const { Text } = Typography

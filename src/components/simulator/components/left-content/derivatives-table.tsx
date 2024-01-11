@@ -2,19 +2,34 @@ import {
 	Alert,
 	Table as AntdTable,
 	TableProps as AntdTableProps,
+	Button,
+	Flex,
 	Space,
+	Typography,
 	theme,
 } from 'antd'
-import { useMemo } from 'react'
-import { DerivativesMetric } from 'src/common/enums'
-import { Option } from 'src/common/types'
+import { useEffect, useMemo, useState } from 'react'
+import {
+	DerivativesMetric,
+	OptionContractType,
+	TradeAction,
+} from 'src/common/enums'
+import { Option, TakenPosition } from 'src/common/types'
 import { findClosest } from 'src/common/utils/find-utils'
 import { useAIOCContext } from '../../context/aioc-context'
+import ButtonCarousel from 'src/common/components/button-carousel'
+import {
+	convertDateFromServer,
+	convertDateStringToServer,
+	formatDate,
+	formatTime,
+} from 'src/common/utils/date-time-utils'
+import { useTakenPositionsStore } from '../../store/taken-positions-store'
+import { useSimulatorParamsStore } from '../../store/simulator-params-store'
+import { generateId } from 'src/common/utils/miscellaneous-utils'
 
-type DerivativesTableDataSource = Omit<Option, 'greeks'>
-
-const Table = AntdTable<DerivativesTableDataSource>
-type TableProps = AntdTableProps<DerivativesTableDataSource>
+const Table = AntdTable<Option>
+type TableProps = AntdTableProps<Option>
 
 type DerivativesTableProps = {
 	selectedDerivativeMetric?: DerivativesMetric
@@ -27,30 +42,87 @@ const DerivativesTable: React.FC<DerivativesTableProps> = ({
 	const {
 		isLoading,
 		isError,
+		expiryList,
 		optionChain: optionChainByDate,
 	} = useAIOCContext()
+	const { date, time, activeInstrument } = useSimulatorParamsStore()
 
-	const spotPrice = 39250
+	const { addTakenPosition } = useTakenPositionsStore()
+
+	const [selectedExpiryDate, setSelectedExpiryDate] = useState<string>()
+
+	const spotPrice = 32250
+
+	const expiries = useMemo(
+		() => expiryList.map((expiry) => formatDate(expiry)),
+		[expiryList]
+	)
+
+	const optionChain = useMemo(
+		() =>
+			selectedExpiryDate
+				? optionChainByDate[convertDateStringToServer(selectedExpiryDate)] ?? []
+				: [],
+		[optionChainByDate, selectedExpiryDate]
+	)
 
 	const strikePriceClosestToSpotPrice = useMemo(
 		() =>
 			findClosest(
-				// TODO: Wire up
-				[{ strike: 100 }].map((data) => data.strike),
+				optionChain.map((data) => data.strike),
 				spotPrice
 			),
-		[spotPrice]
+		[optionChain, spotPrice]
 	)
 
-	const dataSource: TableProps['dataSource'] = useMemo(() => [], [])
+	const handleAddPosition: PositionCellProps['onAddPosition'] = (
+		option,
+		optionContractType,
+		tradeAction
+	) => {
+		console.log(date)
+		const commonPropsOfPosition: Omit<
+			TakenPosition,
+			'entryPrice' | 'entryTime'
+		> = {
+			id: generateId(),
+			strike: option.strike,
+			expiry: convertDateFromServer(selectedExpiryDate!),
+			entryDate: date,
+			instrument: activeInstrument,
+			tradeAction,
+			contractType: optionContractType,
+			// TODO: Wire up
+			lastTradedPrice: 100,
+			// TODO: Wire up
+			lots: 10,
+		}
+
+		let typeSpecificOptionProps: Pick<TakenPosition, 'entryPrice' | 'entryTime'>
+
+		if (optionContractType === OptionContractType.CE) {
+			typeSpecificOptionProps = {
+				entryTime: option.ceLastTradedTime ?? time,
+				entryPrice: option.ceLastTradedPrice,
+			}
+		} else {
+			// TODO: Difference between entry price and last traded price
+			typeSpecificOptionProps = {
+				entryTime: option.peLastTradedTime ?? time,
+				entryPrice: option.peLastTradedPrice,
+			}
+		}
+
+		addTakenPosition({ ...commonPropsOfPosition, ...typeSpecificOptionProps })
+	}
 
 	const columns: TableProps['columns'] = useMemo(() => {
 		const columnsBuilder: TableProps['columns'] = []
 
 		columnsBuilder.push({
-			key: 'call',
+			key: 'ceLastTradedPrice',
 			title: 'CALL',
-			dataIndex: 'call',
+			dataIndex: 'ceLastTradedPrice',
 			width: 24,
 			align: 'center',
 			onCell: (derivativeData) => ({
@@ -62,6 +134,13 @@ const DerivativesTable: React.FC<DerivativesTableProps> = ({
 							: undefined,
 				},
 			}),
+			render: (_, option) => (
+				<PositionCell
+					option={option}
+					optionContractType={OptionContractType.CE}
+					onAddPosition={handleAddPosition}
+				/>
+			),
 		})
 
 		if (selectedDerivativeMetric) {
@@ -93,9 +172,9 @@ const DerivativesTable: React.FC<DerivativesTableProps> = ({
 		}
 
 		columnsBuilder.push({
-			key: 'put',
+			key: 'peLastTradedPrice',
 			title: 'PUT',
-			dataIndex: 'put',
+			dataIndex: 'peLastTradedPrice',
 			width: 24,
 			align: 'center',
 			onCell: (derivativeData) => ({
@@ -107,20 +186,37 @@ const DerivativesTable: React.FC<DerivativesTableProps> = ({
 							: undefined,
 				},
 			}),
+			render: (_, option) => (
+				<PositionCell
+					option={option}
+					optionContractType={OptionContractType.PE}
+					onAddPosition={handleAddPosition}
+				/>
+			),
 		})
 
 		return columnsBuilder
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [selectedDerivativeMetric, strikePriceClosestToSpotPrice])
+
+	useEffect(() => {
+		setSelectedExpiryDate(expiries[0])
+	}, [expiries])
 
 	return (
 		// TODO: Implement Date selection component
-		<Space>
+		<Space className="w-full" direction="vertical" size="large">
 			{isError && (
 				<Alert
 					type="error"
 					message="Something went wrong while loading Option Chain. Please try again."
 				/>
 			)}
+			<ButtonCarousel
+				items={expiries}
+				selected={selectedExpiryDate}
+				onClick={setSelectedExpiryDate}
+			/>
 			<Table
 				/**
 				 * selectedDerivativeMetric causes the columns to change,
@@ -131,15 +227,71 @@ const DerivativesTable: React.FC<DerivativesTableProps> = ({
 				rowKey="id"
 				// TODO: Fix virtual
 				// TODO: Handle loading
-				loading={isLoading}
-				dataSource={dataSource}
 				columns={columns}
+				loading={isLoading}
 				pagination={false}
+				dataSource={optionChain}
 				scroll={{
-					y: 'calc(100vh - 400px)',
+					y: 'calc(100vh - 475px)',
 				}}
 			/>
 		</Space>
+	)
+}
+
+type PositionCellProps = {
+	option: Option
+	optionContractType: OptionContractType
+	onAddPosition: (
+		option: Option,
+		optionContractType: OptionContractType,
+		tradeAction: TradeAction
+	) => void
+}
+
+const PositionCell: React.FC<PositionCellProps> = ({
+	option,
+	optionContractType,
+	onAddPosition,
+}) => {
+	const { token } = theme.useToken()
+
+	const handleAddBuyPosition = () =>
+		onAddPosition(option, optionContractType, TradeAction.Buy)
+
+	const handleAddSellPosition = () =>
+		onAddPosition(option, optionContractType, TradeAction.Sell)
+
+	const lastTradedTime =
+		optionContractType === OptionContractType.CE
+			? option.ceLastTradedTime
+			: option.peLastTradedTime
+
+	return (
+		<Flex vertical>
+			<Flex align="center" justify="space-between">
+				<Button type="text" onClick={handleAddBuyPosition}>
+					<Typography.Text type="success">B</Typography.Text>
+				</Button>
+
+				<Flex>
+					{optionContractType === OptionContractType.CE
+						? option.ceLastTradedPrice
+						: option.peLastTradedPrice}
+				</Flex>
+				<Button type="text" onClick={handleAddSellPosition}>
+					<Typography.Text type="danger">S</Typography.Text>
+				</Button>
+			</Flex>
+			{lastTradedTime && (
+				<Typography.Text
+					type="secondary"
+					style={{ fontSize: token.fontSizeSM }}
+				>
+					{formatTime(lastTradedTime)}
+				</Typography.Text>
+			)}
+		</Flex>
 	)
 }
 

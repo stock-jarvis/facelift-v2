@@ -1,0 +1,8 @@
+.button-carousel-container {
+	width: 100%;
+	overflow-y: auto;
+}
+
+.button-carousel-container::-webkit-scrollbar {
+	display: none;
+}

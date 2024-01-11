@@ -1,13 +1,8 @@
 import { Flex, Menu, MenuProps, Spin, theme } from 'antd'
-
-// import './styles/antd-styles-override.css'
-// import Positions from './positions'
-import Greeks from './greeks'
 import { Suspense, lazy, useEffect, useMemo, useState } from 'react'
+
 import { useSimulatorParamsStore } from '../../store/simulator-params-store'
 import { convertValuesToItemType } from 'src/common/utils/conversion-utils'
-import Charts from './charts'
-import { BANK_NIFTY_TICKER } from 'src/common/constants'
 
 enum MenuItem {
 	Positions = 'Positions',
@@ -31,11 +26,25 @@ const MenuContent: React.FC<MenuContentProps> = ({ selectedItemKey }) => {
 				</Suspense>
 			)
 		case MenuItem.Greeks:
-			return <Greeks />
+			// eslint-disable-next-line no-case-declarations
+			const Greeks = lazy(() => import('./greeks'))
+			return (
+				<Suspense fallback={<Spin fullscreen />}>
+					<Greeks />
+				</Suspense>
+			)
 		case MenuItem['Payoff Charts']:
+			// // eslint-disable-next-line no-case-declarations
+			// const Positions = lazy(() => import('./positions'))
 			return <div>Payoff charts under construction</div>
 		case MenuItem.Charts:
-			return <Charts />
+			// eslint-disable-next-line no-case-declarations
+			const Charts = lazy(() => import('./charts'))
+			return (
+				<Suspense fallback={<Spin fullscreen />}>
+					<Charts />
+				</Suspense>
+			)
 		default:
 			return <div>You are not supposed to be here.</div>
 	}
@@ -44,15 +53,16 @@ const MenuContent: React.FC<MenuContentProps> = ({ selectedItemKey }) => {
 const RightContent = () => {
 	const { token } = theme.useToken()
 
-	const { selectedInstruments, setActiveInstrument } = useSimulatorParamsStore()
+	const { selectedInstruments, activeInstrument, setActiveInstrument } =
+		useSimulatorParamsStore()
 
 	const [selectedMenuItem, setSelectedMenuItem] = useState<MenuItem>(
-		// Dev: Change to Positions
-		MenuItem.Charts
+		MenuItem.Positions
 	)
 
-	// Dev: Remove BANK_NIFTY_TICKER
-	const [tabInstrument, setTabInstrument] = useState<string>(BANK_NIFTY_TICKER)
+	const [tabInstrument, setTabInstrument] = useState<string | undefined>(
+		activeInstrument
+	)
 
 	const items: MenuProps['items'] = useMemo(
 		() =>
@@ -79,7 +89,7 @@ const RightContent = () => {
 			].map((item) => {
 				if (tabInstrument && item.key === selectedMenuItem) {
 					// @ts-expect-error item label needs to be modified
-					item.label = `${item.label} - ${tabInstrument}`
+					item.label = `${item.label} - ${tabInstrument.toUpperCase()}`
 				}
 				return item
 			}),

@@ -26,7 +26,6 @@ export const invalidateToken = (afterTokenInvalidate: () => void) => {
 }
 
 /** Enable to mock request response for development */
-
 if (import.meta.env.MODE === 'development') {
 	const mockAdapterPromise = import('axios-mock-adapter')
 

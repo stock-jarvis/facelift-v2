@@ -9,7 +9,7 @@ export const aiocMockData = {
 		'270521',
 	],
 	OptionChain: {
-		'180321': {
+		'180421': {
 			OptionChain: [
 				{
 					strike: 32500,

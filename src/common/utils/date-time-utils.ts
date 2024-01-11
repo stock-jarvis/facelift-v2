@@ -12,7 +12,6 @@ export const DATE_TEMPLATE_WITH_DAY = `ddd ${DATE_TEMPLATE}`
 
 export const formatDate = (dayjsDate: Dayjs, showDayOfWeek?: boolean) =>
 	dayjsDate.format(showDayOfWeek ? DATE_TEMPLATE_WITH_DAY : DATE_TEMPLATE)
-
 export const formatTime = (dayjsTime: Dayjs) => dayjsTime.format(TIME_TEMPLATE)
 
 export const getDisabledTimeByExchange =
@@ -71,3 +70,20 @@ export const convertDateFromServer = (date: string) => {
 
 	return dayjs(new Date(year, month, day))
 }
+
+/**
+ * Converts to server date in format ddmmyy
+ *
+ * @param date in DD-MM-YYYY
+ */
+export const convertDateStringToServer = (date: string) => {
+	const [day, month, year] = date.split('-')
+
+	return `${day}${month}${year.substring(2, 4)}`
+}
+
+/**
+ * @param date in DD-MM-YYYY format
+ * @returns DayJS
+ */
+export const convertDateToDayJS = (date: string) => dayjs(date, DATE_TEMPLATE)

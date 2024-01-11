@@ -2,7 +2,6 @@ import { useEffect } from 'react'
 import Chart from './chart'
 import { useChartDataStore } from './store/chart-data-store'
 import { mockOhlcdata } from './mock-data'
-import { Flex } from 'antd'
 
 const Charts = () => {
 	// const { activeInstrument, date, time } = useSimulatorParamsStore()

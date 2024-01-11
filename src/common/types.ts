@@ -1,5 +1,5 @@
 import { Dayjs } from 'dayjs'
-import { TriggerPointMetric } from './enums'
+import { OptionContractType, TradeAction, TriggerPointMetric } from './enums'
 
 export type OptionsByExpiry = Record<string, Option[]>
 
@@ -47,5 +47,20 @@ export type TimeBoundary = {
 	start: TimeByUnit
 	end: TimeByUnit
 }
+
 /** Timestamp, Open, High, Low, Close */
 export type OHLC = [number, number, number, number, number]
+
+export type TakenPosition = {
+	id: string
+	lots: number
+	strike: number
+	expiry: Dayjs
+	entryDate: Dayjs
+	entryTime: Dayjs
+	instrument: string
+	entryPrice: number
+	tradeAction: TradeAction
+	contractType: OptionContractType
+	lastTradedPrice: number
+}

@@ -4,38 +4,20 @@ import { RxTrash } from 'react-icons/rx'
 
 import { formatDate, formatTime } from 'src/common/utils/date-time-utils'
 
-import { OptionContractType, TradeAction } from 'src/common/enums'
-
-import Footer from './footer'
 import ExitLots from '../exit-lots'
 import { renderTradeAction } from 'src/common/utils/render-utils'
+import { TakenPosition } from 'src/common/types'
 
-export type Position = {
-	tradeAction: TradeAction
-	lots: number
-	entryDate: Dayjs
-	entryTime: Dayjs
-	instrument: string
-	strikePrice: number
-	contractType: OptionContractType
-	expiry: Dayjs
-	entryPrice: number
-	lastTradedPrice: number
-	// TODO: Check data type from API
-	// profitAndLoss: {
-	// 	amount: number
-	// 	percentage: number
-	// }
+export type TakenPositionsAntdTableProps = TableProps<TakenPosition>
+
+type TakenPositionsTableProps = {
+	positions: TakenPosition[]
 }
 
-export type PositionsAntdTableProps = TableProps<Position>
-
-type PositionsTableProps = {
-	positions: Position[]
-}
-
-const PositionsTable: React.FC<PositionsTableProps> = ({ positions }) => {
-	const columns: PositionsAntdTableProps['columns'] = [
+const TakenPositionsTable: React.FC<TakenPositionsTableProps> = ({
+	positions,
+}) => {
+	const columns: TakenPositionsAntdTableProps['columns'] = [
 		{
 			/** No title in table header */
 			key: 'tradeAction',
@@ -68,9 +50,9 @@ const PositionsTable: React.FC<PositionsTableProps> = ({ positions }) => {
 			align: 'center',
 		},
 		{
-			key: 'strikePrice',
+			key: 'strike',
 			title: 'Strike Price',
-			dataIndex: 'strikePrice',
+			dataIndex: 'strike',
 			align: 'center',
 			render: (strikePrice, record) => `${strikePrice} ${record.contractType}`,
 		},
@@ -126,4 +108,4 @@ const PositionsTable: React.FC<PositionsTableProps> = ({ positions }) => {
 	)
 }
 
-export default PositionsTable
+export default TakenPositionsTable

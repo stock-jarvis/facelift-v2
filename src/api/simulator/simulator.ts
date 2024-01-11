@@ -175,7 +175,7 @@ const translateAIOCResponse = ({
 								peLastTradedQuantity: greeks.peltq,
 							},
 						}) as Option
-				)
+				).sort((a, b) => +a.strike - +b.strike)
 				return acc
 			},
 			{} as AIOCResponse['optionChain']

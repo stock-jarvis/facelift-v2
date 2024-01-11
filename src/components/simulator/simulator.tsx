@@ -4,10 +4,7 @@ import LeftContent from './components/left-content'
 import RightContent from './components/right-content'
 import ParamSelection from './components/param-selection'
 import { useToggle } from 'src/common/utils/state-utils'
-import {
-	AIOCResponse,
-	useGetInstrumentsListQuery,
-} from 'src/api/simulator/simulator'
+import { useGetInstrumentsListQuery } from 'src/api/simulator/simulator'
 import { useGetAIOCQuery } from 'src/api/simulator/simulator'
 import { useSimulatorParamsStore } from './store/simulator-params-store'
 import { AIOCContext } from './context/aioc-context'

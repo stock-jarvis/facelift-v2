@@ -4,6 +4,7 @@ import { DefaultOptionType, SelectProps } from 'antd/es/select'
 
 import { useSimulatorParamsStore } from '../../store/simulator-params-store'
 import { convertValuesToDefaultOptions } from 'src/common/utils/conversion-utils'
+import { useGetInstrumentsListQuery } from 'src/api/simulator/simulator'
 
 type InstrumentSelectionModalProps = Pick<ModalProps, 'open' | 'onCancel'>
 
@@ -11,20 +12,29 @@ const InstrumentSelectionModal: React.FC<InstrumentSelectionModalProps> = ({
 	open,
 	onCancel,
 }) => {
-	const { addSelectedInstrument, selectedInstruments } =
-		useSimulatorParamsStore()
+	const {
+		date,
+		selectedInstruments,
+		setActiveInstrument,
+		addSelectedInstrument,
+	} = useSimulatorParamsStore()
+
+	const { data } = useGetInstrumentsListQuery({
+		variables: {
+			date: date,
+		},
+	})
 
 	const [selectedInstrument, setSelectedInstrument] = useState<string>()
 
-	// TODO: Wire it up with API
 	const instrumentOptions: DefaultOptionType[] = useMemo(
 		() =>
 			convertValuesToDefaultOptions(
-				['ITC', 'Jindal Steel', 'Asian Paints'].filter(
-					(instrument) => !selectedInstruments.includes(instrument)
-				)
+				(data?.instrumentList ?? [])
+					.map((instrument) => instrument.toUpperCase())
+					.filter((instrument) => !selectedInstruments.includes(instrument))
 			),
-		[selectedInstruments]
+		[data, selectedInstruments]
 	)
 
 	const handleChange: SelectProps<string>['onChange'] = (value) =>
@@ -33,6 +43,7 @@ const InstrumentSelectionModal: React.FC<InstrumentSelectionModalProps> = ({
 	const handleClickOk: ModalProps['onOk'] = (event) => {
 		if (selectedInstrument) {
 			addSelectedInstrument(selectedInstrument)
+			setActiveInstrument(selectedInstrument)
 		}
 		onCancel?.(event)
 	}

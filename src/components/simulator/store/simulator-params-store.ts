@@ -2,7 +2,7 @@ import { create } from 'zustand'
 import { immer } from 'zustand/middleware/immer'
 import dayjs, { Dayjs } from 'dayjs'
 
-import { Exchange } from '../../../common/enums'
+import { Exchange } from 'common/enums'
 import {
 	BANK_NIFTY_TICKER,
 	timeBoundariesByExchange,
@@ -74,9 +74,13 @@ export const useSimulatorParamsStore = create<
 			set({ selectedInstruments }),
 		removeSelectedInstrument: (instrumentToRemove) =>
 			set((state) => {
-				state.selectedInstruments = state.selectedInstruments.filter(
+				const updatedSelectedInstruments = state.selectedInstruments.filter(
 					(instrument) => instrumentToRemove !== instrument
 				)
+				state.selectedInstruments = updatedSelectedInstruments
+				/** When an instrument is deleted, The tab before it should be selected */
+				state.activeInstrument =
+					updatedSelectedInstruments[updatedSelectedInstruments.length - 1]
 			}),
 	}))
 )
