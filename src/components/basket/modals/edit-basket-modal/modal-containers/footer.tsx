@@ -1,19 +1,31 @@
-import { Flex, Button, theme, Input } from 'antd'
-
+import { SnippetsOutlined } from '@ant-design/icons'
+import {
+	Flex,
+	Button,
+	theme,
+	Input,
+	notification,
+	FlexProps,
+	ButtonProps,
+	InputProps,
+} from 'antd'
+import { useEffect, useState, useMemo, createContext } from 'react'
 import { useBasketStore } from 'src/components/basket/store/basket-store'
+import type { NotificationPlacement } from 'antd/es/notification/interface'
 import {
 	BasketDataProps,
-	SavedBasketsExitCondition,
-	SavedBasketsEntryCondition,
+	SavedBasketsExitCondition as Exit,
+	SavedBasketsEntryCondition as Entry,
 	SavedBasket,
 } from 'src/components/basket/types/types'
-import { SnippetsOutlined } from '@ant-design/icons'
-import { useEffect, useState } from 'react'
+//TODO: Optimize this component
 interface FooterProps {
 	basketData: SavedBasket
 	basket: BasketDataProps[]
 	setPositionError: (error: boolean) => void
 }
+
+const Context = createContext({ name: 'Default' })
 
 const Footer: React.FC<FooterProps> = ({
 	basket,
@@ -21,15 +33,21 @@ const Footer: React.FC<FooterProps> = ({
 	setPositionError,
 }) => {
 	const { token } = theme.useToken()
-
+	const [api, contextHolder] = notification.useNotification()
+	const [basketEntryConditions, setBasketEntryConditions] = useState<Entry>()
+	const [basketExitConditions, setBasketExitConditions] = useState<Exit>()
+	const [savedBasket, setSavedBasket] = useState<SavedBasket>()
+	const contextValue = useMemo(() => ({ name: 'Ant Design' }), [])
 	const { timeError, resetEditablebasket, updateRuntimeBasketData } =
 		useBasketStore()
 
-	const [basketEntryConditions, setBasketEntryConditions] =
-		useState<SavedBasketsEntryCondition>()
-	const [basketExitConditions, setBasketExitConditions] =
-		useState<SavedBasketsExitCondition>()
-	const [savedBasket, setSavedBasket] = useState<SavedBasket>()
+	const openNotification = (placement: NotificationPlacement) => {
+		api.info({
+			message: `Time Error!`,
+			description: <>Exit Time should be after entry time.</>,
+			placement,
+		})
+	}
 
 	useEffect(() => {
 		if (
@@ -54,7 +72,7 @@ const Footer: React.FC<FooterProps> = ({
 			(basketData.exitCondition.type === 'SQAL' &&
 				basketExitConditions.repeat !== basketData.exitCondition.repeat)
 		) {
-			const obj: SavedBasketsExitCondition = {
+			const obj: Exit = {
 				type: basketData.exitCondition.type,
 				totalLoss: basketData.exitCondition.totalLoss,
 				totalProfit: basketData.exitCondition.totalProfit,
@@ -67,6 +85,7 @@ const Footer: React.FC<FooterProps> = ({
 			setBasketExitConditions(obj)
 		}
 	}, [basketData, basketExitConditions])
+
 	useEffect(() => {
 		if (
 			!savedBasket ||
@@ -107,7 +126,7 @@ const Footer: React.FC<FooterProps> = ({
 	const handleSaveBasketClick = () => {
 		if (basket.length > 0) {
 			if (timeError) {
-				//todo: add notification
+				openNotification('topRight')
 			} else {
 				if (savedBasket) {
 					updateRuntimeBasketData(savedBasket)
@@ -119,25 +138,37 @@ const Footer: React.FC<FooterProps> = ({
 		}
 	}
 
+	const parentProps: FlexProps = {
+		justify: 'space-between',
+		align: 'center',
+		children: null,
+		style: {
+			padding: token.paddingSM,
+			width: '100%',
+			borderTop: '1px solid #F0F0F0',
+		},
+	}
+
+	const saveButtonProps: ButtonProps = {
+		type: 'primary',
+		onClick: handleSaveBasketClick,
+		icon: <SnippetsOutlined />,
+	}
+
+	const spreadInputProps: InputProps = {
+		placeholder: 'Spread',
+		suffix: '%',
+		style: { width: '150px' },
+	}
+
 	return (
-		<Flex
-			style={{
-				padding: token.paddingSM,
-				width: '100%',
-				borderTop: '1px solid #F0F0F0',
-			}}
-			justify="space-between"
-			align="center"
-		>
-			<Input placeholder="spread" style={{ width: '150px' }} suffix={'%'} />
-			<Button
-				type="primary"
-				onClick={handleSaveBasketClick}
-				icon={<SnippetsOutlined />}
-			>
-				Save Basket
-			</Button>
-		</Flex>
+		<Context.Provider value={contextValue}>
+			{contextHolder}
+			<Flex {...parentProps}>
+				<Input {...spreadInputProps} />
+				<Button {...saveButtonProps}>Save Basket</Button>
+			</Flex>
+		</Context.Provider>
 	)
 }
 
