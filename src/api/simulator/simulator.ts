@@ -40,7 +40,7 @@ const translateGetInstrumentsListPayload = (
 const translateGetInstrumentsListResponse = ({
 	InstrumentList,
 }: Server_GetInstrumentsListResponse): GetInstrumentsListResponse => ({
-	instrumentList: InstrumentList,
+	instrumentList: InstrumentList.map((instrument) => instrument.toUpperCase()),
 })
 
 const getInstrumentsList: QueryFunction<
@@ -139,7 +139,7 @@ const translateAIOCPayload = ({
 	instrument,
 }: AIOCPayload): Server_AIOCPayload => ({
 	exc: exchange,
-	inst: instrument,
+	inst: instrument.toLowerCase(),
 	date: formatDate(date),
 	time: formatTime(time),
 	exps: expiries,

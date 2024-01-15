@@ -80,7 +80,6 @@ const DerivativesTable: React.FC<DerivativesTableProps> = ({
 		optionContractType,
 		tradeAction
 	) => {
-		console.log(date)
 		const commonPropsOfPosition: Omit<
 			TakenPosition,
 			'entryPrice' | 'entryTime'
@@ -225,8 +224,6 @@ const DerivativesTable: React.FC<DerivativesTableProps> = ({
 				key={selectedDerivativeMetric}
 				size="small"
 				rowKey="id"
-				// TODO: Fix virtual
-				// TODO: Handle loading
 				columns={columns}
 				loading={isLoading}
 				pagination={false}

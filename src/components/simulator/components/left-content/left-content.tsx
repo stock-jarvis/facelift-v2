@@ -30,7 +30,7 @@ const LeftContent = () => {
 				(instrument, index) =>
 					({
 						key: instrument,
-						label: instrument.toUpperCase(),
+						label: instrument,
 						children: <TabContent instrument={instrument} />,
 						/** First option is not closable */
 						closable: index !== 0,

@@ -16,7 +16,6 @@ import {
 	renderDayjsTime,
 	renderTradeAction,
 } from 'src/common/utils/render-utils'
-import { savedSimulationMockData } from './mock-data'
 
 const statistics: Array<{
 	key: string
@@ -224,7 +223,8 @@ const SavedSimulationsModal: React.FC<SavedSimulationsModalProps> = ({
 				</Flex>
 
 				<Table
-					dataSource={savedSimulationMockData}
+					// TODO: Wire up
+					dataSource={[]}
 					columns={columns}
 					pagination={false}
 					scroll={{ y: 'calc(100vh - 500px)' }}

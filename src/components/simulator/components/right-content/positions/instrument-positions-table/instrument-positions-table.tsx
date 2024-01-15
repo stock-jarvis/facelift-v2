@@ -38,7 +38,6 @@ const InstrumentPositionsTable = () => {
 			title: 'Instrument',
 			key: 'instrument',
 			dataIndex: 'instrument',
-			render: (instrument) => instrument.toUpperCase(),
 		},
 		{
 			title: 'Profit and Loss',

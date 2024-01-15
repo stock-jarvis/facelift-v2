@@ -1,8 +1,13 @@
-import { Flex, Menu, MenuProps, Spin, theme } from 'antd'
+import { Flex, Menu, MenuProps, theme } from 'antd'
 import { Suspense, lazy, useEffect, useMemo, useState } from 'react'
 
 import { useSimulatorParamsStore } from '../../store/simulator-params-store'
 import { convertValuesToItemType } from 'src/common/utils/conversion-utils'
+import Loader from 'src/common/components/loader'
+
+const Greeks = lazy(() => import('./greeks'))
+const Charts = lazy(() => import('./charts'))
+const Positions = lazy(() => import('./positions'))
 
 enum MenuItem {
 	Positions = 'Positions',
@@ -18,30 +23,22 @@ type MenuContentProps = {
 const MenuContent: React.FC<MenuContentProps> = ({ selectedItemKey }) => {
 	switch (selectedItemKey) {
 		case MenuItem.Positions:
-			// eslint-disable-next-line no-case-declarations
-			const Positions = lazy(() => import('./positions'))
 			return (
-				<Suspense fallback={<Spin />}>
+				<Suspense fallback={<Loader />}>
 					<Positions />
 				</Suspense>
 			)
 		case MenuItem.Greeks:
-			// eslint-disable-next-line no-case-declarations
-			const Greeks = lazy(() => import('./greeks'))
 			return (
-				<Suspense fallback={<Spin fullscreen />}>
+				<Suspense fallback={<Loader />}>
 					<Greeks />
 				</Suspense>
 			)
 		case MenuItem['Payoff Charts']:
-			// // eslint-disable-next-line no-case-declarations
-			// const Positions = lazy(() => import('./positions'))
 			return <div>Payoff charts under construction</div>
 		case MenuItem.Charts:
-			// eslint-disable-next-line no-case-declarations
-			const Charts = lazy(() => import('./charts'))
 			return (
-				<Suspense fallback={<Spin fullscreen />}>
+				<Suspense fallback={<Loader />}>
 					<Charts />
 				</Suspense>
 			)
@@ -89,7 +86,7 @@ const RightContent = () => {
 			].map((item) => {
 				if (tabInstrument && item.key === selectedMenuItem) {
 					// @ts-expect-error item label needs to be modified
-					item.label = `${item.label} - ${tabInstrument.toUpperCase()}`
+					item.label = `${item.label} - ${tabInstrument}`
 				}
 				return item
 			}),

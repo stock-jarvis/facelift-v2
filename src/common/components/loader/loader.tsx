@@ -4,7 +4,7 @@ const Loader: React.FC<SpinProps> = (props) =>
 	props.children ? (
 		<Spin {...props} />
 	) : (
-		<Flex className="w-full h-full">
+		<Flex className="w-full h-full justify-center items-center">
 			<Spin {...props} />
 		</Flex>
 	)

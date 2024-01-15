@@ -25,14 +25,16 @@ const InstrumentSelectionModal: React.FC<InstrumentSelectionModalProps> = ({
 		},
 	})
 
+	console.log(data?.instrumentList)
+
 	const [selectedInstrument, setSelectedInstrument] = useState<string>()
 
 	const instrumentOptions: DefaultOptionType[] = useMemo(
 		() =>
 			convertValuesToDefaultOptions(
-				(data?.instrumentList ?? [])
-					.map((instrument) => instrument.toUpperCase())
-					.filter((instrument) => !selectedInstruments.includes(instrument))
+				(data?.instrumentList ?? []).filter(
+					(instrument) => !selectedInstruments.includes(instrument)
+				)
 			),
 		[data, selectedInstruments]
 	)
