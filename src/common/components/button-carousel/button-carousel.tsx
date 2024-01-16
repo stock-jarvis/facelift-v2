@@ -3,7 +3,7 @@ import { Button, ButtonProps, Flex, Space } from 'antd'
 import './styles/styles.css'
 import { useRef } from 'react'
 
-type ButtonCarouselProps = {
+export type ButtonCarouselProps = {
 	items: string[]
 	selected?: string
 	onClick: (item: string) => void

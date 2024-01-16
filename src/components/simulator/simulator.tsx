@@ -9,6 +9,7 @@ import { useGetAIOCQuery } from 'src/api/simulator/simulator'
 import { useSimulatorParamsStore } from './store/simulator-params-store'
 import { AIOCContext } from './context/aioc-context'
 import { InstrumentsContext } from './context/instruments-context'
+import { useTakenPositionsStore } from './store/taken-positions-store'
 
 const { Sider } = Layout
 
@@ -16,6 +17,8 @@ const Simulator = () => {
 	const { token } = theme.useToken()
 	const [collapsed, toggleCollapsed] = useToggle(false)
 	const { date, time, exchange, activeInstrument } = useSimulatorParamsStore()
+	// Dev
+	// const { activeExpiries } = useTakenPositionsStore()
 
 	const getInstrumentsListResponse = useGetInstrumentsListQuery({
 		variables: {
@@ -29,8 +32,9 @@ const Simulator = () => {
 			time,
 			exchange,
 			instrument: activeInstrument,
-			// TODO: Wire up expiries
+			// Dev
 			expiries: ['180321', '250321', '010421'],
+			// expiries: activeExpiries,
 		},
 	})
 

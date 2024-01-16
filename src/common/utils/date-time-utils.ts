@@ -1,5 +1,6 @@
 import { TimePickerProps } from 'antd'
 import dayjs, { Dayjs } from 'dayjs'
+import customParseFormat from 'dayjs/plugin/customParseFormat'
 import { range } from 'radash'
 import { Exchange } from '../enums'
 import { timeBoundariesByExchange } from '../constants'
@@ -64,11 +65,8 @@ export const convertEpochInSecondsToDayJS = (
  * @param date Server sends date in format ddmmyy
  */
 export const convertDateFromServer = (date: string) => {
-	const day = parseInt(date.substring(0, 2))
-	const month = parseInt(date.substring(2, 4))
-	const year = 2000 + parseInt(date.substring(4, 6))
-
-	return dayjs(new Date(year, month, day))
+	dayjs.extend(customParseFormat)
+	return dayjs(date, 'DDMMYY')
 }
 
 /**

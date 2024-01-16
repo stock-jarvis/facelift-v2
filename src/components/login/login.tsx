@@ -12,6 +12,7 @@ import { LoginResponse, useLoginMutation } from 'src/api/auth/auth'
 import useLoginManager from 'src/auth/useLoginManager'
 import Loader from 'src/common/components/loader'
 import Logo from 'src/common/components/logo'
+import { TrialExpiredError } from 'src/common/errors'
 
 type LoginFormFields = {
 	phone: string
@@ -28,7 +29,7 @@ const Login = () => {
 
 	const { login } = useLoginManager()
 
-	const { mutate, isError, isLoading } = useLoginMutation()
+	const { mutate, error, isError, isLoading } = useLoginMutation()
 
 	const handleLoginSuccess = (
 		data: LoginResponse | undefined,
@@ -68,7 +69,11 @@ const Login = () => {
 						<Alert
 							className="w-full"
 							type="error"
-							message="Unable to login, Please try again."
+							message={
+								error instanceof TrialExpiredError
+									? 'Trial has expired.'
+									: 'Unable to login, Please try again.'
+							}
 							showIcon
 						/>
 					)}

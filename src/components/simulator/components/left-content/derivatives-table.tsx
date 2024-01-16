@@ -27,6 +27,7 @@ import {
 import { useTakenPositionsStore } from '../../store/taken-positions-store'
 import { useSimulatorParamsStore } from '../../store/simulator-params-store'
 import { generateId } from 'src/common/utils/miscellaneous-utils'
+import { ButtonCarouselProps } from 'src/common/components/button-carousel/button-carousel'
 
 const Table = AntdTable<Option>
 type TableProps = AntdTableProps<Option>
@@ -40,21 +41,23 @@ const DerivativesTable: React.FC<DerivativesTableProps> = ({
 }) => {
 	const { token } = theme.useToken()
 	const {
-		isLoading,
 		isError,
+		isLoading,
 		expiryList,
 		optionChain: optionChainByDate,
 	} = useAIOCContext()
 	const { date, time, activeInstrument } = useSimulatorParamsStore()
 
-	const { addTakenPosition } = useTakenPositionsStore()
+	const { addTakenPosition, addActiveExpiry } = useTakenPositionsStore()
 
+	/** DD-MM-YYYY */
 	const [selectedExpiryDate, setSelectedExpiryDate] = useState<string>()
 
 	const spotPrice = 32250
 
+	/** Converting from DDMMYY format to DD-MM-YYYY */
 	const expiries = useMemo(
-		() => expiryList.map((expiry) => formatDate(expiry)),
+		() => expiryList.map((expiry) => formatDate(convertDateFromServer(expiry))),
 		[expiryList]
 	)
 
@@ -86,7 +89,7 @@ const DerivativesTable: React.FC<DerivativesTableProps> = ({
 		> = {
 			id: generateId(),
 			strike: option.strike,
-			expiry: convertDateFromServer(selectedExpiryDate!),
+			expiry: option.expiry,
 			entryDate: date,
 			instrument: activeInstrument,
 			tradeAction,
@@ -198,6 +201,11 @@ const DerivativesTable: React.FC<DerivativesTableProps> = ({
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [selectedDerivativeMetric, strikePriceClosestToSpotPrice])
 
+	const handleClickExpiry: ButtonCarouselProps['onClick'] = (expiry) => {
+		addActiveExpiry(convertDateStringToServer(expiry))
+		setSelectedExpiryDate(expiry)
+	}
+
 	useEffect(() => {
 		setSelectedExpiryDate(expiries[0])
 	}, [expiries])
@@ -214,7 +222,7 @@ const DerivativesTable: React.FC<DerivativesTableProps> = ({
 			<ButtonCarousel
 				items={expiries}
 				selected={selectedExpiryDate}
-				onClick={setSelectedExpiryDate}
+				onClick={handleClickExpiry}
 			/>
 			<Table
 				/**

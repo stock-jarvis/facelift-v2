@@ -11,7 +11,6 @@ import {
 	formatDate,
 	formatTime,
 	convertEpochInSecondsToDayJS,
-	convertDateFromServer,
 } from 'src/common/utils/date-time-utils'
 
 /************************* Get Instruments List ***************************/
@@ -93,7 +92,8 @@ type Server_AIOCPayload = {
 export type AIOCResponse = {
 	/** {"ddmmyy: Future"} */
 	futures: Record<string, Future>
-	expiryList: Dayjs[]
+	/** ddmmyy */
+	expiryList: string[]
 	optionChain: Record<string, Option[]>
 }
 
@@ -152,17 +152,16 @@ const translateAIOCResponse = ({
 }: Server_AIOCResponse) =>
 	/** Using promise to prevent blocking the main thread */
 	new Promise<AIOCResponse>((resolve) => {
-		const aiocReponse = {} as AIOCResponse
+		const aiocReponse = {
+			expiryList: expList,
+		} as AIOCResponse
 
-		aiocReponse.expiryList = expList.map((expiry) =>
-			convertDateFromServer(expiry)
-		)
 		aiocReponse.optionChain = Object.entries(OptionChain).reduce(
 			(acc, [date, optionChain]) => {
 				acc[date] = optionChain.OptionChain.map(
 					({ celtp, celtt, greeks, peltp, peltt, strike }) =>
 						({
-							date: convertDateFromServer(date),
+							expiry: date,
 							ceLastTradedTime: convertEpochInSecondsToDayJS(celtt),
 							ceLastTradedPrice: celtp,
 							peLastTradedTime: convertEpochInSecondsToDayJS(peltt),
@@ -183,7 +182,7 @@ const translateAIOCResponse = ({
 		aiocReponse.futures = Object.entries(Futures).reduce(
 			(acc, [date, { oi, ltp, ltq, ltt }]) => {
 				acc[date] = {
-					date: convertDateFromServer(date),
+					expiry: date,
 					openInterest: oi,
 					lastTradedTime: convertEpochInSecondsToDayJS(ltt),
 					lastTradedPrice: ltp,

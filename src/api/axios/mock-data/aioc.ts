@@ -1,6 +1,6 @@
 export const aiocMockData = {
 	expList: [
-		'180321',
+		'180421',
 		'250321',
 		'010421',
 		'080421',
@@ -1824,7 +1824,7 @@ export const aiocMockData = {
 			OptionChain: [
 				{
 					strike: 32500,
-					celtp: 3026,
+					celtp: 1000,
 					peltp: 172,
 					celtt: 1615893789,
 					peltt: -1,

@@ -13,7 +13,8 @@ export type Greeks = {
 }
 
 export type Option = {
-	date: Dayjs
+	/** ddmmyy */
+	expiry: string
 	strike: number
 	greeks: Greeks
 	/** Call Exercise */
@@ -25,7 +26,8 @@ export type Option = {
 }
 
 export type Future = {
-	date: Dayjs
+	/** ddmmyy */
+	expiry: string
 	openInterest: number
 	lastTradedTime?: Dayjs
 	lastTradedPrice: number
@@ -55,7 +57,8 @@ export type TakenPosition = {
 	id: string
 	lots: number
 	strike: number
-	expiry: Dayjs
+	/** DDMMYY */
+	expiry: string
 	entryDate: Dayjs
 	entryTime: Dayjs
 	instrument: string

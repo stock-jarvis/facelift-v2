@@ -2,7 +2,7 @@ import { MutationFunction, useMutation } from 'react-query'
 
 import axios from '../axios/axios'
 import { AuthUrl } from 'api/auth'
-import { LoginError } from 'src/common/errors'
+import { LoginError, TrialExpiredError } from 'src/common/errors'
 
 /************************* Onboard ***************************/
 type OnboardPayload = {
@@ -75,24 +75,20 @@ type LoginPayload = {
 export type LoginResponse = {
 	Token: string
 	Status: number
+	Error?: string
 }
 
 const login: MutationFunction<LoginResponse | undefined, LoginPayload> = async (
 	loginPayload
 ) => {
-	try {
-		const response = await axios.post<LoginResponse>(
-			AuthUrl.Login,
-			loginPayload
-		)
-		if (response.data.Status !== 200) {
-			throw new LoginError()
-		} else {
-			return response.data
-		}
-	} catch (e) {
-		console.error(e)
+	const response = await axios.post<LoginResponse>(AuthUrl.Login, loginPayload)
+
+	if (response.data.Status === 401 && response.data.Error === 'Trial Expired') {
+		throw new TrialExpiredError()
+	} else if (response.data.Status !== 200) {
 		throw new LoginError()
+	} else {
+		return response.data
 	}
 }
 

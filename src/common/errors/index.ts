@@ -1,3 +1,4 @@
 import { LoginError } from './LoginError'
+import { TrialExpiredError } from './TrialExpiredError'
 
-export { LoginError }
+export { LoginError, TrialExpiredError }
