@@ -1,5 +1,5 @@
 import { Flex } from 'antd'
-import CappedButton from '../modal-components/capped-button'
+import CappedButton from '../modal-components/profit-loss'
 import { SavedBasket } from 'src/components/basket/types/types'
 interface ProfitLossProps {
 	basketData: SavedBasket

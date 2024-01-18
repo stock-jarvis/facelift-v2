@@ -5,14 +5,14 @@ import { InputProps } from 'antd'
 import { YeildType, YeildLabel } from 'src/components/basket/types/types'
 import { DefaultOptionType, SelectProps } from 'antd/es/select'
 import { useMemo } from 'react'
-export interface YeildButtonProps<T> {
+interface YeildInputProps<T> {
 	targetOn: YeildLabel
 	targetType: YeildType
 	targetValue: number
 	paramType: T
 	paramValue: T
 	handleTargetValueChange: (val: number, type: T) => void
-	handleTargetTypeChange: (val: string, type: T) => void
+	handleTargetTypeChange: (value: string, type: T, val: T) => void
 }
 const YeildButton = <T,>({
 	targetType,
@@ -22,7 +22,7 @@ const YeildButton = <T,>({
 	targetOn,
 	handleTargetValueChange,
 	handleTargetTypeChange,
-}: YeildButtonProps<T>) => {
+}: YeildInputProps<T>) => {
 	const { token } = theme.useToken()
 
 	const Options: DefaultOptionType[''] = useMemo(
@@ -47,8 +47,7 @@ const YeildButton = <T,>({
 	)
 
 	const handleTypeChange: SelectProps['onChange'] = (type: string) => {
-		handleTargetTypeChange(type, paramType)
-		handleTargetValueChange(0, paramValue)
+		handleTargetTypeChange(type, paramType, paramValue)
 	}
 	const handleInputChange: InputProps['onChange'] = (
 		e: ChangeEvent<HTMLInputElement>

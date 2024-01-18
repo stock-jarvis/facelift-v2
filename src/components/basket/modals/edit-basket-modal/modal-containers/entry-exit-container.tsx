@@ -5,7 +5,6 @@ import {
 	theme,
 	Typography,
 	TimePickerProps,
-	CardProps,
 } from 'antd'
 import dayjs from 'dayjs'
 import { SavedBasket } from '../../../types/types'
@@ -46,62 +45,57 @@ const EntryExit: React.FC<EntryExitProps> = ({ basketData, setBasketData }) => {
 
 	useValidateTimes(basketData.entryCondition!, setTimeError)
 
-	const StartTimeProps: TimePickerProps = {
-		style: { border: timeError ? '1px solid red' : '' },
-		disabledTime: disabledHours,
-		value: dayjs(basketData.entryCondition?.entryTime, format),
-		format: format,
-		hideDisabledOptions: true,
-		showNow: false,
-		onChange: handleEntryTimeChange,
-	}
-
-	const ExitTimeProps: TimePickerProps = {
-		style: { border: timeError ? '1px solid red' : '' },
-		disabledTime: disabledHours,
-		value: dayjs(basketData.entryCondition?.exitTime, format),
-		format: format,
-		showNow: false,
-		hideDisabledOptions: true,
-		onChange: handleExitTimeChange,
-	}
-
-	const entryTitle: CardProps['title'] = (
-		<Typography.Text
-			style={{
-				fontSize: token.fontSizeSM,
-				color: token.colorPrimary,
-			}}
-			children="Entry Time"
-		/>
-	)
-
-	const exitTitle: CardProps['title'] = (
-		<Typography.Text
-			style={{
-				fontSize: token.fontSizeSM,
-				color: token.colorPrimary,
-			}}
-			children="Exit Time"
-		/>
-	)
-
-	const displayCardProps: CardProps = {
-		bordered: true,
-		size: 'small',
-	}
-
 	return (
 		<Flex flex={1} justify="space-around">
-			<Card {...displayCardProps} title={entryTitle}>
+			<Card
+				bordered={true}
+				size="small"
+				title={
+					<Typography.Text
+						style={{
+							fontSize: token.fontSizeSM,
+							color: token.colorPrimary,
+						}}
+						children="Entry Time"
+					/>
+				}
+			>
 				<Flex flex="1" justify="center">
-					<TimePicker {...StartTimeProps} />
+					<TimePicker
+						style={{ border: timeError ? '1px solid red' : '' }}
+						disabledTime={disabledHours}
+						value={dayjs(basketData.entryCondition?.entryTime, format)}
+						format={format}
+						hideDisabledOptions={true}
+						showNow={false}
+						onChange={handleEntryTimeChange}
+					/>
 				</Flex>
 			</Card>
 
-			<Card title={exitTitle} {...displayCardProps}>
+			<Card
+				title={
+					<Typography.Text
+						style={{
+							fontSize: token.fontSizeSM,
+							color: token.colorPrimary,
+						}}
+						children="Exit Time"
+					/>
+				}
+				bordered={true}
+				size="small"
+			>
 				<Flex flex="1" justify="center">
-					<TimePicker {...ExitTimeProps} />
+					<TimePicker
+						style={{ border: timeError ? '1px solid red' : '' }}
+						disabledTime={disabledHours}
+						value={dayjs(basketData.entryCondition?.exitTime, format)}
+						format={format}
+						showNow={false}
+						hideDisabledOptions={true}
+						onChange={handleExitTimeChange}
+					/>
 				</Flex>
 			</Card>
 		</Flex>

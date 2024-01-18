@@ -6,9 +6,7 @@ import StrikeSelector from '../modal-components/strike-selector'
 import Instrument from '../modal-components/instrument'
 import QuantityInput from '../modal-components/quantity-input'
 import ExpirySelector from '../modal-components/expiry-selector'
-import ActionSelector, {
-	ActionSelectorProps,
-} from '../modal-components/action-selector'
+import ActionSelector from '../modal-components/action-selector'
 import { optionExpiry } from '../../../constants/data'
 import { TradeAction, OptionType, BasketLegType } from 'src/common/enums'
 import { tradeTypeData } from '../../../constants/data'
@@ -43,26 +41,6 @@ const OptionsBasketSelector: React.FC<BasketProps> = ({
 		updatedBasketData({ ...basketInitialData, [type]: val })
 	}
 
-	const actionTypeProps: ActionSelectorProps<TradeAction, OptionsKey> = {
-		action1: TradeAction.Buy,
-		action2: TradeAction.Sell,
-		paramType: OptionsKey.ACTION,
-		color1: 'green',
-		color2: 'red',
-		baseActionValue: basketInitialData.actionValue,
-		handleBaseActionChange: valueChanged<TradeAction>,
-	}
-
-	const optionTypeProps: ActionSelectorProps<OptionType, OptionsKey> = {
-		action1: OptionType.CALL,
-		action2: OptionType.PUT,
-		paramType: OptionsKey.OPTION,
-		color1: 'black',
-		color2: 'purple',
-		baseActionValue: basketInitialData.optionType!,
-		handleBaseActionChange: valueChanged<OptionType>,
-	}
-
 	const items: DescriptionsProps['items'] = [
 		{
 			key: 'instrument',
@@ -87,7 +65,15 @@ const OptionsBasketSelector: React.FC<BasketProps> = ({
 
 			children: (
 				<Flex flex={1} justify="center">
-					<ActionSelector {...actionTypeProps} />
+					<ActionSelector<TradeAction, OptionsKey>
+						action1={TradeAction.Buy}
+						action2={TradeAction.Sell}
+						paramType={OptionsKey.ACTION}
+						color1="green"
+						color2="red"
+						baseActionValue={basketInitialData.actionValue}
+						handleBaseActionChange={valueChanged<TradeAction>}
+					/>
 				</Flex>
 			),
 		},
@@ -101,7 +87,15 @@ const OptionsBasketSelector: React.FC<BasketProps> = ({
 			),
 			children: (
 				<Flex flex={1} justify="center">
-					<ActionSelector {...optionTypeProps} />
+					<ActionSelector<OptionType, OptionsKey>
+						action1={OptionType.CALL}
+						action2={OptionType.PUT}
+						paramType={OptionsKey.OPTION}
+						color1="black"
+						color2="purple"
+						baseActionValue={basketInitialData.optionType!}
+						handleBaseActionChange={valueChanged<OptionType>}
+					/>
 				</Flex>
 			),
 		},

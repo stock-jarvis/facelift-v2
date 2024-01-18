@@ -1,8 +1,6 @@
 import { Flex, Descriptions, DescriptionsProps, Typography, theme } from 'antd'
 import Instrument from '../modal-components/instrument'
-import ActionSelector, {
-	ActionSelectorProps,
-} from '../modal-components/action-selector'
+import ActionSelector from '../modal-components/action-selector'
 import PositionHolder from './position-holder'
 import QuantityInput from '../modal-components/quantity-input'
 import { SavedPosition, SpotKey } from 'src/components/basket/types/types'
@@ -23,16 +21,6 @@ const SpotBasketSelector: React.FC<BasketProps> = ({
 
 	const valueChanged = <T,>(val: T, type: SpotKey) => {
 		updatedBasketData({ ...basketInitialData, [type]: val })
-	}
-
-	const actionTypeProps: ActionSelectorProps<TradeAction, SpotKey> = {
-		action1: TradeAction.Buy,
-		action2: TradeAction.Sell,
-		paramType: SpotKey.ACTION,
-		color1: 'green',
-		color2: 'red',
-		baseActionValue: basketInitialData.actionValue,
-		handleBaseActionChange: valueChanged<TradeAction>,
 	}
 
 	const items: DescriptionsProps['items'] = [
@@ -58,7 +46,15 @@ const SpotBasketSelector: React.FC<BasketProps> = ({
 			),
 			children: (
 				<Flex flex={1} justify="center" className="w-full">
-					<ActionSelector {...actionTypeProps} />
+					<ActionSelector<TradeAction, SpotKey>
+						action1={TradeAction.Buy}
+						action2={TradeAction.Sell}
+						paramType={SpotKey.ACTION}
+						color1="green"
+						color2="red"
+						baseActionValue={basketInitialData.actionValue}
+						handleBaseActionChange={valueChanged<TradeAction>}
+					/>
 				</Flex>
 			),
 		},

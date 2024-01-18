@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Modal, theme, Flex, ModalProps, FlexProps } from 'antd'
+import { Modal, theme, Flex } from 'antd'
 import { CloseOutlined } from '@ant-design/icons'
 import ConfirmModal from '../confitm-modal'
 import { useImmer } from 'use-immer'
@@ -12,7 +12,6 @@ import { generateUniqueId } from '../../utils/randomizer'
 import { useBasketStore } from '../../store/basket-store'
 import Selectors from './modal-containers/selector-container'
 import { BasketLegType } from 'src/common/enums'
-import { ConfirmModalProps } from '../confitm-modal/modal-confirm'
 import {
 	defaultInitialLegValues,
 	defaultBasketData,
@@ -23,7 +22,7 @@ import { BasketDataProps, SavedPosition, SavedBasket } from '../../types/types'
 const EditBasketModal = () => {
 	const { token } = theme.useToken()
 	const [isPositionError, setPositionError] = useState<boolean>(false)
-	const [isCofirmModalOpen, setCofirmModal] = useState<boolean>(false)
+	const [isCofirmModalOpen, setCofirmModalOpen] = useState<boolean>(false)
 	const { editableBasketData, resetEditablebasket } = useBasketStore()
 	const [basketInitialData, updatedBasketData] = useImmer<SavedPosition>(
 		defaultInitialLegValues
@@ -43,14 +42,13 @@ const EditBasketModal = () => {
 	}
 
 	const togglePositionError = () => {
-		setPositionError(!isPositionError)
+		setPositionError((isPositionError) => !isPositionError)
 	}
 	const setOptionValue = () => {
 		updatedBasketData(defaultInitialLegValues)
 	}
-
-	const createSpotBasket = (id: string, type: BasketLegType) => {
-		return {
+	const getBasketParameters = (id: string, type: BasketLegType) => {
+		const basketLeg: BasketDataProps = {
 			id,
 			type,
 			entryCondition: {
@@ -60,50 +58,35 @@ const EditBasketModal = () => {
 			count: position.length + 1,
 			exitCondition: defaultLegsEXitCondition,
 		}
-	}
-
-	const createFutureBasket = (id: string, type: BasketLegType) => {
-		return {
-			id,
-			type,
-			count: position.length + 1,
-			entryCondition: {
-				quantity: basketInitialData.quantityValue,
-				actionType: basketInitialData.actionValue,
-				expiry: basketInitialData.expiry,
-			},
-			exitCondition: defaultLegsEXitCondition,
-		}
-	}
-
-	const createOptionsBasket = (id: string, type: BasketLegType) => {
-		return {
-			id,
-			type,
-			count: position.length + 1,
-			entryCondition: {
-				quantity: basketInitialData.quantityValue,
-				actionType: basketInitialData.actionValue,
-				expiry: basketInitialData.expiry,
-				optionType: basketInitialData.optionType,
-				tradeType: basketInitialData.tradeOption,
-				tradeTypeParams: basketInitialData.subTradeOption,
-				tradeTypeValue: basketInitialData.tradeValue,
-			},
-			exitCondition: defaultLegsEXitCondition,
+		switch (type) {
+			case BasketLegType.FUTURE:
+				return {
+					...basketLeg,
+					entryCondition: {
+						...basketLeg.entryCondition,
+						expiry: basketInitialData.expiry,
+					},
+				}
+			case BasketLegType.OPTIONS:
+				return {
+					...basketLeg,
+					entryCondition: {
+						...basketLeg.entryCondition,
+						expiry: basketInitialData.expiry,
+						optionType: basketInitialData.optionType,
+						tradeType: basketInitialData.tradeOption,
+						tradeTypeParams: basketInitialData.subTradeOption,
+						tradeTypeValue: basketInitialData.tradeValue,
+					},
+				}
+			default:
+				return basketLeg
 		}
 	}
 
 	const handleAddBasket = (value: BasketLegType) => {
 		const uniqueId = generateUniqueId()
-		setPosition((prev) => [
-			...prev,
-			value === BasketLegType.SPOT
-				? createSpotBasket(uniqueId, value)
-				: value === BasketLegType.FUTURE
-					? createFutureBasket(uniqueId, value)
-					: createOptionsBasket(uniqueId, value),
-		])
+		setPosition((prev) => [...prev, getBasketParameters(uniqueId, value)])
 	}
 
 	const handleDeleteBasket = (id: string) => {
@@ -130,71 +113,50 @@ const EditBasketModal = () => {
 	}
 
 	const handleCloseConfirmModal = () => {
-		resetEditablebasket(), setCofirmModal(false)
+		resetEditablebasket(), setCofirmModalOpen(false)
 	}
 	const handleCancelConfirmModal = () => {
-		setCofirmModal(!isCofirmModalOpen)
-	}
-
-	const modalProps: ModalProps = {
-		open: true,
-		destroyOnClose: true,
-		closeIcon: <CloseOutlined />,
-		afterClose: handleAfterClose,
-		onCancel: handleCancelConfirmModal,
-		footer: (
-			<Footer
-				setPositionError={setPositionError}
-				basketData={basketData}
-				basket={position}
-			/>
-		),
-		title: (
-			<Flex style={{ padding: token.paddingXS }}>
-				<Title {...basketData} />
-			</Flex>
-		),
-		styles: {
-			content: {
-				padding: 0,
-				margin: -50,
-			},
-		},
-		width: window.innerWidth * 0.9,
-	}
-
-	const positionErrorProps: ConfirmModalProps = {
-		open: isPositionError,
-		header: 'Cannot Save Basket',
-		message: 'Basket should have atleast one leg element to save.',
-		handleOpen: togglePositionError,
-		handleCancel: togglePositionError,
-	}
-
-	const closeModalProps: ConfirmModalProps = {
-		open: isCofirmModalOpen,
-		header: 'Alert!',
-		message: 'Are you sure you want to close? All data will be lost!',
-		handleOpen: handleCloseConfirmModal,
-		handleCancel: handleCancelConfirmModal,
-	}
-
-	const parentWrapper: FlexProps = {
-		vertical: true,
-		gap: 'middle',
-		style: {
-			padding: token.paddingMD,
-			height: '600px',
-			overflowY: 'scroll',
-			scrollBehavior: 'smooth',
-		},
-		children: null,
+		setCofirmModalOpen((isCofirmModalOpen) => !isCofirmModalOpen)
 	}
 
 	return (
 		<>
-			<Modal {...modalProps}>
-				<Flex {...parentWrapper}>
+			<Modal
+				open={true}
+				destroyOnClose={true}
+				closeIcon={<CloseOutlined />}
+				afterClose={handleAfterClose}
+				onCancel={handleCancelConfirmModal}
+				footer={
+					<Footer
+						setPositionError={setPositionError}
+						basketData={basketData}
+						basket={position}
+					/>
+				}
+				title={
+					<Flex style={{ padding: token.paddingXS }}>
+						<Title {...basketData} />
+					</Flex>
+				}
+				styles={{
+					content: {
+						padding: 0,
+						margin: -50,
+					},
+				}}
+				width={window.innerWidth * 0.9}
+			>
+				<Flex
+					vertical={true}
+					gap="middle"
+					style={{
+						padding: token.paddingMD,
+						height: '600px',
+						overflowY: 'scroll',
+						scrollBehavior: 'smooth',
+					}}
+				>
 					<Header basketData={basketData} setBasketData={setBasketData} />
 					<Selectors
 						instrument={basketData.ticker}
@@ -218,8 +180,24 @@ const EditBasketModal = () => {
 					/>
 				</Flex>
 			</Modal>
-			{isPositionError && <ConfirmModal {...positionErrorProps} />}
-			{isCofirmModalOpen && <ConfirmModal {...closeModalProps} />}
+			{isPositionError && (
+				<ConfirmModal
+					open={isPositionError}
+					header="Cannot Save Basket"
+					message="Basket should have atleast one leg element to save."
+					handleOpen={togglePositionError}
+					handleCancel={togglePositionError}
+				/>
+			)}
+			{isCofirmModalOpen && (
+				<ConfirmModal
+					open={isCofirmModalOpen}
+					header="Alert!"
+					message="Are you sure you want to close? All data will be lost!"
+					handleOpen={handleCloseConfirmModal}
+					handleCancel={handleCancelConfirmModal}
+				/>
+			)}
 		</>
 	)
 }

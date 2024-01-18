@@ -30,20 +30,6 @@ const Selectors: React.FC<SelectProps> = ({
 		setTabValue(e)
 	}
 
-	const legTabs: TabsProps = {
-		type: 'card',
-		tabBarGutter: 15,
-		className: 'w-full',
-		activeKey: tabValue,
-		onChange: handleTabChange,
-		destroyInactiveTabPane: true,
-		tabBarStyle: { width: '400px' },
-		style: {
-			padding: token.paddingXS,
-			borderRadius: token.borderRadiusLG,
-		},
-	}
-
 	return (
 		<Flex flex={1} vertical gap="middle">
 			<Divider>
@@ -54,7 +40,17 @@ const Selectors: React.FC<SelectProps> = ({
 				</Typography.Text>
 			</Divider>
 			<Tabs
-				{...legTabs}
+				type="card"
+				tabBarGutter={15}
+				className="w-full"
+				activeKey={tabValue}
+				onChange={handleTabChange}
+				destroyInactiveTabPane={true}
+				tabBarStyle={{ width: '400px' }}
+				style={{
+					padding: token.paddingXS,
+					borderRadius: token.borderRadiusLG,
+				}}
 				items={[
 					{
 						label: 'Spot',

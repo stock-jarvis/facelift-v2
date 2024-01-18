@@ -3,12 +3,13 @@ import { PlayCircleOutlined, PlusOutlined } from '@ant-design/icons'
 import { IoCalendarOutline } from 'react-icons/io5'
 import AddBasketModal from '../../modals/add-new-basket'
 import { TimeRangePickerProps } from 'antd'
-import { useState, useEffect } from 'react'
+import { useState, useMemo } from 'react'
 import { useBasketStore } from '../../store/basket-store'
+import { format } from '../../utils/date-format'
 import dayjs from 'dayjs'
 
 const { RangePicker } = DatePicker
-const Index = () => {
+const BasketNav = () => {
 	const { token } = theme.useToken()
 	const {
 		clearSelectedBaskets,
@@ -18,7 +19,11 @@ const Index = () => {
 		endDate,
 	} = useBasketStore()
 	const [isAddModalOpen, setAddModal] = useState<boolean>(false)
-	const [isButtonDisabled, setIsButtonDisabled] = useState<boolean>(true)
+	const isButtonEnabled = useMemo(() => {
+		return (
+			startDate.isValid() && endDate.isValid() && selectedBaskets.length > 0
+		)
+	}, [startDate, endDate, selectedBaskets])
 
 	const handleDateChanged: TimeRangePickerProps['onChange'] = (e) => {
 		const [startDate, endDate] = e ?? ['', '']
@@ -29,20 +34,8 @@ const Index = () => {
 		clearSelectedBaskets()
 	}
 
-	useEffect(() => {
-		if (
-			startDate.isValid() &&
-			endDate.isValid() &&
-			selectedBaskets.length > 0
-		) {
-			setIsButtonDisabled(false)
-		} else {
-			setIsButtonDisabled(true)
-		}
-	}, [startDate, endDate, selectedBaskets, setIsButtonDisabled])
-
 	const handleModalToggle = () => {
-		setAddModal(!isAddModalOpen)
+		setAddModal((isAddModalOpen) => !isAddModalOpen)
 	}
 
 	return (
@@ -58,7 +51,7 @@ const Index = () => {
 			>
 				<Flex>
 					<RangePicker
-						format={'DD-MM-YYYY'}
+						format={format}
 						suffixIcon={<IoCalendarOutline />}
 						onChange={handleDateChanged}
 					/>
@@ -73,7 +66,7 @@ const Index = () => {
 						Add New Basket
 					</Button>
 					<Button
-						disabled={isButtonDisabled}
+						disabled={!isButtonEnabled}
 						icon={<PlayCircleOutlined />}
 						onClick={handleBackTestingButtonClicked}
 					>
@@ -85,4 +78,4 @@ const Index = () => {
 	)
 }
 
-export default Index
+export default BasketNav

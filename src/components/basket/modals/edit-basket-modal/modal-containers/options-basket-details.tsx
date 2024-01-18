@@ -6,7 +6,6 @@ import {
 	theme,
 	Typography,
 	Divider,
-	FlexProps,
 	ButtonProps,
 } from 'antd'
 
@@ -14,15 +13,11 @@ const { Text } = Typography
 import { useImmer } from 'use-immer'
 import { CopyOutlined, DeleteOutlined } from '@ant-design/icons'
 import Instrument from '../modal-components/instrument'
-import ActionSelector, {
-	ActionSelectorProps,
-} from '../modal-components/action-selector'
+import ActionSelector from '../modal-components/action-selector'
 import QuantityInput from '../modal-components/quantity-input'
-import YeildButton, { YeildButtonProps } from '../modal-components/yeild-button'
+import YeildButton from '../modal-components/yeild-input'
 import ExpirySelector from '../modal-components/expiry-selector'
-import StrikeSelector, {
-	StrikeSelectorProps,
-} from '../modal-components/strike-selector'
+import StrikeSelector from '../modal-components/strike-selector'
 import { useActionChange } from '../modal-hooks/useActionChange'
 import { useExitTypeChange } from '../modal-hooks/useExitTypeChange'
 import { TradeAction, OptionType } from 'src/common/enums'
@@ -84,6 +79,14 @@ const OptionBasketDetail: React.FC<OptionDetailsProps> = ({
 		handleDeleteBasket(individualBasket.id)
 	}
 
+	const handleTargetTypeChange = <T,>(
+		type: T,
+		key: OptionsKey,
+		value: OptionsKey
+	) => {
+		setOptionsBasketData({ ...optionsBasketData, [key]: type, [value]: 0 })
+	}
+
 	const handleTradeOptionChange = (val: string) => {
 		const data = tradeTypeData.find((trade) => trade.value === val)
 		if (data) {
@@ -97,93 +100,23 @@ const OptionBasketDetail: React.FC<OptionDetailsProps> = ({
 		}
 	}
 
-	const actionTypeProps: ActionSelectorProps<TradeAction, OptionsKey> = {
-		action1: TradeAction.Buy,
-		action2: TradeAction.Sell,
-		paramType: OptionsKey.ACTION,
-		color1: 'green',
-		color2: 'red',
-		baseActionValue: optionsBasketData.actionValue,
-		handleBaseActionChange: handleChangeValue<TradeAction>,
-	}
-
-	const optionTypeProps: ActionSelectorProps<OptionType, OptionsKey> = {
-		action1: OptionType.CALL,
-		action2: OptionType.PUT,
-		paramType: OptionsKey.OPTION,
-		color1: 'black',
-		color2: 'purple',
-		baseActionValue: optionsBasketData.optionType!,
-		handleBaseActionChange: handleChangeValue<OptionType>,
-	}
-
-	const strikeSelectorProps: StrikeSelectorProps<OptionsKey> = {
-		paramValue: OptionsKey.TRADEVALUE,
-		paramType: OptionsKey.SUBTRADEOPTION,
-		tradeOption: optionsBasketData.tradeOption!,
-		tradeValue: optionsBasketData.tradeValue!,
-		subTradeOption: optionsBasketData.subTradeOption!,
-		subTradeOptionList: optionsBasketData.subTradeOptionList!,
-		setTradeValue: handleChangeValue,
-		setSubTradeOption: handleChangeValue<string>,
-		setTradeOption: handleTradeOptionChange,
-	}
-
-	const totalProfitProps: YeildButtonProps<OptionsKey> = {
-		targetOn: YeildLabel.PROFIT,
-		paramType: OptionsKey.PROFITTYPE,
-		paramValue: OptionsKey.PROFITVALUE,
-		targetType: optionsBasketData.totalProfitType,
-		targetValue: optionsBasketData.totalProfitValue,
-		handleTargetValueChange: handleChangeValue<number>,
-		handleTargetTypeChange: handleChangeValue<string>,
-	}
-
-	const stopLossProps: YeildButtonProps<OptionsKey> = {
-		targetOn: YeildLabel.LOSS,
-		paramType: OptionsKey.LOSSTYPE,
-		paramValue: OptionsKey.LOSSVALUE,
-		targetType: optionsBasketData.stopLossType,
-		targetValue: optionsBasketData.stopLossValue,
-		handleTargetTypeChange: handleChangeValue<string>,
-		handleTargetValueChange: handleChangeValue<number>,
-	}
-
-	const commonFlexProps: FlexProps = {
-		flex: '1',
-		children: null,
-		justify: 'center',
-	}
-
-	const typographyStyles = {
-		fontSize: token.fontSizeSM,
-		fontWeight: token.fontWeightStrong,
-	}
-
-	const actionButtonProps: ButtonProps[] = [
-		{
-			shape: 'circle',
-			icon: <CopyOutlined />,
-			type: 'text',
-			onClick: copyBasket,
-		},
-		{
-			shape: 'circle',
-			icon: <DeleteOutlined />,
-			type: 'text',
-			onClick: deleteBasket,
-		},
-	]
 	const item: DescriptionsProps['items'] = [
 		{
 			key: 'intruments',
 			label: (
-				<Flex {...commonFlexProps}>
-					<Text style={{ ...typographyStyles }}>Intruments</Text>
+				<Flex flex="1" justify="center">
+					<Text
+						style={{
+							fontSize: token.fontSizeSM,
+							fontWeight: token.fontWeightStrong,
+						}}
+					>
+						Intruments
+					</Text>
 				</Flex>
 			),
 			children: (
-				<Flex {...commonFlexProps}>
+				<Flex flex="1" justify="center">
 					<Instrument instrument={baseInstrumentValue} />
 				</Flex>
 			),
@@ -191,38 +124,75 @@ const OptionBasketDetail: React.FC<OptionDetailsProps> = ({
 		{
 			key: 'actions',
 			label: (
-				<Flex {...commonFlexProps}>
-					<Text style={{ ...typographyStyles }}>Action</Text>
+				<Flex flex="1" justify="center">
+					<Text
+						style={{
+							fontSize: token.fontSizeSM,
+							fontWeight: token.fontWeightStrong,
+						}}
+					>
+						Action
+					</Text>
 				</Flex>
 			),
 			children: (
-				<Flex {...commonFlexProps}>
-					<ActionSelector {...actionTypeProps} />
+				<Flex flex="1" justify="center">
+					<ActionSelector<TradeAction, OptionsKey>
+						action1={TradeAction.Buy}
+						action2={TradeAction.Sell}
+						paramType={OptionsKey.ACTION}
+						color1="green"
+						color2="red"
+						baseActionValue={optionsBasketData.actionValue}
+						handleBaseActionChange={handleChangeValue<TradeAction>}
+					/>
 				</Flex>
 			),
 		},
 		{
 			key: 'options',
 			label: (
-				<Flex {...commonFlexProps}>
-					<Text style={{ ...typographyStyles }}>Option</Text>
+				<Flex flex="1" justify="center">
+					<Text
+						style={{
+							fontSize: token.fontSizeSM,
+							fontWeight: token.fontWeightStrong,
+						}}
+					>
+						Option
+					</Text>
 				</Flex>
 			),
 			children: (
-				<Flex {...commonFlexProps}>
-					<ActionSelector {...optionTypeProps} />
+				<Flex flex="1" justify="center">
+					<ActionSelector<OptionType, OptionsKey>
+						action1={OptionType.CALL}
+						action2={OptionType.PUT}
+						paramType={OptionsKey.OPTION}
+						color1="black"
+						color2="purple"
+						baseActionValue={optionsBasketData.optionType!}
+						handleBaseActionChange={handleChangeValue<OptionType>}
+					/>
 				</Flex>
 			),
 		},
 		{
 			key: 'quantity',
 			label: (
-				<Flex {...commonFlexProps}>
-					<Text style={{ ...typographyStyles }}>Quantity</Text>
+				<Flex flex="1" justify="center">
+					<Text
+						style={{
+							fontSize: token.fontSizeSM,
+							fontWeight: token.fontWeightStrong,
+						}}
+					>
+						Quantity
+					</Text>
 				</Flex>
 			),
 			children: (
-				<Flex {...commonFlexProps}>
+				<Flex flex="1" justify="center">
 					<QuantityInput<OptionsKey>
 						baseQuantityValue={optionsBasketData.quantityValue}
 						paramType={OptionsKey.QUANTITY}
@@ -234,41 +204,82 @@ const OptionBasketDetail: React.FC<OptionDetailsProps> = ({
 		{
 			key: 'operations',
 			label: (
-				<Flex {...commonFlexProps}>
-					<Text style={{ ...typographyStyles }}>Operations</Text>
+				<Flex flex="1" justify="center">
+					<Text
+						style={{
+							fontSize: token.fontSizeSM,
+							fontWeight: token.fontWeightStrong,
+						}}
+					>
+						Operations
+					</Text>
 				</Flex>
 			),
 			children: (
-				<Flex {...commonFlexProps}>
-					{actionButtonProps.map((action, i) => (
-						<Button {...action} key={i} />
-					))}
+				<Flex flex="1" justify="center">
+					<Button
+						shape="circle"
+						icon={<CopyOutlined />}
+						type="text"
+						onClick={copyBasket}
+					/>
+
+					<Button
+						shape="circle"
+						icon={<DeleteOutlined />}
+						type="text"
+						onClick={deleteBasket}
+					/>
 				</Flex>
 			),
 		},
 		{
 			key: 'strike',
 			label: (
-				<Flex {...commonFlexProps}>
-					<Text style={{ ...typographyStyles }}>Strike</Text>
+				<Flex flex="1" justify="center">
+					<Text
+						style={{
+							fontSize: token.fontSizeSM,
+							fontWeight: token.fontWeightStrong,
+						}}
+					>
+						Strike
+					</Text>
 				</Flex>
 			),
 			children: (
-				<Flex {...commonFlexProps}>
-					<StrikeSelector {...strikeSelectorProps} />
+				<Flex flex="1" justify="center">
+					<StrikeSelector<OptionsKey>
+						paramValue={OptionsKey.TRADEVALUE}
+						paramType={OptionsKey.SUBTRADEOPTION}
+						tradeOption={optionsBasketData.tradeOption!}
+						tradeValue={optionsBasketData.tradeValue!}
+						subTradeOption={optionsBasketData.subTradeOption!}
+						subTradeOptionList={optionsBasketData.subTradeOptionList!}
+						setTradeValue={handleChangeValue}
+						setSubTradeOption={handleChangeValue<string>}
+						setTradeOption={handleTradeOptionChange}
+					/>
 				</Flex>
 			),
 		},
 		{
 			key: 'expiry',
 			label: (
-				<Flex {...commonFlexProps}>
-					<Text style={{ ...typographyStyles }}>Expiry</Text>
+				<Flex flex="1" justify="center">
+					<Text
+						style={{
+							fontSize: token.fontSizeSM,
+							fontWeight: token.fontWeightStrong,
+						}}
+					>
+						Expiry
+					</Text>
 				</Flex>
 			),
 			children: (
-				<Flex {...commonFlexProps}>
-					<ExpirySelector
+				<Flex flex="1" justify="center">
+					<ExpirySelector<OptionsKey>
 						expiryOptions={optionExpiry}
 						expiryValue={optionsBasketData.expiry!}
 						handleExpiryChange={handleChangeValue<string>}
@@ -279,26 +290,56 @@ const OptionBasketDetail: React.FC<OptionDetailsProps> = ({
 		{
 			key: 'totalprofit',
 			label: (
-				<Flex {...commonFlexProps}>
-					<Text style={{ ...typographyStyles }}>Total Profit</Text>
+				<Flex flex="1" justify="center">
+					<Text
+						style={{
+							fontSize: token.fontSizeSM,
+							fontWeight: token.fontWeightStrong,
+						}}
+					>
+						Total Profit
+					</Text>
 				</Flex>
 			),
 			children: (
-				<Flex {...commonFlexProps}>
-					<YeildButton<OptionsKey> {...totalProfitProps} />
+				<Flex flex="1" justify="center">
+					<YeildButton<OptionsKey>
+						targetOn={YeildLabel.PROFIT}
+						paramType={OptionsKey.PROFITTYPE}
+						paramValue={OptionsKey.PROFITVALUE}
+						targetType={optionsBasketData.totalProfitType}
+						targetValue={optionsBasketData.totalProfitValue}
+						handleTargetValueChange={handleChangeValue<number>}
+						handleTargetTypeChange={handleTargetTypeChange<string>}
+					/>
 				</Flex>
 			),
 		},
 		{
 			key: 'stopLoss',
 			label: (
-				<Flex {...commonFlexProps}>
-					<Text style={{ ...typographyStyles }}>Spot Loss</Text>
+				<Flex flex="1" justify="center">
+					<Text
+						style={{
+							fontSize: token.fontSizeSM,
+							fontWeight: token.fontWeightStrong,
+						}}
+					>
+						Spot Loss
+					</Text>
 				</Flex>
 			),
 			children: (
-				<Flex {...commonFlexProps}>
-					<YeildButton {...stopLossProps} />
+				<Flex flex="1" justify="center">
+					<YeildButton<OptionsKey>
+						targetOn={YeildLabel.LOSS}
+						paramType={OptionsKey.LOSSTYPE}
+						paramValue={OptionsKey.LOSSVALUE}
+						targetType={optionsBasketData.stopLossType}
+						targetValue={optionsBasketData.stopLossValue}
+						handleTargetTypeChange={handleTargetTypeChange<string>}
+						handleTargetValueChange={handleChangeValue<number>}
+					/>
 				</Flex>
 			),
 		},
@@ -400,14 +441,6 @@ const OptionBasketDetail: React.FC<OptionDetailsProps> = ({
 		'type'
 	)
 
-	const descriptionProps: DescriptionsProps = {
-		column: 5,
-		items: item,
-		bordered: true,
-		layout: 'vertical',
-		style: { backgroundColor: dark ? '#F7FBFD' : 'transparent' },
-	}
-
 	return (
 		<Flex vertical>
 			<Divider>
@@ -415,7 +448,13 @@ const OptionBasketDetail: React.FC<OptionDetailsProps> = ({
 					Options ({`Leg-${individualBasket.count}`})
 				</Typography.Text>
 			</Divider>
-			<Descriptions {...descriptionProps} />
+			<Descriptions
+				column={5}
+				items={item}
+				bordered={true}
+				layout="vertical"
+				style={{ backgroundColor: dark ? '#F7FBFD' : 'transparent' }}
+			/>
 		</Flex>
 	)
 }

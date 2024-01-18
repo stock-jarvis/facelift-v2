@@ -54,7 +54,6 @@ const TradeSecion: React.FC<TradeProps> = ({
 			setRepeatTrade(true)
 			setBasketData({
 				...basketData,
-				name: 'Apple',
 				exitCondition: {
 					...basketData.exitCondition,
 					repeat: RepeatType.TRADE,
@@ -70,6 +69,8 @@ const TradeSecion: React.FC<TradeProps> = ({
 			exitCondition: {
 				...basketData.exitCondition,
 				type: val,
+				move: false,
+				repeat: RepeatType.NA,
 			},
 		})
 	}
@@ -81,7 +82,7 @@ const TradeSecion: React.FC<TradeProps> = ({
 				...basketData,
 				exitCondition: {
 					...basketData.exitCondition,
-					repeat: RepeatType.NA,
+					repeat: RepeatType.TRADE,
 				},
 			})
 		} else if (!repeatCondition && repeatTrade) {

@@ -1,14 +1,6 @@
 import { SnippetsOutlined } from '@ant-design/icons'
-import {
-	Flex,
-	Button,
-	theme,
-	Input,
-	notification,
-	FlexProps,
-	ButtonProps,
-	InputProps,
-} from 'antd'
+import { Typography, Flex, Button, theme, Input, notification } from 'antd'
+const { Text } = Typography
 import { useEffect, useState, useMemo, createContext } from 'react'
 import { useBasketStore } from 'src/components/basket/store/basket-store'
 import type { NotificationPlacement } from 'antd/es/notification/interface'
@@ -18,6 +10,7 @@ import {
 	SavedBasketsEntryCondition as Entry,
 	SavedBasket,
 } from 'src/components/basket/types/types'
+import { CloseCircleFilled, CheckCircleFilled } from '@ant-design/icons'
 //TODO: Optimize this component
 interface FooterProps {
 	basketData: SavedBasket
@@ -41,10 +34,60 @@ const Footer: React.FC<FooterProps> = ({
 	const { timeError, resetEditablebasket, updateRuntimeBasketData } =
 		useBasketStore()
 
+	const openNotificationSuccess = (placement: NotificationPlacement) => {
+		api.info({
+			style: {
+				padding: token.paddingXS,
+				borderRadius: '15px',
+			},
+			icon: (
+				<CheckCircleFilled
+					style={{
+						color: token.colorSuccess,
+					}}
+				/>
+			),
+			closeIcon: null,
+			message: (
+				<Text
+					style={{
+						fontWeight: token.fontWeightStrong,
+						color: token.colorSuccess,
+					}}
+				>
+					Success!
+				</Text>
+			),
+			description: <Text>Basket Saved Successfully</Text>,
+			placement,
+		})
+	}
+
 	const openNotification = (placement: NotificationPlacement) => {
 		api.info({
-			message: `Time Error!`,
-			description: <>Exit Time should be after entry time.</>,
+			style: {
+				padding: token.paddingXS,
+				borderRadius: '15px',
+			},
+			icon: (
+				<CloseCircleFilled
+					style={{
+						color: token.colorError,
+					}}
+				/>
+			),
+			closeIcon: null,
+			message: (
+				<Text
+					style={{
+						fontWeight: token.fontWeightStrong,
+						color: token.colorError,
+					}}
+				>
+					Time Error!
+				</Text>
+			),
+			description: <Text>Exit Time should be after entry time.</Text>,
 			placement,
 		})
 	}
@@ -129,6 +172,7 @@ const Footer: React.FC<FooterProps> = ({
 				openNotification('topRight')
 			} else {
 				if (savedBasket) {
+					openNotificationSuccess('topRight')
 					updateRuntimeBasketData(savedBasket)
 					resetEditablebasket()
 				}
@@ -138,35 +182,26 @@ const Footer: React.FC<FooterProps> = ({
 		}
 	}
 
-	const parentProps: FlexProps = {
-		justify: 'space-between',
-		align: 'center',
-		children: null,
-		style: {
-			padding: token.paddingSM,
-			width: '100%',
-			borderTop: '1px solid #F0F0F0',
-		},
-	}
-
-	const saveButtonProps: ButtonProps = {
-		type: 'primary',
-		onClick: handleSaveBasketClick,
-		icon: <SnippetsOutlined />,
-	}
-
-	const spreadInputProps: InputProps = {
-		placeholder: 'Spread',
-		suffix: '%',
-		style: { width: '150px' },
-	}
-
 	return (
 		<Context.Provider value={contextValue}>
 			{contextHolder}
-			<Flex {...parentProps}>
-				<Input {...spreadInputProps} />
-				<Button {...saveButtonProps}>Save Basket</Button>
+			<Flex
+				justify="space-between"
+				align="center"
+				style={{
+					padding: token.paddingSM,
+					width: '100%',
+					borderTop: '1px solid #F0F0F0',
+				}}
+			>
+				<Input placeholder="Spread" suffix="%" style={{ width: '150px' }} />
+				<Button
+					type="primary"
+					onClick={handleSaveBasketClick}
+					icon={<SnippetsOutlined />}
+				>
+					Save Basket
+				</Button>
 			</Flex>
 		</Context.Provider>
 	)

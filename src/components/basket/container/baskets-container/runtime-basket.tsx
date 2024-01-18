@@ -1,6 +1,6 @@
 import { Flex, theme, Table, Typography } from 'antd'
 import type { TableRowSelection } from 'antd/es/table/interface'
-import type { ColumnsType, TableProps } from 'antd/es/table'
+import type { ColumnsType } from 'antd/es/table'
 import {
 	FormOutlined,
 	DeleteOutlined,
@@ -12,9 +12,9 @@ import EmptyIndicator from '../common/empty-indicator'
 import { useBasketStore } from '../../store/basket-store'
 import { SavedBasket, EditType } from '../../types/types'
 import { checkDuplicate } from '../../utils/duplicate-check'
-import { generateUniqueId } from '../../utils/randomizer'
-import Actions, { ActionsButtonProps } from '../common/click-actions'
-const Index = () => {
+
+import Actions from '../common/click-actions'
+const RuntimeBasket = () => {
 	const { token } = theme.useToken()
 	const {
 		runtimeBasketList,
@@ -61,29 +61,6 @@ const Index = () => {
 			selectAllBaskets()
 		},
 	}
-
-	const actions: ActionsButtonProps[] = [
-		{
-			handleButtonClick: handleBasketEdit,
-			icon: <FormOutlined />,
-			tooltipTitle: 'Edit',
-		},
-		{
-			handleButtonClick: handleBasketDuplicate,
-			icon: <CopyOutlined />,
-			tooltipTitle: 'Duplicate',
-		},
-		{
-			handleButtonClick: handleBaskeSave,
-			icon: <SnippetsOutlined />,
-			tooltipTitle: 'Save',
-		},
-		{
-			handleButtonClick: handleBaskeDelete,
-			icon: <DeleteOutlined />,
-			tooltipTitle: 'Delete',
-		},
-	]
 
 	const columns: ColumnsType<SavedBasket> = [
 		{
@@ -153,30 +130,50 @@ const Index = () => {
 			),
 			render: (record) => (
 				<Flex gap={'small'} flex={1} justify="flex-end">
-					{actions.map((action) => (
-						<Actions key={generateUniqueId()} {...action} record={record} />
-					))}
+					<Actions
+						handleButtonClick={handleBasketEdit}
+						icon={<FormOutlined />}
+						tooltipTitle={'Edit'}
+						record={record}
+					/>
+					<Actions
+						handleButtonClick={handleBasketDuplicate}
+						icon={<CopyOutlined />}
+						tooltipTitle={'Duplicate'}
+						record={record}
+					/>
+					<Actions
+						handleButtonClick={handleBaskeSave}
+						icon={<SnippetsOutlined />}
+						tooltipTitle={'Save'}
+						record={record}
+					/>
+					<Actions
+						handleButtonClick={handleBaskeDelete}
+						icon={<DeleteOutlined />}
+						tooltipTitle={'Delete'}
+						record={record}
+					/>
 				</Flex>
 			),
 		},
 	]
 
-	const tableDataProps: TableProps<SavedBasket> = {
-		rowKey: 'id',
-		columns: columns,
-		pagination: false,
-		style: { height: '800px' },
-		rowSelection: rowSelection,
-		dataSource: runtimeBasketList,
-		scroll: { y: 'calc(100vh - 165px)' },
-		locale: EmptyIndicator('No Baskets Available'),
-	}
 	return (
 		<Flex flex="1" vertical>
 			<BasketNav />
-			<Table {...tableDataProps} />
+			<Table
+				rowKey="id"
+				columns={columns}
+				pagination={false}
+				style={{ height: '800px' }}
+				rowSelection={rowSelection}
+				dataSource={runtimeBasketList}
+				scroll={{ y: 'calc(100vh - 165px)' }}
+				locale={EmptyIndicator('No Baskets Available')}
+			/>
 		</Flex>
 	)
 }
 
-export default Index
+export default RuntimeBasket

@@ -1,11 +1,7 @@
 import Instrument from '../modal-components/instrument'
-import QuantityInput, {
-	QuantityProps,
-} from '../modal-components/quantity-input'
-import ActionSelector, {
-	ActionSelectorProps,
-} from '../modal-components/action-selector'
-import YeildButton, { YeildButtonProps } from '../modal-components/yeild-button'
+import QuantityInput from '../modal-components/quantity-input'
+import ActionSelector from '../modal-components/action-selector'
+import YeildButton from '../modal-components/yeild-input'
 import { CopyOutlined, DeleteOutlined } from '@ant-design/icons'
 import { TradeAction } from 'src/common/enums'
 import { useImmer } from 'use-immer'
@@ -18,7 +14,6 @@ import {
 	Divider,
 	Typography,
 	ButtonProps,
-	FlexProps,
 } from 'antd'
 
 const { Text } = Typography
@@ -70,74 +65,27 @@ const SpotBasketDetail: React.FC<SpotDetailsProps> = ({
 		handleDeleteBasket(individualBasket.id)
 	}
 
-	const actionTypeProps: ActionSelectorProps<TradeAction, SpotKey> = {
-		action1: TradeAction.Buy,
-		action2: TradeAction.Sell,
-		paramType: SpotKey.ACTION,
-		color1: 'green',
-		color2: 'red',
-		baseActionValue: spotBasketData.actionValue,
-		handleBaseActionChange: handleChangeValue<TradeAction>,
-	}
-
-	const totalProfitProps: YeildButtonProps<SpotKey> = {
-		targetOn: YeildLabel.PROFIT,
-		paramType: SpotKey.PROFITTYPE,
-		paramValue: SpotKey.PROFITVALUE,
-		targetType: spotBasketData.totalProfitType,
-		targetValue: spotBasketData.totalProfitValue,
-		handleTargetValueChange: handleChangeValue<number>,
-		handleTargetTypeChange: handleChangeValue<string>,
-	}
-
-	const stopLossProps: YeildButtonProps<SpotKey> = {
-		targetOn: YeildLabel.LOSS,
-		paramType: SpotKey.LOSSTYPE,
-		paramValue: SpotKey.LOSSVALUE,
-		targetType: spotBasketData.stopLossType,
-		targetValue: spotBasketData.stopLossValue,
-		handleTargetTypeChange: handleChangeValue<string>,
-		handleTargetValueChange: handleChangeValue<number>,
-	}
-
-	const commonFlexProps: FlexProps = {
-		flex: '1',
-		children: null,
-		justify: 'center',
-	}
-
-	const typographyStyles = {
-		fontSize: token.fontSizeSM,
-		fontWeight: token.fontWeightStrong,
-	}
-
-	const actionButtonProps: ButtonProps[] = [
-		{
-			shape: 'circle',
-			icon: <CopyOutlined />,
-			type: 'text',
-			onClick: copyBasket,
-		},
-		{
-			shape: 'circle',
-			icon: <DeleteOutlined />,
-			type: 'text',
-			onClick: deleteBasket,
-		},
-	]
-
-	const quantityProps: QuantityProps<SpotKey> = {
-		paramType: SpotKey.QUANTITY,
-		baseQuantityValue: spotBasketData.quantityValue,
-		handleQantityChange: handleChangeValue<number>,
+	const handleTargetTypeChange = <T,>(
+		type: T,
+		key: SpotKey,
+		value: SpotKey
+	) => {
+		setSpotBasketData({ ...spotBasketData, [key]: type, [value]: 0 })
 	}
 
 	const item: DescriptionsProps['items'] = [
 		{
 			key: 'intruments',
 			label: (
-				<Flex {...commonFlexProps}>
-					<Text style={{ ...typographyStyles }}>Intruments</Text>
+				<Flex flex="1" justify="center">
+					<Text
+						style={{
+							fontSize: token.fontSizeSM,
+							fontWeight: token.fontWeightStrong,
+						}}
+					>
+						Intruments
+					</Text>
 				</Flex>
 			),
 			children: (
@@ -149,39 +97,80 @@ const SpotBasketDetail: React.FC<SpotDetailsProps> = ({
 		{
 			key: 'actions',
 			label: (
-				<Flex {...commonFlexProps}>
-					<Text style={{ ...typographyStyles }}>Action</Text>
+				<Flex flex="1" justify="center">
+					<Text
+						style={{
+							fontSize: token.fontSizeSM,
+							fontWeight: token.fontWeightStrong,
+						}}
+					>
+						Action
+					</Text>
 				</Flex>
 			),
 			children: (
-				<Flex {...commonFlexProps}>
-					<ActionSelector {...actionTypeProps} />
+				<Flex flex="1" justify="center">
+					<ActionSelector<TradeAction, SpotKey>
+						action1={TradeAction.Buy}
+						action2={TradeAction.Sell}
+						paramType={SpotKey.ACTION}
+						color1="green"
+						color2="red"
+						baseActionValue={spotBasketData.actionValue}
+						handleBaseActionChange={handleChangeValue<TradeAction>}
+					/>
 				</Flex>
 			),
 		},
 		{
 			key: 'quantity',
 			label: (
-				<Flex {...commonFlexProps}>
-					<Text style={{ ...typographyStyles }}>Quantity</Text>
+				<Flex flex="1" justify="center">
+					<Text
+						style={{
+							fontSize: token.fontSizeSM,
+							fontWeight: token.fontWeightStrong,
+						}}
+					>
+						Quantity
+					</Text>
 				</Flex>
 			),
 			children: (
-				<Flex {...commonFlexProps}>
-					<QuantityInput {...quantityProps} />
+				<Flex flex="1" justify="center">
+					<QuantityInput<SpotKey>
+						paramType={SpotKey.QUANTITY}
+						baseQuantityValue={spotBasketData.quantityValue}
+						handleQantityChange={handleChangeValue<number>}
+					/>
 				</Flex>
 			),
 		},
 		{
 			key: 'totalprofit',
 			label: (
-				<Flex {...commonFlexProps}>
-					<Text style={{ ...typographyStyles }}>Total Profit</Text>
+				<Flex flex="1" justify="center">
+					<Text
+						style={{
+							fontSize: token.fontSizeSM,
+							fontWeight: token.fontWeightStrong,
+						}}
+					>
+						Total Profit
+					</Text>
 				</Flex>
 			),
 			children: (
-				<Flex {...commonFlexProps}>
-					<YeildButton {...totalProfitProps} />
+				<Flex flex="1" justify="center">
+					<YeildButton<SpotKey>
+						targetOn={YeildLabel.PROFIT}
+						paramType={SpotKey.PROFITTYPE}
+						paramValue={SpotKey.PROFITVALUE}
+						targetType={spotBasketData.totalProfitType}
+						targetValue={spotBasketData.totalProfitValue}
+						handleTargetValueChange={handleChangeValue<number>}
+						handleTargetTypeChange={handleTargetTypeChange<string>}
+					/>
 				</Flex>
 			),
 		},
@@ -189,12 +178,27 @@ const SpotBasketDetail: React.FC<SpotDetailsProps> = ({
 			key: 'stopLoss',
 			label: (
 				<Flex flex="1" justify="center">
-					<Text style={{ ...typographyStyles }}>Spot Loss</Text>
+					<Text
+						style={{
+							fontSize: token.fontSizeSM,
+							fontWeight: token.fontWeightStrong,
+						}}
+					>
+						Spot Loss
+					</Text>
 				</Flex>
 			),
 			children: (
 				<Flex flex={1} justify="center">
-					<YeildButton {...stopLossProps} />
+					<YeildButton<SpotKey>
+						targetOn={YeildLabel.LOSS}
+						paramType={SpotKey.LOSSTYPE}
+						paramValue={SpotKey.LOSSVALUE}
+						targetType={spotBasketData.stopLossType}
+						targetValue={spotBasketData.stopLossValue}
+						handleTargetTypeChange={handleTargetTypeChange<string>}
+						handleTargetValueChange={handleChangeValue<number>}
+					/>
 				</Flex>
 			),
 		},
@@ -203,14 +207,31 @@ const SpotBasketDetail: React.FC<SpotDetailsProps> = ({
 			key: 'operations',
 			label: (
 				<Flex flex="1" justify="center">
-					<Text style={{ ...typographyStyles }}>Operations</Text>
+					<Text
+						style={{
+							fontSize: token.fontSizeSM,
+							fontWeight: token.fontWeightStrong,
+						}}
+					>
+						Operations
+					</Text>
 				</Flex>
 			),
 			children: (
 				<Flex flex={1} justify="center">
-					{actionButtonProps.map((action, i) => (
-						<Button {...action} key={i} />
-					))}
+					<Button
+						shape="circle"
+						icon={<CopyOutlined />}
+						type="text"
+						onClick={copyBasket}
+					/>
+
+					<Button
+						shape="circle"
+						icon={<DeleteOutlined />}
+						type="text"
+						onClick={deleteBasket}
+					/>
 				</Flex>
 			),
 		},
@@ -265,15 +286,6 @@ const SpotBasketDetail: React.FC<SpotDetailsProps> = ({
 		'type'
 	)
 
-	const descriptionProps: DescriptionsProps = {
-		column: 8,
-		items: item,
-		bordered: true,
-		layout: 'vertical',
-		className: 'w-[100%]',
-		style: { backgroundColor: dark ? '#F7FBFD' : 'transparent' },
-	}
-
 	return (
 		<Flex vertical>
 			<Divider>
@@ -281,7 +293,14 @@ const SpotBasketDetail: React.FC<SpotDetailsProps> = ({
 					Spot ({`Leg-${individualBasket.count}`})
 				</Text>
 			</Divider>
-			<Descriptions {...descriptionProps} />
+			<Descriptions
+				column={8}
+				items={item}
+				bordered={true}
+				layout="vertical"
+				className="w-[100%]"
+				style={{ backgroundColor: dark ? '#F7FBFD' : 'transparent' }}
+			/>
 		</Flex>
 	)
 }

@@ -1,7 +1,7 @@
 import { Flex, Typography, theme, Segmented, SegmentedProps } from 'antd'
 import { SegmentedValue } from 'antd/es/segmented'
 import { useState } from 'react'
-export interface ActionSelectorProps<T, U> {
+interface ActionSelectorProps<T, U> {
 	action1: T
 	action2: T
 	color1: string

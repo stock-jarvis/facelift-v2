@@ -1,6 +1,6 @@
 import {
 	BasketDataProps,
-	BasketDataValues,
+	SavedPosition,
 } from 'src/components/basket/types/types'
 import SpotBasketDetail from './spot-basket-detail'
 import FututeBasketDetails from './future-basket-details'
@@ -8,7 +8,7 @@ import OptionBasketDetail from './options-basket-details'
 interface DetailsContainerProps {
 	instrument: string
 	basket: BasketDataProps[]
-	basketInitialData: BasketDataValues
+	basketInitialData: SavedPosition
 	handleCopyBasket: (id: string) => void
 	handleDeleteBasket: (id: string) => void
 	setBasket: (basket: BasketDataProps[]) => void

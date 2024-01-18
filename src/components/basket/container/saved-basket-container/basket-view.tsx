@@ -3,7 +3,7 @@ import { useBasketStore } from '../../store/basket-store'
 import BasketTable from './basket-table'
 import { useEffect } from 'react'
 import { Exchange } from 'src/common/enums'
-const Index = () => {
+const SavedBasketView = () => {
 	const { token } = theme.useToken()
 	const { setExchange } = useBasketStore()
 	const handleTabChange: TabsProps['onChange'] = (exchange: string) => {
@@ -54,4 +54,4 @@ const Index = () => {
 	)
 }
 
-export default Index
+export default SavedBasketView

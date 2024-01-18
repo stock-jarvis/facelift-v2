@@ -8,13 +8,13 @@ import {
 	DescriptionsProps,
 } from 'antd'
 
-interface CappedButtonProps {
+interface ProfitLossInputProps {
 	label: string
 	value: number
 	setValue: (value: number) => void
 }
 
-const CappedButton: React.FC<CappedButtonProps> = ({
+const CappedButton: React.FC<ProfitLossInputProps> = ({
 	label,
 	value,
 	setValue,
