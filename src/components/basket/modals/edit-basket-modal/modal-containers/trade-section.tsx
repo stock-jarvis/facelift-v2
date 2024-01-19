@@ -7,7 +7,7 @@ import {
 	DescriptionsProps,
 } from 'antd'
 import Toggle from '../modal-components/toggle'
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
 import { SavedBasket, RepeatType } from 'src/components/basket/types/types'
 import { BasketExitType } from 'src/common/enums'
 
@@ -20,19 +20,21 @@ const TradeSecion: React.FC<TradeProps> = ({
 	setBasketData,
 }: TradeProps) => {
 	const { token } = theme.useToken()
-	const [repeatCondition, setRepeatCondition] = useState<boolean>(
-		basketData.exitCondition.repeat === RepeatType.CONDITION
-	)
-	const [repeatTrade, setRepeatTrade] = useState<boolean>(
-		basketData.exitCondition.repeat === RepeatType.TRADE
-	)
 	const [tradeValue, setTradeValue] = useState<BasketExitType>(
 		basketData.exitCondition.type
 	)
 
+	const repeatCondition = useMemo(
+		() => basketData.exitCondition.repeat === RepeatType.CONDITION,
+		[basketData]
+	)
+	const repeatTrade = useMemo(
+		() => basketData.exitCondition.repeat === RepeatType.TRADE,
+		[basketData]
+	)
+
 	const handleTradeChange = () => {
 		if (repeatTrade) {
-			setRepeatTrade(false)
 			setBasketData({
 				...basketData,
 				exitCondition: {
@@ -41,8 +43,6 @@ const TradeSecion: React.FC<TradeProps> = ({
 				},
 			})
 		} else if (!repeatTrade && repeatCondition) {
-			setRepeatCondition(false)
-			setRepeatTrade(true)
 			setBasketData({
 				...basketData,
 				exitCondition: {
@@ -51,7 +51,6 @@ const TradeSecion: React.FC<TradeProps> = ({
 				},
 			})
 		} else if (!repeatTrade) {
-			setRepeatTrade(true)
 			setBasketData({
 				...basketData,
 				exitCondition: {
@@ -77,7 +76,6 @@ const TradeSecion: React.FC<TradeProps> = ({
 
 	const handleConditionChange = () => {
 		if (repeatCondition) {
-			setRepeatCondition(false)
 			setBasketData({
 				...basketData,
 				exitCondition: {
@@ -86,8 +84,6 @@ const TradeSecion: React.FC<TradeProps> = ({
 				},
 			})
 		} else if (!repeatCondition && repeatTrade) {
-			setRepeatTrade(false)
-			setRepeatCondition(true)
 			setBasketData({
 				...basketData,
 				exitCondition: {
@@ -96,7 +92,6 @@ const TradeSecion: React.FC<TradeProps> = ({
 				},
 			})
 		} else if (!repeatCondition) {
-			setRepeatCondition(true)
 			setBasketData({
 				...basketData,
 				exitCondition: {
