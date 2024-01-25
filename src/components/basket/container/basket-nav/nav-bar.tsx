@@ -44,7 +44,6 @@ const BasketNav = () => {
 				<AddBasketModal handleModalToggle={handleModalToggle} />
 			)}
 			<Flex
-				flex="1"
 				style={{ padding: token.paddingXS }}
 				justify="space-between"
 				align="center"
