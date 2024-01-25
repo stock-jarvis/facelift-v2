@@ -16,6 +16,7 @@ const RefundPolicy = lazy(
 )
 // const Home = lazy(() => import('src/components/home'))
 const Simulator = lazy(() => import('src/components/simulator'))
+const Basket = lazy(() => import('src/components/basket'))
 
 const FullscreenSpinner = () => <Spin fullscreen />
 
@@ -81,6 +82,14 @@ const routes: RouteObject[] = [
 				element: (
 					<Suspense fallback={<FullscreenSpinner />}>
 						<Simulator />
+					</Suspense>
+				),
+			},
+			{
+				path: '/basket',
+				element: (
+					<Suspense fallback={<FullscreenSpinner />}>
+						<Basket />
 					</Suspense>
 				),
 			},
