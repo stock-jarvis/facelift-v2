@@ -9,7 +9,10 @@ import { format } from '../../utils/date-format'
 import dayjs from 'dayjs'
 
 const { RangePicker } = DatePicker
-const BasketNav = () => {
+interface BasketNavProps {
+	setSelectedRowKeys: (key: React.Key[]) => void
+}
+const BasketNav: React.FC<BasketNavProps> = ({ setSelectedRowKeys }) => {
 	const { token } = theme.useToken()
 	const {
 		clearSelectedBaskets,
@@ -31,6 +34,37 @@ const BasketNav = () => {
 	}
 
 	const handleBackTestingButtonClicked = () => {
+		for (let i = 0; i < selectedBaskets.length; i++) {
+			const sDate = startDate.toDate().getDate()
+			const sMonth = startDate.toDate().getMonth()
+			const sYear = startDate.toDate().getFullYear()
+			let ssMonth: string = sMonth.toString()
+			let ssDate: string = sDate.toString()
+			if (sDate < 10) {
+				ssDate = '0' + sDate
+			}
+			if (sMonth + 1 < 10) {
+				ssMonth = '0' + (sMonth + 1)
+			}
+
+			const eDate = endDate.toDate().getDate()
+			const eMonth = endDate.toDate().getMonth()
+			const eYear = endDate.toDate().getFullYear()
+			let eeMonth: string = eMonth.toString()
+			let eeDate: string = eDate.toString()
+			if (eDate < 10) {
+				eeDate = '0' + eDate
+			}
+			if (eMonth + 1 < 10) {
+				eeMonth = '0' + (eMonth + 1)
+			}
+			console.log({
+				startDate: `${ssDate}-${ssMonth}-${sYear}`,
+				endDate: `${eeDate}-${eeMonth}-${eYear}`,
+				basket: selectedBaskets[i],
+			})
+		}
+		setSelectedRowKeys([])
 		clearSelectedBaskets()
 	}
 

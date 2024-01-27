@@ -12,10 +12,11 @@ import EmptyIndicator from '../common/empty-indicator'
 import { useBasketStore } from '../../store/basket-store'
 import { SavedBasket, EditType } from '../../types/types'
 import { checkDuplicate } from '../../utils/duplicate-check'
-
+import { useState } from 'react'
 import Actions from '../common/click-actions'
 const RuntimeBasket = () => {
 	const { token } = theme.useToken()
+	const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([])
 	const {
 		runtimeBasketList,
 		setRuntimeError,
@@ -23,6 +24,7 @@ const RuntimeBasket = () => {
 		setEditableBasket,
 		updateRuntimeError,
 		addToSavedBasket,
+		removeSelectedBasket,
 		addNewRuntimeBasket,
 		deleteRuntimeBasket,
 		addBasketToSelectedBaskets,
@@ -53,13 +55,23 @@ const RuntimeBasket = () => {
 		deleteRuntimeBasket(id)
 	}
 
+	const onSelectChange = (newSelectedRowKeys: React.Key[]) => {
+		setSelectedRowKeys(newSelectedRowKeys)
+	}
 	const rowSelection: TableRowSelection<SavedBasket> = {
-		onSelect: (record) => {
-			addBasketToSelectedBaskets(record.id)
+		selectedRowKeys,
+		onSelect: (record, selected) => {
+			if (selected) {
+				addBasketToSelectedBaskets(record.id)
+			} else {
+				removeSelectedBasket(record.id)
+			}
 		},
+
 		onSelectAll: () => {
 			selectAllBaskets()
 		},
+		onChange: onSelectChange,
 	}
 
 	const columns: ColumnsType<SavedBasket> = [
@@ -161,7 +173,7 @@ const RuntimeBasket = () => {
 
 	return (
 		<Flex flex="1" vertical>
-			<BasketNav />
+			<BasketNav setSelectedRowKeys={setSelectedRowKeys} />
 			<Table
 				rowKey="id"
 				columns={columns}
