@@ -30,6 +30,7 @@ type BasketStateActions = {
 	addToSavedBasket: (id: string) => void
 	updateRuntimeError: (id: string) => void
 	deleteRuntimeBasket: (id: string) => void
+	removeSelectedBasket: (id: string) => void
 	moveStoredToRuntimeBasket: (id: string) => void
 	addBasketToSelectedBaskets: (id: string) => void
 	closeDuplicateConfirmModal: (value: boolean) => void
@@ -114,7 +115,15 @@ export const useBasketStore = create<BasketState & BasketStateActions>()(
 				set((state) => {
 					void state.runtimeBasketList.push(newBasket)
 				}),
-
+			removeSelectedBasket: (id) =>
+				set((state) => {
+					const basket = state.selectedBaskets.find((b) => b.id === id)
+					if (basket) {
+						state.selectedBaskets = state.selectedBaskets.filter(
+							(b) => b.id !== basket.id
+						)
+					}
+				}),
 			addBasketToSelectedBaskets: (id) =>
 				set((state) => {
 					const basket = state.runtimeBasketList.find((b) => b.id === id)

@@ -11,7 +11,7 @@ import { SavedBasket } from '../../../types/types'
 import { useBasketStore } from 'src/components/basket/store/basket-store'
 import { useValidateTimes } from '../modal-hooks/useValidateTimes'
 import { getDisabledTimeByExchange } from 'src/common/utils/date-time-utils'
-
+import { getTimes } from 'src/components/basket/utils/get-times'
 const format = 'HH:mm'
 interface EntryExitProps {
 	basketData: SavedBasket
@@ -24,21 +24,23 @@ const EntryExit: React.FC<EntryExitProps> = ({ basketData, setBasketData }) => {
 	const disabledHours = getDisabledTimeByExchange(basketData.exchange)
 
 	const handleEntryTimeChange: TimePickerProps['onChange'] = (time) => {
+		const timeValue = time || getTimes(basketData.exchange, 'start')
 		setBasketData({
 			...basketData,
 			entryCondition: {
 				exitTime: basketData.entryCondition!.exitTime,
-				entryTime: time!,
+				entryTime: timeValue,
 			},
 		})
 	}
 
 	const handleExitTimeChange: TimePickerProps['onChange'] = (time) => {
+		const timeValue = time || getTimes(basketData.exchange, 'end')
 		setBasketData({
 			...basketData,
 			entryCondition: {
 				entryTime: basketData.entryCondition!.entryTime,
-				exitTime: time!,
+				exitTime: timeValue,
 			},
 		})
 	}

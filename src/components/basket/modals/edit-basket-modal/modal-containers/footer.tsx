@@ -183,27 +183,30 @@ const Footer: React.FC<FooterProps> = ({
 	}
 
 	return (
-		<Context.Provider value={contextValue}>
-			{contextHolder}
-			<Flex
-				justify="space-between"
-				align="center"
-				style={{
-					padding: token.paddingSM,
-					width: '100%',
-					borderTop: '1px solid #F0F0F0',
-				}}
-			>
-				<Input placeholder="Spread" suffix="%" style={{ width: '150px' }} />
-				<Button
-					type="primary"
-					onClick={handleSaveBasketClick}
-					icon={<SnippetsOutlined />}
+		<Flex justify="space-between" align="center" className="h-fit">
+			<Context.Provider value={contextValue}>
+				{contextHolder}
+				<Flex
+					className="h-fit"
+					justify="space-between"
+					align="center"
+					style={{
+						padding: token.paddingSM,
+						width: '100%',
+						borderTop: '1px solid #F0F0F0',
+					}}
 				>
-					Save Basket
-				</Button>
-			</Flex>
-		</Context.Provider>
+					<Input placeholder="Spread" suffix="%" style={{ width: '150px' }} />
+					<Button
+						type="primary"
+						onClick={handleSaveBasketClick}
+						icon={<SnippetsOutlined />}
+					>
+						Save Basket
+					</Button>
+				</Flex>
+			</Context.Provider>
+		</Flex>
 	)
 }
 

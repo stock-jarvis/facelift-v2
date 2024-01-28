@@ -152,7 +152,7 @@ const EditBasketModal = () => {
 					gap="middle"
 					style={{
 						padding: token.paddingMD,
-						height: '600px',
+						height: window.innerHeight * 0.7,
 						overflowY: 'scroll',
 						scrollBehavior: 'smooth',
 					}}
