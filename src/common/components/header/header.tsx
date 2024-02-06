@@ -1,9 +1,13 @@
 import { Button, Flex, theme } from 'antd'
 import SystemTradeNavLink from '../system-trade-nav-link'
 import { UserOutlined } from '@ant-design/icons'
+import LoginSignupModal from '../modals/auth'
+import { useState } from 'react'
 
 const Header = () => {
 	const { token } = theme.useToken()
+
+	const [loginModal, setLoginModal] = useState<boolean>(false)
 
 	return (
 		<Flex
@@ -49,10 +53,14 @@ const Header = () => {
 				<SystemTradeNavLink to="/not-found">Indicator</SystemTradeNavLink>
 				<SystemTradeNavLink to="/not-found">Learn</SystemTradeNavLink>
 				<SystemTradeNavLink to="/not-found">Pricing</SystemTradeNavLink>
-				<Button size="small" shape="circle">
+				<Button size="small" shape="circle" onClick={() => setLoginModal(true)}>
 					<UserOutlined />
 				</Button>
 			</Flex>
+			<LoginSignupModal
+				open={loginModal}
+				handleOpen={(val) => setLoginModal(val)}
+			/>
 		</Flex>
 	)
 }

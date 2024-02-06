@@ -21,3 +21,7 @@ export const convertValuesToDefaultOptions = (
 ) => values.map(convertToDefaultOption)
 
 export const convertNumberToPercentageString = (value: number) => `${value}%`
+
+export const capitalizeFirstLetter = (str: string) => {
+	return str.charAt(0).toUpperCase() + str.slice(1)
+}
