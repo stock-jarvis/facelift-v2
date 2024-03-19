@@ -6,6 +6,9 @@ import {
 	REQUEST_HEADER_AUTH_KEY,
 	TOKEN_TYPE,
 } from './const'
+import safeLocalStorage from 'src/common/utils/local-storage'
+import { LOCAL_STORAGE } from 'src/common/local-storage-keys'
+import { LoginUserRes } from 'src/common/types'
 
 const unauthorizedCode = [401]
 
@@ -16,11 +19,11 @@ const BaseService = axios.create({
 
 BaseService.interceptors.request.use(
 	(config) => {
-		const rawPersistData = localStorage.getItem(PERSIST_STORE_NAME)
-		const persistData = deepParseJson(rawPersistData)
+		const sessionData = safeLocalStorage.get<LoginUserRes>(
+			LOCAL_STORAGE.SESSION_INFO
+		)
 
-		// eslint-disable-next-line @typescript-eslint/no-explicit-any
-		const accessToken = (persistData as any)?.auth?.session?.token
+		const accessToken = sessionData?.Token
 
 		// if (!accessToken) {
 		//     const { auth } = store.getState()

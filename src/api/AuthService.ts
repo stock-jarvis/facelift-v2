@@ -8,8 +8,11 @@ import {
 } from 'src/common/components/forms/nonce-form'
 import { SignUpUserType } from 'src/common/components/forms/sign-up-form'
 import axios from 'axios'
+import { LOCAL_STORAGE } from 'src/common/local-storage-keys'
 
-const authTokenJSON = JSON.parse(localStorage.getItem('userData') ?? '{}')
+const authTokenJSON = JSON.parse(
+	localStorage.getItem(LOCAL_STORAGE.SESSION_INFO) ?? '{}'
+)
 
 export async function apiPostLogin<T>(data: LoginUserType) {
 	return ApiService.fetchData<T>({
@@ -103,7 +106,9 @@ export async function fetchDataFromInstrumentAPI(authTokenJSON: any) {
 }
 
 export async function SavedBasketAPI(data: any) {
-	const authTokenJSON = JSON.parse(localStorage.getItem('userData') ?? '{}')
+	const authTokenJSON = JSON.parse(
+		localStorage.getItem(LOCAL_STORAGE.SESSION_INFO) ?? '{}'
+	)
 	try {
 		const response = await axios.post(
 			'http://35.200.211.119:8080/drl/basket/SaveBasket',
@@ -121,7 +126,9 @@ export async function SavedBasketAPI(data: any) {
 }
 
 export async function GetBasketAPI() {
-	const authTokenJSON = JSON.parse(localStorage.getItem('userData') ?? '{}')
+	const authTokenJSON = JSON.parse(
+		localStorage.getItem(LOCAL_STORAGE.SESSION_INFO) ?? '{}'
+	)
 	try {
 		const response = await axios.get(
 			`http://35.200.211.119:8080/drl/basket/GetBasketList?cid=${authTokenJSON.UID}`,
@@ -138,7 +145,9 @@ export async function GetBasketAPI() {
 }
 
 export async function GetSpecificBasketAPI(data: string) {
-	const authTokenJSON = JSON.parse(localStorage.getItem('userData') ?? '{}')
+	const authTokenJSON = JSON.parse(
+		localStorage.getItem(LOCAL_STORAGE.SESSION_INFO) ?? '{}'
+	)
 	try {
 		const response = await axios.get(
 			`http://35.200.211.119:8080/drl/basket/GetBasketDetails?cid=${authTokenJSON.UID}&name=${data}`,
@@ -156,7 +165,9 @@ export async function GetSpecificBasketAPI(data: string) {
 }
 
 export async function RunBasketAPI(name: string) {
-	const authTokenJSON = JSON.parse(localStorage.getItem('userData') ?? '{}')
+	const authTokenJSON = JSON.parse(
+		localStorage.getItem(LOCAL_STORAGE.SESSION_INFO) ?? '{}'
+	)
 	const cid = authTokenJSON.UID
 	try {
 		const response = await axios.post(

@@ -14,6 +14,7 @@ import { CloseCircleFilled, CheckCircleFilled } from '@ant-design/icons'
 import { createConvertedBasket } from 'src/components/basket/utils/formatData'
 import { convertJsonToBase64 } from 'src/components/basket/utils/Base64'
 import { SavedBasketAPI } from 'src/api/AuthService'
+import { LOCAL_STORAGE } from 'src/common/local-storage-keys'
 // import { SavedBasketAPI } from 'src/api/AuthService/SavedBasketAPI'
 interface FooterProps {
 	basketData: SavedBasket
@@ -169,7 +170,9 @@ const Footer: React.FC<FooterProps> = ({
 		savedBasket,
 	])
 
-	const authTokenJSON = JSON.parse(localStorage.getItem('userData'))
+	const authTokenJSON = JSON.parse(
+		localStorage.getItem(LOCAL_STORAGE.SESSION_INFO)
+	)
 
 	const handleSaveBasketClick = () => {
 		// console.log('Hello', savedBasket)

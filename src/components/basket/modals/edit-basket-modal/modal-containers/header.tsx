@@ -15,6 +15,7 @@ import { Exchange, BasketType, BasketAtm } from 'src/common/enums'
 import { exchangeType } from 'src/components/basket/constants/data'
 import { fetchDataFromInstrumentAPI } from 'src/api/AuthService'
 import { useEffect, useState } from 'react'
+import { LOCAL_STORAGE } from 'src/common/local-storage-keys'
 
 interface HeaderProps {
 	basketData: SavedBasket
@@ -50,7 +51,9 @@ const Header: React.FC<HeaderProps> = ({ basketData, setBasketData }) => {
 		fetchData()
 	}, [])
 
-	const authTokenJSON = JSON.parse(localStorage.getItem('userData'))
+	const authTokenJSON = JSON.parse(
+		localStorage.getItem(LOCAL_STORAGE.SESSION_INFO)
+	)
 	const fetchData = async () => {
 		try {
 			const response = await fetchDataFromInstrumentAPI(authTokenJSON)

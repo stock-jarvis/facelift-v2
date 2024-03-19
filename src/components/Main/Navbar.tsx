@@ -10,6 +10,7 @@ import {
 	MailOutlined,
 	SettingOutlined,
 } from '@ant-design/icons'
+import { LOCAL_STORAGE } from 'src/common/local-storage-keys'
 
 const { Header } = Layout
 const items = [
@@ -59,7 +60,9 @@ const Navbar = () => {
 		console.log('click ', e)
 		setCurrent(e.key)
 	}
-	const authTokenJSON = JSON.parse(localStorage.getItem('userData'))
+	const authTokenJSON = JSON.parse(
+		localStorage.getItem(LOCAL_STORAGE.SESSION_INFO)
+	)
 
 	return (
 		<>
