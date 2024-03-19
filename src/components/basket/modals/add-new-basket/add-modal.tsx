@@ -20,6 +20,7 @@ import { Exchange } from 'src/common/enums'
 import ConfirmModal from '../confitm-modal'
 import { tickerData } from '../../constants/data'
 import { fetchDataFromInstrumentAPI } from 'src/api/AuthService'
+import { LOCAL_STORAGE } from 'src/common/local-storage-keys'
 
 interface AddModalProps {
 	handleModalToggle: () => void
@@ -43,7 +44,9 @@ const AddBasketModal = ({ handleModalToggle }: AddModalProps) => {
 		fetchData()
 	}, [])
 
-	const authTokenJSON = JSON.parse(localStorage.getItem('userData'))
+	const authTokenJSON = JSON.parse(
+		localStorage.getItem(LOCAL_STORAGE.SESSION_INFO)
+	)
 	const fetchData = async () => {
 		try {
 			const response = await fetchDataFromInstrumentAPI(authTokenJSON)

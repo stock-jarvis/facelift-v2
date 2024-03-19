@@ -6,16 +6,13 @@ import logo from '../assets/icons/logo1.svg'
 import image4 from '../assets/images/image4.png'
 import { useNavigate } from 'react-router-dom'
 import { LoginAPI } from 'src/api/AuthService'
+import { LOCAL_STORAGE } from 'src/common/local-storage-keys'
+import { LoginUserRes } from 'src/common/types'
 
 export type LoginUserType = {
 	email?: string
 	password?: string
 	phone?: number
-}
-
-type LoginUserRes = {
-	Token: string
-	Status: number
 }
 
 interface LoginFormProps {
@@ -39,7 +36,10 @@ const Signin = () => {
 			if (res.data.Status == 200) {
 				notification.success({ message: 'Logged in Success !' })
 				navigate('/basket')
-				localStorage.setItem('userData', JSON.stringify(res.data))
+				localStorage.setItem(
+					LOCAL_STORAGE.SESSION_INFO,
+					JSON.stringify(res.data)
+				)
 			} else {
 				notification.error({ message: 'Error While login' })
 			}

@@ -1,16 +1,12 @@
 import { Button, Form, Input, Typography, notification } from 'antd'
 import { formType } from '../modals/auth/login-signup-modal'
 import { apiPostLogin } from 'src/api/AuthService'
+import { LoginUserRes } from 'src/common/types'
 
 export type LoginUserType = {
 	email?: string
 	password?: string
 	phone?: number
-}
-
-type LoginUserRes = {
-	Token: string
-	Status: number
 }
 
 interface LoginFormProps {

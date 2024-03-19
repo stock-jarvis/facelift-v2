@@ -51,3 +51,9 @@ export type TimeBoundary = {
 }
 /** Timestamp, Open, High, Low, Close */
 export type OHLC = [number, number, number, number, number]
+
+export type LoginUserRes = {
+	Token: string
+	Status: number
+	UID: string
+}
