@@ -1,15 +1,23 @@
 import dayjs from 'dayjs'
 import ApiService from '../ApiService'
-import { InstrumentList } from './types'
+import { GetInstrumentRes } from './types'
+import { notification } from 'antd'
 
 const InstrumentService = {
 	getInstrument(date: Date) {
 		const parsedDate = dayjs(date).format('DD-MM-YYYY')
 
-		return ApiService.fetchData<InstrumentList, unknown>({
+		return ApiService.fetchData<GetInstrumentRes, unknown>({
 			url: `simulator/GetInstrumentList?date=${parsedDate}`,
 			method: 'get',
 		})
+			.then((res) => res.data)
+			.catch((err) => {
+				notification.error({
+					message: 'Error while trying to get instrument list.',
+				})
+				console.error(err)
+			})
 	},
 }
 

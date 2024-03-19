@@ -1,1 +1,1 @@
-export type InstrumentList = Array<string>
+export type GetInstrumentRes = { InstrumentList: Array<string> }
