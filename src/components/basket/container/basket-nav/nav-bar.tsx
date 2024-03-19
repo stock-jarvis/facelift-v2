@@ -3,10 +3,11 @@ import { PlayCircleOutlined, PlusOutlined } from '@ant-design/icons'
 import { IoCalendarOutline } from 'react-icons/io5'
 import AddBasketModal from '../../modals/add-new-basket'
 import { TimeRangePickerProps } from 'antd'
-import { useState, useMemo } from 'react'
+import { useState, useMemo, useEffect } from 'react'
 import { useBasketStore } from '../../store/basket-store'
 import { format } from '../../utils/date-format'
-import dayjs from 'dayjs'
+import dayjs, { Dayjs } from 'dayjs'
+import { RunBasketAPI } from 'src/api/AuthService'
 
 const { RangePicker } = DatePicker
 interface BasketNavProps {
@@ -23,47 +24,41 @@ const BasketNav: React.FC<BasketNavProps> = ({ setSelectedRowKeys }) => {
 	} = useBasketStore()
 	const [isAddModalOpen, setAddModal] = useState<boolean>(false)
 	const isButtonEnabled = useMemo(() => {
+		console.log({ startDate, endDate, selectedBaskets }, startDate.isValid())
 		return (
 			startDate.isValid() && endDate.isValid() && selectedBaskets.length > 0
 		)
 	}, [startDate, endDate, selectedBaskets])
+
+	useEffect(() => {
+		console.log({ selectedBaskets })
+	}, [selectedBaskets])
 
 	const handleDateChanged: TimeRangePickerProps['onChange'] = (e) => {
 		const [startDate, endDate] = e ?? ['', '']
 		handleDateChange(dayjs(startDate), dayjs(endDate))
 	}
 
-	const handleBackTestingButtonClicked = () => {
-		for (let i = 0; i < selectedBaskets.length; i++) {
-			const sDate = startDate.toDate().getDate()
-			const sMonth = startDate.toDate().getMonth()
-			const sYear = startDate.toDate().getFullYear()
-			let ssMonth: string = sMonth.toString()
-			let ssDate: string = sDate.toString()
-			if (sDate < 10) {
-				ssDate = '0' + sDate
-			}
-			if (sMonth + 1 < 10) {
-				ssMonth = '0' + (sMonth + 1)
-			}
+	const getFormattedDate = (day: Dayjs): string => {
+		const d = day.toDate()
+		let date: string | number = d.getDate()
+		date = date < 10 ? `0${date}` : date
+		let month: string | number = d.getMonth() + 1
+		month = month < 10 ? `0${month}` : month
+		const year = d.getFullYear()
+		return `${date}-${month}-${year}`
+	}
 
-			const eDate = endDate.toDate().getDate()
-			const eMonth = endDate.toDate().getMonth()
-			const eYear = endDate.toDate().getFullYear()
-			let eeMonth: string = eMonth.toString()
-			let eeDate: string = eDate.toString()
-			if (eDate < 10) {
-				eeDate = '0' + eDate
-			}
-			if (eMonth + 1 < 10) {
-				eeMonth = '0' + (eMonth + 1)
-			}
-			console.log({
-				startDate: `${ssDate}-${ssMonth}-${sYear}`,
-				endDate: `${eeDate}-${eeMonth}-${eYear}`,
-				basket: selectedBaskets[i],
-			})
+	const handleBackTestingButtonClicked = async () => {
+		const sDate = getFormattedDate(startDate)
+		const eDate = getFormattedDate(endDate)
+		const res = []
+		for (let i = 0; i < selectedBaskets.length; i++) {
+			const name = selectedBaskets[i]?.Name
+			res.push(RunBasketAPI(name))
 		}
+		const data = await Promise.all(res)
+		console.log({ data })
 		setSelectedRowKeys([])
 		clearSelectedBaskets()
 	}

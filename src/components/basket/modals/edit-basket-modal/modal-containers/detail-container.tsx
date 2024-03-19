@@ -27,7 +27,7 @@ const DetailsContainer: React.FC<DetailsContainerProps> = ({
 				basket.map((bask, index) =>
 					bask.type === 'spot' ? (
 						<SpotBasketDetail
-							key={bask.id}
+							key={index}
 							basket={basket}
 							dark={index % 2 === 0}
 							individualBasket={bask}
@@ -38,7 +38,7 @@ const DetailsContainer: React.FC<DetailsContainerProps> = ({
 						/>
 					) : bask.type === 'future' ? (
 						<FututeBasketDetails
-							key={bask.id}
+							key={index}
 							dark={index % 2 === 0}
 							individualBasket={bask}
 							baseInstrumentValue={instrument}
@@ -49,10 +49,11 @@ const DetailsContainer: React.FC<DetailsContainerProps> = ({
 						/>
 					) : (
 						<OptionBasketDetail
-							key={bask.id}
+							key={index}
 							individualBasket={bask}
 							dark={index % 2 === 0}
 							basket={basket}
+							// name={name}
 							baseInstrumentValue={instrument}
 							handleEditBasket={setBasket}
 							handleCopyBasket={handleCopyBasket}

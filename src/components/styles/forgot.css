@@ -1,0 +1,65 @@
+.main-forgot {
+	height: 100%;
+	width: 100%;
+	display: block;
+	margin: 0px;
+	padding: 0px;
+}
+.divflex1-forgotpage {
+	display: flex;
+	width: 50%;
+	justify-content: center;
+}
+.main-forgot2 {
+	display: flex;
+	height: 70%;
+	width: 80%;
+	justify-content: center;
+	align-items: center;
+}
+.text-wrapper {
+	margin-bottom: 20px;
+}
+.subtext-forgotpage {
+	font-size: 16px;
+	color: #7d8798;
+	margin-top: 20px;
+}
+.verfication-codebtn {
+	background-color: #00ccff;
+	width: 526px;
+	height: 56px;
+	border-radius: 12px;
+	color: white;
+	font-weight: 600;
+	font-size: 18px;
+	margin-top: 10px;
+}
+.span-subtext {
+	color: #00ccff;
+}
+.forgotpage-imgdiv {
+	height: 90%;
+	width: 95%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+.forgotpage-card {
+	border: none;
+	background-color: transparent;
+	height: 800px;
+	width: 686px;
+	margin-top: 50px;
+}
+.image5 {
+	width: 686px;
+	height: 850px;
+}
+.forgotpage-text {
+	color: #7d8798;
+}
+.siginfeild {
+	width: 525px;
+	height: 56px;
+}

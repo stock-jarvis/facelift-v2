@@ -1,0 +1,128 @@
+.main-verifydiv {
+	height: 100%;
+	width: 100%;
+	display: block;
+}
+
+.maintxt {
+	font-size: 32px;
+	width: 526px;
+}
+
+.subtxt1 {
+	font-size: 14px;
+	width: 416px;
+}
+
+.spantxt {
+	color: black;
+	font-weight: 600;
+}
+
+.code {
+	color: #7d8798;
+	font-size: 16px;
+}
+
+.codespan {
+	color: #00ccff;
+	font-weight: 600;
+}
+
+.content {
+	height: 100%;
+	width: 100% !important;
+	padding: 96px 0px 0px 0px;
+}
+
+.submitbtn {
+	background-color: #00ccff;
+	width: 100px;
+	height: 40px;
+	color: white;
+	font-weight: 600;
+	font: bold;
+	font-size: 16px;
+}
+
+.card-div {
+	height: 860px;
+	width: 95%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.image-card {
+	margin-top: 80px;
+	border-radius: 40px;
+	width: 95%;
+	min-height: 100%;
+	background-color: #e6faff;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	inset-block: auto;
+}
+
+.img {
+	width: 586px;
+	height: 411.58px;
+}
+
+.txt-image {
+	font-size: 32px !important;
+}
+
+.txt {
+	width: 586px;
+	height: 168px;
+}
+
+.otp-input {
+	width: 80px;
+	height: 80px;
+}
+
+.otp-base {
+	width: auto;
+	display: flex;
+	align-items: center;
+}
+
+.input1 {
+	width: 80px !important;
+	height: 80px;
+	font-size: 2rem;
+	transition: all 0.2s ease;
+	margin-right: 20px;
+	border-radius: 12px;
+	background-color: #e9eaed;
+	border: none;
+}
+
+.card-div-verifypage2 {
+	height: 90%;
+	width: 95%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.image-card-verifypage2 {
+	border: none;
+	background-color: transparent;
+	height: 800px;
+	width: 686px;
+	margin-top: 50px;
+}
+
+.image7 {
+	width: 686px;
+	height: 850px;
+}
+input[type='number']::-webkit-inner-spin-button,
+input[type='number']::-webkit-outer-spin-button {
+	-webkit-appearance: none;
+	margin: 0;
+}

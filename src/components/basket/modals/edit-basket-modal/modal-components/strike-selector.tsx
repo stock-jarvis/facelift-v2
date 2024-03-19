@@ -74,7 +74,8 @@ const StrikeSelector = <T,>({
 				value={subTradeOption}
 				onChange={handleSubTradeChange}
 			/>
-			{tradeOption !== 'ATMPt' && tradeOption !== 'HIGHOI' && (
+			{/* tradeOption !== 'ATMP' && */}
+			{tradeOption !== 'HighestOI' && (
 				<Flex style={{ width: '70px', height: '40px' }}>
 					<Input
 						style={{
@@ -88,6 +89,15 @@ const StrikeSelector = <T,>({
 					/>
 				</Flex>
 			)}
+			{/* 
+{tradeOption === 'ATMP' && (
+    <Select
+        style={{ width: '70px' }}
+        options={yourDropdownOptions}
+        value={selectedDropdownValue}
+        onChange={handleDropdownChange}
+    />
+)} */}
 		</Flex>
 	)
 }

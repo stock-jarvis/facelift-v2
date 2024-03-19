@@ -68,7 +68,7 @@ const CappedButton: React.FC<ProfitLossInputProps> = ({
 						className="select-none"
 						value={currentValue}
 						onChange={handleInputChange}
-						type="number"
+						type="text"
 						size="large"
 						style={{
 							border: 'none',

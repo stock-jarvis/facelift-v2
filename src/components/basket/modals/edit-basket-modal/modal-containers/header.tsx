@@ -13,6 +13,8 @@ import { SavedBasket } from 'src/components/basket/types/types'
 import { getTimes } from 'src/components/basket/utils/get-times'
 import { Exchange, BasketType, BasketAtm } from 'src/common/enums'
 import { exchangeType } from 'src/components/basket/constants/data'
+import { fetchDataFromInstrumentAPI } from 'src/api/AuthService'
+import { useEffect, useState } from 'react'
 
 interface HeaderProps {
 	basketData: SavedBasket
@@ -20,7 +22,9 @@ interface HeaderProps {
 }
 const Header: React.FC<HeaderProps> = ({ basketData, setBasketData }) => {
 	const { token } = theme.useToken()
-
+	const [instrumentData, setInstrumentData] = useState<
+		{ value: string; label: string }[]
+	>([])
 	const handleBasketExchangeChange = (val: Exchange) => {
 		setBasketData({
 			...basketData,
@@ -41,6 +45,27 @@ const Header: React.FC<HeaderProps> = ({ basketData, setBasketData }) => {
 	const handleBasketAtmChange = (val: BasketAtm) => {
 		setBasketData({ ...basketData, atm: val })
 	}
+
+	useEffect(() => {
+		fetchData()
+	}, [])
+
+	const authTokenJSON = JSON.parse(localStorage.getItem('userData'))
+	const fetchData = async () => {
+		try {
+			const response = await fetchDataFromInstrumentAPI(authTokenJSON)
+			const tickerData = response.InstrumentList.map(
+				(instrument: any, index: any) => ({
+					value: instrument,
+					label: instrument,
+				})
+			)
+			setInstrumentData(tickerData)
+		} catch (error) {
+			notification.success({ message: 'Error While login' })
+		}
+	}
+
 	const items: DescriptionsProps['items'] = [
 		{
 			label: (
@@ -104,12 +129,7 @@ const Header: React.FC<HeaderProps> = ({ basketData, setBasketData }) => {
 						size="large"
 						value={basketData.ticker}
 						onChange={handleBasketTickerChange}
-						options={[
-							{ id: 1, value: 'Ticker-1', label: 'Ticker-1' },
-							{ id: 2, value: 'Ticker-2', label: 'Ticker-2' },
-							{ id: 3, value: 'Ticker-3', label: 'Ticker-3' },
-							{ id: 4, value: 'Ticker-4', label: 'Ticker-4' },
-						]}
+						options={instrumentData}
 					/>
 				</Flex>
 			),

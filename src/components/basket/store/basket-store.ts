@@ -1,3 +1,4 @@
+import { companyData } from './../../home/constants/data'
 import { create } from 'zustand'
 import { SavedBasket, EditType } from '../types/types'
 import { devtools } from 'zustand/middleware'
@@ -5,6 +6,9 @@ import { immer } from 'zustand/middleware/immer'
 import { defaultBasketData } from '../constants/data'
 import { Exchange } from 'src/common/enums'
 import dayjs, { Dayjs } from 'dayjs'
+import { GetSpecificBasketAPI } from '../../../api/AuthService'
+import { base64ToJSON } from '../utils/BaseToJSON'
+import { convertData } from '../utils/revertData'
 
 type BasketState = {
 	endDate: Dayjs
@@ -17,6 +21,8 @@ type BasketState = {
 	selectedBaskets: SavedBasket[]
 	editableBasketData: SavedBasket
 	runtimeBasketList: SavedBasket[]
+	basketData: SavedBasket[]
+	newState: []
 }
 
 type BasketStateActions = {
@@ -40,6 +46,8 @@ type BasketStateActions = {
 	updateRuntimeBasketData: (basket: SavedBasket) => void
 	handleDateChange: (startDate: Dayjs, endDate: Dayjs) => void
 	createDuplicateStoredBasket: (basket: SavedBasket) => void
+	setBasketData: (data: SavedBasket[]) => void
+	setNewState: (data: SavedBasket[]) => void
 }
 
 const defaultState: BasketState = {
@@ -53,12 +61,21 @@ const defaultState: BasketState = {
 	editType: EditType.NILL,
 	runtimeDuplicate: false,
 	editableBasketData: defaultBasketData,
+	basketData: [],
+	newState: [],
 }
 
 export const useBasketStore = create<BasketState & BasketStateActions>()(
 	immer(
 		devtools((set) => ({
 			...defaultState,
+			setNewState: (value) =>
+				set((state) => {
+					state.savedBasket = value.map((v, id) => ({
+						...v,
+						id: id.toString(),
+					}))
+				}),
 
 			setExchange: (exchange) => set({ exchange }),
 
@@ -80,8 +97,8 @@ export const useBasketStore = create<BasketState & BasketStateActions>()(
 
 			handleDateChange: (startDate: Dayjs, endDate: Dayjs) =>
 				set((state) => {
-					state.startDate = startDate
-					state.endDate = endDate
+					state.startDate = dayjs(startDate)
+					state.endDate = dayjs(endDate)
 				}),
 
 			updateRuntimeBasketData: (basket: SavedBasket) =>
@@ -126,11 +143,12 @@ export const useBasketStore = create<BasketState & BasketStateActions>()(
 				}),
 			addBasketToSelectedBaskets: (id) =>
 				set((state) => {
-					const basket = state.runtimeBasketList.find((b) => b.id === id)
+					const basket = state.savedBasket[+id]
+					console.log({ basket })
 					if (basket) {
 						const data = state.selectedBaskets.find((b) => b.id === id)
 						if (!data) {
-							void state.selectedBaskets.push(basket)
+							state.selectedBaskets.push(basket)
 						} else {
 							state.selectedBaskets = state.selectedBaskets.filter(
 								(b) => b.id !== id
@@ -169,19 +187,59 @@ export const useBasketStore = create<BasketState & BasketStateActions>()(
 					})
 				}),
 
-			setEditableBasket: (id: string, type: EditType) =>
-				set((state) => {
-					state.editType = type
-					const dataToBeExtracted =
-						type === EditType.RUNTIME
-							? state.runtimeBasketList
-							: state.savedBasket
-					const data = dataToBeExtracted.find((basket) => basket.id === id)
-					if (data) {
-						state.editableBasketData = data
-					}
-				}),
+			// setEditableBasket: (id: string, type: EditType) =>
+			// 	set((state) => {
+			// 		console.log(id)
+			// 		state.editType = type
+			// 		const dataToBeExtracted =
+			// 			type === EditType.RUNTIME
+			// 				? state.runtimeBasketList
+			// 				: state.savedBasket
 
+			// 		const data = dataToBeExtracted.find((basket) => basket.name === id)
+			// 		if (data) {
+			// 			state.editableBasketData = data
+			// 		}
+			// 	}),
+			setEditableBasket: async (id: string, type: EditType) => {
+				try {
+					const response = await GetSpecificBasketAPI(id)
+					if (response == 2) {
+						set((state) => {
+							console.log(id)
+							state.editType = type
+							const dataToBeExtracted =
+								type === EditType.RUNTIME
+									? state.runtimeBasketList
+									: state.savedBasket
+
+							const data = dataToBeExtracted.find(
+								(basket) => basket.name === id
+							)
+							console.log({ data })
+							if (data) {
+								data.id = data.name
+								console.log({ data })
+								state.editableBasketData = data
+							}
+						})
+					} else {
+						// Assuming response contains the data you need to set in editableBasketData
+						set((state) => {
+							state.editType = type
+							const JSON = base64ToJSON(response.ipjson)
+							console.log(JSON)
+							const revertedData = convertData(JSON, response.Details)
+							console.log(revertedData)
+							if (response) {
+								state.editableBasketData = revertedData
+							}
+						})
+					}
+				} catch (error) {
+					console.error('Error fetching specific basket:', error)
+				}
+			},
 			addToSavedBasket: (id: string) =>
 				set((state) => {
 					const basket = state.runtimeBasketList.find((b) => b.id === id)
@@ -245,6 +303,11 @@ export const useBasketStore = create<BasketState & BasketStateActions>()(
 					} else {
 						state.runtimeDuplicate = true
 					}
+				}),
+			// Inside useBasketStore
+			setBasketData: (data) =>
+				set((state) => {
+					state.savedBasket = data
 				}),
 		}))
 	)

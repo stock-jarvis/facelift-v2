@@ -1,0 +1,46 @@
+/* #app { height: 100% } */
+html,
+body {
+	position: relative;
+	height: 80%;
+}
+
+body {
+	font-family:
+		Helvetica Neue,
+		Helvetica,
+		Arial,
+		sans-serif;
+	font-size: 14px;
+	color: #000;
+	margin: 0;
+	padding: 0;
+}
+
+.swiper {
+	width: 100%;
+	padding-top: 50px;
+	padding-bottom: 50px;
+}
+
+.swiper-slide {
+	background-position: center;
+	background-size: cover;
+	width: 600px;
+	height: 700px;
+}
+
+.swiper-slide img {
+	display: block;
+	/* width: 100%; */
+}
+.highlight-slide {
+	/* Add your custom highlight styles */
+	/* background-color: yellow; */
+	border: 2px solid blue;
+	width: 526px;
+	height: 481px;
+	border-radius: 20px !important;
+	text-align: center;
+	/* background-color: blue; */
+}

@@ -49,6 +49,7 @@ const OptionBasketDetail: React.FC<OptionDetailsProps> = ({
 	handleEditBasket,
 }) => {
 	const { token } = theme.useToken()
+	// console.log(individualBasket.entryCondition, "basket here")
 
 	const [optionsBasketData, setOptionsBasketData] = useImmer<OptionsBasketData>(
 		{

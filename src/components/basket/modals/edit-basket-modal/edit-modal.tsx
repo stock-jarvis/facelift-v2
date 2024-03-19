@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Modal, theme, Flex } from 'antd'
 import { CloseOutlined } from '@ant-design/icons'
 import ConfirmModal from '../confitm-modal'
@@ -30,9 +30,17 @@ const EditBasketModal = () => {
 	const [basketData, setBasketData] = useImmer<SavedBasket>({
 		...editableBasketData,
 	})
+	// console.log(editableBasketData,"SpecificData")
 	const [position, setPosition] = useState<BasketDataProps[]>(
-		editableBasketData.positions || []
+		editableBasketData.positions?.map((p, id) => ({
+			...p,
+			id: id.toString(),
+		})) || []
 	)
+
+	// useEffect(()=>{
+	// 	console.log({position})
+	// },[])
 
 	const handleAfterClose = () => {
 		setPosition([])
@@ -85,6 +93,7 @@ const EditBasketModal = () => {
 	}
 
 	const handleAddBasket = (value: BasketLegType) => {
+		console.log(value)
 		const uniqueId = generateUniqueId()
 		setPosition((prev) => [...prev, getBasketParameters(uniqueId, value)])
 	}
@@ -118,7 +127,6 @@ const EditBasketModal = () => {
 	const handleCancelConfirmModal = () => {
 		setCofirmModalOpen((isCofirmModalOpen) => !isCofirmModalOpen)
 	}
-
 	return (
 		<>
 			<Modal

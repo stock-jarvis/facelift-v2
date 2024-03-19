@@ -11,7 +11,10 @@ import {
 	SavedBasket,
 } from 'src/components/basket/types/types'
 import { CloseCircleFilled, CheckCircleFilled } from '@ant-design/icons'
-//TODO: Optimize this component
+import { createConvertedBasket } from 'src/components/basket/utils/formatData'
+import { convertJsonToBase64 } from 'src/components/basket/utils/Base64'
+import { SavedBasketAPI } from 'src/api/AuthService'
+// import { SavedBasketAPI } from 'src/api/AuthService/SavedBasketAPI'
 interface FooterProps {
 	basketData: SavedBasket
 	basket: BasketDataProps[]
@@ -33,7 +36,7 @@ const Footer: React.FC<FooterProps> = ({
 	const contextValue = useMemo(() => ({ name: 'Ant Design' }), [])
 	const { timeError, resetEditablebasket, updateRuntimeBasketData } =
 		useBasketStore()
-
+	//  console.log(savedBasket,"Basketss")
 	const openNotificationSuccess = (placement: NotificationPlacement) => {
 		api.info({
 			style: {
@@ -166,7 +169,22 @@ const Footer: React.FC<FooterProps> = ({
 		savedBasket,
 	])
 
+	const authTokenJSON = JSON.parse(localStorage.getItem('userData'))
+
 	const handleSaveBasketClick = () => {
+		// console.log('Hello', savedBasket)
+		const convertedBasket = createConvertedBasket(savedBasket)
+		// console.log(convertedBasket, 'New')
+		const base64Data = convertJsonToBase64(convertedBasket)
+		// console.log(base64Data, '64Data')
+		const data = {
+			cid: authTokenJSON.UID,
+			inst: savedBasket.ticker,
+			ipjson: base64Data,
+			name: savedBasket.name.trim(),
+		}
+		console.log({ savedBasket })
+		SaveData(data)
 		if (basket.length > 0) {
 			if (timeError) {
 				openNotification('topRight')
@@ -179,6 +197,19 @@ const Footer: React.FC<FooterProps> = ({
 			}
 		} else {
 			setPositionError(true)
+		}
+	}
+
+	const SaveData = async (authTokenJSON: any, data: any) => {
+		try {
+			const response = await SavedBasketAPI(authTokenJSON, data)
+			if (response.Code === 200) {
+				notification.success({ message: 'Basket Saved Successfully' })
+			} else {
+				notification.error({ message: 'Error While saving basket1111' })
+			}
+		} catch (error) {
+			notification.error({ message: 'Error While saving basket' })
 		}
 	}
 

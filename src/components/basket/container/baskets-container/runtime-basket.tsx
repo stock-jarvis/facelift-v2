@@ -1,4 +1,4 @@
-import { Flex, theme, Table, Typography } from 'antd'
+import { Flex, theme, Table, Typography, notification } from 'antd'
 import type { TableRowSelection } from 'antd/es/table/interface'
 import type { ColumnsType } from 'antd/es/table'
 import {
@@ -12,8 +12,9 @@ import EmptyIndicator from '../common/empty-indicator'
 import { useBasketStore } from '../../store/basket-store'
 import { SavedBasket, EditType } from '../../types/types'
 import { checkDuplicate } from '../../utils/duplicate-check'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import Actions from '../common/click-actions'
+import { GetBasketAPI } from '../../../../api/AuthService'
 const RuntimeBasket = () => {
 	const { token } = theme.useToken()
 	const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([])
@@ -21,6 +22,7 @@ const RuntimeBasket = () => {
 		runtimeBasketList,
 		setRuntimeError,
 		selectAllBaskets,
+		selectedBaskets,
 		setEditableBasket,
 		updateRuntimeError,
 		addToSavedBasket,
@@ -28,13 +30,25 @@ const RuntimeBasket = () => {
 		addNewRuntimeBasket,
 		deleteRuntimeBasket,
 		addBasketToSelectedBaskets,
+		// basketData,
+		setBasketData,
+		setNewState,
 	} = useBasketStore()
 
+	// console.log(runtimeBasketList)
+	const newData = runtimeBasketList.map((item, id) => ({
+		Exch: item.exchange,
+		Inst: item.ticker,
+		LastUpdated: Date.now(),
+		Name: item.name,
+		Status: 'NEXEC',
+	}))
+
 	const handleBasketEdit = (id: string) => {
+		// console.log(name)
 		setEditableBasket(id, EditType.RUNTIME)
 		updateRuntimeError(id)
 	}
-
 	const handleBasketDuplicate = (id: string, name: string) => {
 		const isDuplicate = checkDuplicate(runtimeBasketList, id, name)
 		addNewRuntimeBasket(isDuplicate!)
@@ -56,11 +70,13 @@ const RuntimeBasket = () => {
 	}
 
 	const onSelectChange = (newSelectedRowKeys: React.Key[]) => {
+		// console.log({newSelectedRowKeys})
 		setSelectedRowKeys(newSelectedRowKeys)
 	}
 	const rowSelection: TableRowSelection<SavedBasket> = {
 		selectedRowKeys,
 		onSelect: (record, selected) => {
+			// console.log({selected,record})
 			if (selected) {
 				addBasketToSelectedBaskets(record.id)
 			} else {
@@ -73,6 +89,29 @@ const RuntimeBasket = () => {
 		},
 		onChange: onSelectChange,
 	}
+
+	useEffect(() => {
+		fetchData()
+	}, [])
+
+	const [instrument, setInstrument] = useState([])
+	const combinedData = [...newData, ...instrument].map((com, idx) => {
+		return { ...com, id: idx.toString() }
+	})
+	const fetchData = async () => {
+		try {
+			const response = await GetBasketAPI()
+			setInstrument(response.Baskets)
+			setNewState(combinedData)
+		} catch (error) {
+			notification.success({ message: 'Error While login' })
+		}
+	}
+
+	useEffect(() => {
+		const combinedData = [...newData, ...instrument]
+		setNewState(combinedData)
+	}, [instrument])
 
 	const columns: ColumnsType<SavedBasket> = [
 		{
@@ -89,8 +128,7 @@ const RuntimeBasket = () => {
 							color: record.error ? token.colorError : '#000',
 						}}
 					>
-						{record.name}
-						{record.identifier > 0 ? ` - ${record.identifier}` : ''}
+						{record.Name}
 					</Typography.Text>
 				</Flex>
 			),
@@ -109,7 +147,7 @@ const RuntimeBasket = () => {
 							color: record.error ? token.colorError : token.colorPrimary,
 						}}
 					>
-						{record.exchange}
+						{record.Exch}
 					</Typography.Text>
 				</Flex>
 			),
@@ -128,7 +166,7 @@ const RuntimeBasket = () => {
 							color: record.error ? token.colorError : '#000',
 						}}
 					>
-						{record.ticker}
+						{record.Inst}
 					</Typography.Text>
 				</Flex>
 			),
@@ -143,7 +181,7 @@ const RuntimeBasket = () => {
 			render: (record) => (
 				<Flex gap={'small'} flex={1} justify="flex-end">
 					<Actions
-						handleButtonClick={handleBasketEdit}
+						handleButtonClick={() => handleBasketEdit(record.Name)}
 						icon={<FormOutlined />}
 						tooltipTitle={'Edit'}
 						record={record}
@@ -180,7 +218,9 @@ const RuntimeBasket = () => {
 				pagination={false}
 				style={{ height: '800px' }}
 				rowSelection={rowSelection}
-				dataSource={runtimeBasketList}
+				// dataSource={instrument}
+				// dataSource={runtimeBasketList}
+				dataSource={combinedData}
 				scroll={{ y: 'calc(100vh - 165px)' }}
 				locale={EmptyIndicator('No Baskets Available')}
 			/>

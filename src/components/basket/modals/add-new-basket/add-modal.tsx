@@ -1,5 +1,14 @@
-import { useState, ChangeEvent } from 'react'
-import { Modal, Flex, Button, Select, Input, Typography, theme } from 'antd'
+import { useState, ChangeEvent, useEffect } from 'react'
+import {
+	Modal,
+	Flex,
+	Button,
+	Select,
+	Input,
+	Typography,
+	theme,
+	notification,
+} from 'antd'
 
 import ExhchangeSelector from './modal-components/basket-exchange'
 import { CloseOutlined } from '@ant-design/icons'
@@ -10,13 +19,18 @@ import { defaultNewBasket } from '../../constants/data'
 import { Exchange } from 'src/common/enums'
 import ConfirmModal from '../confitm-modal'
 import { tickerData } from '../../constants/data'
+import { fetchDataFromInstrumentAPI } from 'src/api/AuthService'
+
 interface AddModalProps {
 	handleModalToggle: () => void
 }
 const AddBasketModal = ({ handleModalToggle }: AddModalProps) => {
 	const { token } = theme.useToken()
-	const { addNewRuntimeBasket, runtimeBasketList } = useBasketStore()
+	const { addNewRuntimeBasket, savedBasket } = useBasketStore()
 	const [basketName, setBasketName] = useState<string>()
+	const [instrumentData, setInstrumentData] = useState<
+		{ value: string; label: string }[]
+	>([])
 	const [instrument, setInstrument] = useState<string>()
 	const [exhange, setExchange] = useState<Exchange>(Exchange.NSE)
 	const [isDuplicate, setDuplicateError] = useState<boolean>(false)
@@ -25,12 +39,31 @@ const AddBasketModal = ({ handleModalToggle }: AddModalProps) => {
 	const onModalClose = () => {
 		handleModalToggle()
 	}
+	useEffect(() => {
+		fetchData()
+	}, [])
+
+	const authTokenJSON = JSON.parse(localStorage.getItem('userData'))
+	const fetchData = async () => {
+		try {
+			const response = await fetchDataFromInstrumentAPI(authTokenJSON)
+			const tickerData = response.InstrumentList.map(
+				(instrument: any, index: any) => ({
+					value: instrument,
+					label: instrument,
+				})
+			)
+			setInstrumentData(tickerData)
+		} catch (error) {
+			notification.success({ message: 'Error While login' })
+		}
+	}
 
 	const addNewBasket = () => {
 		addNewRuntimeBasket({
 			...defaultNewBasket,
 			id: generateUniqueId(),
-			name: basketName,
+			name: `${exhange}-${basketName}`,
 			ticker: instrument!,
 			exchange: exhange,
 		})
@@ -39,7 +72,10 @@ const AddBasketModal = ({ handleModalToggle }: AddModalProps) => {
 
 	const handleAddClick = () => {
 		if (basketName && instrument) {
-			runtimeBasketList.find((basket) => basket.name === basketName)
+			savedBasket.find((basket) => {
+				const currName = basket.Name.substring(4)
+				return currName === basketName
+			})
 				? setDuplicateError(true)
 				: addNewBasket()
 		} else {
@@ -115,7 +151,7 @@ const AddBasketModal = ({ handleModalToggle }: AddModalProps) => {
 				<Select
 					value={instrument}
 					className={'w-full'}
-					options={tickerData}
+					options={instrumentData}
 					placeholder="Select an intument"
 					onChange={handleInstrumentChange}
 				/>

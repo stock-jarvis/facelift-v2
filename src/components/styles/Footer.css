@@ -1,0 +1,69 @@
+.footer {
+	width: 100fvh;
+	height: 400px;
+	background-color: #121d30;
+	padding: 20px;
+}
+
+.maindiv {
+	margin-top: 50px;
+}
+
+.logo1 {
+	font-size: 34px;
+	font-weight: 500;
+	line-height: 24px;
+	color: white !important;
+	margin-left: 80px;
+}
+
+.address {
+	font-size: 24px !important;
+	font-weight: 400;
+	line-height: 24px;
+	color: white !important;
+	width: 307px !important;
+	height: 108px;
+}
+
+.addresstop {
+	margin-top: 50px;
+}
+
+.content2 {
+	font-size: 18px !important;
+	font-weight: 400;
+	line-height: 22px;
+	color: white !important;
+	width: 350px !important;
+	height: 22px;
+}
+
+.divlink {
+	color: white;
+	font-size: 18px;
+	margin-top: 20px;
+}
+
+.links {
+	color: white;
+	font-size: 18px !important;
+	margin-top: 20px;
+	list-style-type: none !important;
+}
+.links:hover {
+	text-decoration: underline;
+	color: red;
+}
+
+li {
+	list-style-type: none;
+	margin-top: 20px;
+}
+
+li:hover {
+	color: #00ccff;
+	cursor: pointer;
+	transition: 500ms;
+	font-weight: 600;
+}

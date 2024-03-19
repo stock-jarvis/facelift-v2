@@ -26,6 +26,7 @@ import {
 	YeildLabel,
 } from 'src/components/basket/types/types'
 import { TradeAction } from 'src/common/enums'
+import { useEffect } from 'react'
 interface FutureDetailsProps {
 	dark: boolean
 	individualBasket: BasketDataProps

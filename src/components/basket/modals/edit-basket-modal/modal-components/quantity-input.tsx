@@ -39,7 +39,7 @@ const QuantityInput = <T,>({
 			value={quantityValue}
 			style={{ width: '140px', textAlign: 'center' }}
 			size="large"
-			type="number"
+			type="text"
 			onChange={handleInputChange}
 		/>
 	)

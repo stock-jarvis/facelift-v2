@@ -8,7 +8,7 @@ const SimulatorDisc = () => {
 					Get started with
 				</Text>
 				<Text className="text-[2.5rem]" strong>
-					StockJarvis today
+					StockJarvis todayx
 				</Text>
 			</Flex>
 			<Flex className="flex-col max-sm:items-center max-sm:text-center">

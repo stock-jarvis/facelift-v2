@@ -18,17 +18,17 @@ import { DefaultOptionType } from 'antd/es/select'
 export const futureExpiry: DefaultOptionType[] = [
 	{
 		id: 1,
-		value: 'Monthly',
+		value: 'M',
 		label: 'Monthly',
 	},
 	{
 		id: 2,
-		value: 'Monthly +1',
+		value: 'M2',
 		label: 'Monthly +1',
 	},
 	{
 		id: 3,
-		value: 'Monthly +2',
+		value: 'M3',
 		label: 'Monthly +2',
 	},
 ]
@@ -36,47 +36,47 @@ export const futureExpiry: DefaultOptionType[] = [
 export const optionExpiry: DefaultOptionType[] = [
 	{
 		id: 1,
-		value: 'Weekly',
+		value: 'W',
 		label: 'Weekly',
 	},
 	{
 		id: 2,
-		value: 'Weekly +1',
+		value: 'W2',
 		label: 'Weekly +1',
 	},
 	{
 		id: 2,
-		value: 'Weekly +2',
+		value: 'W3',
 		label: 'Weekly +2',
 	},
 	{
 		id: 3,
-		value: 'Weekly +3',
+		value: 'W4',
 		label: 'Weekly +3',
 	},
 	{
 		id: 4,
-		value: 'Monthly',
+		value: 'M',
 		label: 'Monthly',
 	},
 	{
 		id: 5,
-		value: 'Monthly +1',
+		value: 'M2',
 		label: 'Monthly +1',
 	},
 	{
 		id: 6,
-		value: 'Monthly +2',
+		value: 'M3',
 		label: 'Monthly +2',
 	},
 	{
 		id: 7,
-		value: 'Monthly +3',
+		value: 'M4',
 		label: 'Monthly +3',
 	},
 	{
 		id: 8,
-		value: 'Yearly',
+		value: 'Y',
 		label: 'Yearly',
 	},
 ]
@@ -90,26 +90,30 @@ export const exchangeType: DefaultOptionType[] = [
 export const tradeTypeData = [
 	{
 		id: 1,
-		label: 'Atm Point',
-		value: 'ATMPt',
+		label: 'ATM +-Strike',
+		value: 'ATMP',
+		// children: [
+		// 	{ id: 1, label: 'ATM', value: 'ATM' },
+		// 	{ id: 2, label: 'ATM 1 STRIKE', value: 'ATM 1 STRIKE' },
+		// 	{ id: 3, label: 'ATM 2 STRIKE', value: 'ATM 2 STRIKE' },
+		// 	{ id: 4, label: 'ATM 3 STRIKE', value: 'ATM 3 STRIKE' },
+		// 	{ id: 5, label: 'ATM 4 STRIKE', value: 'ATM 4 STRIKE' },
+		// 	{ id: 6, label: 'ATM 5 STRIKE', value: 'ATM 5 STRIKE' },
+		// 	{ id: 7, label: 'ATM 6 STRIKE', value: 'ATM 6 STRIKE' },
+		// 	{ id: 8, label: 'ATM 7 STRIKE', value: 'ATM 7 STRIKE' },
+		// 	{ id: 9, label: 'ATM 8 STRIKE', value: 'ATM 8 STRIKE' },
+		// 	{ id: 10, label: 'ATM 9 STRIKE', value: 'ATM 9 STRIKE' },
+		// 	{ id: 11, label: 'ATM 10 STRIKE', value: 'ATM 10 STRIKE' },
+		// ],
 		children: [
-			{ id: 1, label: 'ATM', value: 'ATM' },
-			{ id: 2, label: 'ATM 1 STRIKE', value: 'ATM 1 STRIKE' },
-			{ id: 3, label: 'ATM 2 STRIKE', value: 'ATM 2 STRIKE' },
-			{ id: 4, label: 'ATM 3 STRIKE', value: 'ATM 3 STRIKE' },
-			{ id: 5, label: 'ATM 4 STRIKE', value: 'ATM 4 STRIKE' },
-			{ id: 6, label: 'ATM 5 STRIKE', value: 'ATM 5 STRIKE' },
-			{ id: 7, label: 'ATM 6 STRIKE', value: 'ATM 6 STRIKE' },
-			{ id: 8, label: 'ATM 7 STRIKE', value: 'ATM 7 STRIKE' },
-			{ id: 9, label: 'ATM 8 STRIKE', value: 'ATM 8 STRIKE' },
-			{ id: 10, label: 'ATM 9 STRIKE', value: 'ATM 9 STRIKE' },
-			{ id: 11, label: 'ATM 10 STRIKE', value: 'ATM 10 STRIKE' },
+			{ id: 1, label: '+', value: '+' },
+			{ id: 2, label: '-', value: '-' },
 		],
 	},
 	{
 		id: 2,
 		label: 'Atm +- n%',
-		value: 'ATMn',
+		value: 'ATMS',
 		children: [
 			{ id: 1, label: '+', value: '+' },
 			{ id: 2, label: '-', value: '-' },
@@ -128,7 +132,7 @@ export const tradeTypeData = [
 	{
 		id: 4,
 		label: 'Closest Premium',
-		value: 'CP',
+		value: 'ClosestPremium',
 		children: [
 			{ id: 1, label: '~', value: '~' },
 			{ id: 2, label: '>=', value: '>=' },
@@ -138,7 +142,7 @@ export const tradeTypeData = [
 	{
 		id: 5,
 		label: 'Highest OI',
-		value: 'HIGHOI',
+		value: 'HighestOI',
 		children: [
 			{ id: 1, label: '1st highest OI', value: '1st highestOI' },
 			{ id: 2, label: '2nd highest OI', value: '2nd highestOI' },

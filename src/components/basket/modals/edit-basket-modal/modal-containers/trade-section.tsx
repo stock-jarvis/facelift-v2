@@ -7,7 +7,7 @@ import {
 	DescriptionsProps,
 } from 'antd'
 import Toggle from '../modal-components/toggle'
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { SavedBasket, RepeatType } from 'src/components/basket/types/types'
 import { BasketExitType } from 'src/common/enums'
 

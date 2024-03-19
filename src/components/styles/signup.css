@@ -1,0 +1,77 @@
+.main-signup {
+	height: 100%;
+	width: 100%;
+	display: block;
+	margin: 0px;
+	padding: 0px;
+}
+.div-form {
+	padding: 0px 100px;
+}
+.logo-txt {
+	font-size: 24px;
+}
+.signup-txt {
+	font-size: 32px;
+}
+.labeltext {
+	font-weight: 500;
+}
+.card-div {
+	height: 85%;
+	width: 95%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+.poem-card {
+	margin-top: 80px;
+	border-radius: 40px;
+	width: 95%;
+	height: 90%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	background-color: #e6faff;
+}
+.poem-img {
+	mix-blend-mode: difference;
+}
+
+.inputfield {
+	width: 526px;
+	height: 56px !important;
+	border-radius: 12px;
+	background-color: #e9eaed;
+}
+.signupbtn {
+	width: 526px;
+	height: 56px;
+	border-radius: 12px;
+	background-color: #00ccff;
+	color: white;
+}
+.text-wrapper {
+	margin-bottom: 20px;
+}
+#phone1 {
+	height: 56px;
+	width: 455px !important;
+}
+input[type='number']::-webkit-inner-spin-button,
+input[type='number']::-webkit-outer-spin-button {
+	-webkit-appearance: none;
+	margin: 0;
+}
+#name {
+	margin-left: 10px;
+}
+#email {
+	/* margin-left: 10px; */
+}
+#password {
+	/* margin-left: 10px; */
+}
+#confirm {
+	margin-left: 10px;
+}

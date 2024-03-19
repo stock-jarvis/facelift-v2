@@ -23,9 +23,9 @@ export enum EditType {
 }
 
 export enum YeildType {
-	PERCENT = 'percent',
-	POINTS = 'points',
-	RUPEES = 'rupees',
+	PERCENT = 'PCT',
+	POINTS = 'PTS',
+	RUPEES = 'RS',
 }
 
 export interface SavedBasketsEntryCondition {
@@ -52,7 +52,7 @@ export interface PositionExitCondition {
 
 export interface SavedBasket {
 	id: string
-	name?: string
+	name: string
 	error?: boolean
 	identifier: number
 	exchange: Exchange

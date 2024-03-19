@@ -12,14 +12,14 @@ const Basket = () => {
 	return (
 		<>
 			<Flex style={{ height: '100vh', overflow: 'hidden' }}>
-				<Flex flex={1}>
+				{/* <Flex flex={1}>
 					<SaveBasket />
-				</Flex>
+				</Flex> */}
 				<Flex flex={3}>
 					<BasketContainer />
 				</Flex>
 			</Flex>
-			{editableBasketData.id && <EditBasketModal />}
+			{editableBasketData.name && <EditBasketModal />}
 			{runtimeDuplicate && (
 				<ConfirmModal
 					open={runtimeDuplicate}

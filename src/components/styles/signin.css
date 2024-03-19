@@ -1,0 +1,54 @@
+.div-signin {
+	width: 800px;
+	height: 600px;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	padding: 0px 90px;
+}
+.divflex {
+	margin-left: 90px;
+}
+.siginfeild {
+	background-color: #e9eaed;
+	width: 526px;
+	height: 56px !important;
+}
+
+.col2-maindiv {
+	width: 100%;
+	height: 876px;
+	/* background-color: pink; */
+	display: flex;
+	justify-content: center;
+	/* align-items: center; */
+}
+.signin-image {
+	border: none;
+	background-color: transparent;
+	height: 800px;
+	width: 686px;
+}
+.image4 {
+	width: 686px;
+	height: 850px;
+}
+.signinbtn {
+	width: 526px;
+	height: 56px;
+	background-color: #00ccff;
+	color: white;
+	font-size: 16px;
+	font-weight: 500;
+	border-radius: 12px;
+	margin-top: 40px;
+}
+.forgettxt {
+	color: #00ccff;
+	font-size: 14px;
+	float: right;
+	margin-right: 134px;
+}
+.labeltext {
+	font-weight: 500;
+}
