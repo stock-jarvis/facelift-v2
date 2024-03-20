@@ -12,6 +12,12 @@ const InstrumentService = {
 				url: `simulator/GetInstrumentList?date=${parsedDate}`,
 				method: 'get',
 			})
+
+			// convert instrument name to uppercase
+			res.data.InstrumentList = res.data.InstrumentList.map((inst) =>
+				inst.toUpperCase()
+			)
+
 			return res.data
 		} catch (err) {
 			notification.error({
@@ -26,7 +32,7 @@ const InstrumentService = {
 				GetInstrumentTradingDaysRes,
 				unknown
 			>({
-				url: `/drl/GetTradingDatesByInstrument?inst=${instrument.toUpperCase()}`,
+				url: `/drl/GetTradingDatesByInstrument?inst=${instrument}`,
 				method: 'get',
 			})
 			return res.data

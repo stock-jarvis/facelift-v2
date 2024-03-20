@@ -10,7 +10,14 @@ import '../src/components/styles/Footer.css'
 import '../src/components/styles/navbar.css'
 import '../src/components/styles/main.css'
 
-const queryClient = new QueryClient()
+const queryClient = new QueryClient({
+	defaultOptions: {
+		queries: {
+			retry: 0,
+		},
+	},
+})
+
 const App = () => {
 	return (
 		<QueryClientProvider client={queryClient}>

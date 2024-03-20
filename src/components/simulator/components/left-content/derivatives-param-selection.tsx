@@ -14,7 +14,10 @@ import { PlusOutlined } from '@ant-design/icons'
 import { useMemo, useState } from 'react'
 import { convertValuesToDefaultOptions } from 'src/common/utils/conversion-utils'
 import { DerivativesMetric } from '../../../../common/enums'
-import { mockFutures } from './mock-data'
+import { useSimulatorParamsStore } from '../../store/simulator-params-store'
+import { sort } from 'radash'
+import useGetSpotData from 'src/api/simulator/hooks/use-get-spot-data'
+import useGetAIOCData from 'src/api/simulator/hooks/use-get-aioc'
 
 const { Text } = Typography
 
@@ -30,13 +33,34 @@ const DerivatiesParamSelection: React.FC<DerivatiesParamSelectionProps> = ({
 	setSelectedDerivativeMetric,
 }) => {
 	const { token } = theme.useToken()
+	const { exchange, activeInstrument, date, time } = useSimulatorParamsStore()
+	const { data: AIOC, isLoading: isFetchingAIOSData } = useGetAIOCData(
+		date,
+		time,
+		exchange,
+		activeInstrument
+	)
+	const { data: spotData } = useGetSpotData(
+		date,
+		time,
+		exchange,
+		activeInstrument
+	)
 
-	const [selectedFuture, setSelectedFuture] = useState<number>(38750)
+	const [selectedFuture, setSelectedFuture] = useState<number>()
 
 	const derivativeMetricOptions = useMemo(
 		() => convertValuesToDefaultOptions(Object.values(DerivativesMetric)),
 		[]
 	)
+
+	const futureOptions = useMemo(() => {
+		const options =
+			Object.keys(AIOC?.Futures || {}).map((key) => AIOC?.Futures?.[key].ltp) ??
+			[]
+
+		return convertValuesToDefaultOptions(sort(options, (x) => x as number))
+	}, [AIOC?.Futures])
 
 	const handleChangeOption: SelectProps['onChange'] = (value) =>
 		setSelectedDerivativeMetric(value)
@@ -44,11 +68,10 @@ const DerivatiesParamSelection: React.FC<DerivatiesParamSelectionProps> = ({
 	return (
 		<Flex className="w-full" justify="space-between">
 			<Flex flex={1} justify="flex-start">
-				{/* // TODO: Wire up value and spot price link */}
 				<Space size="small">
 					<Text strong>Spot Price :</Text>
 					<Space>
-						<Text>38725</Text>
+						<Text>{spotData?.Open || 'NIL'}</Text>
 						<AddPositionButton tooltipTitle="Add position" />
 					</Space>
 				</Space>
@@ -71,14 +94,14 @@ const DerivatiesParamSelection: React.FC<DerivatiesParamSelectionProps> = ({
 			</Flex>
 
 			<Flex flex={1} justify="flex-end">
-				{/* // TODO: Wire up value and futures link */}
 				<Space size="small">
 					<Text strong>Futures :</Text>
 					<Flex>
 						<Select
-							// TODO: Wire up with real data and memoize the conversion
-							options={convertValuesToDefaultOptions(mockFutures)}
+							style={{ minWidth: '5rem' }}
+							options={futureOptions}
 							value={selectedFuture}
+							loading={isFetchingAIOSData}
 							bordered={false}
 							onChange={setSelectedFuture}
 						/>

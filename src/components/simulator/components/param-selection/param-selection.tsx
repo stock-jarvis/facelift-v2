@@ -5,11 +5,9 @@ import {
 	DatePickerProps,
 	TimePickerProps,
 } from 'antd'
-
 import Jump from './jump'
 import Randomize from './randomize'
 import TimeMachine from './time-machine'
-
 import { useSimulatorParamsStore } from '../../store/simulator-params-store'
 import ExchangeSelection from './exchange-selection'
 import {
@@ -18,9 +16,18 @@ import {
 } from 'src/common/utils/date-time-utils'
 import { useMemo } from 'react'
 import QuarterlyResults from './quarterly-results/quarterly-results'
+import { BANK_NIFTY_TICKER } from 'src/common/constants'
+import useGetSpotData from 'src/api/simulator/hooks/use-get-spot-data'
 
 const ParamSelection = () => {
 	const { date, time, setDate, setTime, exchange } = useSimulatorParamsStore()
+
+	const { data: spotData } = useGetSpotData(
+		date,
+		time,
+		exchange,
+		BANK_NIFTY_TICKER
+	)
 
 	const getDisabledTime = useMemo(
 		() => getDisabledTimeByExchange(exchange),
@@ -67,7 +74,7 @@ const ParamSelection = () => {
 				<Flex flex={1.3} justify="space-between">
 					<Jump />
 
-					<Flex align="center">India VIX : 22.56</Flex>
+					<Flex align="center">India VIX : {spotData?.Open ?? 'NIL'}</Flex>
 
 					<QuarterlyResults />
 

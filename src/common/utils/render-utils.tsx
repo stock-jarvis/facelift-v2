@@ -1,4 +1,4 @@
-import { Dayjs } from 'dayjs'
+import dayjs, { Dayjs } from 'dayjs'
 import TradeActionIndicator from '../components/trade-action-indicator'
 import { TradeAction } from '../enums'
 import {
@@ -15,3 +15,13 @@ export const renderDayjsDate = (dayjsDate: Dayjs) =>
 
 export const renderDayjsTime = (dayjsTime: Dayjs) =>
 	getTimeAsStringFromDayjs(dayjsTime)
+
+export const renderPriceWithLastTradedTime = (lastTraded: number) => {
+	if (lastTraded === -1) return null
+
+	return (
+		<sub style={{ fontSize: '8px' }}>
+			{dayjs(lastTraded * 1000).format('HH:mm')}
+		</sub>
+	)
+}
