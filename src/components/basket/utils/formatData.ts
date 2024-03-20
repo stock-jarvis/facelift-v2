@@ -10,22 +10,51 @@ export const createConvertedBasket = (savedBasket: any) => {
 
 	return {
 		bentry: {
-			entry_time: formatEntryTime(savedBasket.entryCondition.entryTime),
-			exit_time: formatEntryTime(savedBasket.entryCondition.exitTime),
+			entry_time:
+				'$d' in savedBasket.entryCondition.entryTime
+					? formatEntryTime(savedBasket.entryCondition.entryTime)
+					: savedBasket.entryCondition.entryTime,
+			exit_time:
+				'$d' in savedBasket.entryCondition.exitTime
+					? formatEntryTime(savedBasket.entryCondition.exitTime)
+					: savedBasket.entryCondition.exitTime,
 			// entry_time: savedBasket.entryCondition.entryTime,
 			// exit_time: savedBasket.entryCondition.exitTime,
 		},
 		bexit: {
-			move: savedBasket.exitCondition.move,
-			repeat: savedBasket.exitCondition.repeat,
-			loss: defaultToZero(savedBasket.exitCondition.totalLoss),
-			profit: defaultToZero(savedBasket.exitCondition.totalProfit),
+			move: savedBasket.exitCondition.move ? true : false,
+			repeat: savedBasket.exitCondition.repeat || '',
+			loss: defaultToZero(savedBasket.exitCondition.totalLoss) || 0,
+			profit: defaultToZero(savedBasket.exitCondition.totalProfit) || 0,
 			punit: 'RS',
 			lunit: 'RS',
-			type: savedBasket.exitCondition.type,
+			type: savedBasket.exitCondition.type || '',
 		},
+		// positions: savedBasket.positions.map((position: any, index: any) => ({
+		// 	[index]: {
+		// 		pexit: {
+		// 			profit: defaultToZero(position.exitCondition.totalProfit.value),
+		// 			loss: defaultToZero(position.exitCondition.stopLoss.value),
+		// 			punit: position.exitCondition.totalProfit.type || 'RS',
+		// 			lunit: position.exitCondition.stopLoss.type || 'RS',
+		// 		},
+		// 		pentry: {
+		// 			trade_type: position.entryCondition.tradeType || '',
+		// 			quantity: position.entryCondition.quantity || 0,
+		// 			prem: position.entryCondition.tradeTypeValue || 0,
+		// 			pos_type: position.type || '',
+		// 			delta: position.entryCondition.tradeTypeParams || '',
+		// 			opt_type: position.entryCondition.optionType || '',
+		// 			expiry: position.entryCondition.expiry || '',
+		// 			bs: position.entryCondition.actionType || '',
+		// 			opt_filter: ''
+		// 			// >= <= ==
+		// 		},
+		// 	},
+		// })),
 		positions: savedBasket.positions.map((position: any, index: any) => ({
-			[index]: {
+			key: index + 1,
+			value: {
 				pexit: {
 					profit: defaultToZero(position.exitCondition.totalProfit.value),
 					loss: defaultToZero(position.exitCondition.stopLoss.value),
@@ -36,15 +65,23 @@ export const createConvertedBasket = (savedBasket: any) => {
 					trade_type: position.entryCondition.tradeType || '',
 					quantity: position.entryCondition.quantity || 0,
 					prem: position.entryCondition.tradeTypeValue || 0,
-					pos_type: position.type || '',
+					pos_type:
+						position.type == 'future'
+							? 'F'
+							: position.type == 'options'
+								? 'O'
+								: '',
 					delta: position.entryCondition.tradeTypeParams || '',
 					opt_type: position.entryCondition.optionType || '',
 					expiry: position.entryCondition.expiry || '',
 					bs: position.entryCondition.actionType || '',
+					opt_filter: '',
+					// >= <= ==
 				},
 			},
 		})),
 		exchange: savedBasket.exchange || '',
+		// ticker: savedBasket.ticker || '',
 		ticker: savedBasket.ticker || '',
 		type: savedBasket.type || '',
 	}

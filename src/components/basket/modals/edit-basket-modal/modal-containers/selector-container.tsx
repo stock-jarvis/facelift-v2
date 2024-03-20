@@ -23,7 +23,7 @@ const Selectors: React.FC<SelectProps> = ({
 	updatedBasketData,
 }) => {
 	const { token } = theme.useToken()
-	const [tabValue, setTabValue] = useState<string>('spot')
+	const [tabValue, setTabValue] = useState<string>('future')
 
 	const handleTabChange: TabsProps['onChange'] = (e: string) => {
 		setOptionValue()
@@ -52,18 +52,18 @@ const Selectors: React.FC<SelectProps> = ({
 					borderRadius: token.borderRadiusLG,
 				}}
 				items={[
-					{
-						label: 'Spot',
-						key: 'spot',
-						children: (
-							<SpotBasketSelector
-								basketInitialData={basketInitialData}
-								baseInstrumentValue={instrument}
-								updatedBasketData={updatedBasketData}
-								handleAddBasket={handleAddBasket}
-							/>
-						),
-					},
+					// {
+					// 	label: 'Spot',
+					// 	key: 'spot',
+					// 	children: (
+					// 		<SpotBasketSelector
+					// 			basketInitialData={basketInitialData}
+					// 			baseInstrumentValue={instrument}
+					// 			updatedBasketData={updatedBasketData}
+					// 			handleAddBasket={handleAddBasket}
+					// 		/>
+					// 	),
+					// },
 					{
 						label: 'Future',
 						key: 'future',

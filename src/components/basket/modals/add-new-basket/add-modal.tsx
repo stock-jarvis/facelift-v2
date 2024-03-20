@@ -52,8 +52,8 @@ const AddBasketModal = ({ handleModalToggle }: AddModalProps) => {
 			const response = await fetchDataFromInstrumentAPI(authTokenJSON)
 			const tickerData = response.InstrumentList.map(
 				(instrument: any, index: any) => ({
-					value: instrument,
-					label: instrument,
+					value: instrument.toUpperCase(),
+					label: instrument.toUpperCase(),
 				})
 			)
 			setInstrumentData(tickerData)

@@ -82,7 +82,7 @@ const StrikeSelector = <T,>({
 							width: '70px',
 							textAlign: tradeOption === 'CP' ? 'center' : 'start',
 						}}
-						type="number"
+						type="text"
 						value={tradeValue}
 						onChange={handleInputChange}
 						suffix={tradeOption !== 'CP' ? '%' : null}

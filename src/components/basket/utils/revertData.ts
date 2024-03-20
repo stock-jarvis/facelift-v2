@@ -18,28 +18,58 @@ export function convertData(inputData: any, data: any): any {
 			punit: 'RS',
 			lunit: 'RS',
 		},
-		positions: Object.values(inputData.positions).map((position: any) => {
-			const key = Object.keys(position)[0] // Get the dynamic key
-			const data = position[key] // Extract the object using the dynamic key
+		// positions: Object.values(inputData.positions).map((position: any) => {
+		// 	const key = Object.keys(position)[0] // Get the dynamic key
+		// 	const data = position[key] // Extract the object using the dynamic key
+		// 	return {
+		// 		type: data.pentry.pos_type || '',
+		// 		entryCondition: {
+		// 			quantity: data.pentry.quantity || 0,
+		// 			actionType: data.pentry.bs || '',
+		// 			expiry: data.pentry.expiry || '',
+		// 			optionType: data.pentry.opt_type || '',
+		// 			tradeType: data.pentry.trade_type || '',
+		// 			tradeTypeParams: data.pentry.delta || 0,
+		// 			tradeTypeValue: data.pentry.prem || 0,
+		// 		},
+		// 		count: 1,
+		// 		exitCondition: {
+		// 			stopLoss: {
+		// 				value: data.pexit.loss || 0,
+		// 				type: 'RS',
+		// 			},
+		// 			totalProfit: {
+		// 				value: data.pexit.profit || 0,
+		// 				type: 'RS',
+		// 			},
+		// 		},
+		// 	}
+		// }),
+		positions: inputData.positions.map((position: any) => {
 			return {
-				type: data.pentry.pos_type || '',
+				type:
+					position.value.pentry.pos_type == 'F'
+						? 'future'
+						: position.value.pentry.pos_type == 'O'
+							? 'options'
+							: 'O',
 				entryCondition: {
-					quantity: data.pentry.quantity || 0,
-					actionType: data.pentry.bs || '',
-					expiry: data.pentry.expiry || '',
-					optionType: data.pentry.opt_type || '',
-					tradeType: data.pentry.trade_type || '',
-					tradeTypeParams: data.pentry.delta || 0,
-					tradeTypeValue: data.pentry.prem || 0,
+					quantity: position.value.pentry.quantity || 0,
+					actionType: position.value.pentry.bs || '',
+					expiry: position.value.pentry.expiry || '',
+					optionType: position.value.pentry.opt_type || '',
+					tradeType: position.value.pentry.trade_type || '',
+					tradeTypeParams: position.value.pentry.delta || 0,
+					tradeTypeValue: position.value.pentry.prem || 0,
 				},
 				count: 1,
 				exitCondition: {
 					stopLoss: {
-						value: data.pexit.loss || 0,
+						value: position.value.pexit.loss || 0,
 						type: 'RS',
 					},
 					totalProfit: {
-						value: data.pexit.profit || 0,
+						value: position.value.pexit.profit || 0,
 						type: 'RS',
 					},
 				},
