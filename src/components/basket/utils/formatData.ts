@@ -64,7 +64,10 @@ export const createConvertedBasket = (savedBasket: any) => {
 				pentry: {
 					trade_type: position.entryCondition.tradeType || '',
 					quantity: position.entryCondition.quantity || 0,
-					prem: position.entryCondition.tradeTypeValue || 0,
+					prem:
+						position.entryCondition.tradeType == 'ClosestPremium' || 'CPSpot'
+							? position.entryCondition.tradeTypeValue
+							: 0,
 					pos_type:
 						position.type == 'future'
 							? 'F'
@@ -77,8 +80,8 @@ export const createConvertedBasket = (savedBasket: any) => {
 							? 'M'
 							: position.entryCondition.expiry || '',
 					bs: position.entryCondition.actionType || '',
-					delta: position.entryCondition.tradeTypeParams || 0,
-					opt_filter: '',
+					delta: position.entryCondition.tradeTypeValue || 0,
+					opt_filter: position.entryCondition.tradeTypeParams || 0,
 					// >= <= ==
 				},
 			},

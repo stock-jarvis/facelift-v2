@@ -80,12 +80,12 @@ const StrikeSelector = <T,>({
 					<Input
 						style={{
 							width: '70px',
-							textAlign: tradeOption === 'CP' ? 'center' : 'start',
+							textAlign: tradeOption === 'ClosestPremium' ? 'center' : 'start',
 						}}
 						type="text"
 						value={tradeValue}
 						onChange={handleInputChange}
-						suffix={tradeOption !== 'CP' ? '%' : null}
+						suffix={tradeOption !== 'ClosestPremium' ? '%' : null}
 					/>
 				</Flex>
 			)}

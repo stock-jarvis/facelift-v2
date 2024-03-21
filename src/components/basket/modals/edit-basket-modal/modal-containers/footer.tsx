@@ -186,21 +186,21 @@ const Footer: React.FC<FooterProps> = ({
 			ipjson: base64Data,
 			name: savedBasket?.name.trim(),
 		}
-		console.log({ savedBasket })
-		// SaveData(data)
-		// if (basket.length > 0) {
-		// 	if (timeError) {
-		// 		openNotification('topRight')
-		// 	} else {
-		// 		if (savedBasket) {
-		// 			openNotificationSuccess('topRight')
-		// 			updateRuntimeBasketData(savedBasket)
-		// 			resetEditablebasket()
-		// 		}
-		// 	}
-		// } else {
-		// 	setPositionError(true)
-		// }
+		// console.log({ savedBasket })
+		SaveData(data)
+		if (basket.length > 0) {
+			if (timeError) {
+				openNotification('topRight')
+			} else {
+				if (savedBasket) {
+					openNotificationSuccess('topRight')
+					updateRuntimeBasketData(savedBasket)
+					resetEditablebasket()
+				}
+			}
+		} else {
+			setPositionError(true)
+		}
 	}
 
 	const SaveData = async (data: any) => {
