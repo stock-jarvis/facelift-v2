@@ -175,37 +175,37 @@ const Footer: React.FC<FooterProps> = ({
 	)
 
 	const handleSaveBasketClick = () => {
-		// console.log('Hello', savedBasket)
+		console.log('Hello', savedBasket)
 		const convertedBasket = createConvertedBasket(savedBasket)
-		// console.log(convertedBasket, 'New')
+		console.log(convertedBasket, 'New')
 		const base64Data = convertJsonToBase64(convertedBasket)
 		// console.log(base64Data, '64Data')
 		const data = {
 			cid: authTokenJSON.UID,
-			inst: savedBasket.ticker,
+			inst: savedBasket?.ticker,
 			ipjson: base64Data,
-			name: savedBasket.name.trim(),
+			name: savedBasket?.name.trim(),
 		}
 		console.log({ savedBasket })
-		SaveData(data)
-		if (basket.length > 0) {
-			if (timeError) {
-				openNotification('topRight')
-			} else {
-				if (savedBasket) {
-					openNotificationSuccess('topRight')
-					updateRuntimeBasketData(savedBasket)
-					resetEditablebasket()
-				}
-			}
-		} else {
-			setPositionError(true)
-		}
+		// SaveData(data)
+		// if (basket.length > 0) {
+		// 	if (timeError) {
+		// 		openNotification('topRight')
+		// 	} else {
+		// 		if (savedBasket) {
+		// 			openNotificationSuccess('topRight')
+		// 			updateRuntimeBasketData(savedBasket)
+		// 			resetEditablebasket()
+		// 		}
+		// 	}
+		// } else {
+		// 	setPositionError(true)
+		// }
 	}
 
-	const SaveData = async (authTokenJSON: any, data: any) => {
+	const SaveData = async (data: any) => {
 		try {
-			const response = await SavedBasketAPI(authTokenJSON, data)
+			const response = await SavedBasketAPI(data)
 			if (response.Code === 200) {
 				notification.success({ message: 'Basket Saved Successfully' })
 			} else {

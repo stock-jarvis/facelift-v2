@@ -1,4 +1,4 @@
-import { Flex, theme, Table, Typography, notification } from 'antd'
+import { Flex, theme, Table, Typography, notification, Button } from 'antd'
 import type { TableRowSelection } from 'antd/es/table/interface'
 import type { ColumnsType } from 'antd/es/table'
 import {
@@ -14,14 +14,20 @@ import { SavedBasket, EditType } from '../../types/types'
 import { checkDuplicate } from '../../utils/duplicate-check'
 import { useEffect, useState } from 'react'
 import Actions from '../common/click-actions'
-import { GetBasketAPI } from '../../../../api/AuthService'
+import { GetBasketAPI, GetBasketStatus } from '../../../../api/AuthService'
+import ReportBasketModal from '../../modals/report-basket'
 const RuntimeBasket = () => {
 	const { token } = theme.useToken()
 	const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([])
+	const [bid, setBID] = useState()
+	const [statuses, setStatuses] = useState([])
 	const {
 		runtimeBasketList,
 		setRuntimeError,
 		selectAllBaskets,
+		basketIds,
+		setBasketIDs,
+		savedBasket,
 		selectedBaskets,
 		setEditableBasket,
 		updateRuntimeError,
@@ -36,13 +42,6 @@ const RuntimeBasket = () => {
 	} = useBasketStore()
 
 	// console.log(runtimeBasketList)
-	const newData = runtimeBasketList.map((item, id) => ({
-		Exch: item.exchange,
-		Inst: item.ticker,
-		LastUpdated: Date.now(),
-		Name: item.name,
-		Status: 'NEXEC',
-	}))
 
 	const handleBasketEdit = (id: string) => {
 		// console.log(name)
@@ -88,30 +87,98 @@ const RuntimeBasket = () => {
 			selectAllBaskets()
 		},
 		onChange: onSelectChange,
+		renderCell: (val, r, id, node) => {
+			return r?.bid ? '' : node
+		},
 	}
 
 	useEffect(() => {
 		fetchData()
 	}, [])
 
+	useEffect(() => {
+		syncRunBasketStatus()
+	}, [basketIds])
+
+	useEffect(() => {
+		if (statuses.length) {
+			setNewState(
+				savedBasket.map((o) => {
+					const f = statuses.find((s) => s.bid == o.bid)
+					if (!f) return o
+					console.log({ ...o, status: f?.s, i: 1 })
+					return { ...o, status: f?.s }
+				})
+			)
+		}
+	}, [statuses])
+
+	function syncRunBasketStatus() {
+		const RGs = []
+		setInterval(async () => {
+			for (let i = 0; i < basketIds.length; i++) {
+				const bid = basketIds[i].bid
+				if (RGs.includes(bid)) continue
+				const d = await GetBasketStatus(bid)
+				if (d?.status == 'RG') RGs.push(bid)
+				setStatuses((old) => {
+					const findId = old.findIndex((s) => s.bid === bid)
+					const temp = { bid, s: d.status }
+					if (findId !== -1)
+						return old.map((item) => (item.bid === bid ? temp : item))
+					else return [...old, temp]
+				})
+			}
+		}, 10000)
+	}
+
+	// const from = '03-01-2022'
+	// 	const to = '30-12-2022'
+
 	const [instrument, setInstrument] = useState([])
-	const combinedData = [...newData, ...instrument].map((com, idx) => {
-		return { ...com, id: idx.toString() }
-	})
+
 	const fetchData = async () => {
 		try {
 			const response = await GetBasketAPI()
-			setInstrument(response.Baskets)
-			setNewState(combinedData)
+			setInstrument(response.Baskets ?? [])
 		} catch (error) {
 			notification.success({ message: 'Error While login' })
 		}
 	}
 
 	useEffect(() => {
-		const combinedData = [...newData, ...instrument]
+		const newData = runtimeBasketList.map((item, id) => ({
+			Exch: item.exchange,
+			Inst: item.ticker,
+			LastUpdated: Date.now(),
+			Name: item.name,
+			Status: 'NEXEC',
+		}))
+
+		const combinedData: any = [...newData, ...(instrument ?? [])].map(
+			(com, idx) => {
+				return {
+					...com,
+					id: idx.toString(),
+				}
+			}
+		)
 		setNewState(combinedData)
-	}, [instrument])
+		console.log('instrument, runtimeBasketList')
+	}, [instrument, runtimeBasketList])
+
+	useEffect(() => {
+		setNewState(
+			savedBasket.map((com, idx) => {
+				const bid = basketIds.find((b) => b.name == com.Name)?.bid
+				return {
+					...com,
+					bid,
+					id: idx.toString(),
+				}
+			})
+		)
+	}, [basketIds])
 
 	const columns: ColumnsType<SavedBasket> = [
 		{
@@ -178,40 +245,59 @@ const RuntimeBasket = () => {
 					Actions
 				</Flex>
 			),
-			render: (record) => (
-				<Flex gap={'small'} flex={1} justify="flex-end">
-					<Actions
-						handleButtonClick={() => handleBasketEdit(record.Name)}
-						icon={<FormOutlined />}
-						tooltipTitle={'Edit'}
-						record={record}
-					/>
-					<Actions
-						handleButtonClick={handleBasketDuplicate}
-						icon={<CopyOutlined />}
-						tooltipTitle={'Duplicate'}
-						record={record}
-					/>
-					<Actions
-						handleButtonClick={handleBaskeSave}
-						icon={<SnippetsOutlined />}
-						tooltipTitle={'Save'}
-						record={record}
-					/>
-					<Actions
+			render: (record: SavedBasket, v, id) => {
+				console.log({ record, id })
+				return (
+					<Flex gap={'small'} flex={1} justify="flex-end">
+						{record.status == 'IP' ||
+						record.status == 'OG' ||
+						record.status == 'NEXEC' ? (
+							'Loading'
+						) : record.status == 'RG' ? (
+							<Button onClick={() => setBID(record.bid)}>Report Show</Button>
+						) : (
+							''
+						)}
+						{/* <Actions
 						handleButtonClick={handleBaskeDelete}
 						icon={<DeleteOutlined />}
 						tooltipTitle={'Delete'}
 						record={record}
-					/>
-				</Flex>
-			),
+					/> */}
+						<Actions
+							handleButtonClick={() => handleBasketEdit(record.Name)}
+							icon={<FormOutlined />}
+							tooltipTitle={'Edit'}
+							record={record}
+						/>
+						<Actions
+							handleButtonClick={handleBasketDuplicate}
+							icon={<CopyOutlined />}
+							tooltipTitle={'Duplicate'}
+							record={record}
+						/>
+						<Actions
+							handleButtonClick={handleBaskeSave}
+							icon={<SnippetsOutlined />}
+							tooltipTitle={'Save'}
+							record={record}
+						/>
+						<Actions
+							handleButtonClick={handleBaskeDelete}
+							icon={<DeleteOutlined />}
+							tooltipTitle={'Delete'}
+							record={record}
+						/>
+					</Flex>
+				)
+			},
 		},
 	]
 
 	return (
 		<Flex flex="1" vertical>
 			<BasketNav setSelectedRowKeys={setSelectedRowKeys} />
+			{bid && <ReportBasketModal bid={bid} onCancel={() => setBID()} />}
 			<Table
 				rowKey="id"
 				columns={columns}
@@ -220,7 +306,7 @@ const RuntimeBasket = () => {
 				rowSelection={rowSelection}
 				// dataSource={instrument}
 				// dataSource={runtimeBasketList}
-				dataSource={combinedData}
+				dataSource={savedBasket}
 				scroll={{ y: 'calc(100vh - 165px)' }}
 				locale={EmptyIndicator('No Baskets Available')}
 			/>

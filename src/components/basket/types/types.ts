@@ -54,6 +54,7 @@ export interface SavedBasket {
 	id: string
 	name: string
 	error?: boolean
+	status?: 'IP' | 'NEXEC' | 'OG' | 'RG'
 	identifier: number
 	exchange: Exchange
 	ticker: string

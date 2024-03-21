@@ -10,6 +10,7 @@ import { GetSpecificBasketAPI } from '../../../api/AuthService'
 import { base64ToJSON } from '../utils/BaseToJSON'
 import { convertData } from '../utils/revertData'
 
+type BID = { bid: string; name: string }
 type BasketState = {
 	endDate: Dayjs
 	startDate: Dayjs
@@ -23,6 +24,7 @@ type BasketState = {
 	runtimeBasketList: SavedBasket[]
 	basketData: SavedBasket[]
 	newState: []
+	basketIds: BID[]
 }
 
 type BasketStateActions = {
@@ -48,6 +50,7 @@ type BasketStateActions = {
 	createDuplicateStoredBasket: (basket: SavedBasket) => void
 	setBasketData: (data: SavedBasket[]) => void
 	setNewState: (data: SavedBasket[]) => void
+	setBasketIDs: (data: BID[]) => void
 }
 
 const defaultState: BasketState = {
@@ -63,6 +66,7 @@ const defaultState: BasketState = {
 	editableBasketData: defaultBasketData,
 	basketData: [],
 	newState: [],
+	basketIds: [],
 }
 
 export const useBasketStore = create<BasketState & BasketStateActions>()(
@@ -76,6 +80,9 @@ export const useBasketStore = create<BasketState & BasketStateActions>()(
 						id: id.toString(),
 					}))
 				}),
+			setBasketIDs(basketIds) {
+				set({ basketIds })
+			},
 
 			setExchange: (exchange) => set({ exchange }),
 
@@ -159,8 +166,8 @@ export const useBasketStore = create<BasketState & BasketStateActions>()(
 
 			selectAllBaskets: () =>
 				set((state) => {
-					if (state.runtimeBasketList.length !== state.selectedBaskets.length) {
-						state.selectedBaskets = state.runtimeBasketList
+					if (state.savedBasket.length !== state.selectedBaskets.length) {
+						state.selectedBaskets = state.savedBasket
 					} else {
 						state.selectedBaskets = []
 					}

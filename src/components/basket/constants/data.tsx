@@ -144,11 +144,11 @@ export const tradeTypeData = [
 		label: 'Highest OI',
 		value: 'HighestOI',
 		children: [
-			{ id: 1, label: '1st highest OI', value: '1st highestOI' },
-			{ id: 2, label: '2nd highest OI', value: '2nd highestOI' },
-			{ id: 3, label: '3rd highest OI', value: '3rd highestOI' },
-			{ id: 4, label: '4th highest OI', value: '4th highestOI' },
-			{ id: 5, label: '5th highest OI', value: '5th highestOI' },
+			{ id: 1, label: '1st highest OI', value: 1 },
+			{ id: 2, label: '2nd highest OI', value: 2 },
+			{ id: 3, label: '3rd highest OI', value: 3 },
+			{ id: 4, label: '4th highest OI', value: 4 },
+			{ id: 5, label: '5th highest OI', value: 5 },
 		],
 	},
 	{

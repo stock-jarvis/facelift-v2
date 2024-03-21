@@ -9,6 +9,7 @@ import {
 import { SignUpUserType } from 'src/common/components/forms/sign-up-form'
 import axios from 'axios'
 import { LOCAL_STORAGE } from 'src/common/local-storage-keys'
+import { API_BASE_URL } from 'src/api/const'
 
 const authTokenJSON = JSON.parse(
 	localStorage.getItem(LOCAL_STORAGE.SESSION_INFO) ?? '{}'
@@ -92,7 +93,7 @@ export async function ResetPassAPI<T>(data: SignUpUserType) {
 export async function fetchDataFromInstrumentAPI(authTokenJSON: any) {
 	try {
 		const response = await axios.get(
-			'http://35.200.211.119:8080/simulator/GetInstrumentList?date=12-01-2022',
+			`${API_BASE_URL}simulator/GetInstrumentList?date=12-01-2022`,
 			{
 				headers: {
 					Authorization: `Bearer ${authTokenJSON.Token}`,
@@ -111,7 +112,7 @@ export async function SavedBasketAPI(data: any) {
 	)
 	try {
 		const response = await axios.post(
-			'http://35.200.211.119:8080/drl/basket/SaveBasket',
+			`${API_BASE_URL}drl/basket/SaveBasket`,
 			data,
 			{
 				headers: {
@@ -131,7 +132,7 @@ export async function GetBasketAPI() {
 	)
 	try {
 		const response = await axios.get(
-			`http://35.200.211.119:8080/drl/basket/GetBasketList?cid=${authTokenJSON.UID}`,
+			`${API_BASE_URL}drl/basket/GetBasketList?cid=${authTokenJSON.UID}`,
 			{
 				headers: {
 					Authorization: `Bearer ${authTokenJSON.Token}`,
@@ -150,7 +151,7 @@ export async function GetSpecificBasketAPI(data: string) {
 	)
 	try {
 		const response = await axios.get(
-			`http://35.200.211.119:8080/drl/basket/GetBasketDetails?cid=${authTokenJSON.UID}&name=${data}`,
+			`${API_BASE_URL}drl/basket/GetBasketDetails?cid=${authTokenJSON.UID}&name=${data}`,
 			{
 				headers: {
 					Authorization: `Bearer ${authTokenJSON.Token}`,
@@ -171,8 +172,16 @@ export async function RunBasketAPI(name: string) {
 	const cid = authTokenJSON.UID
 	try {
 		const response = await axios.post(
-			`http://35.200.211.119:8080/drl/basket/RunBasket`,
-			{ name, cid },
+			`${API_BASE_URL}drl/basket/RunBasket`,
+			{
+				name,
+				cid,
+				from: '03-01-2022',
+				to: '30-12-2022',
+				// ,to:"01-01-2022",from:"30-12-2022"
+				// const from = '03-01-2022'
+				// 	const to = '30-12-2022'
+			},
 			{
 				headers: {
 					Authorization: `Bearer ${authTokenJSON.Token}`,
@@ -181,6 +190,47 @@ export async function RunBasketAPI(name: string) {
 		)
 		return response.data
 	} catch (error) {
+		console.log({ error })
+		throw new Error('Error While login')
+	}
+}
+
+export async function GetBasketStatus(data: string) {
+	const authTokenJSON = JSON.parse(
+		localStorage.getItem(LOCAL_STORAGE.SESSION_INFO) ?? '{}'
+	)
+	try {
+		const response = await axios.get(
+			`${API_BASE_URL}drl/basket/GetBasketStatus?cid=${authTokenJSON.UID}&bid=${data}`,
+			{
+				headers: {
+					Authorization: `Bearer ${authTokenJSON.Token}`,
+				},
+			}
+		)
+		return response.data
+	} catch (error: any) {
+		if (error.response.status == '500') return 2
+		throw new Error('Error While login')
+	}
+}
+
+export async function GetBasketReport(data: string) {
+	const authTokenJSON = JSON.parse(
+		localStorage.getItem(LOCAL_STORAGE.SESSION_INFO) ?? '{}'
+	)
+	try {
+		const response = await axios.get(
+			`${API_BASE_URL}drl/basket/GetBasketReport?cid=${authTokenJSON.UID}&bid=${data}`,
+			{
+				headers: {
+					Authorization: `Bearer ${authTokenJSON.Token}`,
+				},
+			}
+		)
+		return response.data
+	} catch (error: any) {
+		if (error.response.status == '500') return 2
 		throw new Error('Error While login')
 	}
 }

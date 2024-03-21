@@ -71,17 +71,19 @@ export const createConvertedBasket = (savedBasket: any) => {
 							: position.type == 'options'
 								? 'O'
 								: '',
-					delta: position.entryCondition.tradeTypeParams || '',
 					opt_type: position.entryCondition.optionType || '',
-					expiry: position.entryCondition.expiry || '',
+					expiry:
+						position.entryCondition.expiry == 'Monthly'
+							? 'M'
+							: position.entryCondition.expiry || '',
 					bs: position.entryCondition.actionType || '',
+					delta: position.entryCondition.tradeTypeParams || 0,
 					opt_filter: '',
 					// >= <= ==
 				},
 			},
 		})),
 		exchange: savedBasket.exchange || '',
-		// ticker: savedBasket.ticker || '',
 		ticker: savedBasket.ticker || '',
 		type: savedBasket.type || '',
 	}

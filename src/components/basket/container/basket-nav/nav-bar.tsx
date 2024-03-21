@@ -18,6 +18,7 @@ const BasketNav: React.FC<BasketNavProps> = ({ setSelectedRowKeys }) => {
 	const {
 		clearSelectedBaskets,
 		handleDateChange,
+		setBasketIDs,
 		selectedBaskets,
 		startDate,
 		endDate,
@@ -58,7 +59,7 @@ const BasketNav: React.FC<BasketNavProps> = ({ setSelectedRowKeys }) => {
 			res.push(RunBasketAPI(name))
 		}
 		const data = await Promise.all(res)
-		console.log({ data })
+		setBasketIDs(data)
 		setSelectedRowKeys([])
 		clearSelectedBaskets()
 	}
