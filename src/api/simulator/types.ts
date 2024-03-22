@@ -23,7 +23,8 @@ export interface SpotDataRes {
 	Open: number
 }
 
-export interface LotSizeRes {}
+// Record<unix timestamp, lot size>
+export type LotSizeRes = { lotsizes: Record<number, number> }
 
 export interface AIOCReq {
 	exc: Exchange

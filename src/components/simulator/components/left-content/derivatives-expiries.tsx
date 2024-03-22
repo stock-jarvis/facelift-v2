@@ -1,4 +1,4 @@
-import { useState, useMemo, useEffect } from 'react'
+import React, { useState, useMemo, useEffect } from 'react'
 import { LeftOutlined, RightOutlined } from '@ant-design/icons'
 import { Flex, Button, Segmented, Typography } from 'antd'
 const { Text } = Typography
@@ -12,18 +12,24 @@ import useGetAIOCData from 'src/api/simulator/hooks/use-get-aioc'
 
 const SHOW_TOTAL_EXPIRIES = 3
 
-interface Props {
-	setSelectedExpiry(value: number | undefined): void
-}
-
-const DerivatiesExpiries: React.FC<Props> = ({ setSelectedExpiry }) => {
-	const { exchange, activeInstrument, date, time } = useSimulatorParamsStore()
+const DerivatiesExpiries: React.FC = () => {
+	const {
+		exchange,
+		activeInstrument,
+		date,
+		time,
+		setActiveInstrumentMetadata,
+		activeInstrumentMetadata,
+	} = useSimulatorParamsStore()
 	const { data: AIOC } = useGetAIOCData(date, time, exchange, activeInstrument)
 
 	const [showExpiriesFrom, setShowExpiriesFrom] = useState(0)
 
 	useEffect(() => {
-		setSelectedExpiry(AIOC?.expList[0])
+		if (!activeInstrumentMetadata()?.selectedExpiry)
+			setActiveInstrumentMetadata({
+				selectedExpiry: AIOC?.expList[0],
+			})
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [AIOC?.expList])
 
@@ -50,15 +56,20 @@ const DerivatiesExpiries: React.FC<Props> = ({ setSelectedExpiry }) => {
 				<Segmented<DefaultOptionType>
 					block
 					style={{ flex: 1 }}
+					// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+					// @ts-expect-error
+					value={activeInstrumentMetadata()?.selectedExpiry}
 					// Display only 3 {SHOW_TOTAL_EXPIRIES} expiries at a time
 					options={expiries.slice(
 						showExpiriesFrom,
 						showExpiriesFrom + SHOW_TOTAL_EXPIRIES
 					)}
 					onChange={(value) => {
-						// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-						// @ts-expect-error
-						setSelectedExpiry(value as number)
+						setActiveInstrumentMetadata({
+							// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+							// @ts-expect-error
+							selectedExpiry: value,
+						})
 					}}
 				/>
 			)}

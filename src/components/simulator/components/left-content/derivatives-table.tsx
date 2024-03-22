@@ -5,7 +5,7 @@ import {
 	theme,
 	Typography,
 } from 'antd'
-import { useMemo, useState } from 'react'
+import { useMemo } from 'react'
 import { DerivativesMetric } from 'src/common/enums'
 import { findClosest } from 'src/common/utils/find-utils'
 import DerivatiesExpiries from './derivatives-expiries'
@@ -35,7 +35,10 @@ const DerivativesTable: React.FC<DerivativesTableProps> = ({
 	selectedDerivativeMetric,
 }) => {
 	const { token } = theme.useToken()
-	const { exchange, activeInstrument, date, time } = useSimulatorParamsStore()
+	const { exchange, activeInstrument, date, time, activeInstrumentMetadata } =
+		useSimulatorParamsStore()
+	const selectedExpiry = activeInstrumentMetadata()?.selectedExpiry as number
+
 	const { data: spotData } = useGetSpotData(
 		date,
 		time,
@@ -43,28 +46,25 @@ const DerivativesTable: React.FC<DerivativesTableProps> = ({
 		activeInstrument
 	)
 
-	const [selectedExpiry, setSelectedExpiry] = useState<number>()
 	const { data: AIOC, isFetching } = useGetAIOCData(
 		date,
 		time,
 		exchange,
 		activeInstrument,
-		[selectedExpiry as number]
+		[selectedExpiry]
 	)
 
 	const { datasource, strikePriceClosestToSpotPrice } = useMemo(() => {
 		const data: DerivativesTableDataSource[] =
-			AIOC?.OptionChain?.[selectedExpiry as number]?.OptionChain?.map(
-				(option) => ({
-					call_ltt: option.celtt,
-					call_ltp: option.celtp,
-					strike: option.strike,
-					put_llt: option.peltt,
-					put_ltp: option.peltp,
-					call_OI: option.greeks.ceoi,
-					put_OI: option.greeks.peoi,
-				})
-			) ?? []
+			AIOC?.OptionChain?.[selectedExpiry]?.OptionChain?.map((option) => ({
+				call_ltt: option.celtt,
+				call_ltp: option.celtp,
+				strike: option.strike,
+				put_llt: option.peltt,
+				put_ltp: option.peltp,
+				call_OI: option.greeks.ceoi,
+				put_OI: option.greeks.peoi,
+			})) ?? []
 
 		const strikePriceClosestToSpotPrice = findClosest(
 			data.map((data) => data.strike),
@@ -158,7 +158,7 @@ const DerivativesTable: React.FC<DerivativesTableProps> = ({
 
 	return (
 		<Flex vertical gap="small">
-			<DerivatiesExpiries setSelectedExpiry={setSelectedExpiry} />
+			<DerivatiesExpiries />
 			<Table
 				/**
 				 * selectedDerivativeMetric causes the columns to change,

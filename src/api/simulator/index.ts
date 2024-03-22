@@ -23,7 +23,7 @@ const SimulatorService = {
 	async fetchLotSize(inst: string, date: string) {
 		try {
 			const res = await ApiService.fetchData<LotSizeRes, unknown>({
-				url: `drl/GetLotSize?inst=${inst}&date=${date}`,
+				url: `drl/GetLotsize?inst=${inst}&date=${date}`,
 				method: 'get',
 			})
 			return res.data

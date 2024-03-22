@@ -5,6 +5,8 @@ import {
 	getDateAsStringFromDayjs,
 	getTimeAsStringFromDayjs,
 } from './date-time-utils'
+import utc from 'dayjs/plugin/utc'
+dayjs.extend(utc)
 
 export const renderTradeAction = (tradeAction: TradeAction) => (
 	<TradeActionIndicator tradeAction={tradeAction} />
@@ -21,7 +23,9 @@ export const renderPriceWithLastTradedTime = (lastTraded: number) => {
 
 	return (
 		<sub style={{ fontSize: '8px' }}>
-			{dayjs(lastTraded * 1000).format('HH:mm')}
+			{dayjs(lastTraded * 1000)
+				.utc()
+				.format('HH:mm')}
 		</sub>
 	)
 }

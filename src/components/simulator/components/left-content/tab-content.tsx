@@ -1,6 +1,5 @@
 import { Flex } from 'antd'
 import { useState } from 'react'
-
 import DerivativesTable from './derivatives-table'
 import InstrumentDayDetail from './instrument-day-detail'
 import DerivatiesParamSelection from './derivatives-param-selection'

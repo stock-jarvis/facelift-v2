@@ -4,13 +4,15 @@ import { useSimulatorParamsStore } from '../../store/simulator-params-store'
 import { useQuery } from '@tanstack/react-query'
 import SimulatorService from 'src/api/simulator'
 import {
+	convertLotSizeRes,
 	getDayOpenLabel,
 	getDayPriceDiffInPercent,
 } from 'src/common/utils/conversion-utils'
 import useGetSpotData from 'src/api/simulator/hooks/use-get-spot-data'
 
 const InstrumentDayDetail = () => {
-	const { exchange, activeInstrument, date, time } = useSimulatorParamsStore()
+	const { exchange, activeInstrument, date, time, activeInstrumentMetadata } =
+		useSimulatorParamsStore()
 
 	const { data } = useGetSpotData(date, time, exchange, activeInstrument)
 
@@ -21,10 +23,11 @@ const InstrumentDayDetail = () => {
 				activeInstrument,
 				date.format('DD-MM-YYYY')
 			),
+		select: (data) => convertLotSizeRes(data),
 	})
-	console.log(lotSizeData)
 
 	const dayOpenDiff = getDayPriceDiffInPercent(data?.DO || 0, data?.PDC || 0)
+	const selectedExpiry = activeInstrumentMetadata()?.selectedExpiry
 
 	return (
 		<Flex className="w-full" justify="space-between">
@@ -37,7 +40,14 @@ const InstrumentDayDetail = () => {
 			</Flex>
 
 			<Flex flex={1} justify="center">
-				<TitleValue title="Lot Size" value="25" />
+				<TitleValue
+					title="Lot Size"
+					value={
+						selectedExpiry
+							? lotSizeData?.[selectedExpiry]?.toString() || 'NIL'
+							: 'NIL'
+					}
+				/>
 			</Flex>
 
 			<Flex flex={1} justify="flex-end">

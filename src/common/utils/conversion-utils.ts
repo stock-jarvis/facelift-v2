@@ -1,6 +1,7 @@
 import { ItemType } from 'antd/es/menu/hooks/useItems'
 import { DefaultOptionType } from 'antd/es/select'
 import dayjs from 'dayjs'
+import { LotSizeRes } from 'src/api/simulator/types'
 
 const convertToItemType = (value: string | number) =>
 	({
@@ -61,4 +62,22 @@ export const convertDDMMYYToDate = (date: number | string) => {
 	return `${day}-${dayjs()
 		.month(+month - 1)
 		.format('MMM')}-${year}`
+}
+
+export const convertUnixTimestampToDate = (timestamp: number) => {
+	return dayjs(timestamp * 1000).utc()
+}
+
+export const convertLotSizeRes = (res: LotSizeRes | undefined) => {
+	if (!res) return {}
+
+	const keys = Object.keys(res.lotsizes || {})
+
+	const parsed: LotSizeRes['lotsizes'] = {}
+	keys.forEach((key) => {
+		const parsedKey = convertUnixTimestampToDate(+key).format('DDMMYY')
+		parsed[+parsedKey] = res?.lotsizes[+key]
+	})
+
+	return parsed
 }

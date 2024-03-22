@@ -18,6 +18,7 @@ const InstrumentSelectionModal: React.FC<InstrumentSelectionModalProps> = ({
 		queryKey: ['instruments'],
 		// TODO: we only have data till 2022, adding hard coded date for now
 		queryFn: () => InstrumentService.getInstrument(new Date('11-03-2022')),
+		staleTime: 1800 * 1000,
 	})
 	const {
 		isLoading: validatingTradeDate,
