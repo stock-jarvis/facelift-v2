@@ -11,7 +11,7 @@ import {
 	theme,
 } from 'antd'
 import { PlusOutlined } from '@ant-design/icons'
-import { useMemo, useState } from 'react'
+import { useMemo, useState, useEffect } from 'react'
 import { convertValuesToDefaultOptions } from 'src/common/utils/conversion-utils'
 import { DerivativesMetric } from '../../../../common/enums'
 import { useSimulatorParamsStore } from '../../store/simulator-params-store'
@@ -61,6 +61,13 @@ const DerivatiesParamSelection: React.FC<DerivatiesParamSelectionProps> = ({
 
 		return convertValuesToDefaultOptions(sort(options, (x) => x as number))
 	}, [AIOC?.Futures])
+
+	useEffect(() => {
+		if (!selectedFuture) {
+			setSelectedFuture((futureOptions?.[0]?.value as number) || undefined)
+		}
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [futureOptions])
 
 	const handleChangeOption: SelectProps['onChange'] = (value) =>
 		setSelectedDerivativeMetric(value)
