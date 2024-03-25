@@ -12,6 +12,10 @@ type SimulatorParams = {
 	// TODO: Default active instrument in other Exchanges
 	activeInstrument: string
 	selectedInstruments: string[]
+	selectedInstrumentMetadata: Record<
+		string,
+		{ selectedExpiry: number | undefined }
+	>
 }
 
 type SimulatorParamsActions = {
@@ -24,6 +28,7 @@ type SimulatorParamsActions = {
 	setActiveInstrument: (
 		activeInstrument: SimulatorParams['activeInstrument']
 	) => void
+
 	addSelectedInstrument: (
 		instrument: SimulatorParams['selectedInstruments'][number]
 	) => void
@@ -33,6 +38,11 @@ type SimulatorParamsActions = {
 	removeSelectedInstrument: (
 		instrumentToRemove: SimulatorParams['selectedInstruments'][number]
 	) => void
+
+	setActiveInstrumentMetadata: (
+		metadata: SimulatorParams['selectedInstrumentMetadata'][string]
+	) => void
+	activeInstrumentMetadata: () => SimulatorParams['selectedInstrumentMetadata'][string]
 }
 
 const defaultState: SimulatorParams = {
@@ -41,13 +51,19 @@ const defaultState: SimulatorParams = {
 	exchange: Exchange.NSE,
 	activeInstrument: BANK_NIFTY_TICKER,
 	selectedInstruments: [BANK_NIFTY_TICKER],
+	selectedInstrumentMetadata: {
+		BANK_NIFTY_TICKER: { selectedExpiry: undefined },
+	},
 }
 
 export const useSimulatorParamsStore = create<
 	SimulatorParams & SimulatorParamsActions
 >()(
-	immer((set) => ({
+	immer((set, get) => ({
 		...defaultState,
+
+		activeInstrumentMetadata: () =>
+			get().selectedInstrumentMetadata?.[get().activeInstrument],
 
 		setTime: (time) => set({ time }),
 
@@ -69,6 +85,19 @@ export const useSimulatorParamsStore = create<
 				state.selectedInstruments = state.selectedInstruments.filter(
 					(instrument) => instrumentToRemove !== instrument
 				)
+
+				// Remove metadata attached to instrument
+				delete state.selectedInstrumentMetadata[instrumentToRemove]
 			}),
+
+		setActiveInstrumentMetadata: (metadata) => {
+			set((state) => {
+				const activeInstrument = state.activeInstrument
+				state.selectedInstrumentMetadata[activeInstrument] = {
+					...state.selectedInstrumentMetadata[activeInstrument],
+					...metadata,
+				}
+			})
+		},
 	}))
 )

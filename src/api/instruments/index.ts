@@ -1,15 +1,47 @@
 import dayjs from 'dayjs'
 import ApiService from '../ApiService'
-import { InstrumentList } from './types'
+import { GetInstrumentRes, GetInstrumentTradingDaysRes } from './types'
+import { notification } from 'antd'
 
 const InstrumentService = {
-	getInstrument(date: Date) {
+	async getInstrument(date: Date) {
 		const parsedDate = dayjs(date).format('DD-MM-YYYY')
 
-		return ApiService.fetchData<InstrumentList, unknown>({
-			url: `simulator/GetInstrumentList?date=${parsedDate}`,
-			method: 'get',
-		})
+		try {
+			const res = await ApiService.fetchData<GetInstrumentRes, unknown>({
+				url: `simulator/GetInstrumentList?date=${parsedDate}`,
+				method: 'get',
+			})
+
+			// convert instrument name to uppercase
+			res.data.InstrumentList = res.data.InstrumentList.map((inst) =>
+				inst.toUpperCase()
+			)
+
+			return res.data
+		} catch (err) {
+			notification.error({
+				message: 'Error while trying to get instrument list.',
+			})
+			console.error(err)
+		}
+	},
+	async getTradingDatesByInstrument(instrument: string) {
+		try {
+			const res = await ApiService.fetchData<
+				GetInstrumentTradingDaysRes,
+				unknown
+			>({
+				url: `/drl/GetTradingDatesByInstrument?inst=${instrument}`,
+				method: 'get',
+			})
+			return res.data
+		} catch (err) {
+			notification.error({
+				message: `Could not fetch trading days for ${instrument} instrument.`,
+			})
+			console.error(err)
+		}
 	},
 }
 
