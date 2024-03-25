@@ -6,7 +6,14 @@ import {
 	getTimeAsStringFromDayjs,
 } from './date-time-utils'
 import utc from 'dayjs/plugin/utc'
+import TradeActionToggle from '../components/trade-action-toggle'
+import { InputNumber, InputNumberProps } from 'antd'
 dayjs.extend(utc)
+
+export const renderTradeActionToggle = (
+	tradeAction: TradeAction,
+	toggle: (tradeAction: TradeAction) => void
+) => <TradeActionToggle tradeAction={tradeAction} toggle={toggle} />
 
 export const renderTradeAction = (tradeAction: TradeAction) => (
 	<TradeActionIndicator tradeAction={tradeAction} />
@@ -38,3 +45,16 @@ export const renderPriceWithLastTradedTime = (lastTraded: number) => {
 		</sub>
 	)
 }
+
+export const renderLotSizeNumberInput = (
+	size: number,
+	onChange: InputNumberProps['onChange']
+) => (
+	<InputNumber
+		size="small"
+		style={{ width: '90px' }}
+		min={1}
+		value={size}
+		onChange={onChange}
+	/>
+)

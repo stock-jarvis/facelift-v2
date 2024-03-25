@@ -11,7 +11,7 @@ import { PiSun, PiSunHorizon } from 'react-icons/pi'
 
 import { convertValuesToDefaultOptions } from 'src/common/utils/conversion-utils'
 
-const timeUnits = ['Min', 'Hour', 'Day'] as const
+const timeUnits = ['Sec', 'Min', 'Hour', 'Day'] as const
 
 type TimeUnit = (typeof timeUnits)[number]
 
@@ -19,7 +19,7 @@ const TimeMachine = () => {
 	const { token } = theme.useToken()
 
 	const [selectedValue, setSelectedValue] = useState(1)
-	const [selectedTimeUnit, setSelectedTimeUnit] = useState<TimeUnit>('Min')
+	const [selectedTimeUnit, setSelectedTimeUnit] = useState<TimeUnit>('Sec')
 
 	const valueOptions = useMemo(
 		() => convertValuesToDefaultOptions([...range(1, 10)]),

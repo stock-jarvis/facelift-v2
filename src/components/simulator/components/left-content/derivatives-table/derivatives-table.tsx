@@ -3,18 +3,23 @@ import {
 	TableProps as AntdTableProps,
 	Flex,
 	theme,
-	Typography,
 } from 'antd'
 import { useMemo } from 'react'
-import { DerivativesMetric } from 'src/common/enums'
+import {
+	DerivativesMetric,
+	OptionContractType,
+	TradeAction,
+} from 'src/common/enums'
 import { findClosest } from 'src/common/utils/find-utils'
-import DerivatiesExpiries from './derivatives-expiries'
+import DerivatiesExpiries from '../derivatives-expiries'
 import useGetSpotData from 'src/api/simulator/hooks/use-get-spot-data'
-import { useSimulatorParamsStore } from '../../store/simulator-params-store'
+import { useSimulatorParamsStore } from '../../../store/simulator-params-store'
 import useGetAIOCData from 'src/api/simulator/hooks/use-get-aioc'
-import { renderPriceWithLastTradedTime } from 'src/common/utils/render-utils'
+import { renderCallCell, renderPutCell } from './cell-renderer'
+import { useSimulatorPositionsStore } from 'src/components/simulator/store/simulator-positions-store'
+import { getCachedLotSize } from 'src/api/simulator/hooks/use-lots-size'
 
-type DerivativesTableDataSource = {
+export type DerivativesTableDataSource = {
 	call_ltp: number
 	put_ltp: number
 	strike: number
@@ -37,6 +42,7 @@ const DerivativesTable: React.FC<DerivativesTableProps> = ({
 	const { token } = theme.useToken()
 	const { exchange, activeInstrument, date, time, activeInstrumentMetadata } =
 		useSimulatorParamsStore()
+	const { addPosition } = useSimulatorPositionsStore()
 	const selectedExpiry = activeInstrumentMetadata()?.selectedExpiry as number
 
 	const { data: spotData } = useGetSpotData(
@@ -53,6 +59,32 @@ const DerivativesTable: React.FC<DerivativesTableProps> = ({
 		activeInstrument,
 		[selectedExpiry]
 	)
+
+	const handleAddPosition = (
+		tradeAction: TradeAction,
+		contractType: OptionContractType,
+		record: DerivativesTableDataSource
+	) => {
+		const lotSize = getCachedLotSize(date, activeInstrument)
+
+		addPosition({
+			instrument: activeInstrument,
+			contractType: contractType,
+			tradeAction: tradeAction,
+			entryDate: date,
+			entryTime: time,
+			strikePrice: record.strike,
+			entryPrice:
+				contractType === OptionContractType.CE
+					? record.call_ltp
+					: record.put_ltp,
+			lots: lotSize[selectedExpiry],
+			expiry: selectedExpiry,
+			profitAndLoss: 100,
+			lastTradedPrice: 1000,
+			exited: false,
+		})
+	}
 
 	const { datasource, strikePriceClosestToSpotPrice } = useMemo(() => {
 		const data: DerivativesTableDataSource[] =
@@ -95,11 +127,8 @@ const DerivativesTable: React.FC<DerivativesTableProps> = ({
 							: undefined,
 				},
 			}),
-			render: (value, record) => (
-				<Typography.Text>
-					{value} {renderPriceWithLastTradedTime(record.call_ltt)}
-				</Typography.Text>
-			),
+			render: (_, record) =>
+				renderCallCell(record, (...rest) => handleAddPosition(...rest, record)),
 		})
 
 		if (selectedDerivativeMetric) {
@@ -145,11 +174,8 @@ const DerivativesTable: React.FC<DerivativesTableProps> = ({
 							: undefined,
 				},
 			}),
-			render: (value, record) => (
-				<Typography.Text>
-					{value} {renderPriceWithLastTradedTime(record.put_llt)}
-				</Typography.Text>
-			),
+			render: (_, record) =>
+				renderPutCell(record, (...rest) => handleAddPosition(...rest, record)),
 		})
 
 		return columnsBuilder

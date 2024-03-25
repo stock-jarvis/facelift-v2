@@ -3,8 +3,17 @@ import { RxExit } from 'react-icons/rx'
 import { useToggle } from 'src/common/utils/state-utils'
 import ExitLotsModal from './exit-lots-modal'
 
-const ExitLots = () => {
+interface Props {
+	onExit: () => void
+}
+
+const ExitLots: React.FC<Props> = ({ onExit }) => {
 	const [isExitLotsModalOpen, toggleIsExitLotsModalOpen] = useToggle()
+
+	const handleOnOk = () => {
+		onExit()
+		toggleIsExitLotsModalOpen()
+	}
 
 	return (
 		<>
@@ -22,6 +31,7 @@ const ExitLots = () => {
 				<ExitLotsModal
 					open={isExitLotsModalOpen}
 					onCancel={toggleIsExitLotsModalOpen}
+					onOk={handleOnOk}
 				/>
 			)}
 		</>

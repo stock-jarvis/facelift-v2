@@ -1,0 +1,11 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.exited-position-row {
+	@apply bg-gray-100;
+}
+
+.exited-position-row > .ant-table-cell-row-hover {
+	@apply !bg-gray-100;
+}

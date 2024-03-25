@@ -1,31 +1,10 @@
 import { Table, TableProps, Typography } from 'antd'
-import { Dayjs } from 'dayjs'
 import { group } from 'radash'
-
-import { OptionContractType, TradeAction } from 'src/common/enums'
-import { positionsMockData } from '../mock-data'
-
 import Footer from './footer'
 import { useMemo } from 'react'
-import PositionsTable from './positions-table'
-
-export type Position = {
-	tradeAction: TradeAction
-	lots: number
-	entryDate: Dayjs
-	entryTime: Dayjs
-	instrument: string
-	strikePrice: number
-	contractType: OptionContractType
-	expiry: Dayjs
-	entryPrice: number
-	lastTradedPrice: number
-	// TODO: Check data type from API
-	// profitAndLoss: {
-	// 	amount: number
-	// 	percentage: number
-	// }
-}
+import PositionsTable from './positions-table/positions-table'
+import { useSimulatorPositionsStore } from 'src/components/simulator/store/simulator-positions-store'
+import { Position } from 'src/components/simulator/types'
 
 export type InstrumentPositionsAntdTableProps = TableProps<{
 	instrument: string
@@ -34,6 +13,8 @@ export type InstrumentPositionsAntdTableProps = TableProps<{
 }>
 
 const InstrumentPositionsTable = () => {
+	const { positions } = useSimulatorPositionsStore()
+
 	const columns: InstrumentPositionsAntdTableProps['columns'] = [
 		{
 			title: 'Instrument',
@@ -52,16 +33,15 @@ const InstrumentPositionsTable = () => {
 
 	const dataSource = useMemo(
 		() =>
-			Object.entries(group(positionsMockData, (p) => p.instrument)).map(
+			Object.entries(group(positions, (p) => p.instrument)).map(
 				([instrument, positions]) => ({
 					instrument,
 					profitAndLoss: 1000,
 					positions,
 				})
 			),
-		[]
+		[positions]
 	)
-
 	return (
 		<Table
 			rowKey="instrument"

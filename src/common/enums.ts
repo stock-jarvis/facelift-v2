@@ -55,6 +55,10 @@ export enum OptionContractType {
 	PE = 'PE',
 	// Call Option
 	CE = 'CE',
+	// Future Option
+	FUT = 'FUT',
+	// Spot option
+	SPOT = 'SPOT',
 }
 
 export enum BasketType {

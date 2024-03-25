@@ -13,11 +13,16 @@ import {
 import { PlusOutlined } from '@ant-design/icons'
 import { useMemo, useState, useEffect } from 'react'
 import { convertValuesToDefaultOptions } from 'src/common/utils/conversion-utils'
-import { DerivativesMetric } from '../../../../common/enums'
+import {
+	DerivativesMetric,
+	OptionContractType,
+	TradeAction,
+} from '../../../../common/enums'
 import { useSimulatorParamsStore } from '../../store/simulator-params-store'
 import { sort } from 'radash'
 import useGetSpotData from 'src/api/simulator/hooks/use-get-spot-data'
 import useGetAIOCData from 'src/api/simulator/hooks/use-get-aioc'
+import { useSimulatorPositionsStore } from '../../store/simulator-positions-store'
 
 const { Text } = Typography
 
@@ -34,6 +39,8 @@ const DerivatiesParamSelection: React.FC<DerivatiesParamSelectionProps> = ({
 }) => {
 	const { token } = theme.useToken()
 	const { exchange, activeInstrument, date, time } = useSimulatorParamsStore()
+	const { addPosition } = useSimulatorPositionsStore()
+
 	const { data: AIOC, isLoading: isFetchingAIOSData } = useGetAIOCData(
 		date,
 		time,
@@ -72,6 +79,23 @@ const DerivatiesParamSelection: React.FC<DerivatiesParamSelectionProps> = ({
 	const handleChangeOption: SelectProps['onChange'] = (value) =>
 		setSelectedDerivativeMetric(value)
 
+	const handleAddPosition = () => {
+		addPosition({
+			instrument: activeInstrument,
+			contractType: OptionContractType.FUT,
+			entryDate: date,
+			entryTime: time,
+			profitAndLoss: 100,
+			strikePrice: 100,
+			entryPrice: 100,
+			expiry: date,
+			tradeAction: TradeAction.Buy,
+			lots: 25,
+			lastTradedPrice: 1000,
+			exited: false,
+		})
+	}
+
 	return (
 		<Flex className="w-full" justify="space-between">
 			<Flex flex={1} justify="flex-start">
@@ -79,7 +103,10 @@ const DerivatiesParamSelection: React.FC<DerivatiesParamSelectionProps> = ({
 					<Text strong>Spot Price :</Text>
 					<Space>
 						<Text>{spotData?.Open || 'NIL'}</Text>
-						<AddPositionButton tooltipTitle="Add position" />
+						<AddPositionButton
+							tooltipTitle="Add position"
+							onClick={handleAddPosition}
+						/>
 					</Space>
 				</Space>
 			</Flex>
@@ -112,7 +139,10 @@ const DerivatiesParamSelection: React.FC<DerivatiesParamSelectionProps> = ({
 							bordered={false}
 							onChange={setSelectedFuture}
 						/>
-						<AddPositionButton tooltipTitle="Add position" />
+						<AddPositionButton
+							tooltipTitle="Add position"
+							onClick={handleAddPosition}
+						/>
 					</Flex>
 				</Space>
 			</Flex>
